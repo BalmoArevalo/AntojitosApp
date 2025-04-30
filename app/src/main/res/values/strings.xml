@@ -1,0 +1,140 @@
+<resources>
+    <string name="app_name">Proyecto01_Antojitos</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!--    Titulos de las opciones del menu-->
+    <string name="menu_cliente">Cliente</string>
+    <string name="menu_sucursal">Sucursal</string>
+    <string name="menu_repartidor">Repartidor</string>
+    <string name="menu_producto">Producto</string>
+    <string name="menu_categoria_producto">Categoría Producto</string>
+    <string name="menu_pedido">Pedido</string>
+    <string name="menu_factura">Factura</string>
+    <string name="menu_credito">Crédito</string>
+    <string name="menu_detalle_pedido">Detalle Pedido</string>
+    <string name="menu_tipo_evento">Tipo Evento</string>
+    <string name="menu_direccion">Dirección</string>
+    <string name="menu_departamento">Departamento</string>
+    <string name="menu_municipio">Municipio</string>
+    <string name="menu_distrito">Distrito</string>
+    <string name="menu_datos_producto">Datos Producto</string>
+
+    <!--    Titulos de Sucursal-->
+    <string name="sucursal_title">Gestión de Sucursales</string>
+    <string name="sucursal_btn_crear">Crear Sucursal</string>
+    <string name="sucursal_btn_consultar">Consultar Sucursal</string>
+    <string name="sucursal_btn_editar">Editar Sucursal</string>
+    <string name="sucursal_btn_eliminar">Eliminar Sucursal</string>
+
+    <!--    Titulos de Cliente-->
+    <string name="cliente_title">Gestión de Clientes</string>
+    <string name="cliente_btn_crear">Crear Cliente</string>
+    <string name="cliente_btn_consultar">Consultar Cliente</string>
+    <string name="cliente_btn_editar">Editar Cliente</string>
+    <string name="cliente_btn_eliminar">Eliminar Cliente</string>
+
+    <!--    Titulos de Repartidor-->
+    <string name="repartidor_title">Gestión de Repartidores</string>
+    <string name="repartidor_btn_crear">Crear Repartidor</string>
+    <string name="repartidor_btn_consultar">Consultar Repartidor</string>
+    <string name="repartidor_btn_editar">Editar Repartidor</string>
+    <string name="repartidor_btn_eliminar">Eliminar Repartidor</string>
+
+    <!--    Titulos de Producto-->
+    <string name="producto_title">Gestión de Productos</string>
+    <string name="producto_btn_crear">Crear Producto</string>
+    <string name="producto_btn_consultar">Consultar Producto</string>
+    <string name="producto_btn_editar">Editar Producto</string>
+    <string name="producto_btn_eliminar">Eliminar Producto</string>
+
+    <!--    Titulos de Categoría Producto-->
+    <string name="categoria_producto_title">Gestión de Categorías de Producto</string>
+    <string name="categoria_producto_btn_crear">Crear Categoría</string>
+    <string name="categoria_producto_btn_consultar">Consultar Categoría</string>
+    <string name="categoria_producto_btn_editar">Editar Categoría</string>
+    <string name="categoria_producto_btn_eliminar">Eliminar Categoría</string>
+
+    <!--    Titulos de Pedido-->
+    <string name="pedido_title">Gestión de Pedidos</string>
+    <string name="pedido_btn_crear">Crear Pedido</string>
+    <string name="pedido_btn_consultar">Consultar Pedido</string>
+    <string name="pedido_btn_editar">Editar Pedido</string>
+    <string name="pedido_btn_eliminar">Eliminar Pedido</string>
+
+    <!--    Titulos de Factura-->
+    <string name="factura_title">Gestión de Facturas</string>
+    <string name="factura_btn_crear">Crear Factura</string>
+    <string name="factura_btn_consultar">Consultar Factura</string>
+    <string name="factura_btn_editar">Editar Factura</string>
+    <string name="factura_btn_eliminar">Eliminar Factura</string>
+
+    <!--    Titulos de Crédito-->
+    <string name="credito_title">Gestión de Créditos</string>
+    <string name="credito_btn_crear">Crear Crédito</string>
+    <string name="credito_btn_consultar">Consultar Crédito</string>
+    <string name="credito_btn_editar">Editar Crédito</string>
+    <string name="credito_btn_eliminar">Eliminar Crédito</string>
+
+    <!--    Titulos de Detalle Pedido-->
+    <string name="detalle_pedido_title">Gestión de Detalles de Pedido</string>
+    <string name="detalle_pedido_btn_crear">Crear Detalle</string>
+    <string name="detalle_pedido_btn_consultar">Consultar Detalle</string>
+    <string name="detalle_pedido_btn_editar">Editar Detalle</string>
+    <string name="detalle_pedido_btn_eliminar">Eliminar Detalle</string>
+
+    <!--    Titulos de Tipo Evento-->
+    <string name="tipo_evento_title">Gestión de Tipos de Evento</string>
+    <string name="tipo_evento_btn_crear">Crear Tipo Evento</string>
+    <string name="tipo_evento_btn_consultar">Consultar Tipo Evento</string>
+    <string name="tipo_evento_btn_editar">Editar Tipo Evento</string>
+    <string name="tipo_evento_btn_eliminar">Eliminar Tipo Evento</string>
+
+    <!--    Titulos de Dirección-->
+    <string name="direccion_title">Gestión de Direcciones</string>
+    <string name="direccion_btn_crear">Crear Dirección</string>
+    <string name="direccion_btn_consultar">Consultar Dirección</string>
+    <string name="direccion_btn_editar">Editar Dirección</string>
+    <string name="direccion_btn_eliminar">Eliminar Dirección</string>
+
+    <!--    Titulos de Departamento-->
+    <string name="departamento_title">Gestión de Departamentos</string>
+    <string name="departamento_btn_crear">Crear Departamento</string>
+    <string name="departamento_btn_consultar">Consultar Departamento</string>
+    <string name="departamento_btn_editar">Editar Departamento</string>
+    <string name="departamento_btn_eliminar">Eliminar Departamento</string>
+
+    <!--    Titulos de Municipio-->
+    <string name="municipio_title">Gestión de Municipios</string>
+    <string name="municipio_btn_crear">Crear Municipio</string>
+    <string name="municipio_btn_consultar">Consultar Municipio</string>
+    <string name="municipio_btn_editar">Editar Municipio</string>
+    <string name="municipio_btn_eliminar">Eliminar Municipio</string>
+
+    <!--    Titulos de Distrito-->
+    <string name="distrito_title">Gestión de Distritos</string>
+    <string name="distrito_btn_crear">Crear Distrito</string>
+    <string name="distrito_btn_consultar">Consultar Distrito</string>
+    <string name="distrito_btn_editar">Editar Distrito</string>
+    <string name="distrito_btn_eliminar">Eliminar Distrito</string>
+
+    <!--    Titulos de Datos Producto-->
+    <string name="datos_producto_title">Gestión de Datos de Producto</string>
+    <string name="datos_producto_btn_crear">Crear Datos Producto</string>
+    <string name="datos_producto_btn_consultar">Consultar Datos Producto</string>
+    <string name="datos_producto_btn_editar">Editar Datos Producto</string>
+    <string name="datos_producto_btn_eliminar">Eliminar Datos Producto</string>
+
+
+</resources>

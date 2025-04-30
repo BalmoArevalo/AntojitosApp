@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Proyecto01_Antojitos"
+        tools:targetApi="31">
+        <activity
+            android:name=".ui.tipoEvento.TipoEventoEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.sucursal.SucursalEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.repartidor.RepartidorEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.producto.ProductoEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.pedido.PedidoEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.municipio.MunicipioEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.factura.FacturaEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.distrito.DistritoEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.direccion.DireccionEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.detallePedido.DetallePedidoEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.departamento.DepartamentoEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.datosProducto.DatosProductoEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.credito.CreditoEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.categoriaProducto.CategoriaProductoCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.categoriaProducto.CategoriaProductoEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.tipoEvento.TipoEventoEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.sucursal.SucursalEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.repartidor.RepartidorEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.producto.ProductoEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.pedido.PedidoEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.municipio.MunicipioEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.factura.FacturaEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.distrito.DistritoEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.direccion.DireccionEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.detallePedido.DetallePedidoEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.departamento.DepartamentoEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.datosProducto.DatosProductoEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.credito.CreditoEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.categoriaProducto.CategoriaProductoEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.tipoEvento.TipoEventoConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.sucursal.SucursalConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.repartidor.RepartidorConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.producto.ProductoConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.pedido.PedidoConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.municipio.MunicipioConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.factura.FacturaConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.distrito.DistritoConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.direccion.DireccionConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.detallePedido.DetallePedidoConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.departamento.DepartamentoConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.datosProducto.DatosProductoConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.credito.CreditoConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.categoriaProducto.CategoriaProductoConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.tipoEvento.TipoEventoCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.sucursal.SucursalCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.repartidor.RepartidorCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.producto.ProductoCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.pedido.PedidoCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.municipio.MunicipioCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.factura.FacturaCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.distrito.DistritoCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.direccion.DireccionCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.detallePedido.DetallePedidoCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.departamento.DepartamentoCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.datosProducto.DatosProductoCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.credito.CreditoCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.cliente.ClienteEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.cliente.ClienteEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.cliente.ClienteConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.cliente.ClienteCrearActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Proyecto01_Antojitos.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.home.HomeFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_home" />
+
+    <fragment
+        android:id="@+id/nav_cliente"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.cliente.ClienteFragment"
+        android:label="@string/menu_cliente"
+        tools:layout="@layout/fragment_cliente" />
+
+    <fragment
+        android:id="@+id/nav_categoria_producto"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.categoriaProducto.CategoriaProductoFragment"
+        android:label="@string/menu_categoria_producto"
+        tools:layout="@layout/fragment_categoria_producto" />
+
+    <fragment
+        android:id="@+id/nav_credito"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.credito.CreditoFragment"
+        android:label="@string/menu_credito"
+        tools:layout="@layout/fragment_credito" />
+
+    <fragment
+        android:id="@+id/nav_datos_producto"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.datosProducto.DatosProductoFragment"
+        android:label="@string/menu_datos_producto"
+        tools:layout="@layout/fragment_datos_producto" />
+
+    <fragment
+        android:id="@+id/nav_departamento"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.departamento.DepartamentoFragment"
+        android:label="@string/menu_departamento"
+        tools:layout="@layout/fragment_departamento" />
+
+    <fragment
+        android:id="@+id/nav_detalle_pedido"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.detallePedido.DetallePedidoFragment"
+        android:label="@string/menu_detalle_pedido"
+        tools:layout="@layout/fragment_detalle_pedido" />
+
+    <fragment
+        android:id="@+id/nav_direccion"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.direccion.DireccionFragment"
+        android:label="@string/menu_direccion"
+        tools:layout="@layout/fragment_direccion" />
+
+    <fragment
+        android:id="@+id/nav_distrito"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.distrito.DistritoFragment"
+        android:label="@string/menu_distrito"
+        tools:layout="@layout/fragment_distrito" />
+
+    <fragment
+        android:id="@+id/nav_factura"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.factura.FacturaFragment"
+        android:label="@string/menu_factura"
+        tools:layout="@layout/fragment_factura" />
+
+    <fragment
+        android:id="@+id/nav_municipio"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.municipio.MunicipioFragment"
+        android:label="@string/menu_municipio"
+        tools:layout="@layout/fragment_municipio" />
+
+    <fragment
+        android:id="@+id/nav_pedido"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido.PedidoFragment"
+        android:label="@string/menu_pedido"
+        tools:layout="@layout/fragment_pedido" />
+
+    <fragment
+        android:id="@+id/nav_producto"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.producto.ProductoFragment"
+        android:label="@string/menu_producto"
+        tools:layout="@layout/fragment_producto" />
+
+    <fragment
+        android:id="@+id/nav_repartidor"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.repartidor.RepartidorFragment"
+        android:label="@string/menu_repartidor"
+        tools:layout="@layout/fragment_repartidor" />
+
+    <fragment
+        android:id="@+id/nav_sucursal"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.sucursal.SucursalFragment"
+        android:label="@string/menu_sucursal"
+        tools:layout="@layout/fragment_sucursal" />
+
+    <fragment
+        android:id="@+id/nav_tipo_evento"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.tipoEvento.TipoEventoFragment"
+        android:label="@string/menu_tipo_evento"
+        tools:layout="@layout/fragment_tipo_evento" />
+
+</navigation>
