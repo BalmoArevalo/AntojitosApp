@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
 import sv.ues.fia.eisi.proyecto01_antojitos.databinding.FragmentSucursalBinding;
@@ -29,17 +30,25 @@ public class SucursalFragment extends Fragment {
 
         binding.textSucursal.setText(getString(R.string.sucursal_title));
 
-        binding.btnCrear.setOnClickListener(v ->
-                startActivity(new Intent(getActivity(), SucursalCrearActivity.class)));
+        binding.btnCrear.setOnClickListener(v -> {
+                    Intent intent = new Intent(getActivity(), SucursalCrearActivity.class);
+                    startActivity(intent);
+                });
 
-        binding.btnConsultar.setOnClickListener(v ->
-                startActivity(new Intent(getActivity(), SucursalConsultarActivity.class)));
+        binding.btnConsultar.setOnClickListener(v -> {
+                    Intent intent = new Intent(getActivity(), SucursalConsultarActivity.class);
+                    startActivity(intent);
+                });
 
-        binding.btnEditar.setOnClickListener(v ->
-                startActivity(new Intent(getActivity(), SucursalEditarActivity.class)));
+        binding.btnEditar.setOnClickListener(v -> {
+                    Intent intent = new Intent(getActivity(), SucursalEditarActivity.class);
+                    startActivity(intent);
+                });
 
-        binding.btnEliminar.setOnClickListener(v ->
-                startActivity(new Intent(getActivity(), SucursalEliminarActivity.class)));
+        binding.btnEliminar.setOnClickListener(v ->{
+                    Intent intent = new Intent(getActivity(), SucursalEliminarActivity.class);
+                    startActivity(intent);
+                });
 
         return root;
     }
