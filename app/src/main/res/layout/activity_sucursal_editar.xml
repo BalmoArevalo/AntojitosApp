@@ -8,6 +8,16 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <TextView
+            android:id="@+id/text_editar_sucursal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Editar sucursal"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:gravity="center" />
+
         <!-- Campo para buscar la sucursal a editar -->
         <EditText android:id="@+id/editIdSucursal"
             android:hint="ID Sucursal (para buscar)"

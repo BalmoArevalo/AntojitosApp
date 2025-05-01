@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/text_crear_datos_producto"
+            android:id="@+id/text_eliminar_datos_producto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Eliminar Datos Producto"
@@ -23,7 +23,7 @@
         <!-- Clave de búsqueda -->
         <EditText
             android:id="@+id/editIdListaProducto"
-            android:hint="ID Lista Producto"
+            android:hint="ID Datos Productos"
             android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

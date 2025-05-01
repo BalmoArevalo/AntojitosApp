@@ -9,8 +9,19 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <TextView
+            android:id="@+id/text_crear_sucursal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Crear sucursal"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:padding="8dp"
+            android:gravity="center" />
+
         <EditText android:id="@+id/editIdSucursal"
-            android:hint="ID Sucursal"
+            android:hint="ID Sucursal (No editable)"
+            android:enabled="false"
             android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
