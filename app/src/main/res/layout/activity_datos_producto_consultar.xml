@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/text_crear_datos_producto"
+            android:id="@+id/text_consultar_datos_producto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Consultar Datos Producto"
