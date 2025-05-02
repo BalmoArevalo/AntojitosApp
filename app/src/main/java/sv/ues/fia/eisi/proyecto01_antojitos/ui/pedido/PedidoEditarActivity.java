@@ -84,7 +84,6 @@ public class PedidoEditarActivity extends AppCompatActivity {
         int id = Integer.parseInt(idStr);
         pedidoActual = pedidoDAO.consultarPorId(id);
         if (pedidoActual != null) {
-            // Rellenar datos
             spinnerCliente.setSelection(obtenerIndicePorId(spinnerCliente, pedidoActual.getIdCliente()));
             spinnerRepartidor.setSelection(obtenerIndicePorId(spinnerRepartidor, pedidoActual.getIdRepartidor()));
             spinnerEvento.setSelection(obtenerIndicePorId(spinnerEvento, pedidoActual.getIdTipoEvento()));
@@ -108,7 +107,7 @@ public class PedidoEditarActivity extends AppCompatActivity {
 
         int filas = pedidoDAO.actualizar(pedidoActual);
         if (filas > 0) {
-            Toast.makeText(this, "Pedido actualizado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Pedido actualizado correctamente", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Error al actualizar", Toast.LENGTH_SHORT).show();
         }

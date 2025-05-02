@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -15,12 +16,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"/>
+
         <EditText
             android:id="@+id/editTextIdBuscar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
             android:inputType="number"
-            android:layout_marginBottom="12dp" />
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <Button
             android:id="@+id/btnBuscarPedido"
@@ -35,10 +39,12 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="8dp"/>
+
         <Spinner
             android:id="@+id/spinnerCliente"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:minHeight="48dp" />
 
         <!-- Repartidor -->
         <TextView
@@ -47,10 +53,12 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="8dp"/>
+
         <Spinner
             android:id="@+id/spinnerRepartidor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:minHeight="48dp" />
 
         <!-- Tipo Evento -->
         <TextView
@@ -59,10 +67,12 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="8dp"/>
+
         <Spinner
             android:id="@+id/spinnerEvento"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:minHeight="48dp" />
 
         <!-- Fecha y hora -->
         <TextView
@@ -71,13 +81,15 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="8dp"/>
+
         <EditText
             android:id="@+id/editTextFecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
             android:focusable="false"
             android:hint="dd/MM/yyyy HH:mm"
-            android:layout_marginBottom="12dp" />
+            android:minHeight="48dp" />
 
         <!-- Estado -->
         <TextView
@@ -86,10 +98,12 @@
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="8dp"/>
+
         <Spinner
             android:id="@+id/spinnerEstado"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:minHeight="48dp" />
 
         <!-- Botón guardar -->
         <Button
