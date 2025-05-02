@@ -163,6 +163,22 @@
     <string name="distrito_btn_editar">Editar Distrito</string>
     <string name="distrito_btn_eliminar">Eliminar Distrito</string>
 
+    <string name="distrito_crear_title">Crear Distrito</string>
+    <string name="distrito_id">ID Distrito</string>
+
+    <string name="distrito_btn_guardar">Guardar</string>
+    <string name="distrito_btn_limpiar">Limpiar</string>
+
+    <string name="distrito_consultar_title">Consultar Distrito</string>
+    <string name="distrito_btn_buscar">Buscar</string>
+    <string name="distrito_departamento_id">ID Departamento </string>
+    <string name="distrito_municipio_id">ID Municipio </string>
+    <string name="distrito_nombre">Nombre </string>
+    <string name="distrito_codigo_postal">Código Postal </string>
+
+    <string name="distrito_editar_title">Editar Distrito</string>
+    <string name="distrito_eliminar_title">Eliminar Distrito</string>
+
     <!--    Titulos de Datos Producto-->
     <string name="datos_producto_title">Gestión de Datos de Producto</string>
     <string name="datos_producto_btn_crear">Crear Datos Producto</string>
