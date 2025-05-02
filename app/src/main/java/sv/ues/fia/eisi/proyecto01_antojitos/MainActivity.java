@@ -1,18 +1,18 @@
 package sv.ues.fia.eisi.proyecto01_antojitos;
 
 import android.os.Bundle;
-import android.view.View;
 import android.view.Menu;
+import android.view.View;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.AppCompatActivity;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.databinding.ActivityMainBinding;
 
@@ -25,24 +25,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // Enlazar con layout usando ViewBinding
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Configurar la Toolbar
         setSupportActionBar(binding.appBarMain.toolbar);
+
+        // Botón de base de datos
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Acción aún no definida", Snackbar.LENGTH_LONG)
                         .setAction("Action", null)
                         .setAnchorView(R.id.fab).show();
             }
         });
+
+        // Configuración del Navigation Drawer
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navigationView = binding.navView;
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
+        // Declarar todos los destinos del menú como top-level
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                //todos los destinos
                 R.id.nav_home,
                 R.id.nav_cliente,
                 R.id.nav_sucursal,
@@ -59,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_municipio,
                 R.id.nav_distrito,
                 R.id.nav_datos_producto
-        )
-                .setOpenableLayout(drawer)
-                .build();
+        ).setOpenableLayout(drawer).build();
+
+        // Controlador de navegación
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -69,13 +74,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+        // Inflar el menú del action bar si existe
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onSupportNavigateUp() {
+        // Control del botón de navegación (arriba)
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
