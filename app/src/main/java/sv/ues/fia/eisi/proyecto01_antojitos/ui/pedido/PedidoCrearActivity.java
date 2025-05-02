@@ -2,12 +2,13 @@ package sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
+import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -17,15 +18,16 @@ public class PedidoCrearActivity extends AppCompatActivity {
     private Spinner spinnerCliente, spinnerTipoEvento, spinnerRepartidor, spinnerEstado;
     private EditText editTextFechaHora;
     private Button btnGuardar;
-
     private Calendar calendario;
+
+    private PedidoDAO pedidoDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedido_crear);
 
-        // Referencias
+        // UI
         spinnerCliente = findViewById(R.id.spinnerCliente);
         spinnerTipoEvento = findViewById(R.id.spinnerTipoEvento);
         spinnerRepartidor = findViewById(R.id.spinnerRepartidor);
@@ -33,27 +35,30 @@ public class PedidoCrearActivity extends AppCompatActivity {
         editTextFechaHora = findViewById(R.id.editTextFechaHora);
         btnGuardar = findViewById(R.id.btnGuardarPedido);
 
-        // Inicializar fecha/hora actual
         calendario = Calendar.getInstance();
 
-        // Mock de listas
+        // Inicializar DB y DAO
+        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        pedidoDAO = new PedidoDAO(db);
+
+        // Cargar datos (temporalmente hardcoded)
         cargarSpinnersMock();
 
-        // Mostrar selector de fecha/hora
+        // Fecha y hora
         editTextFechaHora.setOnClickListener(v -> mostrarDateTimePicker());
 
-        // Guardar Pedido
+        // Guardar pedido
         btnGuardar.setOnClickListener(v -> guardarPedido());
     }
 
     private void cargarSpinnersMock() {
-        // Datos de prueba
-        List<String> clientes = Arrays.asList("Seleccione", "Carlos Gómez", "Ana López");
-        List<String> eventos = Arrays.asList("Ninguno", "Cumpleaños", "Reunión Corporativa");
-        List<String> repartidores = Arrays.asList("Seleccione", "Luis Torres", "María Ruiz");
+        // Simulados - luego puedes reemplazar por clientes/eventos reales
+        List<String> clientes = Arrays.asList("Seleccione", "1 - Carlos Gómez", "2 - Ana López");
+        List<String> eventos = Arrays.asList("Ninguno", "1 - Cumpleaños", "2 - Fiesta Empresa");
+        List<String> repartidores = Arrays.asList("Seleccione", "1 - Luis Torres", "2 - María Pérez");
         List<String> estados = Arrays.asList("Pendiente", "Despachado", "Entregado", "Cancelado");
 
-        // Adaptadores
         spinnerCliente.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, clientes));
         spinnerTipoEvento.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, eventos));
         spinnerRepartidor.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, repartidores));
@@ -61,50 +66,68 @@ public class PedidoCrearActivity extends AppCompatActivity {
     }
 
     private void mostrarDateTimePicker() {
-        final int año = calendario.get(Calendar.YEAR);
-        final int mes = calendario.get(Calendar.MONTH);
-        final int dia = calendario.get(Calendar.DAY_OF_MONTH);
+        int year = calendario.get(Calendar.YEAR);
+        int month = calendario.get(Calendar.MONTH);
+        int day = calendario.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
-            calendario.set(Calendar.YEAR, year);
-            calendario.set(Calendar.MONTH, month);
-            calendario.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+        new DatePickerDialog(this, (view, y, m, d) -> {
+            calendario.set(Calendar.YEAR, y);
+            calendario.set(Calendar.MONTH, m);
+            calendario.set(Calendar.DAY_OF_MONTH, d);
 
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view1, hourOfDay, minute) -> {
-                calendario.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            new TimePickerDialog(this, (view1, hour, minute) -> {
+                calendario.set(Calendar.HOUR_OF_DAY, hour);
                 calendario.set(Calendar.MINUTE, minute);
-
                 SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
                 editTextFechaHora.setText(sdf.format(calendario.getTime()));
+            }, calendario.get(Calendar.HOUR_OF_DAY), calendario.get(Calendar.MINUTE), true).show();
 
-            }, calendario.get(Calendar.HOUR_OF_DAY), calendario.get(Calendar.MINUTE), true);
-
-            timePickerDialog.show();
-
-        }, año, mes, dia);
-
-        datePickerDialog.show();
+        }, year, month, day).show();
     }
 
     private void guardarPedido() {
-        String cliente = spinnerCliente.getSelectedItem().toString();
-        String evento = spinnerTipoEvento.getSelectedItem().toString();
-        String repartidor = spinnerRepartidor.getSelectedItem().toString();
-        String estado = spinnerEstado.getSelectedItem().toString();
-        String fechaHora = editTextFechaHora.getText().toString();
-
-        if (cliente.equals("Seleccione") || repartidor.equals("Seleccione") || fechaHora.isEmpty()) {
-            Toast.makeText(this, "Por favor, complete todos los campos obligatorios", Toast.LENGTH_SHORT).show();
+        if (spinnerCliente.getSelectedItemPosition() == 0 ||
+                spinnerRepartidor.getSelectedItemPosition() == 0 ||
+                editTextFechaHora.getText().toString().isEmpty()) {
+            Toast.makeText(this, "Completa los campos obligatorios", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        // Aquí puedes enviar los datos a la BD o DAO
-        String mensaje = "Pedido guardado:\nCliente: " + cliente +
-                "\nRepartidor: " + repartidor +
-                "\nEvento: " + evento +
-                "\nFecha/Hora: " + fechaHora +
-                "\nEstado: " + estado;
+        Pedido pedido = new Pedido();
+        pedido.setIdCliente(extraerId(spinnerCliente));
+        pedido.setIdRepartidor(extraerId(spinnerRepartidor));
+        pedido.setFechaHoraPedido(editTextFechaHora.getText().toString());
+        pedido.setEstadoPedido(spinnerEstado.getSelectedItem().toString());
 
-        Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show();
+        if (spinnerTipoEvento.getSelectedItemPosition() != 0) {
+            pedido.setIdTipoEvento(extraerId(spinnerTipoEvento));
+        } else {
+            pedido.setIdTipoEvento(0);
+        }
+
+        long idInsertado = pedidoDAO.insertar(pedido);
+        if (idInsertado > 0) {
+            Toast.makeText(this, "Pedido creado (ID: " + idInsertado + ")", Toast.LENGTH_LONG).show();
+            limpiar();
+        } else {
+            Toast.makeText(this, "Error al insertar pedido", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private int extraerId(Spinner spinner) {
+        try {
+            String seleccionado = spinner.getSelectedItem().toString();
+            return Integer.parseInt(seleccionado.split(" - ")[0].trim());
+        } catch (Exception e) {
+            return 0;
+        }
+    }
+
+    private void limpiar() {
+        spinnerCliente.setSelection(0);
+        spinnerTipoEvento.setSelection(0);
+        spinnerRepartidor.setSelection(0);
+        spinnerEstado.setSelection(0);
+        editTextFechaHora.setText("");
     }
 }

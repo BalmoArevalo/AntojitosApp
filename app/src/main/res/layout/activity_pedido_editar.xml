@@ -9,57 +9,95 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Buscar Pedido -->
+        <!-- ID para buscar -->
         <TextView
             android:text="ID del Pedido a Editar:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"/>
-
         <EditText
-            android:id="@+id/editTextIdPedidoBuscar"
+            android:id="@+id/editTextIdBuscar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number" />
+            android:inputType="number"
+            android:layout_marginBottom="12dp" />
 
         <Button
-            android:id="@+id/btnBuscar"
+            android:id="@+id/btnBuscarPedido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Buscar" />
 
-        <!-- Formulario editable -->
+        <!-- Cliente -->
         <TextView
-            android:text="Estado:"
+            android:text="Cliente:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="8dp"/>
-
         <Spinner
-            android:id="@+id/spinnerEstadoEditar"
+            android:id="@+id/spinnerCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
+        <!-- Repartidor -->
+        <TextView
+            android:text="Repartidor:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"/>
+        <Spinner
+            android:id="@+id/spinnerRepartidor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Tipo Evento -->
+        <TextView
+            android:text="Tipo de Evento:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"/>
+        <Spinner
+            android:id="@+id/spinnerEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Fecha y hora -->
         <TextView
             android:text="Fecha y Hora:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
             android:paddingBottom="8dp"/>
-
         <EditText
-            android:id="@+id/editTextFechaEditar"
+            android:id="@+id/editTextFecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false"
-            android:hint="dd/MM/yyyy HH:mm" />
+            android:hint="dd/MM/yyyy HH:mm"
+            android:layout_marginBottom="12dp" />
 
+        <!-- Estado -->
+        <TextView
+            android:text="Estado:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"/>
+        <Spinner
+            android:id="@+id/spinnerEstado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Botón guardar -->
         <Button
             android:id="@+id/btnActualizar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guardar Cambios"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="24dp"
+            android:enabled="false" />
     </LinearLayout>
 </ScrollView>
