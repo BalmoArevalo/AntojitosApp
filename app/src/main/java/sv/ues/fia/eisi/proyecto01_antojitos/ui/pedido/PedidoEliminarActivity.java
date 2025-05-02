@@ -1,78 +1,75 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
-
-import java.util.HashMap;
+import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
 
 public class PedidoEliminarActivity extends AppCompatActivity {
 
-    private EditText editTextId;
-    private Button btnBuscar, btnEliminar;
+    private EditText editTextIdEliminar;
     private TextView textViewResultado;
-
-    private HashMap<Integer, Pedido> pedidosMock;
-    private Pedido pedidoActual;
+    private Button btnBuscar, btnEliminar;
+    private PedidoDAO pedidoDAO;
+    private Pedido pedidoEncontrado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedido_eliminar);
 
-        editTextId = findViewById(R.id.editTextIdEliminar);
+        editTextIdEliminar = findViewById(R.id.editTextIdEliminar);
+        textViewResultado = findViewById(R.id.textViewResultadoEliminar);
         btnBuscar = findViewById(R.id.btnBuscarEliminar);
         btnEliminar = findViewById(R.id.btnEliminar);
-        textViewResultado = findViewById(R.id.textViewResultado);
 
-        // Datos simulados
-        pedidosMock = new HashMap<>();
-        Pedido p = new Pedido();
-        p.setIdPedido(1);
-        p.setIdCliente(101);
-        p.setIdRepartidor(201);
-        p.setEstadoPedido("Pendiente");
-        p.setFechaHoraPedido("02/05/2025 13:00");
-        pedidosMock.put(p.getIdPedido(), p);
+        DBHelper helper = new DBHelper(this);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        pedidoDAO = new PedidoDAO(db);
 
-        // Buscar pedido
-        btnBuscar.setOnClickListener(v -> {
-            String input = editTextId.getText().toString().trim();
-            if (input.isEmpty()) {
-                Toast.makeText(this, "Ingrese un ID", Toast.LENGTH_SHORT).show();
-                return;
-            }
+        btnBuscar.setOnClickListener(v -> buscarPedido());
+        btnEliminar.setOnClickListener(v -> eliminarPedido());
+    }
 
-            int id = Integer.parseInt(input);
-            if (pedidosMock.containsKey(id)) {
-                pedidoActual = pedidosMock.get(id);
-                String info = "Pedido encontrado:\n" +
-                        "ID: " + pedidoActual.getIdPedido() + "\n" +
-                        "Cliente: " + pedidoActual.getIdCliente() + "\n" +
-                        "Repartidor: " + pedidoActual.getIdRepartidor() + "\n" +
-                        "Estado: " + pedidoActual.getEstadoPedido();
-                textViewResultado.setText(info);
-                btnEliminar.setEnabled(true);
-            } else {
-                textViewResultado.setText("No se encontró un pedido con ese ID.");
-                btnEliminar.setEnabled(false);
-                pedidoActual = null;
-            }
-        });
+    private void buscarPedido() {
+        String idStr = editTextIdEliminar.getText().toString().trim();
+        if (idStr.isEmpty()) {
+            Toast.makeText(this, "Ingrese un ID", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        // Eliminar pedido
-        btnEliminar.setOnClickListener(v -> {
-            if (pedidoActual != null) {
-                pedidosMock.remove(pedidoActual.getIdPedido());
+        int id = Integer.parseInt(idStr);
+        pedidoEncontrado = pedidoDAO.consultarPorId(id);
+
+        if (pedidoEncontrado != null) {
+            String info = "Pedido encontrado:\n" +
+                    "ID: " + pedidoEncontrado.getIdPedido() + "\n" +
+                    "Cliente: " + pedidoEncontrado.getIdCliente() + "\n" +
+                    "Repartidor: " + pedidoEncontrado.getIdRepartidor() + "\n" +
+                    "Estado: " + pedidoEncontrado.getEstadoPedido();
+            textViewResultado.setText(info);
+            btnEliminar.setEnabled(true);
+        } else {
+            textViewResultado.setText("No se encontró el pedido.");
+            btnEliminar.setEnabled(false);
+        }
+    }
+
+    private void eliminarPedido() {
+        if (pedidoEncontrado != null) {
+            int filas = pedidoDAO.eliminar(pedidoEncontrado.getIdPedido());
+            if (filas > 0) {
                 Toast.makeText(this, "Pedido eliminado correctamente", Toast.LENGTH_SHORT).show();
                 textViewResultado.setText("");
-                editTextId.setText("");
+                editTextIdEliminar.setText("");
                 btnEliminar.setEnabled(false);
+                pedidoEncontrado = null;
+            } else {
+                Toast.makeText(this, "Error al eliminar", Toast.LENGTH_SHORT).show();
             }
-        });
+        }
     }
 }
-
-

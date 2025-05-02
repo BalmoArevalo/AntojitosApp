@@ -1,39 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:padding="16dp">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <TextView
-        android:text="ID del Pedido a eliminar:"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="8dp"/>
-
-    <EditText
-        android:id="@+id/editTextIdEliminar"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:layout_marginBottom="12dp"/>
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/btnBuscarEliminar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Buscar Pedido" />
+        <TextView
+            android:text="ID del Pedido a Eliminar:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp" />
 
-    <TextView
-        android:id="@+id/textViewResultado"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:textSize="16sp" />
+        <EditText
+            android:id="@+id/editTextIdEliminar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:inputType="number"
+            android:minHeight="48dp"
+            tools:ignore="SpeakableTextPresentCheck" />
 
-    <Button
-        android:id="@+id/btnEliminar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Eliminar Pedido"
-        android:enabled="false"
-        android:layout_marginTop="16dp"/>
-</LinearLayout>
+        <Button
+            android:id="@+id/btnBuscarEliminar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Buscar Pedido" />
+
+        <TextView
+            android:id="@+id/textViewResultadoEliminar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textSize="16sp"
+            android:paddingTop="24dp"
+            android:paddingBottom="8dp" />
+
+        <Button
+            android:id="@+id/btnEliminar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Eliminar Pedido"
+            android:enabled="false"
+            android:layout_marginTop="16dp" />
+    </LinearLayout>
+</ScrollView>

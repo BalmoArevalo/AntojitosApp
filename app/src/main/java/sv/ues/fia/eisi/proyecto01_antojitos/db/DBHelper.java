@@ -33,12 +33,24 @@ public class DBHelper extends SQLiteOpenHelper {
         // db.execSQL("CREATE TABLE CLIENTE (...)");
         // db.execSQL("CREATE TABLE REPARTIDOR (...)");
         // db.execSQL("CREATE TABLE DATOSPRODUCTO (...)");
+
+        db.execSQL("CREATE TABLE PEDIDO (" +
+                "ID_PEDIDO INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "ID_CLIENTE INTEGER," +
+                "ID_TIPO_EVENTO INTEGER," +
+                "ID_REPARTIDOR INTEGER NOT NULL," +
+                "FECHA_HORA_PEDIDO TEXT NOT NULL," +
+                "ESTADO_PEDIDO TEXT NOT NULL" +
+                // NOTA: FAC_ID_PEDIDO, ID_FACTURA, REP_ID_PEDIDO y ID_REPARTO_PEDIDO
+                // se omiten temporalmente hasta que sus relaciones estén implementadas
+                ");");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Borra las tablas si ya existen (reinstalación o actualización)
         db.execSQL("DROP TABLE IF EXISTS SUCURSAL");
+        db.execSQL("DROP TABLE IF EXISTS PEDIDO");
         onCreate(db); // recrea las tablas
     }
 }
