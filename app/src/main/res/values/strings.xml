@@ -52,7 +52,7 @@
     <string name="cliente_apellido">Apellido </string>
     <string name="cliente_telefono">Teléfono </string>
     <string name="cliente_id">ID del Cliente </string>
-    <string name="cliente_usuario_id">ID del cliente </string>
+    <string name="cliente_usuario_id">ID del usuario </string>
     <string name="project_name">Proyecto01_Antojitos</string>
 
     <string name="cliente_crear_title">Crear Nuevo Cliente</string>
