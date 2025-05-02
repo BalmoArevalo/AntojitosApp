@@ -44,6 +44,25 @@
     <string name="cliente_btn_consultar">Consultar Cliente</string>
     <string name="cliente_btn_editar">Editar Cliente</string>
     <string name="cliente_btn_eliminar">Eliminar Cliente</string>
+    <string name="cliente_consultar_title">Consultar Cliente</string>
+    <string name="cliente_hint_id">Ingrese ID del Cliente</string>
+
+    <string name="cliente_btn_buscar">Buscar</string>
+    <string name="cliente_nombre">Nombre </string>
+    <string name="cliente_apellido">Apellido </string>
+    <string name="cliente_telefono">Teléfono </string>
+    <string name="cliente_id">ID del Cliente </string>
+    <string name="cliente_usuario_id">ID del cliente </string>
+    <string name="project_name">Proyecto01_Antojitos</string>
+
+    <string name="cliente_crear_title">Crear Nuevo Cliente</string>
+    <string name="cliente_btn_guardar">Guardar</string>
+    <string name="cliente_btn_limpiar">Limpiar</string>
+
+    <string name="cliente_editar_title">Editar Cliente</string>
+
+    <string name="cliente_eliminar_title">Eliminar Cliente</string>
+
 
     <!--    Titulos de Repartidor-->
     <string name="repartidor_title">Gestión de Repartidores</string>
