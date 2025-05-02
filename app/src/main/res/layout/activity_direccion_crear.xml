@@ -1,47 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
+    ```
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Calle -->
+        <!-- Dirección Específica -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dirección Específica"
+            android:textStyle="bold" />
         <EditText
-            android:id="@+id/etCalle"
+            android:id="@+id/editDireccionEspecifica"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Calle" />
+            android:inputType="textPostalAddress"
+            android:hint="Calle, número, colonia..." />
 
-        <!-- Número -->
+        <!-- Descripción (opcional) -->
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descripción (opcional)"
+            android:textStyle="bold" />
         <EditText
-            android:id="@+id/etNumero"
+            android:id="@+id/editDescripcionDireccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Número" />
+            android:inputType="textMultiLine"
+            android:hint="Referencias adicionales" />
 
-        <!-- Cliente Spinner -->
+        <!-- Cliente -->
+        <TextView
+            android:layout_marginTop="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cliente"
+            android:textStyle="bold" />
         <Spinner
             android:id="@+id/spinnerCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Departamento Spinner -->
+        <!-- Departamento -->
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Departamento"
+            android:textStyle="bold" />
         <Spinner
             android:id="@+id/spinnerDepartamento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Municipio Spinner -->
+        <!-- Municipio -->
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Municipio"
+            android:textStyle="bold" />
         <Spinner
             android:id="@+id/spinnerMunicipio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Distrito Spinner -->
+        <!-- Distrito -->
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distrito"
+            android:textStyle="bold" />
         <Spinner
             android:id="@+id/spinnerDistrito"
             android:layout_width="match_parent"
@@ -50,9 +89,12 @@
         <!-- Botón Guardar -->
         <Button
             android:id="@+id/btnGuardar"
+            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Guardar" />
 
     </LinearLayout>
+    ```
+
 </ScrollView>
