@@ -20,7 +20,6 @@ public class SucursalDAO {
         values.put("ID_DEPARTAMENTO", s.getIdDepartamento());
         values.put("ID_MUNICIPIO", s.getIdMunicipio());
         values.put("ID_DISTRITO", s.getIdDistrito());
-        values.put("ID_USUARIO", s.getIdUsuario()); // Asumido fijo
         values.put("NOMBRE_SUCURSAL", s.getNombreSucursal());
         values.put("DIRECCION_SUCURSAL", s.getDireccionSucursal());
         values.put("TELEFONO_SUCURSAL", s.getTelefonoSucursal());
@@ -40,12 +39,11 @@ public class SucursalDAO {
             s.setIdDepartamento(c.getInt(1));
             s.setIdMunicipio(c.getInt(2));
             s.setIdDistrito(c.getInt(3));
-            s.setIdUsuario(c.getInt(4));
-            s.setNombreSucursal(c.getString(5));
-            s.setDireccionSucursal(c.getString(6));
-            s.setTelefonoSucursal(c.getString(7));
-            s.setHorarioApertura(c.getString(8));
-            s.setHorarioCierre(c.getString(9));
+            s.setNombreSucursal(c.getString(4));
+            s.setDireccionSucursal(c.getString(5));
+            s.setTelefonoSucursal(c.getString(6));
+            s.setHorarioApertura(c.getString(7));
+            s.setHorarioCierre(c.getString(8));
         }
         c.close();
         return s;
@@ -62,12 +60,11 @@ public class SucursalDAO {
                 s.setIdDepartamento(c.getInt(1));
                 s.setIdMunicipio(c.getInt(2));
                 s.setIdDistrito(c.getInt(3));
-                s.setIdUsuario(c.getInt(4));
-                s.setNombreSucursal(c.getString(5));
-                s.setDireccionSucursal(c.getString(6));
-                s.setTelefonoSucursal(c.getString(7));
-                s.setHorarioApertura(c.getString(8));
-                s.setHorarioCierre(c.getString(9));
+                s.setNombreSucursal(c.getString(4));
+                s.setDireccionSucursal(c.getString(5));
+                s.setTelefonoSucursal(c.getString(6));
+                s.setHorarioApertura(c.getString(7));
+                s.setHorarioCierre(c.getString(8));
                 lista.add(s);
             } while (c.moveToNext());
         }
