@@ -183,7 +183,6 @@ public class SucursalCrearActivity extends AppCompatActivity {
         values.put("ID_DEPARTAMENTO", idDepto);
         values.put("ID_MUNICIPIO", idMun);
         values.put("ID_DISTRITO", idDist);
-        values.put("ID_USUARIO", 999); // ID de usuario temporal o real si lo tienes
         values.put("NOMBRE_SUCURSAL", nombre);
         values.put("DIRECCION_SUCURSAL", direccion);
         values.put("TELEFONO_SUCURSAL", telefono);
