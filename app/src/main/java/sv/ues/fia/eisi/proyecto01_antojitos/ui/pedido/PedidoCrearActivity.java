@@ -8,7 +8,10 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
-import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
+import sv.ues.fia.eisi.proyecto01_antojitos.db.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.cliente.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.tipoEvento.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.repartidor.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -21,6 +24,7 @@ public class PedidoCrearActivity extends AppCompatActivity {
     private Calendar calendario;
 
     private PedidoDAO pedidoDAO;
+    private SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +43,11 @@ public class PedidoCrearActivity extends AppCompatActivity {
 
         // Inicializar DB y DAO
         DBHelper dbHelper = new DBHelper(this);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        db = dbHelper.getWritableDatabase();
         pedidoDAO = new PedidoDAO(db);
 
-        // Cargar datos (temporalmente hardcoded)
-        cargarSpinnersMock();
+        // Cargar datos desde la base
+        cargarSpinnersDesdeBD();
 
         // Fecha y hora
         editTextFechaHora.setOnClickListener(v -> mostrarDateTimePicker());
@@ -52,16 +56,39 @@ public class PedidoCrearActivity extends AppCompatActivity {
         btnGuardar.setOnClickListener(v -> guardarPedido());
     }
 
-    private void cargarSpinnersMock() {
-        // Simulados - luego puedes reemplazar por clientes/eventos reales
-        List<String> clientes = Arrays.asList("Seleccione", "1 - Carlos Gómez", "2 - Ana López");
-        List<String> eventos = Arrays.asList("Ninguno", "1 - Cumpleaños", "2 - Fiesta Empresa");
-        List<String> repartidores = Arrays.asList("Seleccione", "1 - Luis Torres", "2 - María Pérez");
-        List<String> estados = Arrays.asList("Pendiente", "Despachado", "Entregado", "Cancelado");
-
+    private void cargarSpinnersDesdeBD() {
+        // Clientes
+        ClienteDAO clienteDAO = new ClienteDAO(db);
+        List<Cliente> listaClientes = clienteDAO.obtenerTodos();
+        List<String> clientes = new ArrayList<>();
+        clientes.add("Seleccione");
+        for (Cliente c : listaClientes) {
+            clientes.add(c.getIdCliente() + " - " + c.getNombreCliente());
+        }
         spinnerCliente.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, clientes));
+
+        // Tipo de Evento
+        TipoEventoDAO tipoEventoDAO = new TipoEventoDAO(db);
+        List<TipoEvento> listaEventos = tipoEventoDAO.obtenerTodos();
+        List<String> eventos = new ArrayList<>();
+        eventos.add("Ninguno");
+        for (TipoEvento t : listaEventos) {
+            eventos.add(t.getIdTipoEvento() + " - " + t.getNombreTipoEvento());
+        }
         spinnerTipoEvento.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, eventos));
+
+        // Repartidores
+        RepartidorDAO repartidorDAO = new RepartidorDAO(db);
+        List<Repartidor> listaRepartidores = repartidorDAO.obtenerTodos();
+        List<String> repartidores = new ArrayList<>();
+        repartidores.add("Seleccione");
+        for (Repartidor r : listaRepartidores) {
+            repartidores.add(r.getIdRepartidor() + " - " + r.getNombreRepartidor() + " " + r.getApellidoRepartidor());
+        }
         spinnerRepartidor.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, repartidores));
+
+        // Estados
+        List<String> estados = Arrays.asList("Pendiente", "Despachado", "Entregado", "Cancelado");
         spinnerEstado.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, estados));
     }
 
@@ -102,7 +129,7 @@ public class PedidoCrearActivity extends AppCompatActivity {
         if (spinnerTipoEvento.getSelectedItemPosition() != 0) {
             pedido.setIdTipoEvento(extraerId(spinnerTipoEvento));
         } else {
-            pedido.setIdTipoEvento(0);
+            pedido.setIdTipoEvento(0); // Opcional
         }
 
         long idInsertado = pedidoDAO.insertar(pedido);

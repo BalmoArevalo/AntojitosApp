@@ -8,7 +8,11 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
-import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
+import sv.ues.fia.eisi.proyecto01_antojitos.db.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.cliente.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.tipoEvento.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.repartidor.*;
+
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -20,6 +24,14 @@ public class PedidoEditarActivity extends AppCompatActivity {
     private Button btnBuscar, btnActualizar;
 
     private PedidoDAO pedidoDAO;
+    private ClienteDAO clienteDAO;
+    private RepartidorDAO repartidorDAO;
+    private TipoEventoDAO tipoEventoDAO;
+
+    private List<Cliente> clientes;
+    private List<Repartidor> repartidores;
+    private List<TipoEvento> eventos;
+
     private Pedido pedidoActual;
     private Calendar calendar;
 
@@ -42,6 +54,9 @@ public class PedidoEditarActivity extends AppCompatActivity {
         DBHelper dbHelper = new DBHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         pedidoDAO = new PedidoDAO(db);
+        clienteDAO = new ClienteDAO(db);
+        repartidorDAO = new RepartidorDAO(db);
+        tipoEventoDAO = new TipoEventoDAO(db);
 
         cargarSpinners();
 
@@ -51,14 +66,33 @@ public class PedidoEditarActivity extends AppCompatActivity {
     }
 
     private void cargarSpinners() {
-        List<String> clientes = Arrays.asList("Seleccione", "1 - Carlos", "2 - Ana");
-        List<String> repartidores = Arrays.asList("Seleccione", "1 - Luis", "2 - María");
-        List<String> eventos = Arrays.asList("Ninguno", "1 - Cumpleaños", "2 - Empresa");
+        clientes = clienteDAO.obtenerTodos();
+        repartidores = repartidorDAO.obtenerTodos();
+        eventos = tipoEventoDAO.obtenerTodos();
+
+        List<String> clienteItems = new ArrayList<>();
+        clienteItems.add("Seleccione");
+        for (Cliente c : clientes) {
+            clienteItems.add(c.getIdCliente() + " - " + c.getNombreCliente());
+        }
+
+        List<String> repartidorItems = new ArrayList<>();
+        repartidorItems.add("Seleccione");
+        for (Repartidor r : repartidores) {
+            repartidorItems.add(r.getIdRepartidor() + " - " + r.getNombreRepartidor());
+        }
+
+        List<String> eventoItems = new ArrayList<>();
+        eventoItems.add("Ninguno");
+        for (TipoEvento e : eventos) {
+            eventoItems.add(e.getIdTipoEvento() + " - " + e.getNombreTipoEvento());
+        }
+
         List<String> estados = Arrays.asList("Pendiente", "Despachado", "Entregado", "Cancelado");
 
-        spinnerCliente.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, clientes));
-        spinnerRepartidor.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, repartidores));
-        spinnerEvento.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, eventos));
+        spinnerCliente.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, clienteItems));
+        spinnerRepartidor.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, repartidorItems));
+        spinnerEvento.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, eventoItems));
         spinnerEstado.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, estados));
     }
 
