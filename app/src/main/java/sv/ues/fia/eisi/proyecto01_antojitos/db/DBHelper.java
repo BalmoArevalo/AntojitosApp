@@ -23,7 +23,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // Crear tabla DEPARTAMENTO
         db.execSQL("CREATE TABLE DEPARTAMENTO (" +
-                "ID_DEPARTAMENTO INTEGER PRIMARY KEY," +
+                "ID_DEPARTAMENTO INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "NOMBRE_DEPARTAMENTO TEXT NOT NULL);");
 
         // Crear tabla MUNICIPIO
@@ -46,7 +46,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // Crear tabla CATEGORIAPRODUCTO
         db.execSQL("CREATE TABLE CATEGORIAPRODUCTO (" +
-                "ID_CATEGORIAPRODUCTO INTEGER PRIMARY KEY," +
+                "ID_CATEGORIAPRODUCTO INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "NOMBRE_CATEGORIA TEXT NOT NULL," +
                 "DESCRIPCION_CATEGORIA TEXT NOT NULL," +
                 "DISPONIBLE_CATEGORIA INTEGER NOT NULL," +
@@ -55,7 +55,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // Crear tabla PRODUCTO
         db.execSQL("CREATE TABLE PRODUCTO (" +
-                "ID_PRODUCTO INTEGER PRIMARY KEY," +
+                "ID_PRODUCTO INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "ID_CATEGORIAPRODUCTO INTEGER NOT NULL," +
                 "NOMBRE_PRODUCTO TEXT NOT NULL," +
                 "DESCRIPCION_PRODUCTO TEXT," +
@@ -63,7 +63,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // Crear tabla SUCURSAL
         db.execSQL("CREATE TABLE SUCURSAL (" +
-                "ID_SUCURSAL INTEGER PRIMARY KEY," +
+                "ID_SUCURSAL INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "ID_DEPARTAMENTO INTEGER NOT NULL," +
                 "ID_MUNICIPIO INTEGER NOT NULL," +
                 "ID_DISTRITO INTEGER NOT NULL," +
@@ -77,7 +77,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // Crear tabla CLIENTE
         db.execSQL("CREATE TABLE CLIENTE (" +
-                "ID_CLIENTE INTEGER PRIMARY KEY," +
+                "ID_CLIENTE INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "ID_USUARIO INTEGER NOT NULL," +
                 "TELEFONO_CLIENTE TEXT NOT NULL," +
                 "NOMBRE_CLIENTE TEXT NOT NULL," +
@@ -85,7 +85,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // Crear tabla REPARTIDOR
         db.execSQL("CREATE TABLE REPARTIDOR (" +
-                "ID_REPARTIDOR INTEGER PRIMARY KEY," +
+                "ID_REPARTIDOR INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "ID_USUARIO INTEGER NOT NULL," +
                 "ID_DEPARTAMENTO INTEGER," +
                 "ID_MUNICIPIO INTEGER," +
@@ -99,7 +99,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // Crear tabla TIPOEVENTO
         db.execSQL("CREATE TABLE TIPOEVENTO (" +
-                "ID_TIPO_EVENTO INTEGER PRIMARY KEY," +
+                "ID_TIPO_EVENTO INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "NOMBRE_TIPO_EVENTO TEXT NOT NULL," +
                 "DESCRIPCION_TIPO_EVENTO TEXT," +
                 "MONTO_MINIMO REAL NOT NULL," +
