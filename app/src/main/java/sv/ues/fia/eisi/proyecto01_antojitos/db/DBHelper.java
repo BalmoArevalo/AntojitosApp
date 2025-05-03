@@ -67,7 +67,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 "ID_DEPARTAMENTO INTEGER NOT NULL," +
                 "ID_MUNICIPIO INTEGER NOT NULL," +
                 "ID_DISTRITO INTEGER NOT NULL," +
-                "ID_USUARIO INTEGER NOT NULL," +
+                //"ID_USUARIO INTEGER NOT NULL," +
                 "NOMBRE_SUCURSAL TEXT NOT NULL," +
                 "DIRECCION_SUCURSAL TEXT NOT NULL," +
                 "TELEFONO_SUCURSAL TEXT NOT NULL," +
