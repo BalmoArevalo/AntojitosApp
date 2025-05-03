@@ -9,82 +9,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Label y valor de Dirección Específica -->
+        <!-- Spinner de Clientes -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Dirección Específica"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/tvDirEsp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="—" />
-
-        <!-- Label y valor de Descripción -->
-        <TextView
-            android:layout_marginTop="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Descripción"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/tvDesc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="—" />
-
-        <!-- Label y Spinner de Cliente -->
-        <TextView
-            android:layout_marginTop="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cliente"
+            android:text="Selecciona Cliente"
             android:textStyle="bold" />
         <Spinner
             android:id="@+id/spinnerCliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- Label y Spinner de Departamento -->
+        <!-- Spinner de Direcciones -->
         <TextView
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Departamento"
+            android:text="Selecciona Dirección"
             android:textStyle="bold" />
         <Spinner
-            android:id="@+id/spinnerDepartamento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- Label y Spinner de Municipio -->
-        <TextView
-            android:layout_marginTop="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Municipio"
-            android:textStyle="bold" />
-        <Spinner
-            android:id="@+id/spinnerMunicipio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- Label y Spinner de Distrito -->
-        <TextView
-            android:layout_marginTop="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Distrito"
-            android:textStyle="bold" />
-        <Spinner
-            android:id="@+id/spinnerDistrito"
+            android:id="@+id/spinnerDireccion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
         <!-- Botón Eliminar -->
         <Button
-            android:id="@+id/btnEliminar"
+            android:id="@+id/btnEliminarDireccion"
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
