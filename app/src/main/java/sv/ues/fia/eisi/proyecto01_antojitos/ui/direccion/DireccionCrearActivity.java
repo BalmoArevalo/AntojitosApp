@@ -4,6 +4,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,18 +22,15 @@ import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
 
 public class DireccionCrearActivity extends AppCompatActivity {
 
-    private EditText etDireccionEspecifica, etDescripcionDireccion;
-    private Spinner spinnerCliente, spinnerDepartamento, spinnerMunicipio, spinnerDistrito;
+    private EditText etDirEsp, etDesc;
+    private Spinner spCliente, spDepto, spMun, spDist;
     private Button btnGuardar;
-
-    // Listas paralelas para convertir posición de Spinner → ID real
-    private List<Integer> clienteIds      = new ArrayList<>();
-    private List<Integer> departamentoIds = new ArrayList<>();
-    private List<Integer> municipioIds    = new ArrayList<>();
-    private List<Integer> distritoIds     = new ArrayList<>();
-
     private DBHelper dbHelper;
-    private boolean toastEjemploMostrado = false;  // Evita repetir el Toast de ejemplo
+
+    private List<Integer> clienteIds = new ArrayList<>();
+    private List<Integer> deptoIds   = new ArrayList<>();
+    private List<Integer> munIds     = new ArrayList<>();
+    private List<Integer> distIds    = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,139 +38,188 @@ public class DireccionCrearActivity extends AppCompatActivity {
         setContentView(R.layout.activity_direccion_crear);
 
         dbHelper = new DBHelper(this);
+        etDirEsp  = findViewById(R.id.editDireccionEspecifica);
+        etDesc    = findViewById(R.id.editDescripcionDireccion);
+        spCliente = findViewById(R.id.spinnerCliente);
+        spDepto   = findViewById(R.id.spinnerDepartamento);
+        spMun     = findViewById(R.id.spinnerMunicipio);
+        spDist    = findViewById(R.id.spinnerDistrito);
+        btnGuardar= findViewById(R.id.btnGuardar);
 
-        etDireccionEspecifica = findViewById(R.id.editDireccionEspecifica);
-        etDescripcionDireccion = findViewById(R.id.editDescripcionDireccion);
+        cargarSpinnerConPlaceholder(
+                "CLIENTE", "ID_CLIENTE", "NOMBRE_CLIENTE || ' ' || APELLIDO_CLIIENTE",
+                spCliente, clienteIds);
 
-        spinnerCliente      = findViewById(R.id.spinnerCliente);
-        spinnerDepartamento = findViewById(R.id.spinnerDepartamento);
-        spinnerMunicipio    = findViewById(R.id.spinnerMunicipio);
-        spinnerDistrito     = findViewById(R.id.spinnerDistrito);
+        cargarSpinnerConPlaceholder(
+                "DEPARTAMENTO", "ID_DEPARTAMENTO", "NOMBRE_DEPARTAMENTO",
+                spDepto, deptoIds);
+        spDepto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                int selDept = deptoIds.get(pos);
+                if (selDept >= 0) {
+                    spMun.setEnabled(true);
+                    cargarSpinnerFiltrado(
+                            "MUNICIPIO", "ID_MUNICIPIO", "NOMBRE_MUNICIPIO",
+                            "ID_DEPARTAMENTO = " + selDept,
+                            spMun, munIds);
+                } else {
+                    spMun.setEnabled(false);
+                    spDist.setEnabled(false);
+                }
+            }
+            @Override public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
-        btnGuardar          = findViewById(R.id.btnGuardar);
+        spMun.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                int selMun = munIds.get(pos);
+                if (selMun >= 0) {
+                    spDist.setEnabled(true);
+                    String where = "ID_DEPARTAMENTO = " + deptoIds.get(spDepto.getSelectedItemPosition())
+                            + " AND ID_MUNICIPIO = " + selMun;
+                    cargarSpinnerFiltrado(
+                            "DISTRITO", "ID_DISTRITO", "NOMBRE_DISTRITO",
+                            where, spDist, distIds);
+                } else {
+                    spDist.setEnabled(false);
+                }
+            }
+            @Override public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
-        // Poblar cada Spinner, o bien con datos reales o de ejemplo
-        cargarDatosSpinner(spinnerCliente,     "CLIENTE",     "ID_CLIENTE",     "NOMBRE_CLIENTE || ' ' || APELLIDO_CLIIENTE", clienteIds);
-        cargarDatosSpinner(spinnerDepartamento,"DEPARTAMENTO","ID_DEPARTAMENTO","NOMBRE_DEPARTAMENTO", departamentoIds);
-        cargarDatosSpinner(spinnerMunicipio,   "MUNICIPIO",   "ID_MUNICIPIO",   "NOMBRE_MUNICIPIO", municipioIds);
-        cargarDatosSpinner(spinnerDistrito,    "DISTRITO",    "ID_DISTRITO",    "NOMBRE_DISTRITO", distritoIds);
-
-        btnGuardar.setOnClickListener(v -> guardarDireccion());
+        btnGuardar.setOnClickListener(v -> guardar());
     }
 
-    /**
-     * Llena un Spinner con valores de la tabla dada.
-     * Si la tabla no existe, muestra un Toast informativo
-     * y rellena el Spinner con datos de ejemplo (IDs + nombres).
-     */
-    private void cargarDatosSpinner(Spinner spinner,
-                                    String tabla,
-                                    String campoId,
-                                    String campoNom,
-                                    List<Integer> idList) {
+    private void cargarSpinnerConPlaceholder(
+            String tabla, String campoId, String campoNom,
+            Spinner spinner, List<Integer> idList) {
+
         idList.clear();
         List<String> nombres = new ArrayList<>();
-        SQLiteDatabase db = null;
-        Cursor cursor = null;
+        nombres.add("Seleccione...");
+        idList.add(-1);
 
+        SQLiteDatabase db = null;
+        Cursor c = null;
         try {
             db = dbHelper.getReadableDatabase();
-            cursor = db.rawQuery(
+            c = db.rawQuery(
                     "SELECT " + campoId + ", " + campoNom + " FROM " + tabla,
-                    null
-            );
-
-            if (cursor.moveToFirst()) {
-                do {
-                    idList.add(cursor.getInt(0));
-                    nombres.add(cursor.getString(1));
-                } while (cursor.moveToNext());
-            } else {
-                // Tabla existe pero sin datos
-                nombres.add("No existen datos");
-                idList.add(-1);
+                    null);
+            while (c.moveToNext()) {
+                idList.add(c.getInt(0));
+                nombres.add(c.getString(1));
             }
-
         } catch (SQLiteException ex) {
-            // La tabla no existe: uso de datos de ejemplo
-            if (!toastEjemploMostrado) {
-                Toast.makeText(this,
-                        "Base de datos aún no creada, funcionando con datos de ejemplo",
-                        Toast.LENGTH_LONG).show();
-                toastEjemploMostrado = true;
-            }
-            // Ejemplos reales de El Salvador / nombres indicativos
-            if (spinner.getId() == R.id.spinnerCliente) {
-                nombres.add("Juan Pérez");
-                nombres.add("María López");
-                idList.add(1);
-                idList.add(2);
-            } else if (spinner.getId() == R.id.spinnerDepartamento) {
-                nombres.add("San Salvador");
-                nombres.add("La Libertad");
-                nombres.add("Santa Ana");
-                idList.add(1);
-                idList.add(2);
-                idList.add(3);
-            } else if (spinner.getId() == R.id.spinnerMunicipio) {
-                nombres.add("San Salvador");
-                nombres.add("Santa Tecla");
-                nombres.add("Sonsonate");
-                idList.add(1);
-                idList.add(2);
-                idList.add(3);
-            } else { // Distrito
-                nombres.add("Centro Histórico");
-                nombres.add("Colonia Escalón");
-                nombres.add("Santa Elena");
-                idList.add(1);
-                idList.add(2);
-                idList.add(3);
-            }
+            Toast.makeText(this,
+                    "BD no creada, usando datos de ejemplo", Toast.LENGTH_SHORT).show();
         } finally {
-            if (cursor != null) cursor.close();
-            if (db != null) db.close();
+            if (c != null) c.close();
+            if (db!=null) db.close();
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                nombres
-        );
+                this, android.R.layout.simple_spinner_item, nombres);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
     }
 
-    /**
-     * Lee los valores de la UI y los muestra en un Toast
-     * en lugar de insertarlos en la BD (aún no existe).
-     */
-    private void guardarDireccion() {
-        String dirEsp = etDireccionEspecifica.getText().toString().trim();
-        String desc   = etDescripcionDireccion.getText().toString().trim();
+    private void cargarSpinnerFiltrado(
+            String tabla, String campoId, String campoNom,
+            String whereClause, Spinner spinner, List<Integer> idList) {
 
-        int posCli   = spinnerCliente.getSelectedItemPosition();
-        int posDep   = spinnerDepartamento.getSelectedItemPosition();
-        int posMun   = spinnerMunicipio.getSelectedItemPosition();
-        int posDist  = spinnerDistrito.getSelectedItemPosition();
+        idList.clear();
+        List<String> nombres = new ArrayList<>();
+        nombres.add("Seleccione...");
+        idList.add(-1);
 
-        int idCli   = clienteIds.size()      > posCli  ? clienteIds.get(posCli)      : -1;
-        int idDep   = departamentoIds.size() > posDep  ? departamentoIds.get(posDep) : -1;
-        int idMun   = municipioIds.size()    > posMun  ? municipioIds.get(posMun)    : -1;
-        int idDist  = distritoIds.size()     > posDist ? distritoIds.get(posDist)    : -1;
+        SQLiteDatabase db = null;
+        Cursor c = null;
+        try {
+            db = dbHelper.getReadableDatabase();
+            c = db.rawQuery(
+                    "SELECT " + campoId + ", " + campoNom
+                            + " FROM " + tabla
+                            + " WHERE " + whereClause,
+                    null);
+            while (c.moveToNext()) {
+                idList.add(c.getInt(0));
+                nombres.add(c.getString(1));
+            }
+        } catch (SQLiteException ex) {
+            Toast.makeText(this,
+                    "BD no creada, usando datos de ejemplo", Toast.LENGTH_SHORT).show();
+        } finally {
+            if (c != null) c.close();
+            if (db!=null) db.close();
+        }
 
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, nombres);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+    }
+
+    private void guardar() {
+        String dirEsp = etDirEsp.getText().toString().trim();
         if (dirEsp.isEmpty()) {
-            Toast.makeText(this, "La dirección específica es obligatoria", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    "La dirección específica es obligatoria", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int posCli = spCliente.getSelectedItemPosition();
+        int idCliente = clienteIds.get(posCli);
+        if (idCliente < 0) {
+            Toast.makeText(this,
+                    "Selecciona un cliente", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int posDep = spDepto.getSelectedItemPosition();
+        int idDep = deptoIds.get(posDep);
+        if (idDep < 0) {
+            Toast.makeText(this,
+                    "Selecciona un departamento", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int posMun = spMun.getSelectedItemPosition();
+        int idMun = munIds.get(posMun);
+        if (idMun < 0) {
+            Toast.makeText(this,
+                    "Selecciona un municipio", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        int posDist = spDist.getSelectedItemPosition();
+        int idDist = distIds.get(posDist);
+        if (idDist < 0) {
+            Toast.makeText(this,
+                    "Selecciona un distrito", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        String mensaje = "ClienteID=" + idCli +
-                "\nDeptoID=" + idDep +
-                "\nMunID=" + idMun +
-                "\nDistID=" + idDist +
-                "\nDir: " + dirEsp +
-                "\nDesc: " + desc;
+        // Uso del DAO para siguiente ID y guardar
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        DireccionDAO dao = new DireccionDAO(db);
+        int nextId = dao.getNextIdDireccion(idCliente);
+        Direccion dir = new Direccion();
+        dir.setIdCliente(idCliente);
+        dir.setIdDireccion(nextId);
+        dir.setIdDepartamento(idDep);
+        dir.setIdMunicipio(idMun);
+        dir.setIdDistrito(idDist);
+        dir.setDireccionEspecifica(dirEsp);
+        dir.setDescripcionDireccion(etDesc.getText().toString().trim());
+        long res = dao.insertar(dir);
+        db.close();
 
-        Toast.makeText(this, mensaje, Toast.LENGTH_LONG).show();
+        if (res != -1) {
+            Toast.makeText(this,
+                    "Dirección guardada con ID " + nextId,
+                    Toast.LENGTH_LONG).show();
+            finish();
+        } else {
+            Toast.makeText(this,
+                    "Error al guardar en la base de datos",
+                    Toast.LENGTH_LONG).show();
+        }
     }
 }
