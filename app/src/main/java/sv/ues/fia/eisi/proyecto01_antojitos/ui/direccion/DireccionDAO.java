@@ -52,26 +52,31 @@ public class DireccionDAO {
 
     /** Consulta por (cliente, dirección). */
     public Direccion consultarPorId(int idCliente, int idDireccion) {
-        String where = "ID_CLIENTE = ? AND ID_DIRECCION = ?";
-        String[] args = { String.valueOf(idCliente), String.valueOf(idDireccion) };
-        Cursor cursor = db.query("DIRECCION", null, where, args, null, null, null);
-        try {
-            if (cursor.moveToFirst()) {
-                Direccion dir = new Direccion();
-                dir.setIdCliente(cursor.getInt(0));
-                dir.setIdDireccion(cursor.getInt(1));
-                dir.setIdDepartamento(cursor.getInt(2));
-                dir.setIdMunicipio(cursor.getInt(3));
-                dir.setIdDistrito(cursor.getInt(4));
-                dir.setDireccionEspecifica(cursor.getString(5));
-                dir.setDescripcionDireccion(cursor.getString(6));
-                return dir;
-            }
-            return null;
-        } finally {
+        Direccion direccion = null;
+
+        Cursor cursor = db.query("DIRECCION",
+                new String[]{"ID_CLIENTE", "ID_DIRECCION", "ID_DEPARTAMENTO", "ID_MUNICIPIO", "ID_DISTRITO",
+                        "DIRECCION_ESPECIFICA", "DESCRIPCION_DIRECCION"},
+                "ID_CLIENTE=? AND ID_DIRECCION=?",
+                new String[]{String.valueOf(idCliente), String.valueOf(idDireccion)},
+                null, null, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            direccion = new Direccion();
+            direccion.setIdCliente(cursor.getInt(0));
+            direccion.setIdDireccion(cursor.getInt(1));
+            direccion.setIdDepartamento(cursor.getInt(2));
+            direccion.setIdMunicipio(cursor.getInt(3));
+            direccion.setIdDistrito(cursor.getInt(4));
+            direccion.setDireccionEspecifica(cursor.getString(5));
+            direccion.setDescripcionDireccion(cursor.getString(6));
             cursor.close();
         }
+
+        return direccion;
     }
+
+    // Método para actualizar una dirección existente
 
     /** Obtiene todas las direcciones de un cliente dado */
     public List<Direccion> obtenerPorCliente(int idCliente) {
@@ -103,19 +108,17 @@ public class DireccionDAO {
 
 
     /** Actualiza una dirección existente. */
-    public int actualizar(Direccion dir) {
-        ContentValues values = new ContentValues();
-        values.put("ID_DEPARTAMENTO", dir.getIdDepartamento());
-        values.put("ID_MUNICIPIO", dir.getIdMunicipio());
-        values.put("ID_DISTRITO", dir.getIdDistrito());
-        values.put("DIRECCION_ESPECIFICA", dir.getDireccionEspecifica());
-        values.put("DESCRIPCION_DIRECCION", dir.getDescripcionDireccion());
-        String where = "ID_CLIENTE = ? AND ID_DIRECCION = ?";
-        String[] args = {
-                String.valueOf(dir.getIdCliente()),
-                String.valueOf(dir.getIdDireccion())
-        };
-        return db.update("DIRECCION", values, where, args);
+    public int actualizar(Direccion direccion) {
+        ContentValues valores = new ContentValues();
+        valores.put("ID_DEPARTAMENTO", direccion.getIdDepartamento());
+        valores.put("ID_MUNICIPIO", direccion.getIdMunicipio());
+        valores.put("ID_DISTRITO", direccion.getIdDistrito());
+        valores.put("DIRECCION_ESPECIFICA", direccion.getDireccionEspecifica());
+        valores.put("DESCRIPCION_DIRECCION", direccion.getDescripcionDireccion());
+
+        return db.update("DIRECCION", valores,
+                "ID_CLIENTE=? AND ID_DIRECCION=?",
+                new String[]{String.valueOf(direccion.getIdCliente()), String.valueOf(direccion.getIdDireccion())});
     }
 
     /** Elimina la dirección identificada. */
