@@ -153,12 +153,13 @@ public class DBHelper extends SQLiteOpenHelper {
         // Crear tabla DIRECCION
         db.execSQL("CREATE TABLE DIRECCION ("
                 + "ID_CLIENTE INTEGER NOT NULL,"
-                + "ID_DIRECCION INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "ID_DIRECCION INTEGER NOT NULL,"
                 + "ID_DEPARTAMENTO INTEGER NOT NULL,"
                 + "ID_MUNICIPIO INTEGER NOT NULL,"
                 + "ID_DISTRITO INTEGER NOT NULL,"
                 + "DIRECCION_ESPECIFICA TEXT NOT NULL,"
                 + "DESCRIPCION_DIRECCION TEXT,"
+                + "PRIMARY KEY (ID_CLIENTE, ID_DIRECCION),"
                 + "FOREIGN KEY (ID_CLIENTE) REFERENCES CLIENTE(ID_CLIENTE),"
                 + "FOREIGN KEY (ID_DEPARTAMENTO, ID_MUNICIPIO, ID_DISTRITO) "
                 + "  REFERENCES DISTRITO(ID_DEPARTAMENTO, ID_MUNICIPIO, ID_DISTRITO));");
