@@ -4,10 +4,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
-import android.widget.ArrayAdapter;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.view.View;
+import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,133 +17,88 @@ import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
 
 public class DireccionConsultarActivity extends AppCompatActivity {
 
-    private TextView tvDirEsp, tvDesc;
-    private Spinner spinnerCliente, spinnerDepartamento, spinnerMunicipio, spinnerDistrito;
-
-    private List<Integer> clienteIds      = new ArrayList<>();
-    private List<Integer> departamentoIds = new ArrayList<>();
-    private List<Integer> municipioIds    = new ArrayList<>();
-    private List<Integer> distritoIds     = new ArrayList<>();
-
+    private Spinner spinnerCliente;
+    private Button btnCargar;
+    private TextView tvResultado;
     private DBHelper dbHelper;
-    private boolean toastEjemploMostrado = false;
+    private List<Integer> clienteIds = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_direccion_consultar);
 
-        dbHelper          = new DBHelper(this);
-        tvDirEsp          = findViewById(R.id.tvDirEsp);
-        tvDesc            = findViewById(R.id.tvDesc);
-        spinnerCliente      = findViewById(R.id.spinnerCliente);
-        spinnerDepartamento = findViewById(R.id.spinnerDepartamento);
-        spinnerMunicipio    = findViewById(R.id.spinnerMunicipio);
-        spinnerDistrito     = findViewById(R.id.spinnerDistrito);
+        dbHelper       = new DBHelper(this);
+        spinnerCliente = findViewById(R.id.spinnerCliente);
+        btnCargar      = findViewById(R.id.btnCargarDirecciones);
+        tvResultado    = findViewById(R.id.tvResultado);
 
-        // Cada Activity tiene su propio método de carga de Spinner
-        cargarDatosSpinner(spinnerCliente,     "CLIENTE",     "ID_CLIENTE",     "NOMBRE_CLIENTE || ' ' || APELLIDO_CLIIENTE", clienteIds);
-        cargarDatosSpinner(spinnerDepartamento,"DEPARTAMENTO","ID_DEPARTAMENTO","NOMBRE_DEPARTAMENTO", departamentoIds);
-        cargarDatosSpinner(spinnerMunicipio,   "MUNICIPIO",   "ID_MUNICIPIO",   "NOMBRE_MUNICIPIO", municipioIds);
-        cargarDatosSpinner(spinnerDistrito,    "DISTRITO",    "ID_DISTRITO",    "NOMBRE_DISTRITO", distritoIds);
+        cargarSpinnerClientes();
 
-        // Deshabilitamos los Spinners para solo mostrar el dato
-        spinnerCliente.setEnabled(false);
-        spinnerDepartamento.setEnabled(false);
-        spinnerMunicipio.setEnabled(false);
-        spinnerDistrito.setEnabled(false);
-
-        // Cargar valores de ejemplo en los TextViews
-        tvDirEsp.setText("Av. Siempre Viva #742");
-        tvDesc.setText("A un costado de la iglesia");
-
-        // Seleccionar la primera posición en cada Spinner
-        spinnerCliente.setSelection(0);
-        spinnerDepartamento.setSelection(0);
-        spinnerMunicipio.setSelection(0);
-        spinnerDistrito.setSelection(0);
+        btnCargar.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                mostrarDirecciones();
+            }
+        });
     }
 
-    /**
-     * Llena un Spinner con valores de la tabla dada.
-     * Si la tabla no existe, muestra un Toast informativo
-     * y rellena el Spinner con datos de ejemplo.
-     */
-    private void cargarDatosSpinner(Spinner spinner,
-                                    String tabla,
-                                    String campoId,
-                                    String campoNom,
-                                    List<Integer> idList) {
-        idList.clear();
+    private void cargarSpinnerClientes() {
+        clienteIds.clear();
         List<String> nombres = new ArrayList<>();
-        SQLiteDatabase db = null;
-        Cursor cursor = null;
+        nombres.add("Seleccione..."); clienteIds.add(-1);
 
+        SQLiteDatabase db = null;
+        Cursor c = null;
         try {
             db = dbHelper.getReadableDatabase();
-            cursor = db.rawQuery(
-                    "SELECT " + campoId + ", " + campoNom + " FROM " + tabla,
+            c = db.rawQuery(
+                    "SELECT ID_CLIENTE, NOMBRE_CLIENTE || ' ' || APELLIDO_CLIIENTE FROM CLIENTE",
                     null
             );
-
-            if (cursor.moveToFirst()) {
-                do {
-                    idList.add(cursor.getInt(0));
-                    nombres.add(cursor.getString(1));
-                } while (cursor.moveToNext());
-            } else {
-                // tabla existe pero sin datos
-                nombres.add("No existen datos");
-                idList.add(-1);
+            while (c.moveToNext()) {
+                clienteIds.add(c.getInt(0));
+                nombres.add(c.getString(1));
             }
-
         } catch (SQLiteException ex) {
-            // tabla no existe: datos de ejemplo
-            if (!toastEjemploMostrado) {
-                Toast.makeText(this,
-                        "Base de datos aún no creada, funcionando con datos de ejemplo",
-                        Toast.LENGTH_LONG).show();
-                toastEjemploMostrado = true;
-            }
-            // ejemplos
-            if (spinner.getId() == R.id.spinnerCliente) {
-                nombres.add("Juan Pérez");
-                nombres.add("María López");
-                idList.add(1);
-                idList.add(2);
-            } else if (spinner.getId() == R.id.spinnerDepartamento) {
-                nombres.add("San Salvador");
-                nombres.add("La Libertad");
-                nombres.add("Santa Ana");
-                idList.add(1);
-                idList.add(2);
-                idList.add(3);
-            } else if (spinner.getId() == R.id.spinnerMunicipio) {
-                nombres.add("San Salvador");
-                nombres.add("Santa Tecla");
-                nombres.add("Sonsonate");
-                idList.add(1);
-                idList.add(2);
-                idList.add(3);
-            } else {
-                nombres.add("Centro Histórico");
-                nombres.add("Colonia Escalón");
-                nombres.add("Santa Elena");
-                idList.add(1);
-                idList.add(2);
-                idList.add(3);
-            }
+            nombres.add("Sin datos"); clienteIds.add(-1);
         } finally {
-            if (cursor != null) cursor.close();
-            if (db != null) db.close();
+            if (c != null) c.close();
+            if (db!= null) db.close();
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this,
-                android.R.layout.simple_spinner_item,
-                nombres
+                this, android.R.layout.simple_spinner_item, nombres
         );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        spinnerCliente.setAdapter(adapter);
+    }
+
+    private void mostrarDirecciones() {
+        int pos = spinnerCliente.getSelectedItemPosition();
+        int idCli = clienteIds.get(pos);
+        if (idCli < 0) {
+            Toast.makeText(this, "Selecciona un cliente válido", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        DireccionDAO dao = new DireccionDAO(db);
+        List<Direccion> lista = dao.obtenerPorCliente(idCli);
+        db.close();
+
+        if (lista.isEmpty()) {
+            tvResultado.setText("Este cliente no tiene direcciones registradas.");
+        } else {
+            StringBuilder sb = new StringBuilder();
+            for (Direccion d : lista) {
+                sb.append("ID_Dir: ").append(d.getIdDireccion())
+                        .append(" → ").append(d.getDireccionEspecifica());
+                if (d.getDescripcionDireccion() != null && !d.getDescripcionDireccion().isEmpty()) {
+                    sb.append(" (").append(d.getDescripcionDireccion()).append(")");
+                }
+                sb.append("\n\n");
+            }
+            tvResultado.setText(sb.toString().trim());
+        }
     }
 }
