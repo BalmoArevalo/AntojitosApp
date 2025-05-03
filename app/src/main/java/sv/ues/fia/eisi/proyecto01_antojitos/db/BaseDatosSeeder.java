@@ -59,11 +59,11 @@ public class BaseDatosSeeder {
         db.execSQL("INSERT OR REPLACE INTO PRODUCTO VALUES (5, 4, 'Empanada de Plátano', 'Rellena de leche');");
 
         // 🏬 Datos para SUCURSAL
-        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (1, 1, 1, 1, 100, 'Sucursal Centro', 'Calle El Progreso', '2200-1111', '08:00', '20:00');");
-        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (2, 2, 2, 2, 101, 'Sucursal Merliot', 'Blvd. Merliot', '2200-2222', '09:00', '21:00');");
-        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (3, 3, 3, 3, 102, 'Sucursal Metapán', 'Av. Central', '2200-3333', '07:00', '19:00');");
-        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (4, 4, 4, 4, 103, 'Sucursal San Miguel', 'Col. Ciudad Pacífica', '2200-4444', '08:30', '19:30');");
-        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (5, 5, 5, 5, 104, 'Sucursal Usulután', 'Centro Usulután', '2200-5555', '08:00', '18:00');");
+        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (1, 1, 1, 1, 'Sucursal Centro', 'Calle El Progreso', '2200-1111', '08:00', '20:00');");
+        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (2, 2, 2, 2, 'Sucursal Merliot', 'Blvd. Merliot', '2200-2222', '09:00', '21:00');");
+        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (3, 3, 3, 3, 'Sucursal Metapán', 'Av. Central', '2200-3333', '07:00', '19:00');");
+        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (4, 4, 4, 4, 'Sucursal San Miguel', 'Col. Ciudad Pacífica', '2200-4444', '08:30', '19:30');");
+        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (5, 5, 5, 5, 'Sucursal Usulután', 'Centro Usulután', '2200-5555', '08:00', '18:00');");
 
         // 🧑‍🤝‍🧑 Datos para CLIENTE
         db.execSQL("INSERT OR REPLACE INTO CLIENTE VALUES (1, 200, '7010-1111', 'Carlos', 'Ramírez');");

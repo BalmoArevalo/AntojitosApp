@@ -1,110 +1,54 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <!-- Título -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Consultar Sucursal"
-            android:textSize="20sp"
             android:textStyle="bold"
+            android:textSize="20sp"
             android:gravity="center"
-            android:layout_marginBottom="24dp" />
-
-        <!-- Campo para ingresar el ID -->
-        <EditText
-            android:id="@+id/editIdSucursal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ingrese ID de Sucursal"
-            android:inputType="number" />
-
-        <Button
-            android:id="@+id/btnBuscarSucursal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Buscar"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Campos que se mostrarán con los datos -->
-        <EditText
-            android:id="@+id/editIdDepartamento"
-            android:hint="ID Departamento"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <!-- Spinner de sucursales -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selecciona una sucursal"
+            android:textStyle="bold"/>
 
-        <EditText
-            android:id="@+id/editIdMunicipio"
-            android:hint="ID Municipio"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editIdDistrito"
-            android:hint="ID Distrito"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editIdUsuario"
-            android:hint="ID Usuario"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editNombreSucursal"
-            android:hint="Nombre Sucursal"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editDireccionSucursal"
-            android:hint="Dirección"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editTelefonoSucursal"
-            android:hint="Teléfono"
-            android:inputType="phone"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editHorarioApertura"
-            android:hint="Hora Apertura"
-            android:inputType="time"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editHorarioCierre"
-            android:hint="Hora Cierre"
-            android:inputType="time"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnLimpiarCampos"
+        <Spinner
+            android:id="@+id/spinnerSucursal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Limpiar"
-            android:layout_marginTop="16dp" />
+            android:layout_marginBottom="12dp"
+            android:minHeight="48dp" />
+
+        <!-- Botón para cargar información -->
+        <Button
+            android:id="@+id/btnConsultarSucursal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mostrar Detalles" />
+
+        <!-- Resultado -->
+        <TextView
+            android:id="@+id/tvResultado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="#EEEEEE"
+            android:padding="12dp"
+            android:text="Aquí se mostrará la información de la sucursal seleccionada."
+            android:textColor="#000000"
+            android:textIsSelectable="true" />
     </LinearLayout>
 </ScrollView>

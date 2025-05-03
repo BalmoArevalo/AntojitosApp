@@ -6,7 +6,6 @@ public class Sucursal {
     private int idDepartamento;
     private int idMunicipio;
     private int idDistrito;
-    private int idUsuario;
     private String nombreSucursal;
     private String direccionSucursal;
     private String telefonoSucursal;
@@ -17,13 +16,12 @@ public class Sucursal {
     }
 
     public Sucursal(int idSucursal, int idDepartamento, int idMunicipio, int idDistrito,
-                    int idUsuario, String nombreSucursal, String direccionSucursal,
+                    String nombreSucursal, String direccionSucursal,
                     String telefonoSucursal, String horarioApertura, String horarioCierre) {
         this.idSucursal = idSucursal;
         this.idDepartamento = idDepartamento;
         this.idMunicipio = idMunicipio;
         this.idDistrito = idDistrito;
-        this.idUsuario = idUsuario;
         this.nombreSucursal = nombreSucursal;
         this.direccionSucursal = direccionSucursal;
         this.telefonoSucursal = telefonoSucursal;
@@ -61,14 +59,6 @@ public class Sucursal {
 
     public void setIdDistrito(int idDistrito) {
         this.idDistrito = idDistrito;
-    }
-
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
     }
 
     public String getNombreSucursal() {

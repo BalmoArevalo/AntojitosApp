@@ -1,95 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
+        <!-- Nombre Sucursal -->
         <TextView
-            android:id="@+id/text_crear_sucursal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Crear sucursal"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:gravity="center"
             android:padding="8dp"
-            android:gravity="center" />
+            android:text="Crear Sucursal"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-        <EditText android:id="@+id/editIdSucursal"
-            android:hint="ID Sucursal (No editable)"
-            android:enabled="false"
-            android:inputType="number"
+        <EditText
+            android:id="@+id/editNombreSucursal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Nombre de la sucursal"
+            android:minHeight="48dp" />
 
-        <EditText android:id="@+id/editIdDepartamento"
-            android:hint="ID Departamento"
-            android:inputType="number"
+        <!-- Teléfono -->
+        <EditText
+            android:id="@+id/editTelefonoSucursal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText android:id="@+id/editIdMunicipio"
-            android:hint="ID Municipio"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText android:id="@+id/editIdDistrito"
-            android:hint="ID Distrito"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText android:id="@+id/editIdUsuario"
-            android:hint="ID Usuario"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText android:id="@+id/editNombreSucursal"
-            android:hint="Nombre Sucursal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText android:id="@+id/editDireccionSucursal"
-            android:hint="Dirección Sucursal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText android:id="@+id/editTelefonoSucursal"
+            android:layout_height="wrap_content"
             android:hint="Teléfono"
             android:inputType="phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:minHeight="48dp" />
 
-        <EditText android:id="@+id/editHorarioApertura"
-            android:hint="Hora Apertura (hh:mm)"
-            android:inputType="time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText android:id="@+id/editHorarioCierre"
-            android:hint="Hora Cierre (hh:mm)"
-            android:inputType="time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnGuardarSucursal"
-            android:text="Guardar"
+        <!-- Dirección -->
+        <EditText
+            android:id="@+id/editDireccionSucursal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Dirección"
+            android:minHeight="48dp" />
+
+        <!-- Spinner Departamento -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Departamento" />
+
+        <Spinner
+            android:id="@+id/spinnerDepartamento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp" />
+
+        <!-- Spinner Municipio -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Municipio" />
+
+        <Spinner
+            android:id="@+id/spinnerMunicipio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:minHeight="48dp" />
+
+        <!-- Spinner Distrito -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distrito" />
+
+        <Spinner
+            android:id="@+id/spinnerDistrito"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:minHeight="48dp" />
+
+        <!-- Hora Apertura -->
+        <EditText
+            android:id="@+id/editHorarioApertura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="Hora de apertura"
+            android:minHeight="48dp" />
+
+        <!-- Hora Cierre -->
+        <EditText
+            android:id="@+id/editHorarioCierre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="false"
+            android:hint="Hora de cierre"
+            android:minHeight="48dp" />
+
+        <!-- Botones -->
+        <Button
+            android:id="@+id/btnGuardarSucursal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar"
             android:layout_marginTop="16dp" />
 
         <Button
             android:id="@+id/btnLimpiarCampos"
-            android:text="Limpiar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Limpiar"
             android:layout_marginTop="8dp" />
+
     </LinearLayout>
 </ScrollView>
