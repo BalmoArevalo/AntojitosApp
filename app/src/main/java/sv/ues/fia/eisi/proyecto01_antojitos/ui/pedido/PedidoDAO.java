@@ -3,6 +3,7 @@ package sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,8 +59,13 @@ public class PedidoDAO {
     }
 
     public int eliminar(int idPedido) {
-        return db.delete("PEDIDO", "ID_PEDIDO = ?",
-                new String[]{String.valueOf(idPedido)});
+        try {
+            return db.delete("PEDIDO", "ID_PEDIDO = ?",
+                    new String[]{String.valueOf(idPedido)});
+        } catch (Exception e) {
+            Log.e("PedidoDAO", "Error al eliminar pedido con ID " + idPedido + ": " + e.getMessage());
+            return -1;
+        }
     }
 
     public List<Pedido> obtenerTodos() {

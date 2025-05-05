@@ -6,7 +6,10 @@ import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
-import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
+import sv.ues.fia.eisi.proyecto01_antojitos.db.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.cliente.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.tipoEvento.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.repartidor.*;
 
 public class PedidoEliminarActivity extends AppCompatActivity {
 
@@ -14,6 +17,9 @@ public class PedidoEliminarActivity extends AppCompatActivity {
     private TextView textViewResultado;
     private Button btnBuscar, btnEliminar;
     private PedidoDAO pedidoDAO;
+    private ClienteDAO clienteDAO;
+    private RepartidorDAO repartidorDAO;
+    private TipoEventoDAO tipoEventoDAO;
     private Pedido pedidoEncontrado;
 
     @Override
@@ -21,14 +27,22 @@ public class PedidoEliminarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedido_eliminar);
 
+        // Inicializar vistas
         editTextIdEliminar = findViewById(R.id.editTextIdEliminar);
         textViewResultado = findViewById(R.id.textViewResultadoEliminar);
         btnBuscar = findViewById(R.id.btnBuscarEliminar);
         btnEliminar = findViewById(R.id.btnEliminar);
 
-        DBHelper helper = new DBHelper(this);
-        SQLiteDatabase db = helper.getWritableDatabase();
+        // Inicializar BD y DAOs
+        DBHelper dbHelper = new DBHelper(this);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
         pedidoDAO = new PedidoDAO(db);
+        clienteDAO = new ClienteDAO(db);
+        repartidorDAO = new RepartidorDAO(db);
+        tipoEventoDAO = new TipoEventoDAO(db);
+
+        btnEliminar.setEnabled(false);
 
         btnBuscar.setOnClickListener(v -> buscarPedido());
         btnEliminar.setOnClickListener(v -> eliminarPedido());
@@ -37,19 +51,31 @@ public class PedidoEliminarActivity extends AppCompatActivity {
     private void buscarPedido() {
         String idStr = editTextIdEliminar.getText().toString().trim();
         if (idStr.isEmpty()) {
-            Toast.makeText(this, "Ingrese un ID", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Ingrese un ID válido", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        int id = Integer.parseInt(idStr);
-        pedidoEncontrado = pedidoDAO.consultarPorId(id);
+        int idPedido = Integer.parseInt(idStr);
+        pedidoEncontrado = pedidoDAO.consultarPorId(idPedido);
 
         if (pedidoEncontrado != null) {
+            // Buscar nombres asociados
+            Cliente cliente = clienteDAO.consultarPorId(pedidoEncontrado.getIdCliente());
+            Repartidor repartidor = repartidorDAO.consultarPorId(pedidoEncontrado.getIdRepartidor());
+            TipoEvento tipoEvento = tipoEventoDAO.consultarPorId(pedidoEncontrado.getIdTipoEvento());
+
+            String nombreCliente = (cliente != null) ? cliente.getNombreCliente() : "Desconocido";
+            String nombreRepartidor = (repartidor != null) ? repartidor.getNombreRepartidor() : "Desconocido";
+            String nombreTipoEvento = (tipoEvento != null) ? tipoEvento.getNombreTipoEvento() : "Ninguno";
+
             String info = "Pedido encontrado:\n" +
-                    "ID: " + pedidoEncontrado.getIdPedido() + "\n" +
-                    "Cliente: " + pedidoEncontrado.getIdCliente() + "\n" +
-                    "Repartidor: " + pedidoEncontrado.getIdRepartidor() + "\n" +
+                    "ID Pedido: " + pedidoEncontrado.getIdPedido() + "\n" +
+                    "ID Cliente: " + pedidoEncontrado.getIdCliente() + " — " + nombreCliente + "\n" +
+                    "ID Repartidor: " + pedidoEncontrado.getIdRepartidor() + " — " + nombreRepartidor + "*\n" +
+                    "ID Tipo Evento: " + pedidoEncontrado.getIdTipoEvento() + " — " + nombreTipoEvento + "*\n" +
+                    "Fecha/Hora: " + pedidoEncontrado.getFechaHoraPedido() + "\n" +
                     "Estado: " + pedidoEncontrado.getEstadoPedido();
+
             textViewResultado.setText(info);
             btnEliminar.setEnabled(true);
         } else {
@@ -68,7 +94,7 @@ public class PedidoEliminarActivity extends AppCompatActivity {
                 btnEliminar.setEnabled(false);
                 pedidoEncontrado = null;
             } else {
-                Toast.makeText(this, "Error al eliminar", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Error al eliminar el pedido", Toast.LENGTH_SHORT).show();
             }
         }
     }
