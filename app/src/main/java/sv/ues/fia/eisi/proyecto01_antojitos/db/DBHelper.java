@@ -96,7 +96,6 @@ public class DBHelper extends SQLiteOpenHelper {
         // 8 - tabla de REPARTIDOR
         db.execSQL("CREATE TABLE REPARTIDOR ("
                 + "ID_REPARTIDOR INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "ID_USUARIO INTEGER NOT NULL,"
                 + "ID_DEPARTAMENTO INTEGER,"
                 + "ID_MUNICIPIO INTEGER,"
                 + "ID_DISTRITO INTEGER,"
