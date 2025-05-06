@@ -7,20 +7,46 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
+import android.database.sqlite.SQLiteDatabase;
+import android.widget.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
+import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
 
 public class DepartamentoConsultarActivity extends AppCompatActivity {
+
+    private EditText editTextId, editTextNombre;
+    private Button btnBuscar;
+    private DepartamentoDAO dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_departamento_consultar);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        editTextId = findViewById(R.id.editTextIdDepartamentoBuscar);
+        editTextNombre = findViewById(R.id.editTextNombreDepartamentoConsultado);
+        btnBuscar = findViewById(R.id.btnBuscarDepartamento);
+
+        SQLiteDatabase db = new DBHelper(this).getReadableDatabase();
+        dao = new DepartamentoDAO(db);
+
+        btnBuscar.setOnClickListener(v -> buscarDepartamento());
+    }
+
+    private void buscarDepartamento() {
+        try {
+            int id = Integer.parseInt(editTextId.getText().toString().trim());
+            Departamento departamento = dao.consultarPorId(id);
+
+            if (departamento != null) {
+                editTextNombre.setText(departamento.getNombreDepartamento());
+            } else {
+                Toast.makeText(this, "Departamento no encontrado", Toast.LENGTH_SHORT).show();
+                editTextNombre.setText("");
+            }
+
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "ID inválido", Toast.LENGTH_SHORT).show();
+        }
     }
 }
