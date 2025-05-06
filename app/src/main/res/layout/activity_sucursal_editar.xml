@@ -126,6 +126,17 @@
             android:hint="Hora Cierre"
             android:minHeight="48dp" />
 
+        <!-- En activity_sucursal_editar.xml, dentro del LinearLayout -->
+        <Switch
+            android:id="@+id/switchActivoSucursal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:checked="true"
+            android:minHeight="48dp"
+            android:text="Sucursal activa" />
+
+
         <!-- Botones -->
         <Button
             android:id="@+id/btnActualizarSucursal"
