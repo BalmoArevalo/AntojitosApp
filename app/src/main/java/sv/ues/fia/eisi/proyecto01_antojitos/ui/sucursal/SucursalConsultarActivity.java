@@ -26,7 +26,7 @@ public class SucursalConsultarActivity extends AppCompatActivity {
     private DBHelper dbHelper;
     private SucursalDAO dao;
 
-    // Lista de IDs de sucursales a mostrar en el spinner
+    // Lista de IDs de sucursales activas a mostrar en el spinner
     private List<Integer> sucursalIds = new ArrayList<>();
 
     @Override
@@ -47,8 +47,7 @@ public class SucursalConsultarActivity extends AppCompatActivity {
     }
 
     /**
-     * Carga todas las sucursales (activas e inactivas) en el spinner,
-     * mostrando su estado.
+     * Carga solo sucursales activas en el spinner.
      */
     private void cargarSpinnerSucursales() {
         sucursalIds.clear();
@@ -56,11 +55,11 @@ public class SucursalConsultarActivity extends AppCompatActivity {
         nombres.add("Seleccione...");
         sucursalIds.add(-1);
 
-        List<Sucursal> lista = dao.obtenerTodos();
-        for (Sucursal s : lista) {
+        // Obtener solo las activas
+        List<Sucursal> listaActivas = dao.obtenerActivos();
+        for (Sucursal s : listaActivas) {
             sucursalIds.add(s.getIdSucursal());
-            String estado = s.getActivoSucursal() == 1 ? "(Activo)" : "(Inactivo)";
-            nombres.add(s.getIdSucursal() + " - " + s.getNombreSucursal() + " " + estado);
+            nombres.add(s.getIdSucursal() + " - " + s.getNombreSucursal());
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -70,7 +69,7 @@ public class SucursalConsultarActivity extends AppCompatActivity {
     }
 
     /**
-     * Muestra todos los detalles de la sucursal seleccionada, incluyendo estado.
+     * Muestra todos los detalles de la sucursal activa seleccionada, incluyendo estado.
      */
     private void mostrarDetalleSucursal() {
         int pos = spinnerSucursal.getSelectedItemPosition();
@@ -93,7 +92,7 @@ public class SucursalConsultarActivity extends AppCompatActivity {
                     "JOIN MUNICIPIO m ON s.ID_DEPARTAMENTO = m.ID_DEPARTAMENTO AND s.ID_MUNICIPIO = m.ID_MUNICIPIO " +
                     "JOIN DISTRITO dt ON s.ID_DEPARTAMENTO = dt.ID_DEPARTAMENTO " +
                     "AND s.ID_MUNICIPIO = dt.ID_MUNICIPIO AND s.ID_DISTRITO = dt.ID_DISTRITO " +
-                    "WHERE s.ID_SUCURSAL = ?";
+                    "WHERE s.ID_SUCURSAL = ? AND s.ACTIVO_SUCURSAL = 1";  // validar solo activas
             c = db.rawQuery(query, new String[]{String.valueOf(idSucursal)});
 
             if (c.moveToFirst()) {
@@ -110,7 +109,7 @@ public class SucursalConsultarActivity extends AppCompatActivity {
                         "Estado: " + (activo == 1 ? "Activo" : "Inactivo");
                 tvResultado.setText(detalle);
             } else {
-                tvResultado.setText("Sucursal no encontrada.");
+                tvResultado.setText("Sucursal no encontrada o inactiva.");
             }
         } catch (Exception ex) {
             tvResultado.setText("Error al consultar: " + ex.getMessage());
