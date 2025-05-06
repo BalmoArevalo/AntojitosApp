@@ -45,39 +45,39 @@ public class BaseDatosSeeder {
         db.execSQL("INSERT OR REPLACE INTO DISTRITO VALUES (5, 5, 5, 'Puerto Parada', '1105');");
 
         // 🗂️ Datos para CATEGORIAPRODUCTO
-        db.execSQL("INSERT OR REPLACE INTO CATEGORIAPRODUCTO VALUES (1, 'Antojitos', 'Comida típica', 1, '15:00', '18:00');");
-        db.execSQL("INSERT OR REPLACE INTO CATEGORIAPRODUCTO VALUES (2, 'Bebidas', 'Bebidas frías', 1, '00:00', '23:59');");
-        db.execSQL("INSERT OR REPLACE INTO CATEGORIAPRODUCTO VALUES (3, 'Comidas rápidas', 'Hamburguesas y hotdogs', 1, '10:00', '22:00');");
-        db.execSQL("INSERT OR REPLACE INTO CATEGORIAPRODUCTO VALUES (4, 'Postres', 'Dulces típicos', 1, '12:00', '20:00');");
-        db.execSQL("INSERT OR REPLACE INTO CATEGORIAPRODUCTO VALUES (5, 'Platos fuertes', 'Almuerzos tradicionales', 1, '11:00', '15:00');");
+        db.execSQL("INSERT OR REPLACE INTO CATEGORIAPRODUCTO VALUES (1, 'Antojitos', 'Comida típica', 1, '15:00', '18:00', 1);");
+        db.execSQL("INSERT OR REPLACE INTO CATEGORIAPRODUCTO VALUES (2, 'Bebidas', 'Bebidas frías', 1, '00:00', '23:59', 1);");
+        db.execSQL("INSERT OR REPLACE INTO CATEGORIAPRODUCTO VALUES (3, 'Comidas rápidas', 'Hamburguesas y hotdogs', 1, '10:00', '22:00', 1);");
+        db.execSQL("INSERT OR REPLACE INTO CATEGORIAPRODUCTO VALUES (4, 'Postres', 'Dulces típicos', 1, '12:00', '20:00', 1);");
+        db.execSQL("INSERT OR REPLACE INTO CATEGORIAPRODUCTO VALUES (5, 'Platos fuertes', 'Almuerzos tradicionales', 1, '11:00', '15:00', 1);");
 
         // 🍽️ Datos para PRODUCTO
-        db.execSQL("INSERT OR REPLACE INTO PRODUCTO VALUES (1, 1, 'Pupusa de Queso', 'Clásica pupusa salvadoreña');");
-        db.execSQL("INSERT OR REPLACE INTO PRODUCTO VALUES (2, 1, 'Pupusa Revueltas', 'Con chicharrón, queso y frijoles');");
-        db.execSQL("INSERT OR REPLACE INTO PRODUCTO VALUES (3, 2, 'Horchata', 'Bebida tradicional salvadoreña');");
-        db.execSQL("INSERT OR REPLACE INTO PRODUCTO VALUES (4, 3, 'Hamburguesa', 'Con papas y bebida');");
-        db.execSQL("INSERT OR REPLACE INTO PRODUCTO VALUES (5, 4, 'Empanada de Plátano', 'Rellena de leche');");
+        db.execSQL("INSERT OR REPLACE INTO PRODUCTO VALUES (1, 1, 'Pupusa de Queso', 'Clásica pupusa salvadoreña', 1);");
+        db.execSQL("INSERT OR REPLACE INTO PRODUCTO VALUES (2, 1, 'Pupusa Revueltas', 'Con chicharrón, queso y frijoles', 1);");
+        db.execSQL("INSERT OR REPLACE INTO PRODUCTO VALUES (3, 2, 'Horchata', 'Bebida tradicional salvadoreña', 1);");
+        db.execSQL("INSERT OR REPLACE INTO PRODUCTO VALUES (4, 3, 'Hamburguesa', 'Con papas y bebida', 1);");
+        db.execSQL("INSERT OR REPLACE INTO PRODUCTO VALUES (5, 4, 'Empanada de Plátano', 'Rellena de leche', 1);");
 
         // 🏬 Datos para SUCURSAL
-        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (1, 1, 1, 1, 'Sucursal Centro', 'Calle El Progreso', '2200-1111', '08:00', '20:00');");
-        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (2, 2, 2, 2, 'Sucursal Merliot', 'Blvd. Merliot', '2200-2222', '09:00', '21:00');");
-        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (3, 3, 3, 3, 'Sucursal Metapán', 'Av. Central', '2200-3333', '07:00', '19:00');");
-        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (4, 4, 4, 4, 'Sucursal San Miguel', 'Col. Ciudad Pacífica', '2200-4444', '08:30', '19:30');");
-        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (5, 5, 5, 5, 'Sucursal Usulután', 'Centro Usulután', '2200-5555', '08:00', '18:00');");
+        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (1, 1, 1, 1, 'Sucursal Centro', 'Calle El Progreso', '2200-1111', '08:00', '20:00', 1);");
+        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (2, 2, 2, 2, 'Sucursal Merliot', 'Blvd. Merliot', '2200-2222', '09:00', '21:00', 1);");
+        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (3, 3, 3, 3, 'Sucursal Metapán', 'Av. Central', '2200-3333', '07:00', '19:00', 1);");
+        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (4, 4, 4, 4, 'Sucursal San Miguel', 'Col. Ciudad Pacífica', '2200-4444', '08:30', '19:30', 1);");
+        db.execSQL("INSERT OR REPLACE INTO SUCURSAL VALUES (5, 5, 5, 5, 'Sucursal Usulután', 'Centro Usulután', '2200-5555', '08:00', '18:00', 1);");
 
         // 🧑‍🤝‍🧑 Datos para CLIENTE
-        db.execSQL("INSERT OR REPLACE INTO CLIENTE VALUES (1, 200, '7010-1111', 'Carlos', 'Ramírez');");
-        db.execSQL("INSERT OR REPLACE INTO CLIENTE VALUES (2, 201, '7010-2222', 'Ana', 'González');");
-        db.execSQL("INSERT OR REPLACE INTO CLIENTE VALUES (3, 202, '7010-3333', 'Luis', 'Martínez');");
-        db.execSQL("INSERT OR REPLACE INTO CLIENTE VALUES (4, 203, '7010-4444', 'Diana', 'López');");
-        db.execSQL("INSERT OR REPLACE INTO CLIENTE VALUES (5, 204, '7010-5555', 'José', 'Hernández');");
+        db.execSQL("INSERT OR REPLACE INTO CLIENTE VALUES (1, 200, '7010-1111', 'Carlos', 'Ramírez', 1);");
+        db.execSQL("INSERT OR REPLACE INTO CLIENTE VALUES (2, 201, '7010-2222', 'Ana', 'González', 1);");
+        db.execSQL("INSERT OR REPLACE INTO CLIENTE VALUES (3, 202, '7010-3333', 'Luis', 'Martínez', 1);");
+        db.execSQL("INSERT OR REPLACE INTO CLIENTE VALUES (4, 203, '7010-4444', 'Diana', 'López', 1);");
+        db.execSQL("INSERT OR REPLACE INTO CLIENTE VALUES (5, 204, '7010-5555', 'José', 'Hernández', 1);");
 
         // 🛵 Datos para REPARTIDOR
-        db.execSQL("INSERT OR REPLACE INTO REPARTIDOR VALUES (1, 300, 1, 1, 1, 'Moto', 1, '7200-0001', 'Luis', 'Gómez');");
-        db.execSQL("INSERT OR REPLACE INTO REPARTIDOR VALUES (2, 301, 2, 2, 2, 'Bicicleta', 1, '7200-0002', 'Mario', 'Ruiz');");
-        db.execSQL("INSERT OR REPLACE INTO REPARTIDOR VALUES (3, 302, 3, 3, 3, 'Carro', 1, '7200-0003', 'Tatiana', 'Martínez');");
-        db.execSQL("INSERT OR REPLACE INTO REPARTIDOR VALUES (4, 303, 4, 4, 4, 'Moto', 1, '7200-0004', 'Kevin', 'Morales');");
-        db.execSQL("INSERT OR REPLACE INTO REPARTIDOR VALUES (5, 304, 5, 5, 5, 'Camioneta', 1, '7200-0005', 'Sofía', 'Aguilar');");
+        db.execSQL("INSERT OR REPLACE INTO REPARTIDOR VALUES (1, 300, 1, 1, 1, 'Moto', 1, '7200-0001', 'Luis', 'Gómez', 1);");
+        db.execSQL("INSERT OR REPLACE INTO REPARTIDOR VALUES (2, 301, 2, 2, 2, 'Bicicleta', 1, '7200-0002', 'Mario', 'Ruiz', 1);");
+        db.execSQL("INSERT OR REPLACE INTO REPARTIDOR VALUES (3, 302, 3, 3, 3, 'Carro', 1, '7200-0003', 'Tatiana', 'Martínez', 1);");
+        db.execSQL("INSERT OR REPLACE INTO REPARTIDOR VALUES (4, 303, 4, 4, 4, 'Moto', 1, '7200-0004', 'Kevin', 'Morales', 1);");
+        db.execSQL("INSERT OR REPLACE INTO REPARTIDOR VALUES (5, 304, 5, 5, 5, 'Camioneta', 1, '7200-0005', 'Sofía', 'Aguilar', 1);");
 
         // 🎉 Datos para TIPOEVENTO
         db.execSQL("INSERT OR REPLACE INTO TIPOEVENTO VALUES (1, 'Fiesta Infantil', 'Evento privado', 30.00, 300.00);");
@@ -87,11 +87,11 @@ public class BaseDatosSeeder {
         db.execSQL("INSERT OR REPLACE INTO TIPOEVENTO VALUES (5, 'Cena de Fin de Año', 'Convivio navideño', 60.00, 600.00);");
 
         // 📦 Datos para PEDIDO
-        db.execSQL("INSERT OR REPLACE INTO PEDIDO VALUES (1, 1, 1, 1, '2025-05-01 10:00', 'pendiente');");
-        db.execSQL("INSERT OR REPLACE INTO PEDIDO VALUES (2, 2, 2, 2, '2025-05-01 11:00', 'enviado');");
-        db.execSQL("INSERT OR REPLACE INTO PEDIDO VALUES (3, 3, 3, 3, '2025-05-01 12:00', 'entregado');");
-        db.execSQL("INSERT OR REPLACE INTO PEDIDO VALUES (4, 4, 4, 4, '2025-05-01 13:00', 'cancelado');");
-        db.execSQL("INSERT OR REPLACE INTO PEDIDO VALUES (5, 5, 5, 5, '2025-05-01 14:00', 'pendiente');");
+        db.execSQL("INSERT OR REPLACE INTO PEDIDO VALUES (1, 1, 1, 1, 1, '2025-05-01 10:00', 'pendiente');");
+        db.execSQL("INSERT OR REPLACE INTO PEDIDO VALUES (2, 2, 2, 2, 2, '2025-05-01 11:00', 'enviado');");
+        db.execSQL("INSERT OR REPLACE INTO PEDIDO VALUES (3, 3, 3, 3, 3, '2025-05-01 12:00', 'entregado');");
+        db.execSQL("INSERT OR REPLACE INTO PEDIDO VALUES (4, 4, 4, 4, 4, '2025-05-01 13:00', 'cancelado');");
+        db.execSQL("INSERT OR REPLACE INTO PEDIDO VALUES (5, 5, 5, 5, 5, '2025-05-01 14:00', 'pendiente');");
 
         // 🧾 Datos para FACTURA
         db.execSQL("INSERT OR REPLACE INTO FACTURA VALUES (1, 1, '2025-05-01', 50.00, 'efectivo', 1);");
@@ -108,11 +108,11 @@ public class BaseDatosSeeder {
         db.execSQL("INSERT OR REPLACE INTO CREDITO VALUES (5, 5, 1, 45.00, 45.00, '2025-06-01');");
 
         // 🛒 Datos para DATOSPRODUCTO
-        db.execSQL("INSERT OR REPLACE INTO DATOSPRODUCTO VALUES (1, 1, 1, 1.00, 1);");
-        db.execSQL("INSERT OR REPLACE INTO DATOSPRODUCTO VALUES (2, 1, 2, 1.25, 1);");
-        db.execSQL("INSERT OR REPLACE INTO DATOSPRODUCTO VALUES (3, 1, 3, 0.75, 1);");
-        db.execSQL("INSERT OR REPLACE INTO DATOSPRODUCTO VALUES (4, 1, 4, 3.50, 1);");
-        db.execSQL("INSERT OR REPLACE INTO DATOSPRODUCTO VALUES (5, 1, 5, 1.75, 1);");
+        db.execSQL("INSERT OR REPLACE INTO DATOSPRODUCTO VALUES (1, 1, 1.00, 1);");
+        db.execSQL("INSERT OR REPLACE INTO DATOSPRODUCTO VALUES (2, 2, 1.25, 1);");
+        db.execSQL("INSERT OR REPLACE INTO DATOSPRODUCTO VALUES (3, 3, 0.75, 1);");
+        db.execSQL("INSERT OR REPLACE INTO DATOSPRODUCTO VALUES (4, 4, 3.50, 1);");
+        db.execSQL("INSERT OR REPLACE INTO DATOSPRODUCTO VALUES (5, 5, 1.75, 1);");
 
         // 🏠 Datos para DIRECCION
         db.execSQL("INSERT OR REPLACE INTO DIRECCION VALUES (1, 1, 1, 1, 1, 'Col. Escalón #123', 'Casa esquina azul');");
@@ -134,6 +134,5 @@ public class BaseDatosSeeder {
         db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO VALUES (3, 3, 1, 1, 0.75);");
         db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO VALUES (4, 4, 1, 2, 7.00);");
         db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO VALUES (5, 5, 1, 3, 5.25);");
-
     }
 }
