@@ -86,7 +86,6 @@ public class DBHelper extends SQLiteOpenHelper {
         // 7 - tabla de CLIENTE
         db.execSQL("CREATE TABLE CLIENTE ("
                 + "ID_CLIENTE INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "ID_USUARIO INTEGER NOT NULL,"
                 + "TELEFONO_CLIENTE TEXT NOT NULL,"
                 + "NOMBRE_CLIENTE TEXT NOT NULL,"
                 + "APELLIDO_CLIENTE TEXT NOT NULL,"
@@ -132,28 +131,25 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY (ID_SUCURSAL) REFERENCES SUCURSAL(ID_SUCURSAL)"
                 + ");");
 
-        // 11 - tabla de FACTURA
+        // 11 - tabla de FACTURA (1:1 con PEDIDO)
         db.execSQL("CREATE TABLE FACTURA ("
-                + "ID_PEDIDO INTEGER NOT NULL,"
-                + "ID_FACTURA INTEGER NOT NULL,"
+                + "ID_FACTURA INTEGER PRIMARY KEY AUTOINCREMENT,"
+                + "ID_PEDIDO INTEGER NOT NULL UNIQUE,"
                 + "FECHA_EMISION TEXT NOT NULL,"
                 + "MONTO_TOTAL REAL NOT NULL,"
                 + "TIPO_PAGO TEXT NOT NULL,"
                 + "PAGADO INTEGER NOT NULL,"
-                + "PRIMARY KEY (ID_PEDIDO, ID_FACTURA),"
                 + "FOREIGN KEY (ID_PEDIDO) REFERENCES PEDIDO(ID_PEDIDO)"
                 + ");");
 
         // 12 - tabla de CREDITO
         db.execSQL("CREATE TABLE CREDITO ("
-                + "ID_PEDIDO INTEGER NOT NULL,"
+                + "ID_CREDITO INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "ID_FACTURA INTEGER NOT NULL,"
-                + "ID_CREDITO INTEGER NOT NULL,"
                 + "MONTO_PAGADO REAL NOT NULL,"
                 + "SALDO_PENDIENTE REAL NOT NULL,"
                 + "FECHA_LIMITE_PAGO TEXT NOT NULL,"
-                + "PRIMARY KEY (ID_PEDIDO, ID_FACTURA, ID_CREDITO),"
-                + "FOREIGN KEY (ID_PEDIDO, ID_FACTURA) REFERENCES FACTURA(ID_PEDIDO, ID_FACTURA)"
+                + "FOREIGN KEY (ID_FACTURA) REFERENCES FACTURA(ID_FACTURA)"
                 + ");");
 
         // 13 - tabla de DATOSPRODUCTO
@@ -206,59 +202,40 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY (ID_DEPARTAMENTO, ID_MUNICIPIO, ID_DISTRITO) REFERENCES DISTRITO(ID_DEPARTAMENTO, ID_MUNICIPIO, ID_DISTRITO)"
                 + ");");
 
-        // TRIGGERS DE ACTUALIZACIÓN
-
-        // trigger: actualizar estado del pedido a 'entregado' cuando la factura se paga
-        db.execSQL("CREATE TRIGGER trg_actualizar_estado_pedido_factura_pagada "
-                + "AFTER UPDATE OF PAGADO ON FACTURA "
-                + "FOR EACH ROW WHEN NEW.PAGADO = 1 BEGIN "
-                + "UPDATE PEDIDO SET ESTADO_PEDIDO = 'entregado' WHERE ID_PEDIDO = NEW.ID_PEDIDO; "
-                + "END;");
-
-        // trigger: reducir stock cuando se inserta un detalle de pedido
-        db.execSQL("CREATE TRIGGER trg_reducir_stock_producto "
-                + "AFTER INSERT ON DETALLEPEDIDO "
-                + "FOR EACH ROW BEGIN "
-                + "UPDATE DATOSPRODUCTO SET DISPONIBLE_PRODUCTO = DISPONIBLE_PRODUCTO - NEW.CANTIDAD "
-                + "WHERE ID_PRODUCTO = NEW.ID_PRODUCTO AND ID_SUCURSAL = (SELECT ID_SUCURSAL FROM PEDIDO WHERE ID_PEDIDO = NEW.ID_PEDIDO); "
-                + "END;");
-
-        // trigger: bloquear cambio de metodo de pago si ya está pagado
-        db.execSQL("CREATE TRIGGER trg_bloquear_cambio_metodo_pago_si_pagado "
-                + "BEFORE UPDATE OF TIPO_PAGO ON FACTURA "
-                + "FOR EACH ROW WHEN OLD.PAGADO = 1 BEGIN "
-                + "SELECT RAISE(ABORT, 'No se puede cambiar el método de pago una vez pagado'); "
-                + "END;");
-
-        // TRIGGERS SEMÁNTICOS
-
-        // trigger: evitar registrar un pedido con estado inválido
-        db.execSQL("CREATE TRIGGER trg_estado_pedido_valido "
-                + "BEFORE INSERT ON PEDIDO "
-                + "FOR EACH ROW WHEN NEW.ESTADO_PEDIDO NOT IN ('pendiente','enviado','entregado','cancelado') BEGIN "
-                + "SELECT RAISE(ABORT, 'Estado del pedido no es válido'); "
-                + "END;");
-
-        // trigger: asegurar que el monto de una factura sea positivo
-        db.execSQL("CREATE TRIGGER trg_validar_monto_factura "
-                + "BEFORE INSERT ON FACTURA "
-                + "FOR EACH ROW WHEN NEW.MONTO_TOTAL <= 0 BEGIN "
-                + "SELECT RAISE(ABORT, 'El monto total de la factura debe ser mayor a cero'); "
-                + "END;");
-
-        // trigger: evitar eliminar un pedido si tiene factura asociada
-        db.execSQL("CREATE TRIGGER trg_evitar_borrar_pedido_con_factura "
-                + "BEFORE DELETE ON PEDIDO "
-                + "FOR EACH ROW WHEN EXISTS (SELECT 1 FROM FACTURA WHERE ID_PEDIDO = OLD.ID_PEDIDO) BEGIN "
-                + "SELECT RAISE(ABORT, 'No se puede eliminar el pedido porque tiene una factura asociada'); "
-                + "END;");
-
-        // trigger: evitar eliminar un cliente si tiene pedidos activos
-        db.execSQL("CREATE TRIGGER trg_evitar_borrar_cliente_con_pedidos "
-                + "BEFORE DELETE ON CLIENTE "
-                + "FOR EACH ROW WHEN EXISTS (SELECT 1 FROM PEDIDO WHERE ID_CLIENTE = OLD.ID_CLIENTE AND ESTADO_PEDIDO NOT IN ('entregado','cancelado')) BEGIN "
-                + "SELECT RAISE(ABORT, 'No se puede eliminar el cliente porque tiene pedidos activos'); "
-                + "END;");
+//        // TRIGGERS
+//        // 1) Actualiza estado de pedido y disponibilidad de repartidor al pagar factura
+//        db.execSQL("CREATE TRIGGER trg_actualizar_estado_pedido_factura_pagada\n"
+//                + "AFTER UPDATE OF PAGADO ON FACTURA\n"
+//                + "FOR EACH ROW WHEN NEW.PAGADO = 1 BEGIN\n"
+//                + "  UPDATE PEDIDO SET ESTADO_PEDIDO = 'entregado' WHERE ID_PEDIDO = NEW.ID_PEDIDO;\n"
+//                + "  UPDATE REPARTIDOR SET DISPONIBLE = 1 WHERE ID_REPARTIDOR = (SELECT ID_REPARTIDOR FROM PEDIDO WHERE ID_PEDIDO = NEW.ID_PEDIDO);\n"
+//                + "END;");
+//
+//        // 2) Marca factura pagada cuando crédito se agota
+//        db.execSQL("CREATE TRIGGER trg_factura_pagada_por_credito\n"
+//                + "AFTER UPDATE OF SALDO_PENDIENTE ON CREDITO\n"
+//                + "FOR EACH ROW WHEN NEW.SALDO_PENDIENTE = 0 AND OLD.SALDO_PENDIENTE != 0 BEGIN\n"
+//                + "  UPDATE FACTURA SET PAGADO = 1 WHERE ID_FACTURA = NEW.ID_FACTURA;\n"
+//                + "END;");
+//
+//        // 3) Validaciones semánticas
+//        db.execSQL("CREATE TRIGGER trg_estado_pedido_valido\n"
+//                + "BEFORE INSERT ON PEDIDO\n"
+//                + "FOR EACH ROW WHEN NEW.ESTADO_PEDIDO NOT IN ('pendiente','enviado','entregado','cancelado') BEGIN\n"
+//                + "  SELECT RAISE(ABORT, 'Estado del pedido no es válido');\n"
+//                + "END;");
+//        db.execSQL("CREATE TRIGGER trg_validar_monto_factura\n"
+//                + "BEFORE INSERT ON FACTURA\n"
+//                + "FOR EACH ROW WHEN NEW.MONTO_TOTAL <= 0 BEGIN\n"
+//                + "  SELECT RAISE(ABORT, 'El monto total de la factura debe ser mayor a cero');\n"
+//                + "END;");
+//
+//        // 4) Evitar eliminar cliente con pedidos activos
+//        db.execSQL("CREATE TRIGGER trg_evitar_borrar_cliente_con_pedidos\n"
+//                + "BEFORE DELETE ON CLIENTE\n"
+//                + "FOR EACH ROW WHEN EXISTS(SELECT 1 FROM PEDIDO WHERE ID_CLIENTE = OLD.ID_CLIENTE AND ESTADO_PEDIDO NOT IN ('entregado','cancelado')) BEGIN\n"
+//                + "  SELECT RAISE(ABORT, 'No se puede eliminar el cliente porque tiene pedidos activos');\n"
+//                + "END;");
     }
 
     @Override
