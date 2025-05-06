@@ -9,15 +9,26 @@ public class Sucursal {
     private String nombreSucursal;
     private String direccionSucursal;
     private String telefonoSucursal;
-    private String horarioApertura;
-    private String horarioCierre;
+    private String horarioApertura;     // corresponde a HORARIO_APERTURA_SUCURSAL
+    private String horarioCierre;       // corresponde a HORARIO_CIERRE_SUCURSAL
+    private int activoSucursal;         // corresponde a ACTIVO_SUCURSAL (1 = activo, 0 = inactivo)
 
     public Sucursal() {
     }
 
-    public Sucursal(int idSucursal, int idDepartamento, int idMunicipio, int idDistrito,
-                    String nombreSucursal, String direccionSucursal,
-                    String telefonoSucursal, String horarioApertura, String horarioCierre) {
+    /**
+     * Constructor completo incluyendo estado activo.
+     */
+    public Sucursal(int idSucursal,
+                    int idDepartamento,
+                    int idMunicipio,
+                    int idDistrito,
+                    String nombreSucursal,
+                    String direccionSucursal,
+                    String telefonoSucursal,
+                    String horarioApertura,
+                    String horarioCierre,
+                    int activoSucursal) {
         this.idSucursal = idSucursal;
         this.idDepartamento = idDepartamento;
         this.idMunicipio = idMunicipio;
@@ -27,6 +38,24 @@ public class Sucursal {
         this.telefonoSucursal = telefonoSucursal;
         this.horarioApertura = horarioApertura;
         this.horarioCierre = horarioCierre;
+        this.activoSucursal = activoSucursal;
+    }
+
+    /**
+     * Constructor sin id (para inserciones) y con activo por defecto a 1.
+     */
+    public Sucursal(int idDepartamento,
+                    int idMunicipio,
+                    int idDistrito,
+                    String nombreSucursal,
+                    String direccionSucursal,
+                    String telefonoSucursal,
+                    String horarioApertura,
+                    String horarioCierre) {
+        this(0, idDepartamento, idMunicipio, idDistrito,
+                nombreSucursal, direccionSucursal,
+                telefonoSucursal, horarioApertura, horarioCierre,
+                1);
     }
 
     public int getIdSucursal() {
@@ -99,5 +128,13 @@ public class Sucursal {
 
     public void setHorarioCierre(String horarioCierre) {
         this.horarioCierre = horarioCierre;
+    }
+
+    public int getActivoSucursal() {
+        return activoSucursal;
+    }
+
+    public void setActivoSucursal(int activoSucursal) {
+        this.activoSucursal = activoSucursal;
     }
 }
