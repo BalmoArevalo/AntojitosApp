@@ -1,114 +1,152 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
+        <!-- Título -->
         <TextView
-            android:id="@+id/text_editar_repartidor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Editar repartidor"
-            android:textSize="18sp"
+            android:text="Editar Repartidor"
             android:textStyle="bold"
-            android:padding="8dp"
-            android:gravity="center" />
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
 
-        <!-- Buscar por ID -->
-        <EditText
-            android:id="@+id/editIdRepartidor"
-            android:hint="ID Repartidor"
-            android:inputType="number"
+        <!-- Spinner para seleccionar repartidor -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selecciona un repartidor"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/spinnerRepartidor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_marginBottom="12dp" />
 
+        <!-- Botón Buscar -->
         <Button
             android:id="@+id/btnBuscar"
-            android:text="Buscar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" />
+            android:text="Buscar"
+            android:layout_marginBottom="16dp" />
 
-        <!-- Campos a editar -->
+        <!-- Nombre -->
         <EditText
-            android:id="@+id/editIdUsuario"
-            android:hint="ID Usuario"
-            android:inputType="number"
+            android:id="@+id/editNombreRepartidor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Nombre"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
 
+        <!-- Apellido -->
         <EditText
-            android:id="@+id/editIdDepartamento"
-            android:hint="ID Departamento"
-            android:inputType="number"
+            android:id="@+id/editApellidoRepartidor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Apellido"
+            android:inputType="textPersonName"
+            android:layout_marginTop="8dp"
+            android:minHeight="48dp" />
 
+        <!-- Teléfono -->
         <EditText
-            android:id="@+id/editIdMunicipio"
-            android:hint="ID Municipio"
-            android:inputType="number"
+            android:id="@+id/editTelefonoRepartidor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editIdDistrito"
-            android:hint="ID Distrito"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editTipoVehiculo"
-            android:hint="Tipo de Vehículo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editDisponible"
-            android:hint="Disponible (0 = No, 1 = Sí)"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editTelefono"
+            android:layout_height="wrap_content"
             android:hint="Teléfono"
             android:inputType="phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_marginTop="8dp"
+            android:minHeight="48dp" />
 
-        <EditText
-            android:id="@+id/editNombre"
-            android:hint="Nombre"
+        <!-- Tipo de Vehículo -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tipo de Vehículo"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp" />
+        <Spinner
+            android:id="@+id/spinnerTipoVehiculo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:minHeight="48dp" />
 
-        <EditText
-            android:id="@+id/editApellido"
-            android:hint="Apellido"
+        <!-- Departamento -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Departamento"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp" />
+        <Spinner
+            android:id="@+id/spinnerDepartamento"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:minHeight="48dp" />
+
+        <!-- Municipio -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Municipio"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp" />
+        <Spinner
+            android:id="@+id/spinnerMunicipio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:minHeight="48dp" />
+
+        <!-- Distrito -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distrito"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp" />
+        <Spinner
+            android:id="@+id/spinnerDistrito"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:minHeight="48dp" />
+
+        <!-- Switch para estado activo/inactivo -->
+        <Switch
+            android:id="@+id/switchActivoRepartidor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:checked="true"
+            android:minHeight="48dp"
+            android:text="Repartidor activo" />
 
         <!-- Botones -->
         <Button
-            android:id="@+id/btnActualizar"
-            android:text="Actualizar"
+            android:id="@+id/btnActualizarRepartidor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Actualizar"
             android:layout_marginTop="16dp" />
 
         <Button
-            android:id="@+id/btnLimpiar"
-            android:text="Limpiar"
+            android:id="@+id/btnLimpiarCampos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Limpiar"
             android:layout_marginTop="8dp" />
 
     </LinearLayout>

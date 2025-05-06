@@ -1,110 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
+        <!-- Título -->
         <TextView
-            android:id="@+id/text_consultar_repartidor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Consultar repartidor"
-            android:textSize="18sp"
+            android:text="Consultar Repartidor"
             android:textStyle="bold"
-            android:padding="8dp"
-            android:gravity="center" />
+            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_marginBottom="16dp" />
 
-        <!-- Buscar por ID_REPARTIDOR -->
-        <EditText
-            android:id="@+id/editIdRepartidor"
-            android:hint="ID Repartidor"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <!-- Spinner de repartidores -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Selecciona un repartidor"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnBuscar"
-            android:text="Buscar"
+        <Spinner
+            android:id="@+id/spinnerRepartidor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="12dp" />
+            android:layout_marginBottom="12dp"
+            android:minHeight="48dp" />
 
-        <!-- Campos informativos (rellenados tras buscar) -->
-        <EditText
-            android:id="@+id/editIdUsuario"
-            android:hint="ID Usuario"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editIdDepartamento"
-            android:hint="ID Departamento"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editIdMunicipio"
-            android:hint="ID Municipio"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editIdDistrito"
-            android:hint="ID Distrito"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editTipoVehiculo"
-            android:hint="Tipo de Vehículo"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editDisponible"
-            android:hint="Disponible (0 = No, 1 = Sí)"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editTelefono"
-            android:hint="Teléfono"
-            android:enabled="false"
-            android:inputType="phone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editNombre"
-            android:hint="Nombre"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editApellido"
-            android:hint="Apellido"
-            android:enabled="false"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
+        <!-- Botón para cargar detalles -->
         <Button
-            android:id="@+id/btnLimpiar"
-            android:text="Limpiar"
+            android:id="@+id/btnConsultarRepartidor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mostrar Detalles" />
+
+        <!-- Resultado de la consulta -->
+        <TextView
+            android:id="@+id/tvResultado"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:background="#EEEEEE"
+            android:padding="12dp"
+            android:text="Aquí se mostrará la información del repartidor seleccionado."
+            android:textColor="#000000"
+            android:textIsSelectable="true" />
+
     </LinearLayout>
 </ScrollView>
