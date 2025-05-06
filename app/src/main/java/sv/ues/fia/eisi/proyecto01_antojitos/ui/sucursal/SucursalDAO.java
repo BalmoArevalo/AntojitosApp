@@ -15,6 +15,9 @@ public class SucursalDAO {
         this.db = db;
     }
 
+    /**
+     * Inserta una sucursal. Por defecto activo = 1.
+     */
     public long insertar(Sucursal s) {
         ContentValues values = new ContentValues();
         values.put("ID_DEPARTAMENTO", s.getIdDepartamento());
@@ -25,53 +28,59 @@ public class SucursalDAO {
         values.put("TELEFONO_SUCURSAL", s.getTelefonoSucursal());
         values.put("HORARIO_APERTURA_SUCURSAL", s.getHorarioApertura());
         values.put("HORARIO_CIERRE_SUCURSAL", s.getHorarioCierre());
-
+        values.put("ACTIVO_SUCURSAL", s.getActivoSucursal());
         return db.insert("SUCURSAL", null, values);
     }
 
+    /**
+     * Obtiene sucursal por ID (sin filtrar por estado).
+     */
     public Sucursal obtenerPorId(int idSucursal) {
-        Cursor c = db.rawQuery("SELECT * FROM SUCURSAL WHERE ID_SUCURSAL = ?", new String[]{String.valueOf(idSucursal)});
+        Cursor c = db.rawQuery(
+                "SELECT * FROM SUCURSAL WHERE ID_SUCURSAL = ?",
+                new String[]{String.valueOf(idSucursal)});
         Sucursal s = null;
-
         if (c.moveToFirst()) {
-            s = new Sucursal();
-            s.setIdSucursal(c.getInt(0));
-            s.setIdDepartamento(c.getInt(1));
-            s.setIdMunicipio(c.getInt(2));
-            s.setIdDistrito(c.getInt(3));
-            s.setNombreSucursal(c.getString(4));
-            s.setDireccionSucursal(c.getString(5));
-            s.setTelefonoSucursal(c.getString(6));
-            s.setHorarioApertura(c.getString(7));
-            s.setHorarioCierre(c.getString(8));
+            s = cursorToSucursal(c);
         }
         c.close();
         return s;
     }
 
-    public List<Sucursal> obtenerTodas() {
+    /**
+     * Devuelve todas las sucursales (activas e inactivas).
+     */
+    public List<Sucursal> obtenerTodos() {
         List<Sucursal> lista = new ArrayList<>();
         Cursor c = db.rawQuery("SELECT * FROM SUCURSAL", null);
-
         if (c.moveToFirst()) {
             do {
-                Sucursal s = new Sucursal();
-                s.setIdSucursal(c.getInt(0));
-                s.setIdDepartamento(c.getInt(1));
-                s.setIdMunicipio(c.getInt(2));
-                s.setIdDistrito(c.getInt(3));
-                s.setNombreSucursal(c.getString(4));
-                s.setDireccionSucursal(c.getString(5));
-                s.setTelefonoSucursal(c.getString(6));
-                s.setHorarioApertura(c.getString(7));
-                s.setHorarioCierre(c.getString(8));
-                lista.add(s);
+                lista.add(cursorToSucursal(c));
             } while (c.moveToNext());
         }
         c.close();
         return lista;
     }
 
+    /**
+     * Devuelve sólo las sucursales activas.
+     */
+    public List<Sucursal> obtenerActivos() {
+        List<Sucursal> lista = new ArrayList<>();
+        Cursor c = db.rawQuery(
+                "SELECT * FROM SUCURSAL WHERE ACTIVO_SUCURSAL = 1", null);
+        if (c.moveToFirst()) {
+            do {
+                lista.add(cursorToSucursal(c));
+            } while (c.moveToNext());
+        }
+        c.close();
+        return lista;
+    }
+
+    /**
+     * Actualiza todos los campos de la sucursal, incluyendo estado activo.
+     */
     public int actualizar(Sucursal s) {
         ContentValues values = new ContentValues();
         values.put("ID_DEPARTAMENTO", s.getIdDepartamento());
@@ -82,11 +91,40 @@ public class SucursalDAO {
         values.put("TELEFONO_SUCURSAL", s.getTelefonoSucursal());
         values.put("HORARIO_APERTURA_SUCURSAL", s.getHorarioApertura());
         values.put("HORARIO_CIERRE_SUCURSAL", s.getHorarioCierre());
-
-        return db.update("SUCURSAL", values, "ID_SUCURSAL = ?", new String[]{String.valueOf(s.getIdSucursal())});
+        values.put("ACTIVO_SUCURSAL", s.getActivoSucursal());
+        return db.update(
+                "SUCURSAL", values,
+                "ID_SUCURSAL = ?", new String[]{String.valueOf(s.getIdSucursal())}
+        );
     }
 
+    /**
+     * Soft delete: marca la sucursal como inactiva.
+     */
     public int eliminar(int idSucursal) {
-        return db.delete("SUCURSAL", "ID_SUCURSAL = ?", new String[]{String.valueOf(idSucursal)});
+        ContentValues values = new ContentValues();
+        values.put("ACTIVO_SUCURSAL", 0);
+        return db.update(
+                "SUCURSAL", values,
+                "ID_SUCURSAL = ?", new String[]{String.valueOf(idSucursal)}
+        );
+    }
+
+    /**
+     * Mapea un cursor a un objeto Sucursal.
+     */
+    private Sucursal cursorToSucursal(Cursor c) {
+        Sucursal s = new Sucursal();
+        s.setIdSucursal(c.getInt(c.getColumnIndexOrThrow("ID_SUCURSAL")));
+        s.setIdDepartamento(c.getInt(c.getColumnIndexOrThrow("ID_DEPARTAMENTO")));
+        s.setIdMunicipio(c.getInt(c.getColumnIndexOrThrow("ID_MUNICIPIO")));
+        s.setIdDistrito(c.getInt(c.getColumnIndexOrThrow("ID_DISTRITO")));
+        s.setNombreSucursal(c.getString(c.getColumnIndexOrThrow("NOMBRE_SUCURSAL")));
+        s.setDireccionSucursal(c.getString(c.getColumnIndexOrThrow("DIRECCION_SUCURSAL")));
+        s.setTelefonoSucursal(c.getString(c.getColumnIndexOrThrow("TELEFONO_SUCURSAL")));
+        s.setHorarioApertura(c.getString(c.getColumnIndexOrThrow("HORARIO_APERTURA_SUCURSAL")));
+        s.setHorarioCierre(c.getString(c.getColumnIndexOrThrow("HORARIO_CIERRE_SUCURSAL")));
+        s.setActivoSucursal(c.getInt(c.getColumnIndexOrThrow("ACTIVO_SUCURSAL")));
+        return s;
     }
 }
