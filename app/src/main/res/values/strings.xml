@@ -313,13 +313,31 @@
     <string name="factura_editar_label_estado">Estado Actual:</string>
     <string name="factura_editar_label_es_credito">Es Crédito:</string>
     <string name="factura_editar_btn_actualizar">Actualizar Factura</string>
-    <string name="factura_editar_toast_exito">Factura ID %1$d actualizada</string>
-    <string name="factura_editar_toast_error">Error al actualizar factura</string>
-    <string name="factura_editar_toast_no_seleccion">Seleccione una factura para editar</string>
+    <string name="factura_editar_btn_reactivar">Reactivar Factura</string> <string name="factura_editar_toast_exito">Factura ID %1$d actualizada</string>
+    <string name="factura_editar_toast_reactivada">Factura ID %1$d Reactivada (Estado: Pendiente)</string> <string name="factura_editar_toast_error">Error al actualizar factura</string>
+    <string name="factura_editar_toast_error_reactivar">Error al reactivar la factura</string> <string name="factura_editar_toast_no_seleccion">Seleccione una factura para editar</string>
     <string name="factura_editar_toast_error_carga">Error cargando datos de factura</string>
     <string name="factura_editar_toast_fecha_requerida">Ingrese la fecha de emisión</string>
     <string name="factura_editar_toast_tipo_pago_requerido">Seleccione un tipo de pago</string>
+    <string name="factura_editar_estado_destino_reactivada">Pendiente</string>
 
-    
+    <!-- Eliminar Factura-->
+    <string name="factura_eliminar_title">Anular Factura</string> <string name="factura_eliminar_label_seleccionar">Seleccione Factura a Anular:</string>
+    <string name="factura_eliminar_label_detalles">--- Detalles de la Factura ---</string>
+    <string name="factura_eliminar_label_id_factura">ID Factura:</string>
+    <string name="factura_eliminar_label_id_pedido">ID Pedido Asociado:</string>
+    <string name="factura_eliminar_label_fecha">Fecha Emisión:</string>
+    <string name="factura_eliminar_label_monto">Monto Total:</string>
+    <string name="factura_eliminar_label_tipo_pago">Tipo Pago:</string>
+    <string name="factura_eliminar_label_estado">Estado Actual:</string>
+    <string name="factura_eliminar_label_es_credito">Es Crédito:</string>
+    <string name="factura_eliminar_btn_anular">Confirmar Anulación</string> <string name="factura_eliminar_toast_exito">Factura ID %1$d Anulada</string>
+    <string name="factura_eliminar_toast_error">Error al anular la factura</string>
+    <string name="factura_eliminar_toast_no_seleccion">Seleccione una factura para anular</string>
+    <string name="factura_eliminar_toast_error_carga">Error cargando datos de factura</string>
+    <string name="factura_eliminar_toast_es_credito">No se pueden anular facturas a crédito desde esta opción.</string>
+    <string name="factura_eliminar_toast_ya_anulada">Esta factura ya está anulada.</string>
+    <string name="factura_eliminar_no_facturas_disponibles">No hay facturas disponibles para anular.</string>
+
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
 </resources>

@@ -84,7 +84,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:hint="@string/factura_editar_hint_fecha"
-                android:focusable="false" android:clickable="true"  android:inputType="date"
+                android:focusable="false"
+                android:clickable="true"
+                android:inputType="date"
                 android:minHeight="48dp"/>
 
             <TextView
@@ -139,9 +141,16 @@
                 android:id="@+id/btnActualizarFacturaEditar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/factura_editar_btn_actualizar"/>
-
-        </LinearLayout>
+                android:layout_marginBottom="8dp"
+                android:text="@string/factura_editar_btn_actualizar"
+                android:visibility="gone"
+                tools:visibility="visible"/> <Button
+            android:id="@+id/btnReactivarFactura"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/factura_editar_btn_reactivar"
+            android:visibility="gone"
+            tools:visibility="visible"/> </LinearLayout>
 
     </LinearLayout>
 </ScrollView>
