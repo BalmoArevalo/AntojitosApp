@@ -18,6 +18,7 @@ import sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido.Pedido;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido.PedidoDAO;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.producto.Producto;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.producto.ProductoDAO;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.datosProducto.*;
 
 public class DetallePedidoEditarActivity extends AppCompatActivity {
 
@@ -200,11 +201,39 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
             return;
         }
 
-        int cantidad = Integer.parseInt(cantidadStr);
-        double subtotal = cantidad * precioActual;
+        int nuevaCantidad = Integer.parseInt(cantidadStr);
+        int antiguaCantidad = detalleActual.getCantidad();
+        int diferencia = nuevaCantidad - antiguaCantidad;
+
+        int idSucursal = pedidosMap.get(spinnerPedido.getSelectedItem().toString()).getIdSucursal();
+        DatosProductoDAO datosProductoDAO = new DatosProductoDAO(db);
+        DatosProducto dp = datosProductoDAO.find(idSucursal, productoSeleccionado.getIdProducto());
+
+        if (dp == null) {
+            Toast.makeText(this, "No hay datos del producto en esta sucursal", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Si aumenta la cantidad
+        if (diferencia > 0 && diferencia > dp.getStock()) {
+            Toast.makeText(this, "Stock insuficiente. Solo quedan " + dp.getStock(), Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        // Actualizar stock si cambió la cantidad
+        if (diferencia != 0) {
+            dp.setStock(dp.getStock() - diferencia);
+            int actualizado = datosProductoDAO.update(dp);
+            if (actualizado <= 0) {
+                Toast.makeText(this, "Error al actualizar stock", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        }
+
+        double subtotal = nuevaCantidad * precioActual;
 
         detalleActual.setIdProducto(productoSeleccionado.getIdProducto());
-        detalleActual.setCantidad(cantidad);
+        detalleActual.setCantidad(nuevaCantidad);
         detalleActual.setSubtotal(subtotal);
 
         int filas = detallePedidoDAO.actualizar(detalleActual);
@@ -212,9 +241,13 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
             Toast.makeText(this, "Detalle actualizado correctamente", Toast.LENGTH_SHORT).show();
             resetearFormulario();
         } else {
+            // Revertir stock en caso de error
+            dp.setStock(dp.getStock() + diferencia);
+            datosProductoDAO.update(dp);
             Toast.makeText(this, "Error al actualizar el detalle", Toast.LENGTH_SHORT).show();
         }
     }
+
 
     private void limpiarDetalles() {
         spinnerDetalle.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Collections.singletonList("Seleccione")));

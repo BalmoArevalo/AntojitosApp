@@ -16,6 +16,7 @@ import sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido.Pedido;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido.PedidoDAO;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.producto.Producto;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.producto.ProductoDAO;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.datosProducto.*;
 
 public class DetallePedidoCrearActivity extends AppCompatActivity {
 
@@ -168,20 +169,47 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
         }
 
         int cantidad = Integer.parseInt(cantidadStr);
+        int idSucursal = pedidoSeleccionado.getIdSucursal();
+
+        // Validar stock
+        DatosProductoDAO datosProductoDAO = new DatosProductoDAO(db);
+        DatosProducto dp = datosProductoDAO.find(idSucursal, productoSeleccionado.getIdProducto());
+
+        if (dp == null) {
+            Toast.makeText(this, "No hay datos del producto en esta sucursal", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (cantidad > dp.getStock()) {
+            Toast.makeText(this, "Stock insuficiente. Solo quedan " + dp.getStock(), Toast.LENGTH_LONG).show();
+            return;
+        }
+
         double subtotal = cantidad * precioActual;
 
-        // Armar objeto y guardar
+        // Preparar objeto
         DetallePedido detalle = new DetallePedido();
         detalle.setIdPedido(pedidoSeleccionado.getIdPedido());
         detalle.setIdProducto(productoSeleccionado.getIdProducto());
         detalle.setCantidad(cantidad);
         detalle.setSubtotal(subtotal);
 
+        // Actualizar stock primero
+        dp.setStock(dp.getStock() - cantidad);
+        int actualizado = datosProductoDAO.update(dp);
+        if (actualizado <= 0) {
+            Toast.makeText(this, "Error al actualizar el stock", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         long idInsertado = detallePedidoDAO.insertar(detalle);
         if (idInsertado > 0) {
             Toast.makeText(this, "Detalle insertado (ID: " + idInsertado + ")", Toast.LENGTH_LONG).show();
             resetearFormulario();
         } else {
+            // Revertir el stock si falla
+            dp.setStock(dp.getStock() + cantidad);
+            datosProductoDAO.update(dp);
             Toast.makeText(this, "Error al insertar detalle", Toast.LENGTH_SHORT).show();
         }
     }

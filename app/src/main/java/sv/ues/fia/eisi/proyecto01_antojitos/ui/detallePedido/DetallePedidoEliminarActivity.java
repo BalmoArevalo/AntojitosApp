@@ -15,6 +15,7 @@ import sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido.Pedido;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido.PedidoDAO;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.producto.Producto;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.producto.ProductoDAO;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.datosProducto.*;
 
 public class DetallePedidoEliminarActivity extends AppCompatActivity {
 
@@ -129,18 +130,38 @@ public class DetallePedidoEliminarActivity extends AppCompatActivity {
     private void eliminarDetalle() {
         if (detalleSeleccionado == null) return;
 
-        // Mostrar diálogo de confirmación
         new android.app.AlertDialog.Builder(this)
                 .setTitle("Confirmar eliminación")
                 .setMessage("¿Estás seguro de que deseas eliminar este detalle del pedido?")
                 .setPositiveButton("Sí", (dialog, which) -> {
                     int idPedido = detalleSeleccionado.getIdPedido();
+                    int idProducto = detalleSeleccionado.getIdProducto();
+                    int cantidad = detalleSeleccionado.getCantidad();
 
+                    // Obtener sucursal del pedido
+                    Pedido pedido = pedidoDAO.consultarPorId(idPedido);
+                    if (pedido == null) {
+                        Toast.makeText(this, "Error al obtener el pedido", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    int idSucursal = pedido.getIdSucursal();
+
+                    // Devolver stock
+                    DatosProductoDAO datosProductoDAO = new DatosProductoDAO(db);
+                    DatosProducto dp = datosProductoDAO.find(idSucursal, idProducto);
+                    if (dp != null) {
+                        dp.setStock(dp.getStock() + cantidad);
+                        datosProductoDAO.update(dp);
+                    }
+
+                    // Eliminar detalle
                     int filas = detallePedidoDAO.eliminar(detalleSeleccionado.getIdDetallePedido());
                     if (filas > 0) {
                         Toast.makeText(this, "Detalle eliminado correctamente", Toast.LENGTH_SHORT).show();
                         limpiarDetalles();
                         cargarDetalles(idPedido);
+                        detalleSeleccionado = null;
                     } else {
                         Toast.makeText(this, "Error al eliminar el detalle", Toast.LENGTH_SHORT).show();
                     }
@@ -148,4 +169,5 @@ public class DetallePedidoEliminarActivity extends AppCompatActivity {
                 .setNegativeButton("Cancelar", null)
                 .show();
     }
+
 }
