@@ -300,5 +300,26 @@
     <string name="factura_consultar_s_valor_no">No</string>
     <string name="factura_consultar_s_valor_no_definido">N/A</string>
 
+    <!-- Editar Factura-->
+    <string name="factura_editar_title">Editar Factura</string>
+    <string name="factura_editar_label_seleccionar">Seleccione Factura a Editar:</string>
+    <string name="factura_editar_label_detalles">--- Detalles de la Factura ---</string>
+    <string name="factura_editar_label_id_factura">ID Factura:</string>
+    <string name="factura_editar_label_id_pedido">ID Pedido Asociado:</string>
+    <string name="factura_editar_label_fecha">Fecha Emisión (Editable):</string>
+    <string name="factura_editar_hint_fecha">Tocar para seleccionar fecha</string>
+    <string name="factura_editar_label_monto">Monto Total:</string>
+    <string name="factura_editar_label_tipo_pago">Tipo Pago (Editable):</string>
+    <string name="factura_editar_label_estado">Estado Actual:</string>
+    <string name="factura_editar_label_es_credito">Es Crédito:</string>
+    <string name="factura_editar_btn_actualizar">Actualizar Factura</string>
+    <string name="factura_editar_toast_exito">Factura ID %1$d actualizada</string>
+    <string name="factura_editar_toast_error">Error al actualizar factura</string>
+    <string name="factura_editar_toast_no_seleccion">Seleccione una factura para editar</string>
+    <string name="factura_editar_toast_error_carga">Error cargando datos de factura</string>
+    <string name="factura_editar_toast_fecha_requerida">Ingrese la fecha de emisión</string>
+    <string name="factura_editar_toast_tipo_pago_requerido">Seleccione un tipo de pago</string>
+
+    
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
 </resources>
