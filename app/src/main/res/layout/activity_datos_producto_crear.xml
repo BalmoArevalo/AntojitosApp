@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
+    android:id="@+id/scroll_crear_datos_producto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -17,58 +17,87 @@
             android:text="Crear Datos Producto"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:padding="8dp"
-            android:gravity="center" />
+            android:gravity="center"
+            android:padding="8dp" />
 
-        <EditText
-            android:id="@+id/editIdListaProducto"
-            android:hint="ID Lista Producto (No Editable)"
-            android:inputType="number"
+        <!-- Selección de Sucursal -->
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false" />
+            android:text="Sucursal:"
+            android:layout_marginTop="12dp"/>
 
-        <EditText
-            android:id="@+id/editIdSucursal"
-            android:hint="ID Sucursal"
-            android:inputType="number"
+        <Spinner
+            android:id="@+id/spinnerSucursal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:minHeight="48dp" />
 
-        <EditText
-            android:id="@+id/editIdProducto"
-            android:hint="ID Producto"
-            android:inputType="number"
+        <!-- Selección de Producto -->
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Producto:"
+            android:layout_marginTop="12dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerProducto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp" />
+
+        <Button
+            android:id="@+id/btnCrearProducto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Crear Producto"
+            android:layout_marginTop="8dp"/>
+
+        <!-- Precio -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Precio (USD):"
+            android:layout_marginTop="12dp"/>
 
         <EditText
             android:id="@+id/editPrecio"
-            android:hint="Precio"
-            android:inputType="numberDecimal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editDisponible"
-            android:hint="Disponible (0 = No, 1 = Sí)"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <Button
-            android:id="@+id/btnGuardar"
-            android:text="Guardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp" />
+            android:hint="Ingrese precio"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp" />
+
+        <!-- Stock -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stock:"
+            android:layout_marginTop="12dp"/>
+
+        <EditText
+            android:id="@+id/editStock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ingrese stock"
+            android:inputType="number"
+            android:minHeight="48dp" />
+
+        <!-- Botones de acción -->
+        <Button
+            android:id="@+id/btnGuardar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Guardar"
+            android:layout_marginTop="20dp" />
 
         <Button
             android:id="@+id/btnLimpiar"
-            android:text="Limpiar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="Limpiar"
             android:layout_marginTop="8dp" />
 
     </LinearLayout>
+
 </ScrollView>
