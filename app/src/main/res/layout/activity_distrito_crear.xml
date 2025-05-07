@@ -1,160 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.distrito.DistritoCrearActivity">
+    android:orientation="vertical"
+    android:padding="16dp">
 
-    <!-- Título principal -->
-    <TextView
-        android:id="@+id/textViewTitle"
-        android:layout_width="wrap_content"
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/distrito_crear_title"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
 
-    <!-- Formulario de entrada -->
-    <LinearLayout
-        android:id="@+id/formLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="16dp"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/textViewTitle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- ID Departamento -->
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="8dp">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <EditText
-                android:id="@+id/editTextDepartamentoId"
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/distrito_departamento_id"
-                android:inputType="number"
-                android:padding="16dp"
-                android:background="@android:color/transparent" />
-        </androidx.cardview.widget.CardView>
+                android:text="Crear Distrito"
+                android:textAlignment="center"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="24dp"/>
 
-        <!-- ID Municipio -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="8dp">
-
-            <EditText
-                android:id="@+id/editTextMunicipioId"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/distrito_municipio_id"
-                android:inputType="number"
-                android:padding="16dp"
-                android:background="@android:color/transparent" />
-        </androidx.cardview.widget.CardView>
+                android:layout_marginBottom="16dp"
+                android:hint="Departamento">
 
-        <!-- ID Distrito -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="8dp">
+                <AutoCompleteTextView
+                    android:id="@+id/spinnerDepartamento"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"/>
 
-            <EditText
-                android:id="@+id/editTextDistritoId"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/distrito_id"
-                android:inputType="number"
-                android:padding="16dp"
-                android:background="@android:color/transparent" />
-        </androidx.cardview.widget.CardView>
+                android:layout_marginBottom="16dp"
+                android:hint="Municipio">
 
-        <!-- Nombre -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="8dp">
+                <AutoCompleteTextView
+                    android:id="@+id/spinnerMunicipio"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="none"/>
 
-            <EditText
-                android:id="@+id/editTextNombre"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/distrito_nombre"
-                android:inputType="textPersonName"
-                android:padding="16dp"
-                android:background="@android:color/transparent" />
-        </androidx.cardview.widget.CardView>
+                android:layout_marginBottom="16dp"
+                android:hint="Nombre del Distrito">
 
-        <!-- Código Postal -->
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="8dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtNombreDistrito"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"/>
 
-            <EditText
-                android:id="@+id/editTextCodigoPostal"
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/distrito_codigo_postal"
-                android:inputType="number"
-                android:padding="16dp"
-                android:background="@android:color/transparent" />
-        </androidx.cardview.widget.CardView>
-    </LinearLayout>
+                android:layout_marginBottom="24dp"
+                android:hint="Código Postal">
 
-    <!-- Botones de acción -->
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/formLayout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="16dp">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txtCodigoPostal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"/>
 
-        <!-- Botón Guardar -->
-        <Button
-            android:id="@+id/buttonGuardarDistrito"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/distrito_btn_guardar"
-            android:backgroundTint="?attr/colorPrimary"
-            android:textColor="@android:color/white"
-            android:layout_marginEnd="8dp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Botón Limpiar -->
-        <Button
-            android:id="@+id/buttonLimpiarCampos"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/distrito_btn_limpiar"
-            android:backgroundTint="@android:color/darker_gray"
-            android:textColor="@android:color/white"
-            android:layout_marginStart="8dp" />
-    </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnGuardar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Guardar"/>
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+</LinearLayout>
