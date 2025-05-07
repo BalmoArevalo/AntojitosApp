@@ -2,7 +2,6 @@ package sv.ues.fia.eisi.proyecto01_antojitos.ui.repartidor;
 
 public class Repartidor {
     private int idRepartidor;
-    private int idUsuario;
     private int idDepartamento;
     private int idMunicipio;
     private int idDistrito;
@@ -11,23 +10,66 @@ public class Repartidor {
     private String telefonoRepartidor;
     private String nombreRepartidor;
     private String apellidoRepartidor;
+    private int activoRepartidor;
 
-    public Repartidor() {}
+    public Repartidor() {
+    }
 
+    /**
+     * Constructor para inserción (sin ID).
+     */
+    public Repartidor(int idDepartamento,
+                      int idMunicipio,
+                      int idDistrito,
+                      String tipoVehiculo,
+                      int disponible,
+                      String telefonoRepartidor,
+                      String nombreRepartidor,
+                      String apellidoRepartidor,
+                      int activoRepartidor) {
+        this.idDepartamento = idDepartamento;
+        this.idMunicipio = idMunicipio;
+        this.idDistrito = idDistrito;
+        this.tipoVehiculo = tipoVehiculo;
+        this.disponible = disponible;
+        this.telefonoRepartidor = telefonoRepartidor;
+        this.nombreRepartidor = nombreRepartidor;
+        this.apellidoRepartidor = apellidoRepartidor;
+        this.activoRepartidor = activoRepartidor;
+    }
+
+    /**
+     * Constructor completo (incluye ID).
+     */
+    public Repartidor(int idRepartidor,
+                      int idDepartamento,
+                      int idMunicipio,
+                      int idDistrito,
+                      String tipoVehiculo,
+                      int disponible,
+                      String telefonoRepartidor,
+                      String nombreRepartidor,
+                      String apellidoRepartidor,
+                      int activoRepartidor) {
+        this.idRepartidor = idRepartidor;
+        this.idDepartamento = idDepartamento;
+        this.idMunicipio = idMunicipio;
+        this.idDistrito = idDistrito;
+        this.tipoVehiculo = tipoVehiculo;
+        this.disponible = disponible;
+        this.telefonoRepartidor = telefonoRepartidor;
+        this.nombreRepartidor = nombreRepartidor;
+        this.apellidoRepartidor = apellidoRepartidor;
+        this.activoRepartidor = activoRepartidor;
+    }
+
+    // Getters y Setters
     public int getIdRepartidor() {
         return idRepartidor;
     }
 
     public void setIdRepartidor(int idRepartidor) {
         this.idRepartidor = idRepartidor;
-    }
-
-    public int getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(int idUsuario) {
-        this.idUsuario = idUsuario;
     }
 
     public int getIdDepartamento() {
@@ -94,8 +136,11 @@ public class Repartidor {
         this.apellidoRepartidor = apellidoRepartidor;
     }
 
-    @Override
-    public String toString() {
-        return nombreRepartidor + " " + apellidoRepartidor;
+    public int getActivoRepartidor() {
+        return activoRepartidor;
+    }
+
+    public void setActivoRepartidor(int activoRepartidor) {
+        this.activoRepartidor = activoRepartidor;
     }
 }

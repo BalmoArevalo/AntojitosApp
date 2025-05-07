@@ -1,13 +1,19 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.sucursal;
 
 import android.app.TimePickerDialog;
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -26,13 +32,13 @@ public class SucursalCrearActivity extends AppCompatActivity {
     private List<Integer> distritoIds = new ArrayList<>();
 
     private DBHelper dbHelper;
+    private SucursalDAO dao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sucursal_crear);
 
-        // Inicializar views
         etNombre = findViewById(R.id.editNombreSucursal);
         etTelefono = findViewById(R.id.editTelefonoSucursal);
         etDireccion = findViewById(R.id.editDireccionSucursal);
@@ -45,11 +51,12 @@ public class SucursalCrearActivity extends AppCompatActivity {
         btnLimpiar = findViewById(R.id.btnLimpiarCampos);
 
         dbHelper = new DBHelper(this);
+        dao = new SucursalDAO(dbHelper.getWritableDatabase());
 
         cargarSpinnerDepartamento();
 
         spDepartamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 if (pos > 0) {
                     int depId = departamentoIds.get(pos - 1);
                     cargarSpinnerMunicipio(depId);
@@ -59,11 +66,11 @@ public class SucursalCrearActivity extends AppCompatActivity {
                     spDistrito.setEnabled(false);
                 }
             }
-            @Override public void onNothingSelected(AdapterView<?> p) {}
+            @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         spMunicipio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override public void onItemSelected(AdapterView<?> p, View v, int pos, long id) {
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 if (pos > 0) {
                     int depId = departamentoIds.get(spDepartamento.getSelectedItemPosition() - 1);
                     int munId = municipioIds.get(pos - 1);
@@ -73,7 +80,7 @@ public class SucursalCrearActivity extends AppCompatActivity {
                     spDistrito.setEnabled(false);
                 }
             }
-            @Override public void onNothingSelected(AdapterView<?> p) {}
+            @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         etHoraApertura.setOnClickListener(v -> mostrarTimePicker(etHoraApertura));
@@ -83,20 +90,9 @@ public class SucursalCrearActivity extends AppCompatActivity {
         btnLimpiar.setOnClickListener(v -> limpiarCampos());
     }
 
-    private void mostrarTimePicker(EditText campoHora) {
-        final Calendar c = Calendar.getInstance();
-        int hora = c.get(Calendar.HOUR_OF_DAY);
-        int minuto = c.get(Calendar.MINUTE);
-
-        TimePickerDialog tpd = new TimePickerDialog(this,
-                (view, hourOfDay, minute) -> {
-                    String horaFormateada = String.format("%02d:%02d", hourOfDay, minute);
-                    campoHora.setText(horaFormateada);
-                },
-                hora, minuto, true);
-        tpd.show();
-    }
-
+    /**
+     * Carga departamentos en spinner.
+     */
     private void cargarSpinnerDepartamento() {
         departamentoIds.clear();
         List<String> nombres = new ArrayList<>();
@@ -109,88 +105,91 @@ public class SucursalCrearActivity extends AppCompatActivity {
             nombres.add(c.getString(1));
         }
         c.close();
-        db.close();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, nombres);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, nombres);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spDepartamento.setAdapter(adapter);
     }
 
     private void cargarSpinnerMunicipio(int idDepartamento) {
         municipioIds.clear();
-        List<String> nombres = new ArrayList<>();
-        nombres.add("Seleccione...");
+        List<String> nombres = new ArrayList<>(); nombres.add("Seleccione...");
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT ID_MUNICIPIO, NOMBRE_MUNICIPIO FROM MUNICIPIO WHERE ID_DEPARTAMENTO = ?",
+        Cursor c = db.rawQuery(
+                "SELECT ID_MUNICIPIO, NOMBRE_MUNICIPIO FROM MUNICIPIO WHERE ID_DEPARTAMENTO = ?",
                 new String[]{String.valueOf(idDepartamento)});
         while (c.moveToNext()) {
             municipioIds.add(c.getInt(0));
             nombres.add(c.getString(1));
         }
         c.close();
-        db.close();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, nombres);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, nombres);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spMunicipio.setAdapter(adapter);
     }
 
     private void cargarSpinnerDistrito(int idDepartamento, int idMunicipio) {
         distritoIds.clear();
-        List<String> nombres = new ArrayList<>();
-        nombres.add("Seleccione...");
+        List<String> nombres = new ArrayList<>(); nombres.add("Seleccione...");
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery("SELECT ID_DISTRITO, NOMBRE_DISTRITO FROM DISTRITO " +
-                        "WHERE ID_DEPARTAMENTO = ? AND ID_MUNICIPIO = ?",
+        Cursor c = db.rawQuery(
+                "SELECT ID_DISTRITO, NOMBRE_DISTRITO FROM DISTRITO WHERE ID_DEPARTAMENTO = ? AND ID_MUNICIPIO = ?",
                 new String[]{String.valueOf(idDepartamento), String.valueOf(idMunicipio)});
         while (c.moveToNext()) {
             distritoIds.add(c.getInt(0));
             nombres.add(c.getString(1));
         }
         c.close();
-        db.close();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, nombres);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, nombres);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spDistrito.setAdapter(adapter);
     }
 
+    /**
+     * Muestra un TimePicker y formatea la hora en HH:mm.
+     */
+    private void mostrarTimePicker(EditText campoHora) {
+        Calendar c = Calendar.getInstance();
+        int h = c.get(Calendar.HOUR_OF_DAY);
+        int m = c.get(Calendar.MINUTE);
+        new TimePickerDialog(this,
+                (view, hourOfDay, minute) -> campoHora.setText(String.format("%02d:%02d", hourOfDay, minute)),
+                h, m, true).show();
+    }
+
+    /**
+     * Guarda la sucursal usando SucursalDAO.
+     */
     private void guardarSucursal() {
         String nombre = etNombre.getText().toString().trim();
         String telefono = etTelefono.getText().toString().trim();
         String direccion = etDireccion.getText().toString().trim();
-        String horaApertura = etHoraApertura.getText().toString();
-        String horaCierre = etHoraCierre.getText().toString();
+        String horaA = etHoraApertura.getText().toString();
+        String horaC = etHoraCierre.getText().toString();
 
         if (nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty()
                 || spDepartamento.getSelectedItemPosition() == 0
                 || spMunicipio.getSelectedItemPosition() == 0
                 || spDistrito.getSelectedItemPosition() == 0
-                || horaApertura.isEmpty() || horaCierre.isEmpty()) {
+                || horaA.isEmpty() || horaC.isEmpty()) {
             Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        int idDepto = departamentoIds.get(spDepartamento.getSelectedItemPosition() - 1);
-        int idMun = municipioIds.get(spMunicipio.getSelectedItemPosition() - 1);
-        int idDist = distritoIds.get(spDistrito.getSelectedItemPosition() - 1);
-
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
-        ContentValues values = new ContentValues();
-        values.put("ID_DEPARTAMENTO", idDepto);
-        values.put("ID_MUNICIPIO", idMun);
-        values.put("ID_DISTRITO", idDist);
-        values.put("NOMBRE_SUCURSAL", nombre);
-        values.put("DIRECCION_SUCURSAL", direccion);
-        values.put("TELEFONO_SUCURSAL", telefono);
-        values.put("HORARIO_APERTURA_SUCURSAL", horaApertura);
-        values.put("HORARIO_CIERRE_SUCURSAL", horaCierre);
-
-        long newId = db.insert("SUCURSAL", null, values);
-        db.close();
+        Sucursal s = new Sucursal(
+                departamentoIds.get(spDepartamento.getSelectedItemPosition() - 1),
+                municipioIds.get(spMunicipio.getSelectedItemPosition() - 1),
+                distritoIds.get(spDistrito.getSelectedItemPosition() - 1),
+                nombre, direccion, telefono, horaA, horaC
+        );
+        long newId = dao.insertar(s);
 
         if (newId != -1) {
             Toast.makeText(this, "Sucursal guardada con ID " + newId, Toast.LENGTH_LONG).show();
@@ -200,8 +199,9 @@ public class SucursalCrearActivity extends AppCompatActivity {
         }
     }
 
-
-
+    /**
+     * Limpia los campos del formulario.
+     */
     private void limpiarCampos() {
         etNombre.setText("");
         etTelefono.setText("");
@@ -213,5 +213,11 @@ public class SucursalCrearActivity extends AppCompatActivity {
         spMunicipio.setEnabled(false);
         spDistrito.setSelection(0);
         spDistrito.setEnabled(false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dbHelper.close();
     }
 }
