@@ -1,43 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.direccion.DireccionConsultarActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:text="@string/direccion_consultar_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"/>
 
-        <!-- Cliente -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/direccion_consultar_label_cliente"
+        android:labelFor="@+id/spinnerConsultaDireccionCliente"/>
+    <Spinner
+        android:id="@+id/spinnerConsultaDireccionCliente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:minHeight="48dp"/>
+
+    <Button
+        android:id="@+id/btnCargarDireccionesCliente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="@string/direccion_consultar_btn_cargar"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Resultados:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginBottom="8dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Selecciona Cliente"
-            android:textStyle="bold" />
-        <Spinner
-            android:id="@+id/spinnerCliente"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <!-- Botón para recargar -->
-        <Button
-            android:id="@+id/btnCargarDirecciones"
-            android:layout_marginTop="12dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mostrar Direcciones" />
-
-        <!-- Resultado -->
-        <TextView
-            android:id="@+id/tvResultado"
-            android:layout_marginTop="16dp"
+            android:id="@+id/tvConsultaDireccionResultado"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Aquí se mostrarán las direcciones..."
             android:padding="8dp"
-            android:background="#EEEEEE"
-            android:textIsSelectable="true"
-            android:lineSpacingExtra="4dp"/>
-    </LinearLayout>
-</ScrollView>
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            tools:text="ID_Dir: 1 [Activa]\n Col. Escalón #123 (Casa esquina azul)\n\nID_Dir: 2 [Inactiva]\n Trabajo - Edificio A (Oficina 303)\n\n" />
+    </ScrollView>
+
+</LinearLayout>
