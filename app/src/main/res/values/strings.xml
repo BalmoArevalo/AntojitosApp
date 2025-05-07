@@ -275,5 +275,30 @@
     <string name="factura_crear_toast_no_pedidos_disponibles">No hay pedidos disponibles para facturar.</string>
     <string name="factura_crear_toast_pedido_sin_detalle">El pedido seleccionado no tiene detalles, no se puede calcular monto.</string>
 
+    <!-- Consultar Factura-->
+    <string name="factura_consultar_s_title">Consultar Factura y Pedido</string>
+    <string name="factura_consultar_s_label_seleccionar_pedido">Pedido con Factura:</string>
+    <string name="factura_consultar_s_label_seccion_factura">--- Detalles de la Factura ---</string>
+    <string name="factura_consultar_s_label_id_factura">ID Factura:</string>
+    <string name="factura_consultar_s_label_fecha_emision">Fecha Emisión:</string>
+    <string name="factura_consultar_s_label_monto_total">Monto Total (IVA Incl.):</string>
+    <string name="factura_consultar_s_label_tipo_pago">Tipo Pago:</string>
+    <string name="factura_consultar_s_label_estado_factura">Estado Factura:</string>
+    <string name="factura_consultar_s_label_es_credito">Es Crédito:</string>
+    <string name="factura_consultar_s_label_seccion_pedido">--- Detalles del Pedido Asociado ---</string>
+    <string name="factura_consultar_s_label_id_pedido">ID Pedido:</string>
+    <string name="factura_consultar_s_label_id_cliente">ID Cliente:</string>
+    <string name="factura_consultar_s_label_id_sucursal">ID Sucursal:</string>
+    <string name="factura_consultar_s_label_id_repartidor">ID Repartidor:</string>
+    <string name="factura_consultar_s_label_fecha_hora_pedido">Fecha/Hora Pedido:</string>
+    <string name="factura_consultar_s_label_estado_pedido">Estado Pedido:</string>
+    <string name="factura_consultar_s_toast_seleccione_pedido">Seleccione un pedido</string>
+    <string name="factura_consultar_s_toast_error_carga">Error al cargar los datos</string>
+    <string name="factura_consultar_s_toast_no_factura">No se encontró factura para este pedido.</string>
+    <string name="factura_consultar_s_toast_no_pedido">No se encontró el pedido asociado.</string>
+    <string name="factura_consultar_s_valor_si">Sí</string>
+    <string name="factura_consultar_s_valor_no">No</string>
+    <string name="factura_consultar_s_valor_no_definido">N/A</string>
+
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
 </resources>
