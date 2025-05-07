@@ -1,52 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/layout_producto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center_horizontal">
+    android:padding="16dp">
 
-    <!-- Título (usa binding.textModelo en el fragmento) -->
     <TextView
-        android:id="@+id/text_producto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/producto_title"
-        android:textSize="18sp"
+        android:text="Gestión de Productos"
+        android:textAlignment="center"
+        android:textSize="24sp"
         android:textStyle="bold"
-        android:padding="8dp"
-        android:gravity="center" />
+        android:layout_marginBottom="32dp"/>
 
-    <!-- Botón Crear -->
     <Button
-        android:id="@+id/btn_crear"
+        android:id="@+id/btnCrearProducto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/producto_btn_crear"
-        android:layout_marginTop="12dp" />
+        android:text="Crear Producto"
+        android:layout_marginBottom="16dp"/>
 
-    <!-- Botón Consultar -->
     <Button
-        android:id="@+id/btn_consultar"
+        android:id="@+id/btnConsultarProducto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/producto_btn_consultar"
-        android:layout_marginTop="8dp" />
+        android:text="Consultar Producto"
+        android:layout_marginBottom="16dp"/>
 
-    <!-- Botón Editar -->
     <Button
-        android:id="@+id/btn_editar"
+        android:id="@+id/btnEditarProducto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/producto_btn_editar"
-        android:layout_marginTop="8dp" />
+        android:text="Editar Producto"
+        android:layout_marginBottom="16dp"/>
 
-    <!-- Botón Eliminar -->
     <Button
-        android:id="@+id/btn_eliminar"
+        android:id="@+id/btnEliminarProducto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/producto_btn_eliminar"
-        android:layout_marginTop="8dp" />
+        android:text="Eliminar Producto"
+        android:layout_marginBottom="16dp"/>
+
 </LinearLayout>

@@ -1,39 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
 
     <TextView
-        android:id="@+id/text_cliente"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:text="@string/cliente_title"
-        android:padding="8dp"
-        android:gravity="center" />
+        android:text="Gestión de Clientes"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="32dp"/>
 
     <Button
-        android:id="@+id/btnCrear"
-        android:text="@string/cliente_btn_crear"
+        android:id="@+id/btnCrearCliente"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Crear Cliente"
+        android:layout_marginBottom="16dp"/>
 
     <Button
-        android:id="@+id/btnConsultar"
-        android:text="@string/cliente_btn_consultar"
+        android:id="@+id/btnConsultarCliente"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Consultar Cliente"
+        android:layout_marginBottom="16dp"/>
 
     <Button
-        android:id="@+id/btnEditar"
-        android:text="@string/cliente_btn_editar"
+        android:id="@+id/btnEditarCliente"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Editar Cliente"
+        android:layout_marginBottom="16dp"/>
 
     <Button
-        android:id="@+id/btnEliminar"
-        android:text="@string/cliente_btn_eliminar"
+        android:id="@+id/btnEliminarCliente"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:text="Eliminar Cliente"
+        android:layout_marginBottom="16dp"/>
+
 </LinearLayout>
