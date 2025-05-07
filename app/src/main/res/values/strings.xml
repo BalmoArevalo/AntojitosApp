@@ -241,5 +241,17 @@
     <string name="direccion_editar_toast_no_seleccion">Error: No hay dirección seleccionada para actualizar.</string>
 
     <!-- Eliminar Dirección-->
+    <string name="direccion_eliminar_title">Desactivar Dirección</string> <string name="direccion_eliminar_label_cliente">Cliente:</string>
+    <string name="direccion_eliminar_label_direccion">Seleccione Dirección a Desactivar:</string>
+    <string name="direccion_eliminar_label_detalles">Detalles de la Dirección Seleccionada:</string>
+    <string name="direccion_eliminar_label_dir_especifica">Dirección:</string>
+    <string name="direccion_eliminar_label_descripcion">Descripción:</string>
+    <string name="direccion_eliminar_label_ubicacion">Ubicación:</string>
+    <string name="direccion_eliminar_label_estado">Estado Actual:</string>
+    <string name="direccion_eliminar_btn_desactivar">Desactivar Dirección</string> <string name="direccion_eliminar_toast_exito">Dirección desactivada correctamente</string>
+    <string name="direccion_eliminar_toast_error">Error al desactivar la dirección</string>
+    <string name="direccion_eliminar_toast_no_seleccion">Seleccione cliente y dirección válidos</string>
+    <string name="direccion_eliminar_estado_actual_activa">Activa</string>
+    <string name="direccion_eliminar_estado_actual_inactiva">Inactiva (No se puede desactivar de nuevo)</string>
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
 </resources>

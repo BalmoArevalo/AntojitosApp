@@ -1,44 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.direccion.DireccionEliminarActivity">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:text="@string/direccion_eliminar_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"/>
 
-        <!-- Spinner de Clientes -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Selecciona Cliente"
-            android:textStyle="bold" />
-        <Spinner
-            android:id="@+id/spinnerCliente"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/direccion_eliminar_label_cliente"
+        android:labelFor="@+id/spinnerEliminarDireccionCliente"/>
+    <Spinner
+        android:id="@+id/spinnerEliminarDireccionCliente"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:minHeight="48dp"/>
 
-        <!-- Spinner de Direcciones -->
-        <TextView
-            android:layout_marginTop="12dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Selecciona Dirección"
-            android:textStyle="bold" />
-        <Spinner
-            android:id="@+id/spinnerDireccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/direccion_eliminar_label_direccion"
+        android:labelFor="@+id/spinnerEliminarDireccionSeleccion"/>
+    <Spinner
+        android:id="@+id/spinnerEliminarDireccionSeleccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:minHeight="48dp"
+        android:enabled="false"/>
+    <LinearLayout
+    android:id="@+id/layoutDetallesDireccionEliminar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:layout_marginBottom="24dp"
+    android:visibility="gone"
+    tools:visibility="visible">
 
-        <!-- Botón Eliminar -->
-        <Button
-            android:id="@+id/btnEliminarDireccion"
-            android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Eliminar Dirección" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/direccion_eliminar_label_detalles"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginBottom="8dp"/>
 
-    </LinearLayout>
-</ScrollView>
+    <TextView
+        android:id="@+id/tvEliminarDirEspecifica"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        tools:text="Dirección: Col. Escalón #123"/>
+
+    <TextView
+        android:id="@+id/tvEliminarDirUbicacion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        tools:text="Ubicación: San Salvador, San Salvador, Centro"/>
+
+    <TextView
+        android:id="@+id/tvEliminarDirDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        tools:text="Descripción: Casa esquina azul"/>
+
+    <TextView
+        android:id="@+id/tvEliminarDirEstado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        tools:text="Estado: Activa"/>
+
+</LinearLayout>
+
+    <Button
+        android:id="@+id/btnDesactivarDireccion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/direccion_eliminar_btn_desactivar"
+        android:enabled="false"/>
+</LinearLayout>
