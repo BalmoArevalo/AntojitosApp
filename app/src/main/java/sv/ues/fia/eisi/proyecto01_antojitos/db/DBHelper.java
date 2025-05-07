@@ -9,7 +9,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "antojitos.db";
     // Incrementar la versión si se añaden/modifican triggers o tablas
-    public static final int DB_VERSION = 4;
+    public static final int DB_VERSION = 5;
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -28,7 +28,8 @@ public class DBHelper extends SQLiteOpenHelper {
         // 1 - tabla de DEPARTAMENTO
         db.execSQL("CREATE TABLE DEPARTAMENTO ("
                 + "ID_DEPARTAMENTO INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "NOMBRE_DEPARTAMENTO TEXT NOT NULL"
+                + "NOMBRE_DEPARTAMENTO TEXT NOT NULL,"
+                + "ACTIVO_DEPARTAMENTO INTEGER DEFAULT 1"
                 + ");");
 
         // 2 - tabla de MUNICIPIO
@@ -36,6 +37,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "ID_DEPARTAMENTO INTEGER NOT NULL,"
                 + "ID_MUNICIPIO INTEGER NOT NULL,"
                 + "NOMBRE_MUNICIPIO TEXT NOT NULL,"
+                + "ACTIVO_MUNICIPIO INTEGER DEFAULT 1,"
                 + "PRIMARY KEY (ID_DEPARTAMENTO, ID_MUNICIPIO),"
                 + "FOREIGN KEY (ID_DEPARTAMENTO) REFERENCES DEPARTAMENTO(ID_DEPARTAMENTO)"
                 + ");");
@@ -47,6 +49,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "ID_DISTRITO INTEGER NOT NULL,"
                 + "NOMBRE_DISTRITO TEXT NOT NULL,"
                 + "CODIGO_POSTAL TEXT NOT NULL,"
+                + "ACTIVO_DISTRITO INTEGER DEFAULT 1,"
                 + "PRIMARY KEY (ID_DEPARTAMENTO, ID_MUNICIPIO, ID_DISTRITO),"
                 + "FOREIGN KEY (ID_DEPARTAMENTO, ID_MUNICIPIO) REFERENCES MUNICIPIO(ID_DEPARTAMENTO, ID_MUNICIPIO)"
                 + ");");
