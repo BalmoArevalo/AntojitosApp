@@ -220,5 +220,26 @@
     <string name="direccion_consultar_formato_direccion_sin_desc">ID_Dir: %1$d %2$s\n%3$s\n%4$s, %5$s, %6$s\n</string>
 
     <!-- Editar Dirección-->
+    <string name="direccion_editar_title">Editar Dirección</string>
+    <string name="direccion_editar_label_cliente">Cliente:</string>
+    <string name="direccion_editar_label_direccion">Seleccione Dirección a Editar:</string>
+    <string name="direccion_editar_label_departamento">Departamento:</string>
+    <string name="direccion_editar_label_municipio">Municipio:</string>
+    <string name="direccion_editar_label_distrito">Distrito:</string>
+    <string name="direccion_editar_label_especifica">Dirección Específica:</string>
+    <string name="direccion_editar_hint_especifica">Ej: Col. San Benito, Pol. H, #12</string>
+    <string name="direccion_editar_label_descripcion">Descripción Adicional (Opcional):</string>
+    <string name="direccion_editar_hint_descripcion">Ej: Casa de esquina, portón negro</string>
+    <string name="direccion_editar_label_activo">Estado:</string>
+    <string name="direccion_editar_checkbox_activo">Activa</string>
+    <string name="direccion_editar_btn_actualizar">Actualizar Dirección</string>
+    <string name="direccion_editar_toast_exito">Dirección actualizada correctamente</string>
+    <string name="direccion_editar_toast_error">Error al actualizar la dirección</string>
+    <string name="direccion_editar_toast_error_carga">Error cargando datos de la dirección</string>
+    <string name="direccion_editar_toast_completar_campos">Complete todos los campos correctamente</string>
+    <string name="direccion_editar_toast_especifica_requerida">La dirección específica es obligatoria</string>
+    <string name="direccion_editar_toast_no_seleccion">Error: No hay dirección seleccionada para actualizar.</string>
+
+    <!-- Eliminar Dirección-->
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
 </resources>
