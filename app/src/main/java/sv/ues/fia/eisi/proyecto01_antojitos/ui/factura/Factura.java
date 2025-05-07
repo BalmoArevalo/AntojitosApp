@@ -1,35 +1,35 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.factura;
 
+// Considera importar clases de Fecha si manejarás fechas de forma más compleja
+// import java.util.Date;
+
 public class Factura {
 
-    private int idPedido;
-    private int idFactura;
-    private String fechaEmision; // Considera usar Date o LocalDate si manejas fechas complejas
+    // Columnas de la tabla FACTURA según DBHelper v4
+    private int idFactura;       // PK Autoincremental
+    private int idPedido;        // FK a Pedido (UNIQUE para 1:1)
+    private String fechaEmision; // Formato YYYY-MM-DD generalmente
     private double montoTotal;
-    private String tipoPago;
-    private int pagado; // 1 para pagado, 0 para no pagado
+    private String tipoPago;     // Ej: "Contado", "Crédito"
+    private String estadoFactura;// Ej: "Pendiente", "Pagada", "En Crédito", "Anulada"
+    private int esCredito;       // 0 = No es crédito, 1 = Sí es crédito
 
-    // Constructor vacío (necesario para algunas librerías o frameworks)
+    // Constructor vacío (necesario para algunas operaciones)
     public Factura() { }
 
-    // Constructor con todos los campos
-    public Factura(int idPedido, int idFactura, String fechaEmision, double montoTotal, String tipoPago, int pagado) {
-        this.idPedido = idPedido;
+    // Constructor con todos los campos (opcional pero útil)
+    public Factura(int idFactura, int idPedido, String fechaEmision, double montoTotal,
+                   String tipoPago, String estadoFactura, int esCredito) {
         this.idFactura = idFactura;
+        this.idPedido = idPedido;
         this.fechaEmision = fechaEmision;
         this.montoTotal = montoTotal;
         this.tipoPago = tipoPago;
-        this.pagado = pagado;
+        this.estadoFactura = estadoFactura;
+        this.esCredito = esCredito;
     }
 
-    // Getters y Setters
-    public int getIdPedido() {
-        return idPedido;
-    }
-
-    public void setIdPedido(int idPedido) {
-        this.idPedido = idPedido;
-    }
+    // Getters y Setters para todos los campos
 
     public int getIdFactura() {
         return idFactura;
@@ -37,6 +37,14 @@ public class Factura {
 
     public void setIdFactura(int idFactura) {
         this.idFactura = idFactura;
+    }
+
+    public int getIdPedido() {
+        return idPedido;
+    }
+
+    public void setIdPedido(int idPedido) {
+        this.idPedido = idPedido;
     }
 
     public String getFechaEmision() {
@@ -63,24 +71,34 @@ public class Factura {
         this.tipoPago = tipoPago;
     }
 
-    public int getPagado() {
-        return pagado;
+    public String getEstadoFactura() {
+        return estadoFactura;
     }
 
-    public void setPagado(int pagado) {
-        this.pagado = pagado;
+    public void setEstadoFactura(String estadoFactura) {
+        this.estadoFactura = estadoFactura;
     }
 
-    // (Opcional) Metodo toString para fácil depuración
+    public int getEsCredito() {
+        return esCredito;
+    }
+
+    public void setEsCredito(int esCredito) {
+        // Podrías añadir validación para que solo sea 0 o 1 si quieres
+        this.esCredito = esCredito;
+    }
+
+    // (Opcional) Método toString() para depuración
     @Override
     public String toString() {
         return "Factura{" +
-                "idPedido=" + idPedido +
-                ", idFactura=" + idFactura +
+                "idFactura=" + idFactura +
+                ", idPedido=" + idPedido +
                 ", fechaEmision='" + fechaEmision + '\'' +
                 ", montoTotal=" + montoTotal +
                 ", tipoPago='" + tipoPago + '\'' +
-                ", pagado=" + pagado +
+                ", estadoFactura='" + estadoFactura + '\'' +
+                ", esCredito=" + esCredito +
                 '}';
     }
 }

@@ -253,5 +253,7 @@
     <string name="direccion_eliminar_toast_no_seleccion">Seleccione cliente y dirección válidos</string>
     <string name="direccion_eliminar_estado_actual_activa">Activa</string>
     <string name="direccion_eliminar_estado_actual_inactiva">Inactiva (No se puede desactivar de nuevo)</string>
+
+
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
 </resources>
