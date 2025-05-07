@@ -13,6 +13,10 @@ public class Pedido {
     private String fechaHoraPedido;
     private String estadoPedido;
 
+    // NUEVOS CAMPOS
+    private int idSucursal;
+    private int activoPedido; // 1 = activo, 0 = inactivo
+
     // Getters y setters
 
     public int getIdPedido() { return idPedido; }
@@ -44,4 +48,10 @@ public class Pedido {
 
     public String getEstadoPedido() { return estadoPedido; }
     public void setEstadoPedido(String estadoPedido) { this.estadoPedido = estadoPedido; }
+
+    public int getIdSucursal() { return idSucursal; }
+    public void setIdSucursal(int idSucursal) { this.idSucursal = idSucursal; }
+
+    public int getActivoPedido() { return activoPedido; }
+    public void setActivoPedido(int activoPedido) { this.activoPedido = activoPedido; }
 }

@@ -10,6 +10,7 @@ import sv.ues.fia.eisi.proyecto01_antojitos.db.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.cliente.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.tipoEvento.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.repartidor.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.sucursal.*;
 
 public class PedidoEliminarActivity extends AppCompatActivity {
 
@@ -20,6 +21,8 @@ public class PedidoEliminarActivity extends AppCompatActivity {
     private ClienteDAO clienteDAO;
     private RepartidorDAO repartidorDAO;
     private TipoEventoDAO tipoEventoDAO;
+    private SucursalDAO sucursalDAO;
+
     private Pedido pedidoEncontrado;
 
     @Override
@@ -41,6 +44,7 @@ public class PedidoEliminarActivity extends AppCompatActivity {
         clienteDAO = new ClienteDAO(db);
         repartidorDAO = new RepartidorDAO(db);
         tipoEventoDAO = new TipoEventoDAO(db);
+        sucursalDAO = new SucursalDAO(db);
 
         btnEliminar.setEnabled(false);
 
@@ -61,9 +65,12 @@ public class PedidoEliminarActivity extends AppCompatActivity {
         if (pedidoEncontrado != null) {
             // Buscar nombres asociados
             Cliente cliente = clienteDAO.consultarPorId(pedidoEncontrado.getIdCliente());
-            Repartidor repartidor = repartidorDAO.consultarPorId(pedidoEncontrado.getIdRepartidor());
+            Repartidor repartidor = repartidorDAO.obtenerPorId(pedidoEncontrado.getIdRepartidor());
             TipoEvento tipoEvento = tipoEventoDAO.consultarPorId(pedidoEncontrado.getIdTipoEvento());
+            Sucursal sucursal = sucursalDAO.obtenerPorId(pedidoEncontrado.getIdSucursal());
 
+            String nombreSucursal = (sucursal != null) ? sucursal.getNombreSucursal() : "Desconocida";
+            String estadoActivo = (pedidoEncontrado.getActivoPedido() == 1) ? "Activo" : "Inactivo";
             String nombreCliente = (cliente != null) ? cliente.getNombreCliente() : "Desconocido";
             String nombreRepartidor = (repartidor != null) ? repartidor.getNombreRepartidor() : "Desconocido";
             String nombreTipoEvento = (tipoEvento != null) ? tipoEvento.getNombreTipoEvento() : "Ninguno";
@@ -71,10 +78,12 @@ public class PedidoEliminarActivity extends AppCompatActivity {
             String info = "Pedido encontrado:\n" +
                     "ID Pedido: " + pedidoEncontrado.getIdPedido() + "\n" +
                     "ID Cliente: " + pedidoEncontrado.getIdCliente() + " — " + nombreCliente + "\n" +
-                    "ID Repartidor: " + pedidoEncontrado.getIdRepartidor() + " — " + nombreRepartidor + "*\n" +
-                    "ID Tipo Evento: " + pedidoEncontrado.getIdTipoEvento() + " — " + nombreTipoEvento + "*\n" +
+                    "ID Repartidor: " + pedidoEncontrado.getIdRepartidor() + " — " + nombreRepartidor + "\n" +
+                    "ID Tipo Evento: " + pedidoEncontrado.getIdTipoEvento() + " — " + nombreTipoEvento + "\n" +
+                    "ID Sucursal: " + pedidoEncontrado.getIdSucursal() + " — " + nombreSucursal + "\n" +
                     "Fecha/Hora: " + pedidoEncontrado.getFechaHoraPedido() + "\n" +
-                    "Estado: " + pedidoEncontrado.getEstadoPedido();
+                    "Estado: " + pedidoEncontrado.getEstadoPedido() + "\n" +
+                    "Activo: " + estadoActivo;
 
             textViewResultado.setText(info);
             btnEliminar.setEnabled(true);
@@ -86,16 +95,27 @@ public class PedidoEliminarActivity extends AppCompatActivity {
 
     private void eliminarPedido() {
         if (pedidoEncontrado != null) {
-            int filas = pedidoDAO.eliminar(pedidoEncontrado.getIdPedido());
-            if (filas > 0) {
-                Toast.makeText(this, "Pedido eliminado correctamente", Toast.LENGTH_SHORT).show();
-                textViewResultado.setText("");
-                editTextIdEliminar.setText("");
-                btnEliminar.setEnabled(false);
-                pedidoEncontrado = null;
-            } else {
-                Toast.makeText(this, "Error al eliminar el pedido", Toast.LENGTH_SHORT).show();
+            int resultado = pedidoDAO.eliminar(pedidoEncontrado.getIdPedido());
+
+            switch (resultado) {
+                case 2:
+                    Toast.makeText(this, "✅ Pedido eliminado correctamente", Toast.LENGTH_SHORT).show();
+                    break;
+                case 1:
+                    Toast.makeText(this, "⚠️ Pedido no se eliminó, pero fue desactivado (está asociado a detalle o reparto)", Toast.LENGTH_LONG).show();
+                    break;
+                case 0:
+                    Toast.makeText(this, "❌ No se puede eliminar el pedido: está asociado a una factura", Toast.LENGTH_LONG).show();
+                    break;
+                default:
+                    Toast.makeText(this, "❌ Error al intentar eliminar el pedido", Toast.LENGTH_SHORT).show();
             }
+
+            // Resetear interfaz
+            textViewResultado.setText("");
+            editTextIdEliminar.setText("");
+            btnEliminar.setEnabled(false);
+            pedidoEncontrado = null;
         }
     }
 }

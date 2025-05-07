@@ -12,7 +12,7 @@ import sv.ues.fia.eisi.proyecto01_antojitos.db.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.cliente.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.tipoEvento.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.repartidor.*;
-
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.sucursal.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -20,13 +20,17 @@ import java.util.*;
 public class PedidoEditarActivity extends AppCompatActivity {
 
     private EditText editTextIdBuscar, editTextFecha;
-    private Spinner spinnerCliente, spinnerRepartidor, spinnerEvento, spinnerEstado;
+    private Spinner spinnerCliente, spinnerRepartidor, spinnerEvento, spinnerEstado, spinnerSucursal;
     private Button btnBuscar, btnActualizar;
+
+    private Switch switchActivo;
+    private SucursalDAO sucursalDAO;
 
     private PedidoDAO pedidoDAO;
     private ClienteDAO clienteDAO;
     private RepartidorDAO repartidorDAO;
     private TipoEventoDAO tipoEventoDAO;
+    private List<Sucursal> sucursales;
 
     private List<Cliente> clientes;
     private List<Repartidor> repartidores;
@@ -47,7 +51,9 @@ public class PedidoEditarActivity extends AppCompatActivity {
         spinnerEvento = findViewById(R.id.spinnerEvento);
         spinnerEstado = findViewById(R.id.spinnerEstado);
         btnBuscar = findViewById(R.id.btnBuscarPedido);
+        spinnerSucursal = findViewById(R.id.spinnerSucursal);
         btnActualizar = findViewById(R.id.btnActualizar);
+        switchActivo = findViewById(R.id.switchActivo);
 
         calendar = Calendar.getInstance();
 
@@ -57,6 +63,7 @@ public class PedidoEditarActivity extends AppCompatActivity {
         clienteDAO = new ClienteDAO(db);
         repartidorDAO = new RepartidorDAO(db);
         tipoEventoDAO = new TipoEventoDAO(db);
+        sucursalDAO = new SucursalDAO(db);
 
         cargarSpinners();
 
@@ -94,6 +101,15 @@ public class PedidoEditarActivity extends AppCompatActivity {
         spinnerRepartidor.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, repartidorItems));
         spinnerEvento.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, eventoItems));
         spinnerEstado.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, estados));
+
+        sucursales = sucursalDAO.obtenerTodos();
+        List<String> sucursalItems = new ArrayList<>();
+        sucursalItems.add("Seleccione");
+        for (Sucursal s : sucursales) {
+            sucursalItems.add(s.getIdSucursal() + " - " + s.getNombreSucursal());
+        }
+        spinnerSucursal.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sucursalItems));
+
     }
 
     private void mostrarDateTimePicker() {
@@ -123,6 +139,8 @@ public class PedidoEditarActivity extends AppCompatActivity {
             spinnerEvento.setSelection(obtenerIndicePorId(spinnerEvento, pedidoActual.getIdTipoEvento()));
             spinnerEstado.setSelection(obtenerIndiceTexto(spinnerEstado, pedidoActual.getEstadoPedido()));
             editTextFecha.setText(pedidoActual.getFechaHoraPedido());
+            spinnerSucursal.setSelection(obtenerIndicePorId(spinnerSucursal, pedidoActual.getIdSucursal()));
+            switchActivo.setChecked(pedidoActual.getActivoPedido() == 1);
             btnActualizar.setEnabled(true);
         } else {
             Toast.makeText(this, "Pedido no encontrado", Toast.LENGTH_SHORT).show();
@@ -138,6 +156,8 @@ public class PedidoEditarActivity extends AppCompatActivity {
         pedidoActual.setIdTipoEvento(extraerId(spinnerEvento));
         pedidoActual.setEstadoPedido(spinnerEstado.getSelectedItem().toString());
         pedidoActual.setFechaHoraPedido(editTextFecha.getText().toString());
+        pedidoActual.setIdSucursal(extraerId(spinnerSucursal));
+        pedidoActual.setActivoPedido(switchActivo.isChecked() ? 1 : 0);
 
         int filas = pedidoDAO.actualizar(pedidoActual);
         if (filas > 0) {

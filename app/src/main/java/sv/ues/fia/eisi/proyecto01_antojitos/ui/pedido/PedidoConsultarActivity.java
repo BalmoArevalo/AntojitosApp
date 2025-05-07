@@ -10,6 +10,7 @@ import sv.ues.fia.eisi.proyecto01_antojitos.db.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.cliente.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.tipoEvento.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.repartidor.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.sucursal.*;
 
 public class PedidoConsultarActivity extends AppCompatActivity {
 
@@ -21,6 +22,8 @@ public class PedidoConsultarActivity extends AppCompatActivity {
     private ClienteDAO clienteDAO;
     private RepartidorDAO repartidorDAO;
     private TipoEventoDAO tipoEventoDAO;
+    private SucursalDAO sucursalDAO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class PedidoConsultarActivity extends AppCompatActivity {
         clienteDAO = new ClienteDAO(db);
         repartidorDAO = new RepartidorDAO(db);
         tipoEventoDAO = new TipoEventoDAO(db);
+        sucursalDAO = new SucursalDAO(db);
 
         btnBuscar.setOnClickListener(v -> buscarPedido());
     }
@@ -55,9 +59,12 @@ public class PedidoConsultarActivity extends AppCompatActivity {
 
         if (pedido != null) {
             Cliente cliente = clienteDAO.consultarPorId(pedido.getIdCliente());
-            Repartidor repartidor = repartidorDAO.consultarPorId(pedido.getIdRepartidor());
+            Repartidor repartidor = repartidorDAO.obtenerPorId(pedido.getIdRepartidor());
             TipoEvento tipoEvento = tipoEventoDAO.consultarPorId(pedido.getIdTipoEvento());
+            Sucursal sucursal = sucursalDAO.obtenerPorId(pedido.getIdSucursal());
 
+            String nombreSucursal = (sucursal != null) ? sucursal.getNombreSucursal() : "Desconocida";
+            String estadoActivo = (pedido.getActivoPedido() == 1) ? "Activo" : "Inactivo";
             String nombreCliente = (cliente != null) ? cliente.getNombreCliente() : "Desconocido";
             String nombreRepartidor = (repartidor != null) ? repartidor.getNombreRepartidor() : "Desconocido";
             String nombreTipoEvento = (tipoEvento != null) ? tipoEvento.getNombreTipoEvento() : "Ninguno";
@@ -67,7 +74,10 @@ public class PedidoConsultarActivity extends AppCompatActivity {
                     "\nID Repartidor: " + pedido.getIdRepartidor() + " — " + nombreRepartidor +
                     "\nID Tipo Evento: " + pedido.getIdTipoEvento() + " — " + nombreTipoEvento +
                     "\nFecha/Hora: " + pedido.getFechaHoraPedido() +
-                    "\nEstado: " + pedido.getEstadoPedido();
+                    "\nEstado: " + pedido.getEstadoPedido() +
+                    "\nSucursal: " + pedido.getIdSucursal() + " — " + nombreSucursal +
+                    "\nEstado del Pedido: " + estadoActivo;
+
 
             tvResultado.setText(resultado);
         } else {
