@@ -179,12 +179,11 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // 14 - tabla de DETALLEPEDIDO
         db.execSQL("CREATE TABLE DETALLEPEDIDO ("
+                + "ID_DETALLE_PEDIDO INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + "ID_PRODUCTO INTEGER NOT NULL,"
                 + "ID_PEDIDO INTEGER NOT NULL,"
-                + "ID_DETALLA_PEDIDO INTEGER NOT NULL,"
                 + "CANTIDAD INTEGER NOT NULL,"
                 + "SUBTOTAL REAL NOT NULL,"
-                + "PRIMARY KEY (ID_PRODUCTO, ID_PEDIDO, ID_DETALLA_PEDIDO),"
                 + "FOREIGN KEY (ID_PRODUCTO) REFERENCES PRODUCTO(ID_PRODUCTO),"
                 + "FOREIGN KEY (ID_PEDIDO) REFERENCES PEDIDO(ID_PEDIDO)"
                 + ");");
