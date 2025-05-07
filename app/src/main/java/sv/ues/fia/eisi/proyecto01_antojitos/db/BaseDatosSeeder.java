@@ -250,20 +250,25 @@ public class BaseDatosSeeder {
                 + "VALUES (5,5,1,'2025-05-01 14:30','Usulután','2025-05-01 15:00');");
 
         // 17 – Datos para DETALLEPEDIDO
-        db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO("
-                + "ID_PRODUCTO,ID_PEDIDO,ID_DETALLA_PEDIDO,CANTIDAD,SUBTOTAL) "
-                + "VALUES (1,1,1,2,2.00);");
-        db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO("
-                + "ID_PRODUCTO,ID_PEDIDO,ID_DETALLA_PEDIDO,CANTIDAD,SUBTOTAL) "
-                + "VALUES (2,2,1,4,5.00);");
-        db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO("
-                + "ID_PRODUCTO,ID_PEDIDO,ID_DETALLA_PEDIDO,CANTIDAD,SUBTOTAL) "
-                + "VALUES (3,3,1,1,0.75);");
-        db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO("
-                + "ID_PRODUCTO,ID_PEDIDO,ID_DETALLA_PEDIDO,CANTIDAD,SUBTOTAL) "
-                + "VALUES (4,4,1,2,7.00);");
-        db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO("
-                + "ID_PRODUCTO,ID_PEDIDO,ID_DETALLA_PEDIDO,CANTIDAD,SUBTOTAL) "
-                + "VALUES (5,5,1,3,5.25);");
+        db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
+                "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
+                "VALUES (1, 1, 2, 2.00);");
+
+        db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
+                "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
+                "VALUES (2, 2, 4, 5.00);");
+
+        db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
+                "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
+                "VALUES (3, 3, 1, 0.75);");
+
+        db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
+                "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
+                "VALUES (4, 4, 2, 7.00);");
+
+        db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
+                "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
+                "VALUES (5, 5, 3, 5.25);");
+
     }
 }
