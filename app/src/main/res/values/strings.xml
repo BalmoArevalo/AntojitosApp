@@ -186,5 +186,28 @@
     <string name="datos_producto_btn_editar">Editar Datos Producto</string>
     <string name="datos_producto_btn_eliminar">Eliminar Datos Producto</string>
 
+    <!-- PANTALLAS CARLOS RAUDA - INICIO -->
 
+    <!-- Titulos de Dirección-->
+    <!-- Crear Dirección-->
+    <string name="direccion_crear_title">Crear Nueva Dirección</string>
+    <string name="direccion_crear_label_cliente">Cliente Asociado:</string>
+    <string name="direccion_crear_label_departamento">Departamento:</string>
+    <string name="direccion_crear_label_municipio">Municipio:</string>
+    <string name="direccion_crear_label_distrito">Distrito:</string>
+    <string name="direccion_crear_label_especifica">Dirección Específica:</string>
+    <string name="direccion_crear_hint_especifica">Ej: Col. San Benito, Pol. H, #12</string>
+    <string name="direccion_crear_label_descripcion">Descripción Adicional (Opcional):</string>
+    <string name="direccion_crear_hint_descripcion">Ej: Casa de esquina, portón negro</string>
+    <string name="direccion_crear_btn_guardar">Guardar Dirección</string>
+    <string name="placeholder_seleccione">Seleccione...</string> <string name="direccion_crear_toast_exito">Dirección guardada con ID %1$d</string> <string name="direccion_crear_toast_error_guardar">Error al guardar en la base de datos</string>
+    <string name="direccion_crear_toast_error_especifica">La dirección específica es obligatoria</string>
+    <string name="direccion_crear_toast_error_cliente">Seleccione un cliente</string>
+    <string name="direccion_crear_toast_error_departamento">Seleccione un departamento</string>
+    <string name="direccion_crear_toast_error_municipio">Seleccione un municipio válido</string>
+    <string name="direccion_crear_toast_error_distrito">Seleccione un distrito válido</string>
+    <string name="direccion_crear_toast_error_carga">Error cargando datos para %1$s</string>
+    <!-- Consultar Dirección-->
+
+    <!-- PANTALLAS CARLOS RAUDA - FIN -->
 </resources>
