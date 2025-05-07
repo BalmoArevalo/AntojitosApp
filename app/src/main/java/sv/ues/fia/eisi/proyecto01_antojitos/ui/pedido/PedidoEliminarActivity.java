@@ -3,7 +3,12 @@ package sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.*;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
 import sv.ues.fia.eisi.proyecto01_antojitos.db.*;
@@ -14,29 +19,29 @@ import sv.ues.fia.eisi.proyecto01_antojitos.ui.sucursal.*;
 
 public class PedidoEliminarActivity extends AppCompatActivity {
 
-    private EditText editTextIdEliminar;
+    private Spinner spinnerEliminarPedidos;
     private TextView textViewResultado;
     private Button btnBuscar, btnEliminar;
+
     private PedidoDAO pedidoDAO;
     private ClienteDAO clienteDAO;
     private RepartidorDAO repartidorDAO;
     private TipoEventoDAO tipoEventoDAO;
     private SucursalDAO sucursalDAO;
 
-    private Pedido pedidoEncontrado;
+    private Pedido pedidoSeleccionado;
+    private List<Pedido> listaPedidos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedido_eliminar);
 
-        // Inicializar vistas
-        editTextIdEliminar = findViewById(R.id.editTextIdEliminar);
+        spinnerEliminarPedidos = findViewById(R.id.spinnerEliminarPedidos);
         textViewResultado = findViewById(R.id.textViewResultadoEliminar);
         btnBuscar = findViewById(R.id.btnBuscarEliminar);
         btnEliminar = findViewById(R.id.btnEliminar);
 
-        // Inicializar BD y DAOs
         DBHelper dbHelper = new DBHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -46,76 +51,92 @@ public class PedidoEliminarActivity extends AppCompatActivity {
         tipoEventoDAO = new TipoEventoDAO(db);
         sucursalDAO = new SucursalDAO(db);
 
+        cargarPedidosEnSpinner();
+
         btnEliminar.setEnabled(false);
 
         btnBuscar.setOnClickListener(v -> buscarPedido());
         btnEliminar.setOnClickListener(v -> eliminarPedido());
     }
 
+    private void cargarPedidosEnSpinner() {
+        listaPedidos = pedidoDAO.obtenerTodos(); // Solo activos si ya aplicaste el filtro
+
+        List<String> opciones = new ArrayList<>();
+        for (Pedido p : listaPedidos) {
+            opciones.add("ID: " + p.getIdPedido() + " — " + p.getEstadoPedido());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerEliminarPedidos.setAdapter(adapter);
+    }
+
     private void buscarPedido() {
-        String idStr = editTextIdEliminar.getText().toString().trim();
-        if (idStr.isEmpty()) {
-            Toast.makeText(this, "Ingrese un ID válido", Toast.LENGTH_SHORT).show();
+        int posicion = spinnerEliminarPedidos.getSelectedItemPosition();
+        if (posicion == AdapterView.INVALID_POSITION || listaPedidos.isEmpty()) {
+            Toast.makeText(this, "Seleccione un pedido válido", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        int idPedido = Integer.parseInt(idStr);
-        pedidoEncontrado = pedidoDAO.consultarPorId(idPedido);
+        pedidoSeleccionado = listaPedidos.get(posicion);
 
-        if (pedidoEncontrado != null) {
-            // Buscar nombres asociados
-            Cliente cliente = clienteDAO.consultarPorId(pedidoEncontrado.getIdCliente());
-            Repartidor repartidor = repartidorDAO.obtenerPorId(pedidoEncontrado.getIdRepartidor());
-            TipoEvento tipoEvento = tipoEventoDAO.consultarPorId(pedidoEncontrado.getIdTipoEvento());
-            Sucursal sucursal = sucursalDAO.obtenerPorId(pedidoEncontrado.getIdSucursal());
+        Cliente cliente = clienteDAO.consultarPorId(pedidoSeleccionado.getIdCliente());
+        Repartidor repartidor = repartidorDAO.obtenerPorId(pedidoSeleccionado.getIdRepartidor());
+        TipoEvento tipoEvento = tipoEventoDAO.consultarPorId(pedidoSeleccionado.getIdTipoEvento());
+        Sucursal sucursal = sucursalDAO.obtenerPorId(pedidoSeleccionado.getIdSucursal());
 
-            String nombreSucursal = (sucursal != null) ? sucursal.getNombreSucursal() : "Desconocida";
-            String estadoActivo = (pedidoEncontrado.getActivoPedido() == 1) ? "Activo" : "Inactivo";
-            String nombreCliente = (cliente != null) ? cliente.getNombreCliente() : "Desconocido";
-            String nombreRepartidor = (repartidor != null) ? repartidor.getNombreRepartidor() : "Desconocido";
-            String nombreTipoEvento = (tipoEvento != null) ? tipoEvento.getNombreTipoEvento() : "Ninguno";
+        String nombreSucursal = (sucursal != null) ? sucursal.getNombreSucursal() : "Desconocida";
+        String estadoActivo = (pedidoSeleccionado.getActivoPedido() == 1) ? "Activo" : "Inactivo";
+        String nombreCliente = (cliente != null) ? cliente.getNombreCliente() : "Desconocido";
+        String nombreRepartidor = (repartidor != null) ? repartidor.getNombreRepartidor() : "Desconocido";
+        String nombreTipoEvento = (tipoEvento != null) ? tipoEvento.getNombreTipoEvento() : "Ninguno";
 
-            String info = "Pedido encontrado:\n" +
-                    "ID Pedido: " + pedidoEncontrado.getIdPedido() + "\n" +
-                    "ID Cliente: " + pedidoEncontrado.getIdCliente() + " — " + nombreCliente + "\n" +
-                    "ID Repartidor: " + pedidoEncontrado.getIdRepartidor() + " — " + nombreRepartidor + "\n" +
-                    "ID Tipo Evento: " + pedidoEncontrado.getIdTipoEvento() + " — " + nombreTipoEvento + "\n" +
-                    "ID Sucursal: " + pedidoEncontrado.getIdSucursal() + " — " + nombreSucursal + "\n" +
-                    "Fecha/Hora: " + pedidoEncontrado.getFechaHoraPedido() + "\n" +
-                    "Estado: " + pedidoEncontrado.getEstadoPedido() + "\n" +
-                    "Activo: " + estadoActivo;
+        String info = "Pedido encontrado:\n" +
+                "ID Pedido: " + pedidoSeleccionado.getIdPedido() + "\n" +
+                "ID Cliente: " + pedidoSeleccionado.getIdCliente() + " — " + nombreCliente + "\n" +
+                "ID Repartidor: " + pedidoSeleccionado.getIdRepartidor() + " — " + nombreRepartidor + "\n" +
+                "ID Tipo Evento: " + pedidoSeleccionado.getIdTipoEvento() + " — " + nombreTipoEvento + "\n" +
+                "ID Sucursal: " + pedidoSeleccionado.getIdSucursal() + " — " + nombreSucursal + "\n" +
+                "Fecha/Hora: " + pedidoSeleccionado.getFechaHoraPedido() + "\n" +
+                "Estado: " + pedidoSeleccionado.getEstadoPedido() + "\n" +
+                "Activo: " + estadoActivo;
 
-            textViewResultado.setText(info);
-            btnEliminar.setEnabled(true);
-        } else {
-            textViewResultado.setText("No se encontró el pedido.");
-            btnEliminar.setEnabled(false);
-        }
+        textViewResultado.setText(info);
+        btnEliminar.setEnabled(true);
     }
 
     private void eliminarPedido() {
-        if (pedidoEncontrado != null) {
-            int resultado = pedidoDAO.eliminar(pedidoEncontrado.getIdPedido());
+        if (pedidoSeleccionado != null) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Confirmar eliminación")
+                    .setMessage("¿Estás seguro de que deseas eliminar el pedido ID " + pedidoSeleccionado.getIdPedido() + "? Esta acción no se puede deshacer.")
+                    .setPositiveButton("Sí, eliminar", (dialog, which) -> {
+                        int resultado = pedidoDAO.eliminar(pedidoSeleccionado.getIdPedido());
 
-            switch (resultado) {
-                case 2:
-                    Toast.makeText(this, "✅ Pedido eliminado correctamente", Toast.LENGTH_SHORT).show();
-                    break;
-                case 1:
-                    Toast.makeText(this, "⚠️ Pedido no se eliminó, pero fue desactivado (está asociado a detalle o reparto)", Toast.LENGTH_LONG).show();
-                    break;
-                case 0:
-                    Toast.makeText(this, "❌ No se puede eliminar el pedido: está asociado a una factura", Toast.LENGTH_LONG).show();
-                    break;
-                default:
-                    Toast.makeText(this, "❌ Error al intentar eliminar el pedido", Toast.LENGTH_SHORT).show();
-            }
+                        switch (resultado) {
+                            case 2:
+                                Toast.makeText(this, "✅ Pedido eliminado correctamente", Toast.LENGTH_SHORT).show();
+                                break;
+                            case 1:
+                                Toast.makeText(this, "⚠️ Pedido desactivado (asociado a detalle o reparto)", Toast.LENGTH_LONG).show();
+                                break;
+                            case 0:
+                                Toast.makeText(this, "❌ No se puede eliminar: está asociado a una factura", Toast.LENGTH_LONG).show();
+                                break;
+                            default:
+                                Toast.makeText(this, "❌ Error al intentar eliminar el pedido", Toast.LENGTH_SHORT).show();
+                        }
 
-            // Resetear interfaz
-            textViewResultado.setText("");
-            editTextIdEliminar.setText("");
-            btnEliminar.setEnabled(false);
-            pedidoEncontrado = null;
+                        // Limpiar y actualizar
+                        textViewResultado.setText("");
+                        btnEliminar.setEnabled(false);
+                        cargarPedidosEnSpinner();
+                        pedidoSeleccionado = null;
+                    })
+                    .setNegativeButton("Cancelar", null)
+                    .show();
         }
     }
 }
+

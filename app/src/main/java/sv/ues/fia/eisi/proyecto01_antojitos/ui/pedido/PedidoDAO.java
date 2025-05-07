@@ -107,7 +107,7 @@ public class PedidoDAO {
 
     public List<Pedido> obtenerTodos() {
         List<Pedido> lista = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT * FROM PEDIDO", null);
+        Cursor cursor = db.rawQuery("SELECT * FROM PEDIDO WHERE ACTIVO_PEDIDO = 1", null);
 
         if (cursor.moveToFirst()) {
             do {
@@ -126,4 +126,5 @@ public class PedidoDAO {
         cursor.close();
         return lista;
     }
+
 }
