@@ -105,6 +105,28 @@
             android:layout_height="wrap_content"
             android:minHeight="48dp" />
 
+        <!-- Sucursal -->
+        <TextView
+            android:text="Sucursal:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp"/>
+
+        <Spinner
+            android:id="@+id/spinnerSucursal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp" />
+
+        <!-- Estado activo -->
+        <Switch
+            android:id="@+id/switchActivo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="¿Pedido Activo?"
+            android:layout_marginTop="16dp" />
+
         <!-- Botón guardar -->
         <Button
             android:id="@+id/btnActualizar"

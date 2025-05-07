@@ -81,6 +81,20 @@
             android:layout_height="wrap_content"
             android:minHeight="48dp" />
 
+        <!-- Sucursal -->
+        <TextView
+            android:text="Sucursal:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="8dp" />
+
+        <Spinner
+            android:id="@+id/spinnerSucursal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp" />
+
         <!-- Botón Guardar -->
         <Button
             android:id="@+id/btnGuardarPedido"
