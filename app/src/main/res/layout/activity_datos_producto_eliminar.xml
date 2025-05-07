@@ -34,14 +34,6 @@
             android:layout_marginBottom="12dp"
             android:minHeight="48dp" />
 
-        <!-- Botón para mostrar detalles -->
-        <Button
-            android:id="@+id/btnMostrarDetalles"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Mostrar Detalles"
-            android:layout_gravity="center_horizontal" />
-
         <!-- Resultado de la consulta -->
         <TextView
             android:id="@+id/tvResultadoDatosProducto"

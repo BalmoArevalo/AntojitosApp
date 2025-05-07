@@ -27,7 +27,8 @@
             android:layout_height="wrap_content"
             android:text="Sucursal:"
             android:layout_marginTop="12dp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:minHeight="48dp" />
 
         <Spinner
             android:id="@+id/spinnerSucursal"
@@ -57,34 +58,35 @@
             android:text="Buscar"
             android:layout_marginTop="16dp" />
 
-        <!-- ID de registro (solo lectura) -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ID Datos Producto:"
-            android:layout_marginTop="16dp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/editIdDatosProducto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:inputType="number"
-            android:minHeight="48dp" />
-
         <!-- Precio -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Precio (USD):"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="16dp"
             android:textStyle="bold" />
+
         <EditText
             android:id="@+id/editPrecio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
+            android:inputType="numberDecimal"
+            android:minHeight="48dp" />
+
+        <!-- Stock -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Stock:"
+            android:layout_marginTop="12dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editStock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:minHeight="48dp" />
 
         <!-- Disponible -->
         <TextView
