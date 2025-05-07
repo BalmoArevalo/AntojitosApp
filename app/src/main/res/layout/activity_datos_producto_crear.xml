@@ -40,6 +40,15 @@
             android:text="Producto:"
             android:layout_marginTop="12dp"/>
 
+        <!-- Botón para ir a Crear Producto -->
+
+        <Button
+            android:id="@+id/btnCrearProducto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Crear Producto" />
+
         <Spinner
             android:id="@+id/spinnerProducto"
             android:layout_width="match_parent"
