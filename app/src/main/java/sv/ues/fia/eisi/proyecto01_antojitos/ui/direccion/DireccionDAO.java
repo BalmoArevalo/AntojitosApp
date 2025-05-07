@@ -1,12 +1,14 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.direccion;
 
+// ... (imports sin cambios) ...
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
-import android.util.Log; // Para logs
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class DireccionDAO {
@@ -14,8 +16,13 @@ public class DireccionDAO {
     private final SQLiteDatabase db;
     private static final String TAG = "DireccionDAO";
 
-    // Constantes para la tabla y columnas
+    // Constantes para tablas relacionadas
     private static final String TABLA_DIRECCION = "DIRECCION";
+    private static final String TABLA_DEPTO = "DEPARTAMENTO";
+    private static final String TABLA_MUN = "MUNICIPIO";
+    private static final String TABLA_DIST = "DISTRITO";
+
+    // Constantes para columnas (incluyendo las de tablas unidas)
     private static final String COL_ID_CLIENTE = "ID_CLIENTE";
     private static final String COL_ID_DIRECCION = "ID_DIRECCION";
     private static final String COL_ID_DEPARTAMENTO = "ID_DEPARTAMENTO";
@@ -23,24 +30,27 @@ public class DireccionDAO {
     private static final String COL_ID_DISTRITO = "ID_DISTRITO";
     private static final String COL_DIRECCION_ESPECIFICA = "DIRECCION_ESPECIFICA";
     private static final String COL_DESCRIPCION_DIRECCION = "DESCRIPCION_DIRECCION";
-    private static final String COL_ACTIVO_DIRECCION = "ACTIVO_DIRECCION"; // Nueva columna
+    private static final String COL_ACTIVO_DIRECCION = "ACTIVO_DIRECCION";
+    // Nombres de columnas de tablas unidas (usaremos alias para evitar ambigüedad si fuera necesario)
+    private static final String COL_NOMBRE_DEPTO = "NOMBRE_DEPARTAMENTO";
+    private static final String COL_NOMBRE_MUN = "NOMBRE_MUNICIPIO";
+    private static final String COL_NOMBRE_DIST = "NOMBRE_DISTRITO";
 
-    // Array con todas las columnas para consultas
-    private static final String[] COLUMNAS_DIRECCION = {
-            COL_ID_CLIENTE, COL_ID_DIRECCION, COL_ID_DEPARTAMENTO, COL_ID_MUNICIPIO,
-            COL_ID_DISTRITO, COL_DIRECCION_ESPECIFICA, COL_DESCRIPCION_DIRECCION,
-            COL_ACTIVO_DIRECCION // Incluir nueva columna
+    // Array con todas las columnas a seleccionar (de DIRECCION y las unidas)
+    // Usamos alias D, DEP, MUN, DIST para las tablas
+    private static final String[] COLUMNAS_DIRECCION_CON_NOMBRES = {
+            "D." + COL_ID_CLIENTE, "D." + COL_ID_DIRECCION, "D." + COL_ID_DEPARTAMENTO,
+            "D." + COL_ID_MUNICIPIO, "D." + COL_ID_DISTRITO, "D." + COL_DIRECCION_ESPECIFICA,
+            "D." + COL_DESCRIPCION_DIRECCION, "D." + COL_ACTIVO_DIRECCION,
+            "DEP." + COL_NOMBRE_DEPTO, "MUN." + COL_NOMBRE_MUN, "DIST." + COL_NOMBRE_DIST
     };
 
-    public DireccionDAO(SQLiteDatabase db) {
-        this.db = db;
-    }
 
-    /**
-     * Calcula el siguiente ID_DIRECCION para un cliente dado
-     * (MAX(ID_DIRECCION) + 1, o 1 si no hay ninguno).
-     * La lógica original se mantiene.
-     */
+    public DireccionDAO(SQLiteDatabase db) { this.db = db; }
+
+    // --- Métodos insertar, actualizar, eliminar, getNextId (Sin cambios lógicos internos) ---
+    // (El código de estos métodos que ya adaptamos se mantiene igual)
+    // ... (copia aquí los métodos insertar, actualizar, eliminar, getNextIdDireccion adaptados previamente) ...
     public int getNextIdDireccion(int idCliente) {
         int next = 1;
         Cursor cursor = null;
@@ -58,13 +68,6 @@ public class DireccionDAO {
         }
         return next;
     }
-
-    /**
-     * Inserta una nueva dirección con clave compuesta.
-     * Incluye el campo ACTIVO_DIRECCION. Se espera que el valor (0 o 1) venga en el objeto Direccion.
-     * Si no se setea en el objeto Direccion antes de llamar, y la DB tiene DEFAULT 1, ese valor se usará.
-     * Por seguridad, es mejor setearlo explícitamente (ej. a 1) en la lógica de creación.
-     */
     public long insertar(Direccion dir) {
         ContentValues values = new ContentValues();
         values.put(COL_ID_CLIENTE, dir.getIdCliente());
@@ -85,68 +88,6 @@ public class DireccionDAO {
             return -1; // Indicar error
         }
     }
-
-    /**
-     * Consulta una dirección específica por su clave primaria compuesta (cliente, dirección).
-     * Ahora devuelve también el estado ACTIVO_DIRECCION.
-     */
-    public Direccion consultarPorId(int idCliente, int idDireccion) {
-        Direccion direccion = null;
-        Cursor cursor = null;
-        String selection = COL_ID_CLIENTE + "=? AND " + COL_ID_DIRECCION + "=?";
-        String[] selectionArgs = {String.valueOf(idCliente), String.valueOf(idDireccion)};
-
-        try {
-            cursor = db.query(TABLA_DIRECCION, COLUMNAS_DIRECCION, selection, selectionArgs, null, null, null);
-
-            if (cursor != null && cursor.moveToFirst()) {
-                direccion = cursorToDireccion(cursor); // Usar helper
-                Log.d(TAG, "Dirección consultada: Cliente " + idCliente + ", ID_Direccion " + idDireccion);
-            } else {
-                Log.d(TAG, "Dirección NO encontrada: Cliente " + idCliente + ", ID_Direccion " + idDireccion);
-            }
-        } catch (SQLiteException e) {
-            Log.e(TAG, "Error consultando dirección: Cliente " + idCliente + ", ID_Direccion " + idDireccion, e);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return direccion;
-    }
-
-    /**
-     * Obtiene todas las direcciones (activas e inactivas) de un cliente dado.
-     * La lógica original no filtraba por estado activo, se mantiene así.
-     */
-    public List<Direccion> obtenerPorCliente(int idCliente) {
-        List<Direccion> lista = new ArrayList<>();
-        Cursor cursor = null;
-        // Usar nombres de columna explícitos en lugar de SELECT *
-        String query = "SELECT " + String.join(",", COLUMNAS_DIRECCION) +
-                " FROM " + TABLA_DIRECCION +
-                " WHERE " + COL_ID_CLIENTE + " = ?";
-        try {
-            cursor = db.rawQuery(query, new String[]{ String.valueOf(idCliente) });
-            if (cursor != null && cursor.moveToFirst()) {
-                do {
-                    lista.add(cursorToDireccion(cursor)); // Usar helper
-                } while (cursor.moveToNext());
-                Log.d(TAG, "Se obtuvieron " + lista.size() + " direcciones para el Cliente " + idCliente);
-            } else {
-                Log.d(TAG, "No se encontraron direcciones para el Cliente " + idCliente);
-            }
-        } catch (SQLiteException e) {
-            Log.e(TAG, "Error obteniendo direcciones para Cliente " + idCliente, e);
-        } finally {
-            if (cursor != null) cursor.close();
-        }
-        return lista;
-    }
-
-    /**
-     * Actualiza una dirección existente. Ahora permite actualizar también ACTIVO_DIRECCION.
-     */
     public int actualizar(Direccion direccion) {
         ContentValues valores = new ContentValues();
         // No se actualizan las claves primarias (ID_CLIENTE, ID_DIRECCION)
@@ -176,13 +117,6 @@ public class DireccionDAO {
             return 0;
         }
     }
-
-    /**
-     * Elimina físicamente la dirección identificada (Hard Delete).
-     * La lógica original se mantiene.
-     * Considera implementar un método 'desactivar' que use 'actualizar'
-     * para poner ACTIVO_DIRECCION = 0 (Soft Delete) si es necesario.
-     */
     public int eliminar(int idCliente, int idDireccion) {
         String whereClause = COL_ID_CLIENTE + " = ? AND " + COL_ID_DIRECCION + " = ?";
         String[] whereArgs = {
@@ -203,49 +137,120 @@ public class DireccionDAO {
         }
     }
 
+    // --- Métodos de Consulta Modificados ---
+
     /**
-     * Devuelve todas las direcciones (activas e inactivas) de la tabla.
-     * La lógica original no filtraba por estado activo, se mantiene así.
+     * Consulta una dirección específica por su PK, incluyendo nombres de Depto/Mun/Dist.
      */
-    public List<Direccion> obtenerTodas() {
-        List<Direccion> lista = new ArrayList<>();
+    public Direccion consultarPorId(int idCliente, int idDireccion) {
+        Direccion direccion = null;
         Cursor cursor = null;
+        String table = TABLA_DIRECCION + " D" +
+                " INNER JOIN " + TABLA_DEPTO + " DEP ON D." + COL_ID_DEPARTAMENTO + " = DEP." + COL_ID_DEPARTAMENTO +
+                " INNER JOIN " + TABLA_MUN + " MUN ON D." + COL_ID_MUNICIPIO + " = MUN." + COL_ID_MUNICIPIO + " AND D." + COL_ID_DEPARTAMENTO + " = MUN." + COL_ID_DEPARTAMENTO +
+                " INNER JOIN " + TABLA_DIST + " DIST ON D." + COL_ID_DISTRITO + " = DIST." + COL_ID_DISTRITO + " AND D." + COL_ID_MUNICIPIO + " = DIST." + COL_ID_MUNICIPIO + " AND D." + COL_ID_DEPARTAMENTO + " = DIST." + COL_ID_DEPARTAMENTO;
+
+        String selection = "D." + COL_ID_CLIENTE + "=? AND D." + COL_ID_DIRECCION + "=?";
+        String[] selectionArgs = {String.valueOf(idCliente), String.valueOf(idDireccion)};
+
         try {
-            // Usar nombres de columna explícitos
-            cursor = db.query(TABLA_DIRECCION, COLUMNAS_DIRECCION, null, null, null, null, COL_ID_CLIENTE + " ASC, " + COL_ID_DIRECCION + " ASC");
+            cursor = db.query(table, COLUMNAS_DIRECCION_CON_NOMBRES, selection, selectionArgs, null, null, null);
             if (cursor != null && cursor.moveToFirst()) {
-                do {
-                    lista.add(cursorToDireccion(cursor)); // Usar helper
-                } while (cursor.moveToNext());
-                Log.d(TAG, "Se obtuvieron " + lista.size() + " direcciones en total.");
+                direccion = cursorToDireccion(cursor); // Usar helper actualizado
+                Log.d(TAG, "Dirección consultada (con nombres): Cliente " + idCliente + ", ID_Direccion " + idDireccion);
             } else {
-                Log.d(TAG, "No se encontraron direcciones en obtenerTodas().");
+                Log.d(TAG, "Dirección NO encontrada (con nombres): Cliente " + idCliente + ", ID_Direccion " + idDireccion);
             }
         } catch (SQLiteException e) {
-            Log.e(TAG, "Error obteniendo todas las direcciones", e);
+            Log.e(TAG, "Error consultando dirección (con nombres): Cliente " + idCliente + ", ID_Direccion " + idDireccion, e);
         } finally {
-            if (cursor != null) {
-                cursor.close();
+            if (cursor != null) cursor.close();
+        }
+        return direccion;
+    }
+
+    /**
+     * Obtiene todas las direcciones (activas e inactivas) de un cliente dado,
+     * incluyendo los nombres de Depto/Mun/Dist.
+     */
+    public List<Direccion> obtenerPorCliente(int idCliente) {
+        List<Direccion> lista = new ArrayList<>();
+        Cursor cursor = null;
+        String query = "SELECT " + String.join(",", COLUMNAS_DIRECCION_CON_NOMBRES) +
+                " FROM " + TABLA_DIRECCION + " D" +
+                " INNER JOIN " + TABLA_DEPTO + " DEP ON D." + COL_ID_DEPARTAMENTO + " = DEP." + COL_ID_DEPARTAMENTO +
+                " INNER JOIN " + TABLA_MUN + " MUN ON D." + COL_ID_MUNICIPIO + " = MUN." + COL_ID_MUNICIPIO + " AND D." + COL_ID_DEPARTAMENTO + " = MUN." + COL_ID_DEPARTAMENTO +
+                " INNER JOIN " + TABLA_DIST + " DIST ON D." + COL_ID_DISTRITO + " = DIST." + COL_ID_DISTRITO + " AND D." + COL_ID_MUNICIPIO + " = DIST." + COL_ID_MUNICIPIO + " AND D." + COL_ID_DEPARTAMENTO + " = DIST." + COL_ID_DEPARTAMENTO +
+                " WHERE D." + COL_ID_CLIENTE + " = ?" +
+                " ORDER BY D." + COL_ID_DIRECCION + " ASC"; // Ordenar por ID de dirección
+
+        try {
+            cursor = db.rawQuery(query, new String[]{ String.valueOf(idCliente) });
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    lista.add(cursorToDireccion(cursor)); // Usar helper actualizado
+                } while (cursor.moveToNext());
+                Log.d(TAG, "Se obtuvieron " + lista.size() + " direcciones (con nombres) para el Cliente " + idCliente);
+            } else {
+                Log.d(TAG, "No se encontraron direcciones (con nombres) para el Cliente " + idCliente);
             }
+        } catch (SQLiteException e) {
+            Log.e(TAG, "Error obteniendo direcciones (con nombres) para Cliente " + idCliente, e);
+        } finally {
+            if (cursor != null) cursor.close();
         }
         return lista;
     }
 
     /**
-     * Método helper para convertir una fila del Cursor en un objeto Direccion.
-     * @param cursor Cursor posicionado en la fila deseada.
-     * @return Objeto Direccion poblado.
+     * Devuelve todas las direcciones (activas e inactivas), incluyendo nombres de Depto/Mun/Dist.
+     */
+    public List<Direccion> obtenerTodas() {
+        List<Direccion> lista = new ArrayList<>();
+        Cursor cursor = null;
+        String query = "SELECT " + String.join(",", COLUMNAS_DIRECCION_CON_NOMBRES) +
+                " FROM " + TABLA_DIRECCION + " D" +
+                " INNER JOIN " + TABLA_DEPTO + " DEP ON D." + COL_ID_DEPARTAMENTO + " = DEP." + COL_ID_DEPARTAMENTO +
+                " INNER JOIN " + TABLA_MUN + " MUN ON D." + COL_ID_MUNICIPIO + " = MUN." + COL_ID_MUNICIPIO + " AND D." + COL_ID_DEPARTAMENTO + " = MUN." + COL_ID_DEPARTAMENTO +
+                " INNER JOIN " + TABLA_DIST + " DIST ON D." + COL_ID_DISTRITO + " = DIST." + COL_ID_DISTRITO + " AND D." + COL_ID_MUNICIPIO + " = DIST." + COL_ID_MUNICIPIO + " AND D." + COL_ID_DEPARTAMENTO + " = DIST." + COL_ID_DEPARTAMENTO +
+                " ORDER BY D." + COL_ID_CLIENTE + " ASC, D." + COL_ID_DIRECCION + " ASC";
+        try {
+            cursor = db.rawQuery(query, null);
+            if (cursor != null && cursor.moveToFirst()) {
+                do {
+                    lista.add(cursorToDireccion(cursor)); // Usar helper actualizado
+                } while (cursor.moveToNext());
+                Log.d(TAG, "Se obtuvieron " + lista.size() + " direcciones totales (con nombres).");
+            } else {
+                Log.d(TAG, "No se encontraron direcciones en obtenerTodas() (con nombres).");
+            }
+        } catch (SQLiteException e) {
+            Log.e(TAG, "Error obteniendo todas las direcciones (con nombres)", e);
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+        return lista;
+    }
+
+    /**
+     * Método helper para convertir una fila del Cursor en un objeto Direccion,
+     * incluyendo los nombres de Depto/Mun/Dist obtenidos del JOIN.
      */
     private Direccion cursorToDireccion(Cursor cursor) {
         Direccion dir = new Direccion();
-        dir.setIdCliente(cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID_CLIENTE)));
-        dir.setIdDireccion(cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID_DIRECCION)));
-        dir.setIdDepartamento(cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID_DEPARTAMENTO)));
-        dir.setIdMunicipio(cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID_MUNICIPIO)));
-        dir.setIdDistrito(cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID_DISTRITO)));
-        dir.setDireccionEspecifica(cursor.getString(cursor.getColumnIndexOrThrow(COL_DIRECCION_ESPECIFICA)));
-        dir.setDescripcionDireccion(cursor.getString(cursor.getColumnIndexOrThrow(COL_DESCRIPCION_DIRECCION)));
-        dir.setActivoDireccion(cursor.getInt(cursor.getColumnIndexOrThrow(COL_ACTIVO_DIRECCION))); // Obtener nuevo campo
+        // --- Campos de DIRECCION ---
+        dir.setIdCliente(cursor.getInt(cursor.getColumnIndexOrThrow("D." + COL_ID_CLIENTE)));
+        dir.setIdDireccion(cursor.getInt(cursor.getColumnIndexOrThrow("D." + COL_ID_DIRECCION)));
+        dir.setIdDepartamento(cursor.getInt(cursor.getColumnIndexOrThrow("D." + COL_ID_DEPARTAMENTO)));
+        dir.setIdMunicipio(cursor.getInt(cursor.getColumnIndexOrThrow("D." + COL_ID_MUNICIPIO)));
+        dir.setIdDistrito(cursor.getInt(cursor.getColumnIndexOrThrow("D." + COL_ID_DISTRITO)));
+        dir.setDireccionEspecifica(cursor.getString(cursor.getColumnIndexOrThrow("D." + COL_DIRECCION_ESPECIFICA)));
+        dir.setDescripcionDireccion(cursor.getString(cursor.getColumnIndexOrThrow("D." + COL_DESCRIPCION_DIRECCION)));
+        dir.setActivoDireccion(cursor.getInt(cursor.getColumnIndexOrThrow("D." + COL_ACTIVO_DIRECCION)));
+        // --- Campos de Nombres (JOIN) ---
+        dir.setNombreDepartamento(cursor.getString(cursor.getColumnIndexOrThrow("DEP." + COL_NOMBRE_DEPTO)));
+        dir.setNombreMunicipio(cursor.getString(cursor.getColumnIndexOrThrow("MUN." + COL_NOMBRE_MUN)));
+        dir.setNombreDistrito(cursor.getString(cursor.getColumnIndexOrThrow("DIST." + COL_NOMBRE_DIST)));
         return dir;
     }
 }

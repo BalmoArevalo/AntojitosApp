@@ -1,5 +1,6 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.direccion;
 
+// ... (imports sin cambios) ...
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -7,12 +8,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale; // Importar Locale
+import java.util.Locale;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
 import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
@@ -26,15 +25,16 @@ public class DireccionConsultarActivity extends AppCompatActivity {
     private TextView tvResultado;
     private DBHelper dbHelper;
     private List<Integer> clienteIds = new ArrayList<>();
+    // NO necesitamos el ViewModel si usamos DBHelper/DAO directamente como en el original
+    // private DireccionViewModel direccionViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_direccion_consultar);
-        setTitle(getString(R.string.direccion_consultar_title)); // Establecer título
+        setTitle(getString(R.string.direccion_consultar_title));
 
         dbHelper       = new DBHelper(this);
-        // Usar los nuevos IDs del layout XML
         spinnerCliente = findViewById(R.id.spinnerConsultaDireccionCliente);
         btnCargar      = findViewById(R.id.btnCargarDireccionesCliente);
         tvResultado    = findViewById(R.id.tvConsultaDireccionResultado);
@@ -44,19 +44,20 @@ public class DireccionConsultarActivity extends AppCompatActivity {
         btnCargar.setOnClickListener(v -> mostrarDirecciones());
     }
 
+    // cargarSpinnerClientes (sin cambios respecto a la versión anterior,
+    //                     pero asegúrate que el typo APELLIDO_CLIENTE está corregido)
     private void cargarSpinnerClientes() {
         clienteIds.clear();
         List<String> nombres = new ArrayList<>();
-        nombres.add(getString(R.string.placeholder_seleccione)); // Usar string resource
+        nombres.add(getString(R.string.placeholder_seleccione));
         clienteIds.add(-1);
 
         SQLiteDatabase db = null;
         Cursor c = null;
         try {
             db = dbHelper.getReadableDatabase();
-            // Corregir typo APELLIDO_CLIENTE
             c = db.rawQuery(
-                    "SELECT ID_CLIENTE, NOMBRE_CLIENTE || ' ' || APELLIDO_CLIENTE FROM CLIENTE ORDER BY NOMBRE_CLIENTE ASC, APELLIDO_CLIENTE ASC",
+                    "SELECT ID_CLIENTE, NOMBRE_CLIENTE || ' ' || APELLIDO_CLIENTE FROM CLIENTE ORDER BY NOMBRE_CLIENTE ASC, APELLIDO_CLIENTE ASC", // Corregido
                     null
             );
             while (c.moveToNext()) {
@@ -65,12 +66,10 @@ public class DireccionConsultarActivity extends AppCompatActivity {
             }
         } catch (SQLiteException ex) {
             Log.e(TAG, "Error cargando spinner clientes", ex);
-            // Podrías añadir un item indicando el error si quieres
-            // nombres.add("Error al cargar"); clienteIds.add(-1);
-            Toast.makeText(this, "Error al cargar clientes", Toast.LENGTH_SHORT).show(); // Toast genérico
+            Toast.makeText(this, "Error al cargar clientes", Toast.LENGTH_SHORT).show();
         } finally {
             if (c != null) c.close();
-            // No cerrar DB aquí
+            // No cerrar db aquí
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(
@@ -80,22 +79,24 @@ public class DireccionConsultarActivity extends AppCompatActivity {
         spinnerCliente.setAdapter(adapter);
     }
 
+    // --- MÉTODO MODIFICADO ---
     private void mostrarDirecciones() {
         int pos = spinnerCliente.getSelectedItemPosition();
-        if (pos <= 0) { // Posición 0 es el placeholder
+        if (pos <= 0) {
             Toast.makeText(this, R.string.direccion_consultar_seleccione_cliente, Toast.LENGTH_SHORT).show();
-            tvResultado.setText(""); // Limpiar resultados si no hay cliente seleccionado
+            tvResultado.setText("");
             return;
         }
         int idCli = clienteIds.get(pos);
         Log.d(TAG, "Mostrando direcciones para Cliente ID: " + idCli);
 
         SQLiteDatabase db = null;
-        List<Direccion> lista = new ArrayList<>(); // Inicializar lista
+        List<Direccion> lista = new ArrayList<>();
 
         try {
             db = dbHelper.getReadableDatabase();
-            DireccionDAO dao = new DireccionDAO(db); // DAO actualizado obtiene ACTIVO_DIRECCION
+            // *** USA EL DAO MODIFICADO QUE OBTIENE LOS NOMBRES ***
+            DireccionDAO dao = new DireccionDAO(db);
             lista = dao.obtenerPorCliente(idCli);
             Log.d(TAG, "Direcciones encontradas para cliente " + idCli + ": " + lista.size());
         } catch (Exception e) {
@@ -114,28 +115,37 @@ public class DireccionConsultarActivity extends AppCompatActivity {
             String formatoSinDesc = getString(R.string.direccion_consultar_formato_direccion_sin_desc);
 
             for (Direccion d : lista) {
-                // Obtener el estado ACTIVO/INACTIVO
-                if (d.getActivoDireccion() == 1) {
-                    estadoStr = getString(R.string.direccion_consultar_estado_activa);
-                } else {
-                    estadoStr = getString(R.string.direccion_consultar_estado_inactiva);
-                }
+                // Determinar estado
+                estadoStr = (d.getActivoDireccion() == 1) ?
+                        getString(R.string.direccion_consultar_estado_activa) :
+                        getString(R.string.direccion_consultar_estado_inactiva);
 
-                // Construir el string usando String.format y los recursos
+                // Obtener nombres de ubicación (ahora están en el objeto Direccion)
+                String depto = d.getNombreDepartamento() != null ? d.getNombreDepartamento() : "N/A";
+                String mun = d.getNombreMunicipio() != null ? d.getNombreMunicipio() : "N/A";
+                String dist = d.getNombreDistrito() != null ? d.getNombreDistrito() : "N/A";
                 String descripcion = d.getDescripcionDireccion();
+
+                // Formatear y añadir al StringBuilder
                 if (descripcion != null && !descripcion.isEmpty()) {
                     sb.append(String.format(formatoConDesc,
-                            d.getIdDireccion(),
-                            estadoStr, // Incluir estado
-                            d.getDireccionEspecifica(),
-                            descripcion));
+                            d.getIdDireccion(),       // %1$d
+                            estadoStr,                // %2$s
+                            d.getDireccionEspecifica(),// %3$s
+                            depto,                    // %4$s
+                            mun,                      // %5$s
+                            dist,                     // %6$s
+                            descripcion));            // %7$s
                 } else {
                     sb.append(String.format(formatoSinDesc,
-                            d.getIdDireccion(),
-                            estadoStr, // Incluir estado
-                            d.getDireccionEspecifica()));
+                            d.getIdDireccion(),       // %1$d
+                            estadoStr,                // %2$s
+                            d.getDireccionEspecifica(),// %3$s
+                            depto,                    // %4$s
+                            mun,                      // %5$s
+                            dist));                   // %6$s
                 }
-                sb.append("\n"); // Añadir una línea extra de separación
+                sb.append("\n"); // Añadir separación extra
             }
             tvResultado.setText(sb.toString().trim());
         }

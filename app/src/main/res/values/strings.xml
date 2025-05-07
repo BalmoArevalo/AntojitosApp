@@ -216,8 +216,8 @@
     <string name="direccion_consultar_seleccione_cliente">Seleccione un cliente válido</string>
     <string name="direccion_consultar_estado_activa">[Activa]</string>
     <string name="direccion_consultar_estado_inactiva">[Inactiva]</string>
-    <string name="direccion_consultar_formato_direccion">ID_Dir: %1$d %2$s\n %3$s (%4$s)\n</string>
-    <string name="direccion_consultar_formato_direccion_sin_desc">ID_Dir: %1$d %2$s\n %3$s\n</string>
+    <string name="direccion_consultar_formato_direccion">ID_Dir: %1$d %2$s\n%3$s\n%4$s, %5$s, %6$s\n(%7$s)\n</string>
+    <string name="direccion_consultar_formato_direccion_sin_desc">ID_Dir: %1$d %2$s\n%3$s\n%4$s, %5$s, %6$s\n</string>
 
     <!-- Editar Dirección-->
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
