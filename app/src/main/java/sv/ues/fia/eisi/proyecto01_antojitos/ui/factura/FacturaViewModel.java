@@ -6,84 +6,44 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import android.util.Log; // Para logs
 
-import java.util.Collections; // Para devolver lista vacía segura
+import java.util.Collections;
 import java.util.List;
 
-import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper; // Asegúrate que la ruta sea correcta
+import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
 
 public class FacturaViewModel extends AndroidViewModel {
 
-    // LiveData para la lista de facturas (observable por la UI)
-    private final MutableLiveData<List<Factura>> listaFacturas = new MutableLiveData<>();
-    // LiveData para una factura individual (útil para vistas de detalle)
-    private final MutableLiveData<Factura> facturaSeleccionada = new MutableLiveData<>();
+    private static final String TAG = "FacturaViewModel";
 
-    // DBHelper y DAO (se instancian cuando se necesitan)
+    private final MutableLiveData<List<Factura>> listaFacturas = new MutableLiveData<>();
+    private final MutableLiveData<Factura> facturaSeleccionada = new MutableLiveData<>();
     private DBHelper dbHelper;
 
-    // Constructor
     public FacturaViewModel(@NonNull Application application) {
         super(application);
-        dbHelper = new DBHelper(application); // Crear instancia del DBHelper
+        dbHelper = new DBHelper(application);
     }
 
-    // --- Métodos para exponer LiveData a la UI ---
-
-    /**
-     * Obtiene la lista observable de todas las facturas.
-     * La UI observará este LiveData para actualizarse automáticamente.
-     */
     public LiveData<List<Factura>> getListaFacturas() {
         return listaFacturas;
     }
 
-    /**
-     * Obtiene la factura seleccionada observable.
-     * Útil si tienes una vista que muestra detalles de una factura específica.
-     */
     public LiveData<Factura> getFacturaSeleccionada() {
         return facturaSeleccionada;
     }
 
-
-    // --- Métodos para cargar datos desde el DAO ---
-
-    /**
-     * Carga todas las facturas desde la base de datos y actualiza el LiveData.
-     * Se debería llamar desde la UI (Fragment/Activity) cuando necesite los datos.
-     */
     public void cargarTodasLasFacturas() {
         SQLiteDatabase db = null;
         try {
             db = dbHelper.getReadableDatabase();
             FacturaDAO dao = new FacturaDAO(db);
-            List<Factura> facturas = dao.obtenerTodas();
-            listaFacturas.postValue(facturas); // Usar postValue si se llama desde un hilo secundario, setValue si es desde el principal
-        } catch (Exception e) {
-            // Manejar error, quizás posteando una lista vacía o un estado de error
-            System.err.println("Error cargando todas las facturas: " + e.getMessage());
-            listaFacturas.postValue(Collections.emptyList()); // Informar lista vacía en caso de error
-        } finally {
-            if (db != null && db.isOpen()) {
-                db.close(); // Cerrar la base de datos
-            }
-        }
-    }
-
-    /**
-     * Carga todas las facturas de un pedido específico y actualiza el LiveData listaFacturas.
-     * @param idPedido El ID del pedido cuyas facturas se quieren cargar.
-     */
-    public void cargarFacturasPorPedido(int idPedido) {
-        SQLiteDatabase db = null;
-        try {
-            db = dbHelper.getReadableDatabase();
-            FacturaDAO dao = new FacturaDAO(db);
-            List<Factura> facturas = dao.obtenerPorPedido(idPedido);
+            List<Factura> facturas = dao.obtenerTodas(); // Asume que FacturaDAO.obtenerTodas() está adaptado
             listaFacturas.postValue(facturas);
+            Log.d(TAG, "Cargadas " + (facturas != null ? facturas.size() : 0) + " facturas en total.");
         } catch (Exception e) {
-            System.err.println("Error cargando facturas por pedido: " + e.getMessage());
+            Log.e(TAG, "Error cargando todas las facturas", e);
             listaFacturas.postValue(Collections.emptyList());
         } finally {
             if (db != null && db.isOpen()) {
@@ -92,70 +52,104 @@ public class FacturaViewModel extends AndroidViewModel {
         }
     }
 
-
     /**
-     * Consulta una factura específica por su ID compuesto y actualiza el LiveData facturaSeleccionada.
-     * No actualiza la lista principal, sólo el LiveData de la factura individual.
-     * @param idPedido ID del Pedido.
-     * @param idFactura ID de la Factura.
+     * Consulta una factura específica por su ID_FACTURA (PK).
+     * Actualiza el LiveData facturaSeleccionada.
+     * @param idFactura El ID de la factura a consultar.
      */
-    public void consultarFacturaPorId(int idPedido, int idFactura) {
+    public void consultarFacturaPorId(int idFactura) {
         SQLiteDatabase db = null;
         Factura factura = null;
         try {
             db = dbHelper.getReadableDatabase();
             FacturaDAO dao = new FacturaDAO(db);
-            factura = dao.consultarPorId(idPedido, idFactura);
-            facturaSeleccionada.postValue(factura); // Postear la factura encontrada (o null si no se encontró)
+            // !!! CAMBIO: FacturaDAO.consultarPorId ahora solo necesita idFactura
+            factura = dao.consultarPorId(idFactura);
+            facturaSeleccionada.postValue(factura);
+            if (factura != null) {
+                Log.d(TAG, "Factura consultada por ID: " + idFactura + ", Pedido ID: " + factura.getIdPedido());
+            } else {
+                Log.d(TAG, "Factura con ID: " + idFactura + " no encontrada.");
+            }
         } catch (Exception e) {
-            System.err.println("Error consultando factura por ID: " + e.getMessage());
-            facturaSeleccionada.postValue(null); // Postear null en caso de error
+            Log.e(TAG, "Error consultando factura por ID: " + idFactura, e);
+            facturaSeleccionada.postValue(null);
         } finally {
             if (db != null && db.isOpen()) {
                 db.close();
             }
         }
-        // Nota: Este método actualiza 'facturaSeleccionada', no retorna el objeto directamente.
-        // Si necesitas el objeto de forma síncrona (menos común en ViewModel), tendrías que cambiar la firma.
     }
 
-    // --- Métodos para operaciones CRUD (Insertar, Actualizar, Eliminar) ---
-    // Estos métodos generalmente se llaman desde la Activity/Fragment después de la interacción del usuario.
-    // Podrían retornar un boolean indicando éxito/fallo, o usar otro LiveData para comunicar el resultado.
-
     /**
-     * Inserta una nueva factura.
-     * @param factura La factura a insertar.
-     * @return true si la inserción fue exitosa, false en caso contrario.
+     * Consulta la factura asociada a un ID_PEDIDO específico (relación 1:1).
+     * Actualiza el LiveData facturaSeleccionada.
+     * @param idPedido El ID del pedido cuya factura se quiere consultar.
      */
-    public boolean insertarFactura(Factura factura) {
+    public void consultarFacturaDePedido(int idPedido) {
         SQLiteDatabase db = null;
-        boolean exito = false;
+        Factura factura = null;
         try {
-            db = dbHelper.getWritableDatabase(); // Necesitamos escribir
+            db = dbHelper.getReadableDatabase();
             FacturaDAO dao = new FacturaDAO(db);
-            // Obtenemos el siguiente ID *antes* de insertar
-            int nextId = dao.getNextIdFactura(factura.getIdPedido());
-            factura.setIdFactura(nextId); // Establecemos el ID calculado
-            long resultado = dao.insertar(factura);
-            exito = (resultado != -1); // Inserción exitosa si el resultado no es -1
+            // !!! CAMBIO: Se necesita un método en FacturaDAO para buscar por ID_PEDIDO
+            // (ej: dao.consultarPorIdPedido(idPedido))
+            factura = dao.consultarPorIdPedido(idPedido); // Asume que este método existe en FacturaDAO
+            facturaSeleccionada.postValue(factura);
+            if (factura != null) {
+                Log.d(TAG, "Factura consultada para Pedido ID: " + idPedido + ", Factura ID: " + factura.getIdFactura());
+            } else {
+                Log.d(TAG, "No se encontró factura para Pedido ID: " + idPedido);
+            }
         } catch (Exception e) {
-            System.err.println("Error insertando factura: " + e.getMessage());
-            exito = false;
+            Log.e(TAG, "Error consultando factura de pedido: " + idPedido, e);
+            facturaSeleccionada.postValue(null);
         } finally {
             if (db != null && db.isOpen()) {
                 db.close();
             }
         }
-        // Opcional: Si la inserción fue exitosa, podrías recargar la lista
-        // if (exito) { cargarTodasLasFacturas(); // O cargarFacturasPorPedido si es relevante }
-        return exito;
+    }
+
+
+    /**
+     * Inserta una nueva factura. ID_FACTURA es autoincremental.
+     * @param factura La factura a insertar (debe tener ID_PEDIDO seteado).
+     * @return El ID de la factura insertada, o -1 si ocurrió un error.
+     */
+    public long insertarFactura(Factura factura) {
+        SQLiteDatabase db = null;
+        long nuevoIdFactura = -1;
+        try {
+            db = dbHelper.getWritableDatabase();
+            FacturaDAO dao = new FacturaDAO(db);
+            // !!! CAMBIO: ID_FACTURA es AUTOINCREMENT. El DAO.insertar debe devolver el nuevo ID.
+            // No se necesita getNextIdFactura().
+            nuevoIdFactura = dao.insertar(factura); // Asume que dao.insertar devuelve el ID (long)
+            if (nuevoIdFactura != -1) {
+                factura.setIdFactura((int) nuevoIdFactura); // Actualizar el objeto factura con el ID generado
+                Log.d(TAG, "Factura insertada con ID: " + nuevoIdFactura + " para Pedido ID: " + factura.getIdPedido());
+                // Opcional: recargar lista o factura seleccionada si es necesario
+                // cargarTodasLasFacturas();
+                // facturaSeleccionada.postValue(factura);
+            } else {
+                Log.e(TAG, "Error al insertar factura para Pedido ID: " + factura.getIdPedido());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Excepción al insertar factura", e);
+            nuevoIdFactura = -1;
+        } finally {
+            if (db != null && db.isOpen()) {
+                db.close();
+            }
+        }
+        return nuevoIdFactura;
     }
 
     /**
      * Actualiza una factura existente.
-     * @param factura La factura con los datos actualizados.
-     * @return true si la actualización fue exitosa (al menos una fila afectada), false en caso contrario.
+     * @param factura La factura con los datos actualizados (debe tener ID_FACTURA).
+     * @return true si la actualización fue exitosa, false en caso contrario.
      */
     public boolean actualizarFactura(Factura factura) {
         SQLiteDatabase db = null;
@@ -163,56 +157,68 @@ public class FacturaViewModel extends AndroidViewModel {
         try {
             db = dbHelper.getWritableDatabase();
             FacturaDAO dao = new FacturaDAO(db);
+            // !!! CAMBIO: FacturaDAO.actualizar ahora usa ID_FACTURA como clave para el WHERE.
             int filasAfectadas = dao.actualizar(factura);
             exito = (filasAfectadas > 0);
+            if (exito) {
+                Log.d(TAG, "Factura actualizada con ID: " + factura.getIdFactura());
+                // Opcional: recargar datos
+                // consultarFacturaPorId(factura.getIdFactura());
+            } else {
+                Log.w(TAG, "No se actualizó la factura con ID: " + factura.getIdFactura() + " (quizás no existía o no hubo cambios)");
+            }
         } catch (Exception e) {
-            System.err.println("Error actualizando factura: " + e.getMessage());
+            Log.e(TAG, "Error actualizando factura ID: " + factura.getIdFactura(), e);
             exito = false;
         } finally {
             if (db != null && db.isOpen()) {
                 db.close();
             }
         }
-        // Opcional: Si la actualización fue exitosa, recargar datos
-        // if (exito) { ... }
         return exito;
     }
 
     /**
-     * Elimina una factura.
-     * @param idPedido ID del pedido de la factura a eliminar.
+     * Elimina una factura por su ID_FACTURA.
      * @param idFactura ID de la factura a eliminar.
-     * @return true si la eliminación fue exitosa (al menos una fila afectada), false en caso contrario.
+     * @return true si la eliminación fue exitosa, false en caso contrario.
      */
-    public boolean eliminarFactura(int idPedido, int idFactura) {
+    public boolean eliminarFactura(int idFactura) {
         SQLiteDatabase db = null;
         boolean exito = false;
         try {
             db = dbHelper.getWritableDatabase();
             FacturaDAO dao = new FacturaDAO(db);
-            int filasAfectadas = dao.eliminar(idPedido, idFactura);
+            // !!! CAMBIO: FacturaDAO.eliminar ahora solo necesita idFactura.
+            int filasAfectadas = dao.eliminar(idFactura);
             exito = (filasAfectadas > 0);
+            if (exito) {
+                Log.d(TAG, "Factura eliminada con ID: " + idFactura);
+                // Opcional: limpiar facturaSeleccionada si era esta
+                // if (facturaSeleccionada.getValue() != null && facturaSeleccionada.getValue().getIdFactura() == idFactura) {
+                //     facturaSeleccionada.postValue(null);
+                // }
+                // cargarTodasLasFacturas();
+            } else {
+                Log.w(TAG, "No se eliminó la factura con ID: " + idFactura + " (quizás no existía)");
+            }
         } catch (Exception e) {
-            // Podría fallar por restricciones de FK si hay créditos asociados y no hay ON DELETE CASCADE
-            System.err.println("Error eliminando factura: " + e.getMessage());
+            Log.e(TAG, "Error eliminando factura ID: " + idFactura, e);
             exito = false;
         } finally {
             if (db != null && db.isOpen()) {
                 db.close();
             }
         }
-        // Opcional: Si la eliminación fue exitosa, recargar datos
-        // if (exito) { ... }
         return exito;
     }
 
-    // El método onCleared() es llamado cuando el ViewModel ya no se necesita.
-    // Es un buen lugar para limpiar recursos si fuera necesario, aunque DBHelper
-    // maneja el ciclo de vida de la base de datos correctamente.
     @Override
     protected void onCleared() {
         super.onCleared();
-        // dbHelper.close(); // SQLiteOpenHelper no necesita cerrarse explícitamente aquí.
-        System.out.println("FacturaViewModel cleared");
+        Log.d(TAG, "FacturaViewModel cleared");
+        // dbHelper.close(); // SQLiteOpenHelper se maneja por el sistema si es una instancia compartida.
+        // Si dbHelper es una instancia única para este ViewModel, se podría cerrar aquí,
+        // pero generalmente se obtiene una instancia por operación o se usa una singleton.
     }
 }

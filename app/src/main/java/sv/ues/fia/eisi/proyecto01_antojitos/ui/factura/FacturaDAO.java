@@ -3,101 +3,87 @@ package sv.ues.fia.eisi.proyecto01_antojitos.ui.factura;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException; // Importante para manejo de errores
+import android.database.sqlite.SQLiteException;
+import android.util.Log; // Para logs
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections; // Para lista vacía
 
 public class FacturaDAO {
 
     private final SQLiteDatabase db;
+    private static final String TAG = "FacturaDAO";
 
-    // Constructor que recibe la instancia de la base de datos
+    // Columnas de la tabla FACTURA (según DBHelper con relación 1:1)
+    private static final String TABLA_FACTURA = "FACTURA";
+    private static final String COL_ID_FACTURA = "ID_FACTURA";
+    private static final String COL_ID_PEDIDO = "ID_PEDIDO";
+    private static final String COL_FECHA_EMISION = "FECHA_EMISION";
+    private static final String COL_MONTO_TOTAL = "MONTO_TOTAL";
+    private static final String COL_TIPO_PAGO = "TIPO_PAGO";
+    private static final String COL_PAGADO = "PAGADO";
+
+    private String[] columnasFactura = {
+            COL_ID_FACTURA, COL_ID_PEDIDO, COL_FECHA_EMISION,
+            COL_MONTO_TOTAL, COL_TIPO_PAGO, COL_PAGADO
+    };
+
     public FacturaDAO(SQLiteDatabase db) {
         this.db = db;
     }
 
-    /**
-     * Calcula el siguiente ID_FACTURA para un pedido dado
-     * (MAX(ID_FACTURA) + 1 para ese ID_PEDIDO, o 1 si no hay ninguna).
-     * La tabla FACTURA tiene clave primaria compuesta (ID_PEDIDO, ID_FACTURA).
-     */
-    public int getNextIdFactura(int idPedido) {
-        int nextId = 1; // Valor inicial si no hay facturas para ese pedido
-        Cursor cursor = null;
-        try {
-            // Consulta para obtener el máximo ID_FACTURA para el ID_PEDIDO específico
-            cursor = db.rawQuery(
-                    "SELECT MAX(ID_FACTURA) FROM FACTURA WHERE ID_PEDIDO = ?",
-                    new String[]{ String.valueOf(idPedido) }
-            );
-
-            // Si el cursor se mueve al primer resultado y la columna no es nula
-            if (cursor.moveToFirst() && !cursor.isNull(0)) {
-                nextId = cursor.getInt(0) + 1; // El siguiente ID es el máximo actual + 1
-            }
-        } catch (SQLiteException e) {
-            // Manejar la excepción (e.g., loggear el error)
-            System.err.println("Error al obtener nextIdFactura: " + e.getMessage());
-        } finally {
-            // Asegurarse de cerrar el cursor para liberar recursos
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-        return nextId;
-    }
+    // MÉTODO getNextIdFactura ELIMINADO (ID_FACTURA es AUTOINCREMENT)
 
     /**
      * Inserta una nueva factura en la base de datos.
-     * @param factura El objeto Factura a insertar.
-     * @return El ID de la fila insertada, o -1 si ocurrió un error.
+     * ID_FACTURA es autoincremental.
+     * @param factura El objeto Factura a insertar (debe tener ID_PEDIDO seteado).
+     * @return El ID de la factura recién insertada (nuevo ID_FACTURA), o -1 si ocurrió un error.
      */
     public long insertar(Factura factura) {
         ContentValues values = new ContentValues();
-        // ID_FACTURA se asume calculado previamente con getNextIdFactura
-        values.put("ID_PEDIDO", factura.getIdPedido());
-        values.put("ID_FACTURA", factura.getIdFactura());
-        values.put("FECHA_EMISION", factura.getFechaEmision());
-        values.put("MONTO_TOTAL", factura.getMontoTotal());
-        values.put("TIPO_PAGO", factura.getTipoPago());
-        values.put("PAGADO", factura.getPagado()); // 0 o 1
+        // ID_FACTURA no se incluye, es AUTOINCREMENT
+        values.put(COL_ID_PEDIDO, factura.getIdPedido()); // ID_PEDIDO es NOT NULL UNIQUE
+        values.put(COL_FECHA_EMISION, factura.getFechaEmision());
+        values.put(COL_MONTO_TOTAL, factura.getMontoTotal());
+        values.put(COL_TIPO_PAGO, factura.getTipoPago());
+        values.put(COL_PAGADO, factura.getPagado());
 
         try {
-            return db.insertOrThrow("FACTURA", null, values); // Usar insertOrThrow para detectar errores
+            long nuevoId = db.insertOrThrow(TABLA_FACTURA, null, values);
+            Log.d(TAG, "Factura insertada con ID: " + nuevoId + " para Pedido ID: " + factura.getIdPedido());
+            return nuevoId;
         } catch (SQLiteException e) {
-            System.err.println("Error al insertar factura: " + e.getMessage());
-            return -1; // Indicar error
+            Log.e(TAG, "Error al insertar factura para Pedido ID " + factura.getIdPedido() + ": " + e.getMessage());
+            // Podría ser por violación de la restricción UNIQUE en ID_PEDIDO
+            return -1;
         }
     }
 
     /**
-     * Consulta una factura específica por su clave primaria compuesta.
-     * @param idPedido ID del Pedido.
-     * @param idFactura ID de la Factura dentro del Pedido.
+     * Consulta una factura específica por su ID_FACTURA (Clave Primaria).
+     * @param idFactura ID de la Factura a consultar.
      * @return El objeto Factura encontrado, o null si no existe.
      */
-    public Factura consultarPorId(int idPedido, int idFactura) {
+    public Factura consultarPorId(int idFactura) {
         Factura factura = null;
         Cursor cursor = null;
         try {
-            cursor = db.query("FACTURA",
-                    new String[]{"ID_PEDIDO", "ID_FACTURA", "FECHA_EMISION", "MONTO_TOTAL", "TIPO_PAGO", "PAGADO"}, // Columnas a obtener
-                    "ID_PEDIDO = ? AND ID_FACTURA = ?", // Cláusula WHERE
-                    new String[]{String.valueOf(idPedido), String.valueOf(idFactura)}, // Argumentos del WHERE
-                    null, null, null); // Sin GROUP BY, HAVING, ORDER BY
+            cursor = db.query(TABLA_FACTURA,
+                    columnasFactura,
+                    COL_ID_FACTURA + " = ?", // Cláusula WHERE por ID_FACTURA
+                    new String[]{String.valueOf(idFactura)},
+                    null, null, null);
 
             if (cursor != null && cursor.moveToFirst()) {
-                factura = new Factura();
-                factura.setIdPedido(cursor.getInt(0));
-                factura.setIdFactura(cursor.getInt(1));
-                factura.setFechaEmision(cursor.getString(2));
-                factura.setMontoTotal(cursor.getDouble(3));
-                factura.setTipoPago(cursor.getString(4));
-                factura.setPagado(cursor.getInt(5));
+                factura = cursorToFactura(cursor);
+                Log.d(TAG, "Factura encontrada por ID: " + idFactura);
+            } else {
+                Log.d(TAG, "Factura con ID: " + idFactura + " no encontrada.");
             }
         } catch (SQLiteException e) {
-            System.err.println("Error al consultar factura por ID: " + e.getMessage());
+            Log.e(TAG, "Error al consultar factura por ID " + idFactura + ": " + e.getMessage());
         } finally {
             if (cursor != null) {
                 cursor.close();
@@ -107,132 +93,155 @@ public class FacturaDAO {
     }
 
     /**
-     * Obtiene todas las facturas asociadas a un pedido específico.
-     * @param idPedido El ID del pedido.
-     * @return Una lista de objetos Factura. La lista estará vacía si no hay facturas para ese pedido.
+     * Consulta la factura asociada a un ID_PEDIDO específico (Relación 1:1).
+     * @param idPedido ID del Pedido.
+     * @return El objeto Factura encontrado, o null si no existe una factura para ese pedido.
      */
-    public List<Factura> obtenerPorPedido(int idPedido) {
-        List<Factura> lista = new ArrayList<>();
+    public Factura consultarPorIdPedido(int idPedido) {
+        Factura factura = null;
         Cursor cursor = null;
         try {
-            cursor = db.query("FACTURA",
-                    new String[]{"ID_PEDIDO", "ID_FACTURA", "FECHA_EMISION", "MONTO_TOTAL", "TIPO_PAGO", "PAGADO"},
-                    "ID_PEDIDO = ?",
-                    new String[]{ String.valueOf(idPedido) },
-                    null, null, "ID_FACTURA ASC"); // Ordenar por ID_FACTURA
+            cursor = db.query(TABLA_FACTURA,
+                    columnasFactura,
+                    COL_ID_PEDIDO + " = ?", // Cláusula WHERE por ID_PEDIDO
+                    new String[]{String.valueOf(idPedido)},
+                    null, null, null);
 
             if (cursor != null && cursor.moveToFirst()) {
-                do {
-                    Factura f = new Factura(
-                            cursor.getInt(0),
-                            cursor.getInt(1),
-                            cursor.getString(2),
-                            cursor.getDouble(3),
-                            cursor.getString(4),
-                            cursor.getInt(5)
-                    );
-                    lista.add(f);
-                } while (cursor.moveToNext());
+                factura = cursorToFactura(cursor);
+                Log.d(TAG, "Factura encontrada para Pedido ID: " + idPedido);
+            } else {
+                Log.d(TAG, "No se encontró factura para Pedido ID: " + idPedido);
             }
         } catch (SQLiteException e) {
-            System.err.println("Error al obtener facturas por pedido: " + e.getMessage());
+            Log.e(TAG, "Error al consultar factura por Pedido ID " + idPedido + ": " + e.getMessage());
         } finally {
-            if (cursor != null) cursor.close();
+            if (cursor != null) {
+                cursor.close();
+            }
         }
-        return lista;
+        return factura;
+    }
+
+
+    /**
+     * Obtiene la factura asociada a un pedido específico (si existe).
+     * En una relación 1:1, esta lista contendrá 0 o 1 factura.
+     * @param idPedido El ID del pedido.
+     * @return Una lista de objetos Factura (0 o 1 elemento).
+     */
+    public List<Factura> obtenerPorPedido(int idPedido) {
+        Factura factura = consultarPorIdPedido(idPedido);
+        if (factura != null) {
+            List<Factura> lista = new ArrayList<>();
+            lista.add(factura);
+            return lista;
+        }
+        return Collections.emptyList(); // Devuelve lista vacía si no se encuentra
     }
 
 
     /**
      * Actualiza una factura existente en la base de datos.
+     * Se identifica por ID_FACTURA. ID_PEDIDO no se modifica.
      * @param factura El objeto Factura con los datos actualizados.
      * @return El número de filas afectadas (debería ser 1 si la actualización fue exitosa).
      */
     public int actualizar(Factura factura) {
         ContentValues values = new ContentValues();
-        // No se actualizan las claves primarias (ID_PEDIDO, ID_FACTURA)
-        values.put("FECHA_EMISION", factura.getFechaEmision());
-        values.put("MONTO_TOTAL", factura.getMontoTotal());
-        values.put("TIPO_PAGO", factura.getTipoPago());
-        values.put("PAGADO", factura.getPagado());
+        // ID_FACTURA es para el WHERE. ID_PEDIDO no se actualiza.
+        values.put(COL_FECHA_EMISION, factura.getFechaEmision());
+        values.put(COL_MONTO_TOTAL, factura.getMontoTotal());
+        values.put(COL_TIPO_PAGO, factura.getTipoPago());
+        values.put(COL_PAGADO, factura.getPagado());
 
-        String whereClause = "ID_PEDIDO = ? AND ID_FACTURA = ?";
-        String[] whereArgs = {
-                String.valueOf(factura.getIdPedido()),
-                String.valueOf(factura.getIdFactura())
-        };
+        String whereClause = COL_ID_FACTURA + " = ?";
+        String[] whereArgs = {String.valueOf(factura.getIdFactura())};
 
         try {
-            return db.update("FACTURA", values, whereClause, whereArgs);
+            int filasAfectadas = db.update(TABLA_FACTURA, values, whereClause, whereArgs);
+            if (filasAfectadas > 0) {
+                Log.d(TAG, "Factura actualizada con ID: " + factura.getIdFactura());
+            } else {
+                Log.w(TAG, "No se actualizó factura con ID: " + factura.getIdFactura() + " (quizás no existe)");
+            }
+            return filasAfectadas;
         } catch (SQLiteException e) {
-            System.err.println("Error al actualizar factura: " + e.getMessage());
-            return 0; // Indicar que no se afectaron filas debido al error
+            Log.e(TAG, "Error al actualizar factura ID " + factura.getIdFactura() + ": " + e.getMessage());
+            return 0;
         }
     }
 
     /**
-     * Elimina una factura de la base de datos usando su clave primaria compuesta.
-     * @param idPedido ID del Pedido.
-     * @param idFactura ID de la Factura.
-     * @return El número de filas eliminadas (debería ser 1 si se encontró y eliminó).
+     * Elimina una factura de la base de datos usando su ID_FACTURA.
+     * @param idFactura ID de la Factura a eliminar.
+     * @return El número de filas eliminadas.
      */
-    public int eliminar(int idPedido, int idFactura) {
-        String whereClause = "ID_PEDIDO = ? AND ID_FACTURA = ?";
-        String[] whereArgs = {
-                String.valueOf(idPedido),
-                String.valueOf(idFactura)
-        };
+    public int eliminar(int idFactura) {
+        String whereClause = COL_ID_FACTURA + " = ?";
+        String[] whereArgs = {String.valueOf(idFactura)};
 
         try {
-            // Antes de eliminar, podrías necesitar verificar/eliminar registros dependientes (ej. CREDITO)
-            // si las restricciones ON DELETE no están configuradas o no son adecuadas.
-            // db.delete("CREDITO", "ID_PEDIDO = ? AND ID_FACTURA = ?", whereArgs); // Ejemplo si fuera necesario
+            // Considerar si se deben eliminar créditos asociados ANTES o si ON DELETE CASCADE está configurado en CREDITO.
+            // Por simplicidad, no se maneja aquí. La FK de CREDITO a FACTURA podría tener ON DELETE CASCADE.
+            // db.delete("CREDITO", "ID_FACTURA = ?", new String[]{String.valueOf(idFactura)});
 
-            return db.delete("FACTURA", whereClause, whereArgs);
+            int filasAfectadas = db.delete(TABLA_FACTURA, whereClause, whereArgs);
+            if (filasAfectadas > 0) {
+                Log.d(TAG, "Factura eliminada con ID: " + idFactura);
+            } else {
+                Log.w(TAG, "No se eliminó factura con ID: " + idFactura + " (quizás no existía)");
+            }
+            return filasAfectadas;
         } catch (SQLiteException e) {
-            System.err.println("Error al eliminar factura: " + e.getMessage());
-            // Considera si una excepción aquí debería propagarse o manejarse devolviendo 0
-            // Si la FK está activa, podría fallar si hay créditos asociados.
-            return 0; // Indicar que no se eliminaron filas
+            // Un trigger (trg_evitar_borrar_pedido_con_factura en PEDIDO) no aplicaría aquí directamente,
+            // pero la FK desde FACTURA a PEDIDO (ON DELETE RESTRICT por defecto) evitaría
+            // que se borre un PEDIDO si esta FACTURA lo referencia.
+            Log.e(TAG, "Error al eliminar factura ID " + idFactura + ": " + e.getMessage());
+            return 0;
         }
     }
 
     /**
      * Obtiene todas las facturas de la base de datos.
-     * ¡Precaución! Esto puede devolver muchos datos si la tabla es grande.
      * @return Una lista con todas las facturas.
      */
     public List<Factura> obtenerTodas() {
         List<Factura> lista = new ArrayList<>();
         Cursor cursor = null;
         try {
-            // Ordenar por pedido y luego por factura puede ser útil
-            cursor = db.rawQuery("SELECT * FROM FACTURA ORDER BY ID_PEDIDO ASC, ID_FACTURA ASC", null);
+            cursor = db.query(TABLA_FACTURA, columnasFactura, null, null, null, null, COL_ID_FACTURA + " ASC");
 
             if (cursor != null && cursor.moveToFirst()) {
                 do {
-                    Factura f = new Factura(
-                            cursor.getInt(cursor.getColumnIndexOrThrow("ID_PEDIDO")),
-                            cursor.getInt(cursor.getColumnIndexOrThrow("ID_FACTURA")),
-                            cursor.getString(cursor.getColumnIndexOrThrow("FECHA_EMISION")),
-                            cursor.getDouble(cursor.getColumnIndexOrThrow("MONTO_TOTAL")),
-                            cursor.getString(cursor.getColumnIndexOrThrow("TIPO_PAGO")),
-                            cursor.getInt(cursor.getColumnIndexOrThrow("PAGADO"))
-                    );
-                    lista.add(f);
+                    lista.add(cursorToFactura(cursor));
                 } while (cursor.moveToNext());
+                Log.d(TAG, "Se obtuvieron " + lista.size() + " facturas en total.");
+            } else {
+                Log.d(TAG, "No se encontraron facturas en obtenerTodas().");
             }
         } catch (SQLiteException e) {
-            System.err.println("Error al obtener todas las facturas: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            // Error si getColumnIndexOrThrow no encuentra la columna (inesperado si la query es *)
-            System.err.println("Error de columna al obtener todas las facturas: " + e.getMessage());
-        }
-        finally {
+            Log.e(TAG, "Error al obtener todas las facturas: " + e.getMessage());
+        } finally {
             if (cursor != null) {
                 cursor.close();
             }
         }
         return lista;
+    }
+
+    /**
+     * Helper para convertir un Cursor a un objeto Factura.
+     */
+    private Factura cursorToFactura(Cursor cursor) {
+        Factura factura = new Factura();
+        // Asume que Factura.java tiene los setters correspondientes
+        factura.setIdFactura(cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID_FACTURA)));
+        factura.setIdPedido(cursor.getInt(cursor.getColumnIndexOrThrow(COL_ID_PEDIDO)));
+        factura.setFechaEmision(cursor.getString(cursor.getColumnIndexOrThrow(COL_FECHA_EMISION)));
+        factura.setMontoTotal(cursor.getDouble(cursor.getColumnIndexOrThrow(COL_MONTO_TOTAL)));
+        factura.setTipoPago(cursor.getString(cursor.getColumnIndexOrThrow(COL_TIPO_PAGO)));
+        factura.setPagado(cursor.getInt(cursor.getColumnIndexOrThrow(COL_PAGADO)));
+        return factura;
     }
 }

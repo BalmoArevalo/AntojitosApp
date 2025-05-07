@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Consultar Factura"
+        android:text="Consultar Facturas por Pedido"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:gravity="center"
         android:layout_marginBottom="24dp"/>
@@ -28,66 +28,38 @@
         android:layout_marginBottom="16dp"
         android:minHeight="48dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ingrese el ID de la Factura:"
-        android:labelFor="@+id/editConsultaFacturaId"/>
-    <EditText
-        android:id="@+id/editConsultaFacturaId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:hint="Ej: 1"
-        android:inputType="number"
-        android:minHeight="48dp"/>
-
     <Button
         android:id="@+id/btnConsultarFactura"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Consultar"/>
+        android:text="Consultar Facturas del Pedido"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="?android:attr/listDivider"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginBottom="16dp"/>
 
-    <LinearLayout
-        android:id="@+id/layoutResultados"
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Facturas Encontradas:"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:layout_marginBottom="8dp"/>
+
+    <ScrollView
+        android:id="@+id/scrollViewResultados"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" android:visibility="gone"
+        tools:visibility="visible"> <LinearLayout
+        android:id="@+id/layoutResultadosList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:visibility="gone"
-        tools:visibility="visible"> <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Detalles de la Factura:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:layout_marginBottom="16dp"/>
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
-            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textStyle="bold" android:text="Fecha Emisión:"/>
-            <TextView android:id="@+id/tvResultadoFecha" android:layout_width="0dp" android:layout_weight="2" android:layout_height="wrap_content" tools:text="2025-05-05"/>
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
-            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textStyle="bold" android:text="Monto Total:"/>
-            <TextView android:id="@+id/tvResultadoMonto" android:layout_width="0dp" android:layout_weight="2" android:layout_height="wrap_content" tools:text="$50.00"/>
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
-            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textStyle="bold" android:text="Tipo de Pago:"/>
-            <TextView android:id="@+id/tvResultadoTipoPago" android:layout_width="0dp" android:layout_weight="2" android:layout_height="wrap_content" tools:text="Efectivo"/>
-        </LinearLayout>
-
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="8dp">
-            <TextView android:layout_width="0dp" android:layout_weight="1" android:layout_height="wrap_content" android:textStyle="bold" android:text="Estado:"/>
-            <TextView android:id="@+id/tvResultadoPagado" android:layout_width="0dp" android:layout_weight="2" android:layout_height="wrap_content" tools:text="Pagado"/>
-        </LinearLayout>
-
-    </LinearLayout>
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"/>
+    </ScrollView>
 
 </LinearLayout>

@@ -1,40 +1,40 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.factura;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider; // Usaremos ViewModel para insertar
+import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity; // Para setResult
 import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
-import android.util.Log; // Para logs de depuración
-import android.view.View;
-import android.widget.AdapterView;
+import android.util.Log;
+// import android.view.View; // No se usa directamente el View para el listener
+// import android.widget.AdapterView; // No se usa directamente
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
+// import android.widget.DatePicker; // No se usa directamente
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays; // Para lista de tipos de pago
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
-import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper; // Necesario para cargar pedidos
+import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
 
 public class FacturaCrearActivity extends AppCompatActivity {
 
-    // ViewModel para operaciones de datos
     private FacturaViewModel facturaViewModel;
+    private static final String TAG = "FacturaCrearActivity";
 
-    // Componentes UI
     private Spinner spinnerPedido;
     private EditText editFechaEmision;
     private EditText editMontoTotal;
@@ -42,22 +42,18 @@ public class FacturaCrearActivity extends AppCompatActivity {
     private CheckBox checkPagado;
     private Button btnGuardarFactura;
 
-    // Listas para IDs de Spinners
     private List<Integer> pedidoIds = new ArrayList<>();
-    private List<String> tiposPago = Arrays.asList("Efectivo", "Tarjeta", "Bitcoin", "Transferencia", "Otro"); // Opciones predefinidas
+    private List<String> tiposPago = Arrays.asList("Efectivo", "Tarjeta", "Bitcoin", "Transferencia", "Otro");
 
-    // Calendario para DatePicker
     private Calendar calendario = Calendar.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_factura_crear); // Asegúrate de crear este layout
+        setContentView(R.layout.activity_factura_crear);
 
-        // Inicializar ViewModel
         facturaViewModel = new ViewModelProvider(this).get(FacturaViewModel.class);
 
-        // Inicializar Vistas
         spinnerPedido = findViewById(R.id.spinnerPedido);
         editFechaEmision = findViewById(R.id.editFechaEmision);
         editMontoTotal = findViewById(R.id.editMontoTotal);
@@ -65,48 +61,52 @@ public class FacturaCrearActivity extends AppCompatActivity {
         checkPagado = findViewById(R.id.checkPagado);
         btnGuardarFactura = findViewById(R.id.btnGuardarFactura);
 
-        // Cargar datos en Spinners
-        cargarSpinnerPedidos();
+        cargarSpinnerPedidosSinFactura(); // Modificado para cargar solo pedidos elegibles
         cargarSpinnerTipoPago();
 
-        // Configurar DatePicker para Fecha de Emisión
         editFechaEmision.setOnClickListener(v -> mostrarDatePickerDialog());
-
-        // Configurar botón Guardar
         btnGuardarFactura.setOnClickListener(v -> guardarFactura());
     }
 
-    private void cargarSpinnerPedidos() {
+    private void cargarSpinnerPedidosSinFactura() {
         pedidoIds.clear();
         List<String> pedidoDescripciones = new ArrayList<>();
 
-        // Añadir opción por defecto
-        pedidoDescripciones.add("Seleccione un Pedido...");
-        pedidoIds.add(-1); // ID inválido para la opción por defecto
+        pedidoDescripciones.add("Seleccione un Pedido (sin factura)...");
+        pedidoIds.add(-1); // ID inválido para el placeholder
 
-        DBHelper dbHelper = null;
+        DBHelper localDbHelper = new DBHelper(this);
         SQLiteDatabase db = null;
         Cursor cursor = null;
 
+        // Consulta para obtener IDs de pedido que NO están ya en la tabla FACTURA
+        String query = "SELECT P.ID_PEDIDO FROM PEDIDO P " +
+                "WHERE NOT EXISTS (SELECT 1 FROM FACTURA F WHERE F.ID_PEDIDO = P.ID_PEDIDO) " +
+                "ORDER BY P.ID_PEDIDO ASC";
         try {
-            dbHelper = new DBHelper(this);
-            db = dbHelper.getReadableDatabase();
-            // Consulta simple para obtener IDs de pedido. Podrías añadir más info si quieres.
-            cursor = db.rawQuery("SELECT ID_PEDIDO FROM PEDIDO ORDER BY ID_PEDIDO ASC", null);
+            db = localDbHelper.getReadableDatabase();
+            cursor = db.rawQuery(query, null);
 
             while (cursor.moveToNext()) {
                 int id = cursor.getInt(0);
                 pedidoIds.add(id);
-                // Crear una descripción simple
                 pedidoDescripciones.add("Pedido #" + id);
             }
+            Log.d(TAG, "Pedidos sin factura cargados en spinner: " + (pedidoDescripciones.size() -1) );
+            if (pedidoDescripciones.size() <= 1) { // Solo el placeholder
+                Toast.makeText(this, "No hay pedidos disponibles para facturar.", Toast.LENGTH_LONG).show();
+                // Podrías deshabilitar el botón de guardar o toda la actividad
+                btnGuardarFactura.setEnabled(false);
+            } else {
+                btnGuardarFactura.setEnabled(true);
+            }
+
         } catch (SQLiteException e) {
-            Log.e("FacturaCrear", "Error al cargar pedidos", e);
-            Toast.makeText(this, "Error al cargar pedidos", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "Error al cargar pedidos sin factura", e);
+            Toast.makeText(this, "Error al cargar pedidos disponibles", Toast.LENGTH_SHORT).show();
         } finally {
             if (cursor != null) cursor.close();
-            if (db != null) db.close();
-            // DBHelper no necesita cerrarse explícitamente aquí
+            if (db != null && db.isOpen()) db.close();
         }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -116,14 +116,12 @@ public class FacturaCrearActivity extends AppCompatActivity {
     }
 
     private void cargarSpinnerTipoPago() {
-        // Añadir opción por defecto si se desea
         List<String> opcionesConPlaceholder = new ArrayList<>();
         opcionesConPlaceholder.add("Seleccione Tipo de Pago...");
         opcionesConPlaceholder.addAll(tiposPago);
 
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, opcionesConPlaceholder); // Usar la lista con placeholder
+                android.R.layout.simple_spinner_item, opcionesConPlaceholder);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTipoPago.setAdapter(adapter);
     }
@@ -136,85 +134,76 @@ public class FacturaCrearActivity extends AppCompatActivity {
             actualizarEditTextFecha();
         };
 
-        new DatePickerDialog(FacturaCrearActivity.this, dateSetListener,
+        new DatePickerDialog(this, dateSetListener,
                 calendario.get(Calendar.YEAR),
                 calendario.get(Calendar.MONTH),
                 calendario.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     private void actualizarEditTextFecha() {
-        // Formato deseado: YYYY-MM-DD (común para SQLite)
         String formato = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(formato, Locale.getDefault());
         editFechaEmision.setText(sdf.format(calendario.getTime()));
     }
 
-
     private void guardarFactura() {
-        // 1. Obtener datos y Validar
         int pedidoPos = spinnerPedido.getSelectedItemPosition();
-        if (pedidoPos <= 0 || pedidoIds.get(pedidoPos) == -1) { // Posición 0 es el placeholder
-            Toast.makeText(this, "Seleccione un pedido válido", Toast.LENGTH_SHORT).show();
+        if (pedidoPos <= 0) { // Posición 0 es el placeholder
+            Toast.makeText(this, "Seleccione un pedido válido.", Toast.LENGTH_SHORT).show();
             return;
         }
         int idPedidoSeleccionado = pedidoIds.get(pedidoPos);
 
         String fechaEmision = editFechaEmision.getText().toString().trim();
         if (fechaEmision.isEmpty()) {
-            Toast.makeText(this, "Ingrese la fecha de emisión", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Ingrese la fecha de emisión.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         String montoStr = editMontoTotal.getText().toString().trim();
         double montoTotal;
         if (montoStr.isEmpty()) {
-            Toast.makeText(this, "Ingrese el monto total", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Ingrese el monto total.", Toast.LENGTH_SHORT).show();
             return;
         }
         try {
             montoTotal = Double.parseDouble(montoStr);
-            if (montoTotal < 0) {
-                Toast.makeText(this, "El monto total no puede ser negativo", Toast.LENGTH_SHORT).show();
+            if (montoTotal <= 0) { // El trigger de BD también valida esto, pero es bueno validar en UI
+                Toast.makeText(this, "El monto total debe ser mayor a cero.", Toast.LENGTH_SHORT).show();
                 return;
             }
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "Ingrese un monto total válido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Ingrese un monto total válido.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         int tipoPagoPos = spinnerTipoPago.getSelectedItemPosition();
-        // Si el primer item es placeholder "Seleccione...", la posición 0 es inválida
-        if (tipoPagoPos <= 0) {
-            Toast.makeText(this, "Seleccione un tipo de pago", Toast.LENGTH_SHORT).show();
+        if (tipoPagoPos <= 0) { // Posición 0 es el placeholder
+            Toast.makeText(this, "Seleccione un tipo de pago.", Toast.LENGTH_SHORT).show();
             return;
         }
-        // Ajustar índice si se usó placeholder: tiposPago.get(tipoPagoPos - 1)
-        String tipoPagoSeleccionado = tiposPago.get(tipoPagoPos - 1);
+        String tipoPagoSeleccionado = tiposPago.get(tipoPagoPos - 1); // -1 por el placeholder
 
+        int pagado = checkPagado.isChecked() ? 1 : 0;
 
-        int pagado = checkPagado.isChecked() ? 1 : 0; // 1 si está marcado, 0 si no
-
-        // 2. Crear objeto Factura (ID_FACTURA se asignará en el ViewModel/DAO)
         Factura nuevaFactura = new Factura();
-        nuevaFactura.setIdPedido(idPedidoSeleccionado);
-        // El ID_FACTURA real lo calculará getNextIdFactura dentro de insertarFactura del ViewModel
+        nuevaFactura.setIdPedido(idPedidoSeleccionado); // Crucial para la relación 1:1
+        // ID_FACTURA es AUTOINCREMENT, no se setea aquí.
         nuevaFactura.setFechaEmision(fechaEmision);
         nuevaFactura.setMontoTotal(montoTotal);
         nuevaFactura.setTipoPago(tipoPagoSeleccionado);
         nuevaFactura.setPagado(pagado);
 
+        // Insertar usando ViewModel. El ViewModel ahora devuelve el ID de la nueva factura.
+        long nuevoIdFactura = facturaViewModel.insertarFactura(nuevaFactura);
 
-        // 3. Insertar usando ViewModel
-        boolean exito = facturaViewModel.insertarFactura(nuevaFactura);
-
-        // 4. Mostrar Feedback y Cerrar
-        if (exito) {
-            // Recuperar el ID asignado sería ideal, pero requiere modificar DAO/ViewModel.
-            // Mostramos un mensaje genérico por ahora.
-            Toast.makeText(this, "Factura creada exitosamente para el pedido " + idPedidoSeleccionado, Toast.LENGTH_LONG).show();
+        if (nuevoIdFactura != -1) {
+            Toast.makeText(this, "Factura creada con ID: " + nuevoIdFactura + " para el pedido " + idPedidoSeleccionado, Toast.LENGTH_LONG).show();
+            setResult(Activity.RESULT_OK); // Notificar éxito si esta actividad fue llamada con startActivityForResult
             finish(); // Cerrar la actividad si fue exitoso
         } else {
-            Toast.makeText(this, "Error al crear la factura", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Error al crear la factura. Es posible que el pedido ya tenga una factura asociada o haya otro error.", Toast.LENGTH_LONG).show();
+            // La restricción UNIQUE en FACTURA.ID_PEDIDO previene duplicados.
         }
     }
 }
