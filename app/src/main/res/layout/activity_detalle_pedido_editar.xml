@@ -1,10 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.detallePedido.DetallePedidoEditarActivity">
+    android:padding="16dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- ID del detalle a buscar -->
+        <TextView
+            android:text="ID del Detalle:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/editTextBuscarIdDetalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/btnBuscarDetalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Buscar" />
+
+        <!-- Pedido -->
+        <TextView
+            android:text="Pedido:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp" />
+
+        <Spinner
+            android:id="@+id/spinnerPedido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Producto -->
+        <TextView
+            android:text="Producto:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp" />
+
+        <Spinner
+            android:id="@+id/spinnerProducto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <!-- Cantidad -->
+        <TextView
+            android:text="Cantidad:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp" />
+
+        <EditText
+            android:id="@+id/editTextCantidad"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+
+        <!-- Subtotal -->
+        <TextView
+            android:text="Subtotal:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="16dp" />
+
+        <TextView
+            android:id="@+id/textViewSubtotal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="--"
+            android:textSize="16sp"
+            android:paddingBottom="16dp" />
+
+        <!-- Botón actualizar -->
+        <Button
+            android:id="@+id/btnActualizarDetalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Actualizar Detalle"
+            android:enabled="false" />
+    </LinearLayout>
+</ScrollView>
