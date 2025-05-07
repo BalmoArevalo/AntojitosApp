@@ -254,6 +254,26 @@
     <string name="direccion_eliminar_estado_actual_activa">Activa</string>
     <string name="direccion_eliminar_estado_actual_inactiva">Inactiva (No se puede desactivar de nuevo)</string>
 
+    <!-- Titulos de Factura-->
+    <!-- Crear Factura-->
+    <string name="factura_crear_title">Crear Nueva Factura</string>
+    <string name="factura_crear_label_pedido">Seleccione Pedido a Facturar:</string>
+    <string name="factura_crear_label_monto_calculado">Monto Total Calculado (incl. IVA):</string>
+    <string name="factura_crear_label_fecha">Fecha de Emisión:</string>
+    <string name="factura_crear_hint_fecha">Tocar para seleccionar fecha</string>
+    <string name="factura_crear_label_tipo_pago">Tipo de Pago:</string>
+    <string name="factura_crear_label_estado_inicial">Estado Inicial:</string>
+    <string name="factura_crear_estado_default">Pendiente</string>
+    <string name="factura_crear_btn_guardar">Guardar Factura</string>
+    <string name="factura_crear_monto_placeholder">--.--</string>
+    <string name="factura_crear_toast_exito">Factura ID %1$d creada para Pedido %2$d</string> <string name="factura_crear_toast_error_guardar">Error al crear la factura</string>
+    <string name="factura_crear_toast_error_pedido_existente">Error: El pedido seleccionado ya tiene una factura.</string>
+    <string name="factura_crear_toast_seleccione_pedido">Seleccione un pedido</string>
+    <string name="factura_crear_toast_ingrese_fecha">Ingrese la fecha de emisión</string>
+    <string name="factura_crear_toast_seleccione_tipo_pago">Seleccione un tipo de pago</string>
+    <string name="factura_crear_toast_error_calculo_monto">Error al calcular monto del pedido</string>
+    <string name="factura_crear_toast_no_pedidos_disponibles">No hay pedidos disponibles para facturar.</string>
+    <string name="factura_crear_toast_pedido_sin_detalle">El pedido seleccionado no tiene detalles, no se puede calcular monto.</string>
 
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
 </resources>

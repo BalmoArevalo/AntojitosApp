@@ -218,7 +218,33 @@ public class FacturaDAO {
         }
         return lista;
     }
-
+    /**
+     * Calcula la suma de los subtotales de DETALLEPEDIDO para un pedido específico.
+     * @param idPedido El ID del pedido.
+     * @return La suma de los subtotales, o 0.0 si no hay detalles o ocurre un error.
+     */
+    public double getSumSubtotalForPedido(int idPedido) {
+        double sumaSubtotales = 0.0;
+        String query = "SELECT SUM(SUBTOTAL) FROM DETALLEPEDIDO WHERE ID_PEDIDO = ?";
+        Cursor cursor = null;
+        try {
+            cursor = db.rawQuery(query, new String[]{String.valueOf(idPedido)});
+            if (cursor != null && cursor.moveToFirst() && !cursor.isNull(0)) {
+                sumaSubtotales = cursor.getDouble(0);
+                Log.d(TAG, "Suma de subtotales para Pedido ID " + idPedido + ": " + sumaSubtotales);
+            } else {
+                Log.w(TAG, "No se encontraron detalles o suma es NULL para Pedido ID: " + idPedido);
+            }
+        } catch (SQLiteException e) {
+            Log.e(TAG, "Error calculando suma de subtotales para Pedido ID " + idPedido, e);
+            sumaSubtotales = 0.0; // Retornar 0 en caso de error
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return sumaSubtotales;
+    }
     /**
      * Helper para convertir una fila del Cursor a un objeto Factura.
      * Asume que el cursor contiene todas las columnas definidas en COLUMNAS_FACTURA.
