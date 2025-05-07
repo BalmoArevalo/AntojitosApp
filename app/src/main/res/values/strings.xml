@@ -339,5 +339,23 @@
     <string name="factura_eliminar_toast_ya_anulada">Esta factura ya está anulada.</string>
     <string name="factura_eliminar_no_facturas_disponibles">No hay facturas disponibles para anular.</string>
 
+    <!-- Titulos de Factura-->
+    <!-- Crear Factura-->
+    <string name="credito_crear_title">Activar Crédito para Factura</string>
+    <string name="credito_crear_label_seleccionar_factura">Seleccione Factura (Pendiente, Sin Crédito):</string>
+    <string name="credito_crear_label_detalles_factura">--- Detalles de la Factura Seleccionada ---</string>
+    <string name="credito_crear_label_id_factura">ID Factura:</string>
+    <string name="credito_crear_label_id_pedido">ID Pedido:</string>
+    <string name="credito_crear_label_monto_autorizar">Monto a Otorgar (Crédito):</string>
+    <string name="credito_crear_label_fecha_limite">Fecha Límite de Pago:</string>
+    <string name="credito_crear_hint_fecha_limite">Tocar para seleccionar fecha límite</string>
+    <string name="credito_crear_btn_confirmar">Confirmar y Activar Crédito</string>
+    <string name="credito_crear_toast_exito">Crédito ID %1$d activado para Factura ID %2$d</string>
+    <string name="credito_crear_toast_error">Error al activar el crédito</string>
+    <string name="credito_crear_toast_factura_no_valida">La factura seleccionada no es válida para crédito.</string>
+    <string name="credito_crear_toast_seleccione_factura">Seleccione una factura</string>
+    <string name="credito_crear_toast_ingrese_fecha_limite">Ingrese la fecha límite para el crédito</string>
+    <string name="credito_crear_no_facturas_disponibles">No hay facturas elegibles para activar crédito.</string>
+    <string name="credito_crear_estado_credito_inicial">Activo</string> <string name="factura_estado_en_credito">En Crédito</string> <string name="factura_tipo_pago_credito">Crédito</string>
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
 </resources>
