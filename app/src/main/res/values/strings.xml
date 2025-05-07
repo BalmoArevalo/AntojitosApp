@@ -357,5 +357,21 @@
     <string name="credito_crear_toast_ingrese_fecha_limite">Ingrese la fecha límite para el crédito</string>
     <string name="credito_crear_no_facturas_disponibles">No hay facturas elegibles para activar crédito.</string>
     <string name="credito_crear_estado_credito_inicial">Activo</string> <string name="factura_estado_en_credito">En Crédito</string> <string name="factura_tipo_pago_credito">Crédito</string>
+
+    <!-- Consultar Factura-->
+    <string name="credito_consultar_title">Consultar Detalles de Crédito</string>
+    <string name="credito_consultar_label_seleccionar_factura">Seleccione Factura a Crédito:</string>
+    <string name="credito_consultar_label_detalles">--- Detalles del Crédito Asociado ---</string>
+    <string name="credito_consultar_label_id_credito">ID Crédito:</string>
+    <string name="credito_consultar_label_id_factura">ID Factura Asociada:</string>
+    <string name="credito_consultar_label_monto_autorizado">Monto Autorizado:</string>
+    <string name="credito_consultar_label_monto_pagado">Monto Pagado:</string>
+    <string name="credito_consultar_label_saldo_pendiente">Saldo Pendiente:</string>
+    <string name="credito_consultar_label_fecha_limite">Fecha Límite Pago:</string>
+    <string name="credito_consultar_label_estado_credito">Estado Crédito:</string>
+    <string name="credito_consultar_toast_seleccione_factura">Seleccione una factura</string>
+    <string name="credito_consultar_toast_error_carga">Error al cargar datos</string>
+    <string name="credito_consultar_toast_no_credito">No se encontró información de crédito para la factura seleccionada.</string>
+    <string name="credito_consultar_no_facturas_con_credito">No hay facturas marcadas a crédito.</string>
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
 </resources>
