@@ -9,33 +9,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Pedido -->
         <TextView
-            android:text="ID del Pedido:"
+            android:text="Seleccione Pedido:"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="8dp" />
+            android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/editTextIdPedido"
+        <Spinner
+            android:id="@+id/spinnerPedido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:minHeight="48dp"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="16dp" />
 
-        <Button
-            android:id="@+id/btnBuscarDetalles"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Consultar Detalles" />
-
+        <!-- Resultados -->
         <TextView
             android:id="@+id/textViewResultadoDetalles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text=""
             android:textSize="16sp"
-            android:paddingTop="24dp" />
-
+            android:paddingTop="16dp" />
     </LinearLayout>
 </ScrollView>

@@ -9,76 +9,68 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- ID del detalle a buscar -->
-        <TextView
-            android:text="ID del Detalle:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:id="@+id/editTextBuscarIdDetalle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="number"
-            android:layout_marginBottom="12dp" />
-
-        <Button
-            android:id="@+id/btnBuscarDetalle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Buscar" />
-
         <!-- Pedido -->
         <TextView
-            android:text="Pedido:"
+            android:text="Seleccione Pedido:"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp" />
+            android:layout_height="wrap_content" />
 
         <Spinner
             android:id="@+id/spinnerPedido"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
+
+        <!-- DetallePedido -->
+        <TextView
+            android:text="Seleccione Detalle:"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <Spinner
+            android:id="@+id/spinnerDetalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
 
         <!-- Producto -->
         <TextView
             android:text="Producto:"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp" />
+            android:layout_height="wrap_content" />
 
         <Spinner
             android:id="@+id/spinnerProducto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp" />
 
         <!-- Cantidad -->
         <TextView
             android:text="Cantidad:"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp" />
+            android:layout_height="wrap_content" />
 
         <EditText
             android:id="@+id/editTextCantidad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number" />
+            android:inputType="number"
+            android:layout_marginBottom="16dp" />
 
         <!-- Subtotal -->
         <TextView
             android:text="Subtotal:"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingTop="16dp" />
+            android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/textViewSubtotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="--"
+            android:text="$ 0.00"
             android:textSize="16sp"
-            android:paddingBottom="16dp" />
+            android:layout_marginBottom="24dp" />
 
         <!-- Botón actualizar -->
         <Button

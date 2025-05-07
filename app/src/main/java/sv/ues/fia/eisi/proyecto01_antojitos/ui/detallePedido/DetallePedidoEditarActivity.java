@@ -1,13 +1,15 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.detallePedido;
 
+import android.annotation.SuppressLint;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
-import android.view.View;
+
 import java.util.*;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
@@ -19,10 +21,10 @@ import sv.ues.fia.eisi.proyecto01_antojitos.ui.producto.ProductoDAO;
 
 public class DetallePedidoEditarActivity extends AppCompatActivity {
 
-    private EditText editTextBuscarIdDetalle, editTextCantidad;
-    private Spinner spinnerPedido, spinnerProducto;
+    private Spinner spinnerPedido, spinnerDetalle, spinnerProducto;
+    private EditText editTextCantidad;
     private TextView textViewSubtotal;
-    private Button btnBuscarDetalle, btnActualizar;
+    private Button btnActualizar;
 
     private SQLiteDatabase db;
     private DetallePedidoDAO detallePedidoDAO;
@@ -31,44 +33,84 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
 
     private Map<String, Pedido> pedidosMap = new HashMap<>();
     private Map<String, Producto> productosMap = new HashMap<>();
+    private Map<String, DetallePedido> detallesMap = new HashMap<>();
+
     private DetallePedido detalleActual;
     private double precioActual = 0.0;
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_pedido_editar);
 
-        // UI
-        editTextBuscarIdDetalle = findViewById(R.id.editTextBuscarIdDetalle);
-        editTextCantidad = findViewById(R.id.editTextCantidad);
+        // Referencias UI
         spinnerPedido = findViewById(R.id.spinnerPedido);
+        spinnerDetalle = findViewById(R.id.spinnerDetalle);
         spinnerProducto = findViewById(R.id.spinnerProducto);
+        editTextCantidad = findViewById(R.id.editTextCantidad);
         textViewSubtotal = findViewById(R.id.textViewSubtotal);
-        btnBuscarDetalle = findViewById(R.id.btnBuscarDetalle);
         btnActualizar = findViewById(R.id.btnActualizarDetalle);
 
-        // DB
+        // Inicializar BD y DAOs
         DBHelper dbHelper = new DBHelper(this);
         db = dbHelper.getWritableDatabase();
         detallePedidoDAO = new DetallePedidoDAO(db);
         pedidoDAO = new PedidoDAO(db);
         productoDAO = new ProductoDAO(db);
 
+        // Cargar pedidos al iniciar
         cargarPedidos();
 
-        // Listeners
+        spinnerPedido.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                if (pos == 0) {
+                    limpiarDetalles();
+                    limpiarProductos();
+                    return;
+                }
+                Pedido pedido = pedidosMap.get(parent.getItemAtPosition(pos).toString());
+                cargarDetallesPedido(pedido.getIdPedido());
+                cargarProductosPorSucursal(pedido.getIdSucursal());
+            }
+
+            @Override public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        spinnerDetalle.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                if (pos == 0) {
+                    detalleActual = null;
+                    btnActualizar.setEnabled(false);
+                    return;
+                }
+
+                detalleActual = detallesMap.get(parent.getItemAtPosition(pos).toString());
+                if (detalleActual != null) {
+                    selectProducto(detalleActual.getIdProducto());
+                    editTextCantidad.setText(String.valueOf(detalleActual.getCantidad()));
+                    actualizarSubtotal();
+                    btnActualizar.setEnabled(true);
+                }
+            }
+
+            @Override public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
         spinnerProducto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                if (pos <= 0 || detalleActual == null) {
                     precioActual = 0;
                     actualizarSubtotal();
                     return;
                 }
-                int idSucursal = obtenerSucursalDelPedido();
-                int idProducto = productosMap.get(spinnerProducto.getSelectedItem().toString()).getIdProducto();
-                precioActual = productoDAO.obtenerPrecioSucursal(idProducto, idSucursal);
-                actualizarSubtotal();
+
+                Producto prod = productosMap.get(parent.getItemAtPosition(pos).toString());
+                if (prod != null) {
+                    int idSucursal = pedidosMap.get(spinnerPedido.getSelectedItem().toString()).getIdSucursal();
+                    precioActual = productoDAO.obtenerPrecioProductoEnSucursal(prod.getIdProducto(), idSucursal);
+                    actualizarSubtotal();
+                }
             }
 
             @Override public void onNothingSelected(AdapterView<?> parent) {}
@@ -78,11 +120,11 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
                 actualizarSubtotal();
             }
+
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void afterTextChanged(Editable s) {}
         });
 
-        btnBuscarDetalle.setOnClickListener(v -> buscarDetalle());
         btnActualizar.setOnClickListener(v -> actualizarDetalle());
     }
 
@@ -96,23 +138,24 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
             pedidosMap.put(label, p);
         }
         spinnerPedido.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items));
+    }
 
-        spinnerPedido.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position == 0) {
-                    spinnerProducto.setAdapter(new ArrayAdapter<>(DetallePedidoEditarActivity.this, android.R.layout.simple_spinner_dropdown_item, Collections.singletonList("Seleccione")));
-                    return;
-                }
-                Pedido p = pedidosMap.get(parent.getItemAtPosition(position).toString());
-                cargarProductosPorSucursal(p.getIdSucursal());
-            }
-            @Override public void onNothingSelected(AdapterView<?> parent) {}
-        });
+    private void cargarDetallesPedido(int idPedido) {
+        detallesMap.clear();
+        List<DetallePedido> lista = detallePedidoDAO.obtenerPorPedido(idPedido);
+        List<String> items = new ArrayList<>();
+        items.add("Seleccione");
+        for (DetallePedido d : lista) {
+            String label = "Detalle " + d.getIdDetallePedido() + " - Prod " + d.getIdProducto();
+            items.add(label);
+            detallesMap.put(label, d);
+        }
+        spinnerDetalle.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items));
     }
 
     private void cargarProductosPorSucursal(int idSucursal) {
         productosMap.clear();
-        List<Producto> productos = productoDAO.obtenerPorSucursal(idSucursal);
+        List<Producto> productos = productoDAO.obtenerProductosPorSucursal(idSucursal);
         List<String> items = new ArrayList<>();
         items.add("Seleccione");
         for (Producto p : productos) {
@@ -123,49 +166,14 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
         spinnerProducto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items));
     }
 
-    private void buscarDetalle() {
-        String idStr = editTextBuscarIdDetalle.getText().toString().trim();
-        if (idStr.isEmpty()) {
-            Toast.makeText(this, "Ingrese un ID válido", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        int idDetalle = Integer.parseInt(idStr);
-        detalleActual = detallePedidoDAO.consultarPorId(idDetalle);
-        if (detalleActual == null) {
-            Toast.makeText(this, "Detalle no encontrado", Toast.LENGTH_SHORT).show();
-            btnActualizar.setEnabled(false);
-            return;
-        }
-
-        setearValoresEnFormulario(detalleActual);
-        btnActualizar.setEnabled(true);
-    }
-
-    private void setearValoresEnFormulario(DetallePedido d) {
-        seleccionarItemPorId(spinnerPedido, d.getIdPedido(), pedidosMap);
-        cargarProductosPorSucursal(obtenerSucursalDelPedido());
-        spinnerProducto.post(() -> seleccionarItemPorId(spinnerProducto, d.getIdProducto(), productosMap));
-
-        editTextCantidad.setText(String.valueOf(d.getCantidad()));
-        precioActual = productoDAO.obtenerPrecioSucursal(d.getIdProducto(), obtenerSucursalDelPedido());
-        actualizarSubtotal();
-    }
-
-    private void seleccionarItemPorId(Spinner spinner, int id, Map<String, ?> map) {
-        for (int i = 0; i < spinner.getCount(); i++) {
-            String label = spinner.getItemAtPosition(i).toString();
-            if (label.startsWith(id + " -")) {
-                spinner.setSelection(i);
+    private void selectProducto(int idProducto) {
+        for (int i = 1; i < spinnerProducto.getCount(); i++) {
+            String label = spinnerProducto.getItemAtPosition(i).toString();
+            if (label.startsWith(idProducto + " -")) {
+                spinnerProducto.setSelection(i);
                 break;
             }
         }
-    }
-
-    private int obtenerSucursalDelPedido() {
-        int pos = spinnerPedido.getSelectedItemPosition();
-        if (pos <= 0) return -1;
-        return pedidosMap.get(spinnerPedido.getSelectedItem().toString()).getIdSucursal();
     }
 
     private void actualizarSubtotal() {
@@ -178,14 +186,11 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
     private void actualizarDetalle() {
         if (detalleActual == null) return;
 
-        String pedidoKey = spinnerPedido.getSelectedItem().toString();
         String productoKey = spinnerProducto.getSelectedItem().toString();
-
-        Pedido pedidoSeleccionado = pedidosMap.get(pedidoKey);
         Producto productoSeleccionado = productosMap.get(productoKey);
 
-        if (pedidoSeleccionado == null || productoSeleccionado == null) {
-            Toast.makeText(this, "Debe seleccionar un pedido y producto válidos", Toast.LENGTH_SHORT).show();
+        if (productoSeleccionado == null) {
+            Toast.makeText(this, "Seleccione un producto válido", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -196,23 +201,37 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
         }
 
         int cantidad = Integer.parseInt(cantidadStr);
-        int idPedido = pedidoSeleccionado.getIdPedido();
-        int idProducto = productoSeleccionado.getIdProducto();
         double subtotal = cantidad * precioActual;
 
-        // Actualizar objeto
-        detalleActual.setIdPedido(idPedido);
-        detalleActual.setIdProducto(idProducto);
+        detalleActual.setIdProducto(productoSeleccionado.getIdProducto());
         detalleActual.setCantidad(cantidad);
         detalleActual.setSubtotal(subtotal);
 
-        // Persistir
         int filas = detallePedidoDAO.actualizar(detalleActual);
         if (filas > 0) {
             Toast.makeText(this, "Detalle actualizado correctamente", Toast.LENGTH_SHORT).show();
+            resetearFormulario();
         } else {
             Toast.makeText(this, "Error al actualizar el detalle", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void limpiarDetalles() {
+        spinnerDetalle.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Collections.singletonList("Seleccione")));
+    }
+
+    private void limpiarProductos() {
+        spinnerProducto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Collections.singletonList("Seleccione")));
+    }
+
+    private void resetearFormulario() {
+        spinnerPedido.setSelection(0);
+        limpiarDetalles();
+        limpiarProductos();
+        editTextCantidad.setText("");
+        textViewSubtotal.setText("$ 0.00");
+        btnActualizar.setEnabled(false);
+        detalleActual = null;
     }
 
 }

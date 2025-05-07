@@ -9,31 +9,38 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <!-- Spinner Pedido -->
         <TextView
-            android:text="ID del Detalle a Eliminar:"
+            android:text="Seleccione Pedido:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/editTextIdEliminar"
+        <Spinner
+            android:id="@+id/spinnerPedido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="16dp" />
 
-        <Button
-            android:id="@+id/btnBuscarDetalle"
+        <!-- Spinner Detalle -->
+        <TextView
+            android:text="Seleccione Detalle:"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:id="@+id/spinnerDetalle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Buscar" />
+            android:layout_marginBottom="16dp" />
 
+        <!-- Info Detalle -->
         <TextView
             android:id="@+id/textViewDetalle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text=""
             android:textSize="16sp"
-            android:paddingTop="24dp"
+            android:text=""
+            android:paddingTop="16dp"
             android:paddingBottom="16dp" />
 
         <Button

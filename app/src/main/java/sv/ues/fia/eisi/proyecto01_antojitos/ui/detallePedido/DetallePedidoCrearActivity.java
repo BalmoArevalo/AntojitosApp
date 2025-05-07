@@ -83,7 +83,7 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
                 }
                 String key = parent.getItemAtPosition(pos).toString();
                 Producto prod = productosMap.get(key);
-                precioActual = productoDAO.obtenerPrecioSucursal(prod.getIdProducto(), obtenerSucursalDelPedido());
+                precioActual = productoDAO.obtenerPrecioProductoEnSucursal(prod.getIdProducto(), obtenerSucursalDelPedido());
                 textViewPrecioUnitario.setText(String.format(Locale.getDefault(), "$ %.2f", precioActual));
                 actualizarSubtotal();
             }
@@ -116,7 +116,7 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
 
     private void cargarProductosPorSucursal(int idSucursal) {
         productosMap.clear();
-        List<Producto> productos = productoDAO.obtenerPorSucursal(idSucursal);
+        List<Producto> productos = productoDAO.obtenerProductosPorSucursal(idSucursal);
         List<String> items = new ArrayList<>();
         items.add("Seleccione");
         for (Producto p : productos) {
