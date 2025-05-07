@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * DAO para operaciones CRUD sobre la tabla REPARTIDOR.
+ */
 public class RepartidorDAO {
     private final SQLiteDatabase db;
 
@@ -14,26 +17,34 @@ public class RepartidorDAO {
         this.db = db;
     }
 
+    /**
+     * Inserta un nuevo repartidor en la base de datos.
+     * @param r entidad Repartidor a insertar
+     * @return ID generado o -1 si fallo
+     */
     public long insertar(Repartidor r) {
-        ContentValues v = new ContentValues();
-        // ID_USUARIO es NOT NULL en la tabla; asignamos valor por defecto o el real si se tuviera
-        v.put("ID_USUARIO", 0);
-        v.put("ID_DEPARTAMENTO", r.getIdDepartamento());
-        v.put("ID_MUNICIPIO", r.getIdMunicipio());
-        v.put("ID_DISTRITO", r.getIdDistrito());
-        v.put("TIPO_VEHICULO", r.getTipoVehiculo());
-        v.put("DISPONIBLE", r.getDisponible());
-        v.put("TELEFONO_REPARTIDOR", r.getTelefonoRepartidor());
-        v.put("NOMBRE_REPARTIDOR", r.getNombreRepartidor());
-        v.put("APELLIDO_REPARTIDOR", r.getApellidoRepartidor());
-        v.put("ACTIVO_REPARTIDOR", r.getActivoRepartidor());
-        return db.insert("REPARTIDOR", null, v);
+        ContentValues values = new ContentValues();
+        // No incluir ID_REPARTIDOR para que sea autogenerado
+        values.put("ID_DEPARTAMENTO", r.getIdDepartamento());
+        values.put("ID_MUNICIPIO", r.getIdMunicipio());
+        values.put("ID_DISTRITO", r.getIdDistrito());
+        values.put("TIPO_VEHICULO", r.getTipoVehiculo());
+        values.put("DISPONIBLE", r.getDisponible());
+        values.put("TELEFONO_REPARTIDOR", r.getTelefonoRepartidor());
+        values.put("NOMBRE_REPARTIDOR", r.getNombreRepartidor());
+        values.put("APELLIDO_REPARTIDOR", r.getApellidoRepartidor());
+        values.put("ACTIVO_REPARTIDOR", r.getActivoRepartidor());
+        return db.insert("REPARTIDOR", null, values);
     }
 
+    /**
+     * Obtiene un repartidor por su ID.
+     */
     public Repartidor obtenerPorId(int id) {
         Cursor c = db.rawQuery(
                 "SELECT * FROM REPARTIDOR WHERE ID_REPARTIDOR = ?",
-                new String[]{String.valueOf(id)});
+                new String[]{ String.valueOf(id) }
+        );
         Repartidor r = null;
         if (c.moveToFirst()) {
             r = cursorToRepartidor(c);
@@ -42,63 +53,88 @@ public class RepartidorDAO {
         return r;
     }
 
+    /**
+     * Devuelve todos los repartidores.
+     */
     public List<Repartidor> obtenerTodos() {
-        List<Repartidor> list = new ArrayList<>();
+        List<Repartidor> lista = new ArrayList<>();
         Cursor c = db.rawQuery("SELECT * FROM REPARTIDOR", null);
         if (c.moveToFirst()) {
             do {
-                list.add(cursorToRepartidor(c));
+                lista.add(cursorToRepartidor(c));
             } while (c.moveToNext());
         }
         c.close();
-        return list;
+        return lista;
     }
 
+    /**
+     * Devuelve sólo los repartidores activos.
+     */
     public List<Repartidor> obtenerActivos() {
-        List<Repartidor> list = new ArrayList<>();
+        List<Repartidor> lista = new ArrayList<>();
         Cursor c = db.rawQuery(
-                "SELECT * FROM REPARTIDOR WHERE ACTIVO_REPARTIDOR = 1", null);
+                "SELECT * FROM REPARTIDOR WHERE ACTIVO_REPARTIDOR = 1", null
+        );
         if (c.moveToFirst()) {
             do {
-                list.add(cursorToRepartidor(c));
+                lista.add(cursorToRepartidor(c));
             } while (c.moveToNext());
         }
         c.close();
-        return list;
+        return lista;
     }
 
+    /**
+     * Actualiza un repartidor existente.
+     * @return número de filas afectadas
+     */
     public int actualizar(Repartidor r) {
-        ContentValues v = new ContentValues();
-        // ID_USUARIO no cambia aquí, se mantiene o actualizar si se quiere
-        v.put("ID_DEPARTAMENTO", r.getIdDepartamento());
-        v.put("ID_MUNICIPIO", r.getIdMunicipio());
-        v.put("ID_DISTRITO", r.getIdDistrito());
-        v.put("TIPO_VEHICULO", r.getTipoVehiculo());
-        v.put("DISPONIBLE", r.getDisponible());
-        v.put("TELEFONO_REPARTIDOR", r.getTelefonoRepartidor());
-        v.put("NOMBRE_REPARTIDOR", r.getNombreRepartidor());
-        v.put("APELLIDO_REPARTIDOR", r.getApellidoRepartidor());
-        v.put("ACTIVO_REPARTIDOR", r.getActivoRepartidor());
+        ContentValues values = new ContentValues();
+        values.put("ID_DEPARTAMENTO", r.getIdDepartamento());
+        values.put("ID_MUNICIPIO", r.getIdMunicipio());
+        values.put("ID_DISTRITO", r.getIdDistrito());
+        values.put("TIPO_VEHICULO", r.getTipoVehiculo());
+        values.put("DISPONIBLE", r.getDisponible());
+        values.put("TELEFONO_REPARTIDOR", r.getTelefonoRepartidor());
+        values.put("NOMBRE_REPARTIDOR", r.getNombreRepartidor());
+        values.put("APELLIDO_REPARTIDOR", r.getApellidoRepartidor());
+        values.put("ACTIVO_REPARTIDOR", r.getActivoRepartidor());
         return db.update(
-                "REPARTIDOR", v,
-                "ID_REPARTIDOR = ?", new String[]{String.valueOf(r.getIdRepartidor())});
+                "REPARTIDOR",
+                values,
+                "ID_REPARTIDOR = ?",
+                new String[]{ String.valueOf(r.getIdRepartidor()) }
+        );
     }
 
+    /**
+     * 'Elimina' un repartidor desactivándolo (soft delete).
+     */
     public int eliminar(int id) {
-        ContentValues v = new ContentValues();
-        v.put("ACTIVO_REPARTIDOR", 0);
+        ContentValues values = new ContentValues();
+        values.put("ACTIVO_REPARTIDOR", 0);
         return db.update(
-                "REPARTIDOR", v,
-                "ID_REPARTIDOR = ?", new String[]{String.valueOf(id)});
+                "REPARTIDOR",
+                values,
+                "ID_REPARTIDOR = ?",
+                new String[]{ String.valueOf(id) }
+        );
     }
 
+    /**
+     * Mapea un Cursor a una entidad Repartidor.
+     */
     private Repartidor cursorToRepartidor(Cursor c) {
         Repartidor r = new Repartidor();
         r.setIdRepartidor(c.getInt(c.getColumnIndexOrThrow("ID_REPARTIDOR")));
-        // Saltamos ID_USUARIO si no se modela, o leerlo si existe en la clase
-        r.setIdDepartamento(c.getInt(c.getColumnIndexOrThrow("ID_DEPARTAMENTO")));
-        r.setIdMunicipio(c.getInt(c.getColumnIndexOrThrow("ID_MUNICIPIO")));
-        r.setIdDistrito(c.getInt(c.getColumnIndexOrThrow("ID_DISTRITO")));
+        int idx;
+        idx = c.getColumnIndexOrThrow("ID_DEPARTAMENTO");
+        r.setIdDepartamento(c.isNull(idx) ? null : c.getInt(idx));
+        idx = c.getColumnIndexOrThrow("ID_MUNICIPIO");
+        r.setIdMunicipio(c.isNull(idx) ? null : c.getInt(idx));
+        idx = c.getColumnIndexOrThrow("ID_DISTRITO");
+        r.setIdDistrito(c.isNull(idx) ? null : c.getInt(idx));
         r.setTipoVehiculo(c.getString(c.getColumnIndexOrThrow("TIPO_VEHICULO")));
         r.setDisponible(c.getInt(c.getColumnIndexOrThrow("DISPONIBLE")));
         r.setTelefonoRepartidor(c.getString(c.getColumnIndexOrThrow("TELEFONO_REPARTIDOR")));

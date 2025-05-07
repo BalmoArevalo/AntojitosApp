@@ -62,10 +62,11 @@ public class RepartidorCrearActivity extends AppCompatActivity {
         tipoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerTipoVehiculo.setAdapter(tipoAdapter);
 
-        // Cargar departamentos
+        // Cargar y configurar spinners de ubicación
         cargarSpinnerDepartamento();
+        spinnerMunicipio.setEnabled(false);
+        spinnerDistrito.setEnabled(false);
 
-        // Cascada Spinner Departamento → Municipio → Distrito
         spinnerDepartamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 if (pos > 0) {
@@ -73,12 +74,15 @@ public class RepartidorCrearActivity extends AppCompatActivity {
                     cargarSpinnerMunicipio(depId);
                     spinnerMunicipio.setEnabled(true);
                 } else {
+                    spinnerMunicipio.setSelection(0);
                     spinnerMunicipio.setEnabled(false);
+                    spinnerDistrito.setSelection(0);
                     spinnerDistrito.setEnabled(false);
                 }
             }
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
+
         spinnerMunicipio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 if (pos > 0) {
@@ -87,6 +91,7 @@ public class RepartidorCrearActivity extends AppCompatActivity {
                     cargarSpinnerDistrito(depId, munId);
                     spinnerDistrito.setEnabled(true);
                 } else {
+                    spinnerDistrito.setSelection(0);
                     spinnerDistrito.setEnabled(false);
                 }
             }
@@ -171,18 +176,16 @@ public class RepartidorCrearActivity extends AppCompatActivity {
             return;
         }
 
-        // Construir objeto
-        Repartidor r = new Repartidor();
-        r.setIdDepartamento(departamentoIds.get(posDept - 1));
-        r.setIdMunicipio(municipioIds.get(posMun - 1));
-        r.setIdDistrito(distritoIds.get(posDist - 1));
-        r.setTipoVehiculo((String) spinnerTipoVehiculo.getSelectedItem());
-        r.setDisponible(disponible ? 1 : 0);
-        r.setTelefonoRepartidor(telefono);
-        r.setNombreRepartidor(nombre);
-        r.setApellidoRepartidor(apellido);
-        r.setActivoRepartidor(1);
-
+        Repartidor r = new Repartidor(
+                departamentoIds.get(posDept - 1),
+                municipioIds.get(posMun - 1),
+                distritoIds.get(posDist - 1),
+                (String) spinnerTipoVehiculo.getSelectedItem(),
+                disponible ? 1 : 0,
+                telefono,
+                nombre,
+                apellido
+        );
         long id = dao.insertar(r);
         if (id > 0) {
             Toast.makeText(this, "Repartidor creado con ID " + id, Toast.LENGTH_LONG).show();
@@ -199,10 +202,8 @@ public class RepartidorCrearActivity extends AppCompatActivity {
         spinnerTipoVehiculo.setSelection(0);
         switchDisponibleRepartidor.setChecked(true);
         spinnerDepartamento.setSelection(0);
-        spinnerMunicipio.setSelection(0);
-        spinnerMunicipio.setEnabled(false);
-        spinnerDistrito.setSelection(0);
-        spinnerDistrito.setEnabled(false);
+        spinnerMunicipio.setSelection(0); spinnerMunicipio.setEnabled(false);
+        spinnerDistrito.setSelection(0); spinnerDistrito.setEnabled(false);
     }
 
     @Override
