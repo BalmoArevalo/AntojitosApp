@@ -1,5 +1,11 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.sucursal;
 
+import android.content.ContentValues;
+import android.database.Cursor;
+
+/**
+ * Modelo de Sucursal para uso con SQLite en Android.
+ */
 public class Sucursal {
 
     private int idSucursal;
@@ -9,9 +15,9 @@ public class Sucursal {
     private String nombreSucursal;
     private String direccionSucursal;
     private String telefonoSucursal;
-    private String horarioApertura;     // corresponde a HORARIO_APERTURA_SUCURSAL
-    private String horarioCierre;       // corresponde a HORARIO_CIERRE_SUCURSAL
-    private int activoSucursal;         // corresponde a ACTIVO_SUCURSAL (1 = activo, 0 = inactivo)
+    private String horarioApertura;     // HORARIO_APERTURA_SUCURSAL
+    private String horarioCierre;       // HORARIO_CIERRE_SUCURSAL
+    private int activoSucursal;         // ACTIVO_SUCURSAL (1 = activo, 0 = inactivo)
 
     public Sucursal() {
     }
@@ -42,7 +48,7 @@ public class Sucursal {
     }
 
     /**
-     * Constructor sin id (para inserciones) y con activo por defecto a 1.
+     * Constructor para inserciones (sin id, activo por defecto a 1).
      */
     public Sucursal(int idDepartamento,
                     int idMunicipio,
@@ -57,6 +63,8 @@ public class Sucursal {
                 telefonoSucursal, horarioApertura, horarioCierre,
                 1);
     }
+
+    // Getters y setters
 
     public int getIdSucursal() {
         return idSucursal;
@@ -136,5 +144,68 @@ public class Sucursal {
 
     public void setActivoSucursal(int activoSucursal) {
         this.activoSucursal = activoSucursal;
+    }
+
+    /**
+     * Convierte la entidad a ContentValues para inserción/actualización en SQLite.
+     */
+    public ContentValues toContentValues() {
+        ContentValues values = new ContentValues();
+        // No incluir ID_SUCURSAL si es cero (auto-incremental)
+        if (idSucursal > 0) {
+            values.put("ID_SUCURSAL", idSucursal);
+        }
+        values.put("ID_DEPARTAMENTO", idDepartamento);
+        values.put("ID_MUNICIPIO", idMunicipio);
+        values.put("ID_DISTRITO", idDistrito);
+        values.put("NOMBRE_SUCURSAL", nombreSucursal);
+        values.put("DIRECCION_SUCURSAL", direccionSucursal);
+        values.put("TELEFONO_SUCURSAL", telefonoSucursal);
+        values.put("HORARIO_APERTURA_SUCURSAL", horarioApertura);
+        values.put("HORARIO_CIERRE_SUCURSAL", horarioCierre);
+        values.put("ACTIVO_SUCURSAL", activoSucursal);
+        return values;
+    }
+
+    /**
+     * Crea una instancia de Sucursal a partir de un Cursor de consulta.
+     */
+    public static Sucursal fromCursor(Cursor cursor) {
+        int idxId = cursor.getColumnIndex("ID_SUCURSAL");
+        int idxDept = cursor.getColumnIndex("ID_DEPARTAMENTO");
+        int idxMun = cursor.getColumnIndex("ID_MUNICIPIO");
+        int idxDist = cursor.getColumnIndex("ID_DISTRITO");
+        int idxNombre = cursor.getColumnIndex("NOMBRE_SUCURSAL");
+        int idxDir = cursor.getColumnIndex("DIRECCION_SUCURSAL");
+        int idxTel = cursor.getColumnIndex("TELEFONO_SUCURSAL");
+        int idxApert = cursor.getColumnIndex("HORARIO_APERTURA_SUCURSAL");
+        int idxCierre = cursor.getColumnIndex("HORARIO_CIERRE_SUCURSAL");
+        int idxAct = cursor.getColumnIndex("ACTIVO_SUCURSAL");
+
+        Sucursal sucursal = new Sucursal();
+        if (idxId != -1) {
+            sucursal.setIdSucursal(cursor.getInt(idxId));
+        }
+        sucursal.setIdDepartamento(cursor.getInt(idxDept));
+        sucursal.setIdMunicipio(cursor.getInt(idxMun));
+        sucursal.setIdDistrito(cursor.getInt(idxDist));
+        sucursal.setNombreSucursal(cursor.getString(idxNombre));
+        sucursal.setDireccionSucursal(cursor.getString(idxDir));
+        sucursal.setTelefonoSucursal(cursor.getString(idxTel));
+        sucursal.setHorarioApertura(cursor.getString(idxApert));
+        sucursal.setHorarioCierre(cursor.getString(idxCierre));
+        sucursal.setActivoSucursal(cursor.getInt(idxAct));
+        return sucursal;
+    }
+
+    @Override
+    public String toString() {
+        return "Sucursal{" +
+                "idSucursal=" + idSucursal +
+                ", nombre='" + nombreSucursal + '\'' +
+                ", depto=" + idDepartamento +
+                ", municipio=" + idMunicipio +
+                ", distrito=" + idDistrito +
+                '}';
     }
 }
