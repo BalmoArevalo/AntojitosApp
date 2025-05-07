@@ -3,13 +3,13 @@ package sv.ues.fia.eisi.proyecto01_antojitos.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log; // Importar Log
+import android.util.Log;
 
 public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "antojitos.db";
     // Incrementar la versión si se añaden/modifican triggers o tablas
-    public static final int DB_VERSION = 3;
+    public static final int DB_VERSION = 4;
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -24,6 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.i("DBHelper", "onCreate: Creando tablas y triggers para la versión " + DB_VERSION);
+
         // 1 - tabla de DEPARTAMENTO
         db.execSQL("CREATE TABLE DEPARTAMENTO ("
                 + "ID_DEPARTAMENTO INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -102,7 +103,7 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "ID_MUNICIPIO INTEGER,"
                 + "ID_DISTRITO INTEGER,"
                 + "TIPO_VEHICULO TEXT,"
-                + "DISPONIBLE INTEGER NOT NULL," // Campo para el trigger
+                + "DISPONIBLE INTEGER NOT NULL,"
                 + "TELEFONO_REPARTIDOR TEXT NOT NULL,"
                 + "NOMBRE_REPARTIDOR TEXT NOT NULL,"
                 + "APELLIDO_REPARTIDOR TEXT NOT NULL,"
@@ -116,7 +117,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "NOMBRE_TIPO_EVENTO TEXT NOT NULL,"
                 + "DESCRIPCION_TIPO_EVENTO TEXT,"
                 + "MONTO_MINIMO REAL NOT NULL,"
-                + "MONTO_MAXIMO REAL NOT NULL"
+                + "MONTO_MAXIMO REAL NOT NULL,"
+                + "ACTIVO_TIPOEVENTO INTEGER NOT NULL DEFAULT 1"
                 + ");");
 
         // 10 - tabla de PEDIDO (Relación 1:1 con Factura se define en FACTURA)
@@ -127,7 +129,8 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "ID_SUCURSAL INTEGER NOT NULL,"
                 + "ID_REPARTIDOR INTEGER NOT NULL,"
                 + "FECHA_HORA_PEDIDO TEXT NOT NULL,"
-                + "ESTADO_PEDIDO TEXT NOT NULL," // Campo para el trigger
+                + "ESTADO_PEDIDO TEXT NOT NULL,"
+                + "ACTIVO_PEDIDO INTEGER NOT NULL DEFAULT 1,"
                 + "FOREIGN KEY (ID_CLIENTE) REFERENCES CLIENTE(ID_CLIENTE),"
                 + "FOREIGN KEY (ID_TIPO_EVENTO) REFERENCES TIPOEVENTO(ID_TIPO_EVENTO),"
                 + "FOREIGN KEY (ID_REPARTIDOR) REFERENCES REPARTIDOR(ID_REPARTIDOR),"
@@ -137,26 +140,26 @@ public class DBHelper extends SQLiteOpenHelper {
         // NUEVA tabla de FACTURA (1:1 con PEDIDO)
         db.execSQL("CREATE TABLE FACTURA ("
                 + "ID_FACTURA INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "ID_PEDIDO INTEGER NOT NULL UNIQUE," // Asegura 1:1 con Pedido
+                + "ID_PEDIDO INTEGER NOT NULL UNIQUE,"
                 + "FECHA_EMISION TEXT NOT NULL,"
-                + "MONTO_TOTAL REAL NOT NULL CHECK(MONTO_TOTAL > 0)," // Añadido CHECK sugerido
-                + "TIPO_PAGO TEXT NOT NULL," // Podría tener valores como 'Contado', 'Crédito'
-                + "ESTADO_FACTURA TEXT NOT NULL," // Ej: "Pendiente", "En Crédito", "Pagada", "Anulada"
-                + "ES_CREDITO INTEGER NOT NULL CHECK(ES_CREDITO IN (0,1))," // 0 para No, 1 para Sí
-                + "FOREIGN KEY (ID_PEDIDO) REFERENCES PEDIDO(ID_PEDIDO) ON DELETE RESTRICT ON UPDATE CASCADE" // Políticas de FK
+                + "MONTO_TOTAL REAL NOT NULL CHECK(MONTO_TOTAL > 0),"
+                + "TIPO_PAGO TEXT NOT NULL,"
+                + "ESTADO_FACTURA TEXT NOT NULL,"
+                + "ES_CREDITO INTEGER NOT NULL CHECK(ES_CREDITO IN (0,1)),"
+                + "FOREIGN KEY (ID_PEDIDO) REFERENCES PEDIDO(ID_PEDIDO) ON DELETE RESTRICT ON UPDATE CASCADE"
                 + ");");
 
         // NUEVA tabla de CREDITO
         db.execSQL("CREATE TABLE CREDITO ("
                 + "ID_CREDITO INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + "ID_FACTURA INTEGER NOT NULL UNIQUE, " // UNIQUE aquí asegura 1:1 entre Factura y su Crédito
+                + "ID_FACTURA INTEGER NOT NULL UNIQUE, "
                 + "MONTO_AUTORIZADO_CREDITO REAL NOT NULL CHECK(MONTO_AUTORIZADO_CREDITO > 0), "
                 + "MONTO_PAGADO REAL NOT NULL DEFAULT 0 CHECK(MONTO_PAGADO >= 0), "
-                + "SALDO_PENDIENTE REAL NOT NULL CHECK(SALDO_PENDIENTE >= 0), " // Podrías añadir CHECK(SALDO_PENDIENTE <= MONTO_AUTORIZADO_CREDITO)
+                + "SALDO_PENDIENTE REAL NOT NULL CHECK(SALDO_PENDIENTE >= 0), "
                 + "FECHA_LIMITE_PAGO TEXT NOT NULL, "
-                + "ESTADO_CREDITO TEXT NOT NULL, " // Ej: "Activo", "Pagado", "Vencido"
-                + "FOREIGN KEY (ID_FACTURA) REFERENCES FACTURA(ID_FACTURA) ON DELETE RESTRICT ON UPDATE CASCADE, " // Coma al final
-                + "CHECK(MONTO_PAGADO <= MONTO_AUTORIZADO_CREDITO)" // Última restricción, sin coma después
+                + "ESTADO_CREDITO TEXT NOT NULL, "
+                + "FOREIGN KEY (ID_FACTURA) REFERENCES FACTURA(ID_FACTURA) ON DELETE RESTRICT ON UPDATE CASCADE, "
+                + "CHECK(MONTO_PAGADO <= MONTO_AUTORIZADO_CREDITO)"
                 + ");");
 
         // 13 - tabla de DATOSPRODUCTO
@@ -164,18 +167,19 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "ID_SUCURSAL INTEGER NOT NULL,"
                 + "ID_PRODUCTO INTEGER NOT NULL,"
                 + "PRECIO_SUCURSAL_PRODUCTO REAL NOT NULL,"
-                + "DISPONIBLE_PRODUCTO INTEGER NOT NULL," // Campo para el trigger
+                + "STOCK INTEGER NOT NULL,"
+                + "ACTIVO_DATOSPRODUCTO INTEGER NOT NULL DEFAULT 1,"
                 + "PRIMARY KEY (ID_SUCURSAL, ID_PRODUCTO),"
                 + "FOREIGN KEY (ID_SUCURSAL) REFERENCES SUCURSAL(ID_SUCURSAL),"
                 + "FOREIGN KEY (ID_PRODUCTO) REFERENCES PRODUCTO(ID_PRODUCTO)"
                 + ");");
 
-        // 14 - tabla de DETALLEPEDIDO (Recomendación: simplificar PK si es posible)
+        // 14 - tabla de DETALLEPEDIDO
         db.execSQL("CREATE TABLE DETALLEPEDIDO ("
                 + "ID_PRODUCTO INTEGER NOT NULL,"
                 + "ID_PEDIDO INTEGER NOT NULL,"
-                + "ID_DETALLA_PEDIDO INTEGER NOT NULL," // Considerar PRIMARY KEY AUTOINCREMENT aquí
-                + "CANTIDAD INTEGER NOT NULL,"          // Campo para el trigger de stock
+                + "ID_DETALLA_PEDIDO INTEGER NOT NULL,"
+                + "CANTIDAD INTEGER NOT NULL,"
                 + "SUBTOTAL REAL NOT NULL,"
                 + "PRIMARY KEY (ID_PRODUCTO, ID_PEDIDO, ID_DETALLA_PEDIDO),"
                 + "FOREIGN KEY (ID_PRODUCTO) REFERENCES PRODUCTO(ID_PRODUCTO),"
@@ -204,67 +208,14 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "ID_DISTRITO INTEGER NOT NULL,"
                 + "DIRECCION_ESPECIFICA TEXT NOT NULL,"
                 + "DESCRIPCION_DIRECCION TEXT,"
+                + "ACTIVO_DIRECCION INTEGER NOT NULL DEFAULT 1,"
                 + "PRIMARY KEY (ID_CLIENTE, ID_DIRECCION),"
                 + "FOREIGN KEY (ID_CLIENTE) REFERENCES CLIENTE(ID_CLIENTE),"
                 + "FOREIGN KEY (ID_DEPARTAMENTO, ID_MUNICIPIO, ID_DISTRITO) REFERENCES DISTRITO(ID_DEPARTAMENTO, ID_MUNICIPIO, ID_DISTRITO)"
                 + ");");
 
         Log.i("DBHelper", "Tablas creadas.");
-/*
-        // --- TRIGGERS ---
-        Log.i("DBHelper", "Creando triggers...");
-        // 1) Actualiza estado de pedido y disponibilidad de repartidor al pagar factura
-        db.execSQL("CREATE TRIGGER trg_actualizar_estado_pedido_factura_pagada "
-                + "AFTER UPDATE OF PAGADO ON FACTURA "
-                + "FOR EACH ROW WHEN NEW.PAGADO = 1 AND OLD.PAGADO != 1 BEGIN "
-                + "  UPDATE PEDIDO SET ESTADO_PEDIDO = 'entregado' WHERE ID_PEDIDO = NEW.ID_PEDIDO; "
-                + "  UPDATE REPARTIDOR SET DISPONIBLE = 1 WHERE ID_REPARTIDOR = (SELECT P.ID_REPARTIDOR FROM PEDIDO P WHERE P.ID_PEDIDO = NEW.ID_PEDIDO); "
-                + "END");
 
-        // 2) Marca factura pagada cuando crédito se agota
-        db.execSQL("CREATE TRIGGER trg_factura_pagada_por_credito "
-                + "AFTER UPDATE OF SALDO_PENDIENTE ON CREDITO "
-                + "FOR EACH ROW WHEN NEW.SALDO_PENDIENTE = 0 AND OLD.SALDO_PENDIENTE != 0 BEGIN "
-                + "  UPDATE FACTURA SET PAGADO = 1 WHERE ID_FACTURA = NEW.ID_FACTURA; "
-                + "END;");
-
-        // 3) Validaciones semánticas: Estado de pedido
-        db.execSQL("CREATE TRIGGER trg_estado_pedido_valido "
-                + "BEFORE INSERT ON PEDIDO "
-                + "FOR EACH ROW WHEN NEW.ESTADO_PEDIDO NOT IN ('pendiente','enviado','entregado','cancelado') BEGIN "
-                + "  SELECT RAISE(ABORT, 'Estado del pedido no es válido. Valores permitidos: pendiente, enviado, entregado, cancelado.'); "
-                + "END;");
-
-        // 4) Validaciones semánticas: Monto de factura
-        db.execSQL("CREATE TRIGGER trg_validar_monto_factura "
-                + "BEFORE INSERT ON FACTURA "
-                + "FOR EACH ROW WHEN NEW.MONTO_TOTAL <= 0 BEGIN "
-                + "  SELECT RAISE(ABORT, 'El monto total de la factura debe ser mayor a cero.'); "
-                + "END;");
-
-        // 5) Evitar eliminar cliente con pedidos activos
-        db.execSQL("CREATE TRIGGER trg_evitar_borrar_cliente_con_pedidos "
-                + "BEFORE DELETE ON CLIENTE "
-                + "FOR EACH ROW WHEN EXISTS(SELECT 1 FROM PEDIDO WHERE ID_CLIENTE = OLD.ID_CLIENTE AND ESTADO_PEDIDO NOT IN ('entregado','cancelado')) BEGIN "
-                + "  SELECT RAISE(ABORT, 'No se puede eliminar el cliente porque tiene pedidos activos.'); "
-                + "END;");
-
-        // 6) Reducir stock de producto al insertar detalle de pedido
-        db.execSQL("CREATE TRIGGER trg_reducir_stock_producto "
-                + "AFTER INSERT ON DETALLEPEDIDO "
-                + "FOR EACH ROW BEGIN "
-                + "  UPDATE DATOSPRODUCTO SET DISPONIBLE_PRODUCTO = DISPONIBLE_PRODUCTO - NEW.CANTIDAD "
-                + "  WHERE ID_PRODUCTO = NEW.ID_PRODUCTO AND ID_SUCURSAL = (SELECT P.ID_SUCURSAL FROM PEDIDO P WHERE P.ID_PEDIDO = NEW.ID_PEDIDO); "
-                + "END;");
-
-        // 7) Evitar eliminar un PEDIDO si tiene una FACTURA asociada
-        db.execSQL("CREATE TRIGGER trg_evitar_borrar_pedido_con_factura "
-                + "BEFORE DELETE ON PEDIDO "
-                + "FOR EACH ROW WHEN EXISTS (SELECT 1 FROM FACTURA WHERE ID_PEDIDO = OLD.ID_PEDIDO) BEGIN "
-                + "  SELECT RAISE(ABORT, 'No se puede eliminar el pedido porque tiene una factura asociada. Elimine la factura primero.'); "
-                + "END;");
-        Log.i("DBHelper", "Triggers creados.");
-*/
         // LLAMADA AL SEEDER (Después de crear tablas y triggers)
         try {
             Log.i("DBHelper_OnCreate", "Llamando a BaseDatosSeeder.insertarDatosIniciales...");
@@ -272,9 +223,9 @@ public class DBHelper extends SQLiteOpenHelper {
             Log.i("DBHelper_OnCreate", "BaseDatosSeeder.insertarDatosIniciales completado.");
         } catch (Exception e) {
             Log.e("DBHelper_OnCreate", "Error al insertar datos iniciales", e);
-            // throw new RuntimeException("Error en onCreate al llamar al Seeder", e); // Descomentar si quieres que la app falle si el seeder falla
         }
     }
+
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w("DBHelper", "Actualizando base de datos de la versión " + oldVersion + " a " + newVersion + ", se eliminarán los datos antiguos.");
