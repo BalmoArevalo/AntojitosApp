@@ -11,13 +11,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Map;
+
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
+import sv.ues.fia.eisi.proyecto01_antojitos.data.AuthRepository;
 import sv.ues.fia.eisi.proyecto01_antojitos.databinding.FragmentDepartamentoBinding;
+import sv.ues.fia.eisi.proyecto01_antojitos.util.PermUIUtils;
 
 public class DepartamentoFragment extends Fragment {
 
     private FragmentDepartamentoBinding binding;
     private DepartamentoViewModel departamentoViewModel;
+
+    private static final Map<Integer, String> BTN_TO_PERM = Map.of(
+            R.id.btnCrear,     "departamento_crear",
+            R.id.btnConsultar, "departamento_consultar",
+            R.id.btnEditar,    "departamento_editar",
+            R.id.btnEliminar,  "departamento_eliminar"
+    );
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -27,6 +38,11 @@ public class DepartamentoFragment extends Fragment {
         View root = binding.getRoot();
 
         binding.textDepartamento.setText(getString(R.string.departamento_title));
+
+        /* 1) Aplicar permisos → esconde los botones no autorizados */
+        /* ─── Permisos: oculta/mostrar botones ─── */
+        AuthRepository auth = new AuthRepository(requireContext());
+        PermUIUtils.aplicarPermisosBotones(root, BTN_TO_PERM, auth);
 
         binding.btnCrear.setOnClickListener(v ->
                 startActivity(new Intent(getActivity(), DepartamentoCrearActivity.class)));

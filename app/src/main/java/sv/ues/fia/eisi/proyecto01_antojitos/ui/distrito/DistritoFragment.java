@@ -5,55 +5,50 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import java.util.Map;
+
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
+import sv.ues.fia.eisi.proyecto01_antojitos.data.AuthRepository;
+import sv.ues.fia.eisi.proyecto01_antojitos.util.PermUIUtils;
 
 public class DistritoFragment extends Fragment {
 
-    private Button btnCrearDistrito;
-    private Button btnConsultarDistrito;
-    private Button btnEditarDistrito;
-    private Button btnEliminarDistrito;
-
-    public DistritoFragment() {
-        // Required empty public constructor
-    }
+    /** botón-id → permiso */
+    private static final Map<Integer, String> BTN_TO_PERM = Map.of(
+            R.id.btnCrearDistrito,     "distrito_crear",
+            R.id.btnConsultarDistrito, "distrito_consultar",
+            R.id.btnEditarDistrito,    "distrito_editar",
+            R.id.btnEliminarDistrito,  "distrito_eliminar"
+    );
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_distrito, container, false);
 
-        // Inicializar los botones
-        btnCrearDistrito = view.findViewById(R.id.btnCrearDistrito);
-        btnConsultarDistrito = view.findViewById(R.id.btnConsultarDistrito);
-        btnEditarDistrito = view.findViewById(R.id.btnEditarDistrito);
-        btnEliminarDistrito = view.findViewById(R.id.btnEliminarDistrito);
+        View root = inflater.inflate(R.layout.fragment_distrito, container, false);
 
-        // Configurar listeners para los botones
-        btnCrearDistrito.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), DistritoCrearActivity.class);
-            startActivity(intent);
-        });
+        /* ---------- aplicar permisos ---------- */
+        AuthRepository auth = new AuthRepository(requireContext());
+        PermUIUtils.aplicarPermisosBotones(root, BTN_TO_PERM, auth);
 
-        btnConsultarDistrito.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), DistritoConsultarActivity.class);
-            startActivity(intent);
-        });
+        /* ---------- listeners ---------- */
+        root.findViewById(R.id.btnCrearDistrito).setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), DistritoCrearActivity.class)));
 
-        btnEditarDistrito.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), DistritoEditarActivity.class);
-            startActivity(intent);
-        });
+        root.findViewById(R.id.btnConsultarDistrito).setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), DistritoConsultarActivity.class)));
 
-        btnEliminarDistrito.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), DistritoEliminarActivity.class);
-            startActivity(intent);
-        });
+        root.findViewById(R.id.btnEditarDistrito).setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), DistritoEditarActivity.class)));
 
-        return view;
+        root.findViewById(R.id.btnEliminarDistrito).setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), DistritoEliminarActivity.class)));
+
+        return root;
     }
 }

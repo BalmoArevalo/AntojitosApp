@@ -71,17 +71,14 @@ public class LoginActivity extends AppCompatActivity {
     /*  CREAR USUARIOS Y PERMISOS                                            */
     /* --------------------------------------------------------------------- */
     private void poblarSeguridad() {
-        SQLiteDatabase db = new DBHelper(this).getWritableDatabase();
-        db.beginTransaction();
-        try {
-            /* Limpia únicamente las tablas de seguridad */
-            SeguridadSeeder.poblar(db);
+        // Borra el archivo: obliga a ejecutar onCreate() desde cero
+        deleteDatabase(DBHelper.DB_NAME);
 
-            db.setTransactionSuccessful();
-            Toast.makeText(this, "Usuarios y permisos recreados", Toast.LENGTH_LONG).show();
-        } finally {
-            db.endTransaction();
-            db.close();
-        }
+        // Se recrean TODAS las tablas y luego poblas seguridad
+        SQLiteDatabase db = new DBHelper(this).getWritableDatabase();
+        SeguridadSeeder.poblar(db);
+
+        Toast.makeText(this,
+                "Base recreada y usuarios/permisos insertados", Toast.LENGTH_LONG).show();
     }
 }

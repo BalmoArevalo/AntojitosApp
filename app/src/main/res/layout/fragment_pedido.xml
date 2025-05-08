@@ -20,7 +20,7 @@
 
     <!-- Botón Crear -->
     <Button
-        android:id="@+id/btn_crear"
+        android:id="@+id/btnCrear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/pedido_btn_crear"
@@ -28,7 +28,7 @@
 
     <!-- Botón Consultar -->
     <Button
-        android:id="@+id/btn_consultar"
+        android:id="@+id/btnConsultar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/pedido_btn_consultar"
@@ -36,7 +36,7 @@
 
     <!-- Botón Editar -->
     <Button
-        android:id="@+id/btn_editar"
+        android:id="@+id/btnEditar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/pedido_btn_editar"
@@ -44,7 +44,7 @@
 
     <!-- Botón Eliminar -->
     <Button
-        android:id="@+id/btn_eliminar"
+        android:id="@+id/btnEliminar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/pedido_btn_eliminar"
