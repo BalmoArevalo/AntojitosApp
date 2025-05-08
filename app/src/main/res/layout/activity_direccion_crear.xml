@@ -1,98 +1,106 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:fillViewport="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".ui.direccion.DireccionCrearActivity">
 
-        <!-- Dirección Específica -->
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Dirección Específica"
-            android:textStyle="bold" />
-        <EditText
-            android:id="@+id/editDireccionEspecifica"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPostalAddress"
-            android:hint="Calle, número, colonia..." />
+            android:text="@string/direccion_crear_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"/>
 
-        <!-- Descripción (opcional) -->
         <TextView
-            android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Descripción (opcional)"
-            android:textStyle="bold" />
-        <EditText
-            android:id="@+id/editDescripcionDireccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:hint="Referencias adicionales" />
-
-        <!-- Cliente -->
-        <TextView
-            android:layout_marginTop="16dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cliente"
-            android:textStyle="bold" />
+            android:text="@string/direccion_crear_label_cliente"
+            android:labelFor="@+id/spinnerCliente"/>
         <Spinner
             android:id="@+id/spinnerCliente"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:minHeight="48dp"/>
 
-        <!-- Departamento -->
         <TextView
-            android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Departamento"
-            android:textStyle="bold" />
+            android:text="@string/direccion_crear_label_departamento"
+            android:labelFor="@+id/spinnerDepartamento"/>
         <Spinner
             android:id="@+id/spinnerDepartamento"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:minHeight="48dp"/>
 
-        <!-- Municipio -->
         <TextView
-            android:layout_marginTop="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Municipio"
-            android:textStyle="bold" />
+            android:text="@string/direccion_crear_label_municipio"
+            android:labelFor="@+id/spinnerMunicipio"/>
         <Spinner
             android:id="@+id/spinnerMunicipio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false" />
-
-        <!-- Distrito -->
-        <TextView
-            android:layout_marginTop="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Distrito"
-            android:textStyle="bold" />
+            android:layout_marginBottom="16dp"
+            android:minHeight="48dp"
+            android:enabled="false"/> <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/direccion_crear_label_distrito"
+        android:labelFor="@+id/spinnerDistrito"/>
         <Spinner
             android:id="@+id/spinnerDistrito"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false" />
-
-        <!-- Botón Guardar -->
-        <Button
-            android:id="@+id/btnGuardar"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:minHeight="48dp"
+            android:enabled="false"/> <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/direccion_crear_label_especifica"
+        android:labelFor="@+id/editDireccionEspecifica"/>
+        <EditText
+            android:id="@+id/editDireccionEspecifica"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar" />
+            android:layout_marginBottom="16dp"
+            android:hint="@string/direccion_crear_hint_especifica"
+            android:inputType="textPostalAddress"
+            android:minHeight="48dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/direccion_crear_label_descripcion"
+            android:labelFor="@+id/editDescripcionDireccion"/>
+        <EditText
+            android:id="@+id/editDescripcionDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:hint="@string/direccion_crear_hint_descripcion"
+            android:inputType="textMultiLine"
+            android:minLines="2"
+            android:gravity="top|start"/>
+
+        <Button
+            android:id="@+id/btnGuardar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/direccion_crear_btn_guardar"/>
 
     </LinearLayout>
 </ScrollView>

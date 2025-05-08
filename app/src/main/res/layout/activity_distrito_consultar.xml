@@ -22,7 +22,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Consultar Distrito"
+                android:text="@string/title_consultar_distrito"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:hint="Seleccionar Distrito">
+                android:hint="@string/hint_seleccionar_distrito">
 
                 <AutoCompleteTextView
                     android:id="@+id/spinnerDistrito"
@@ -54,7 +54,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Detalles de Ubicación"
+                    android:text="@string/label_detalle_ubicacion"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="16dp"/>
@@ -64,7 +64,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Departamento">
+                    android:hint="@string/hint_departamento">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtDepartamento"
@@ -79,7 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Municipio">
+                    android:hint="@string/hint_municipio">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtMunicipio"
@@ -94,7 +94,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Código Postal">
+                    android:hint="@string/hint_codigo_postal">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtCodigoPostal"
@@ -103,14 +103,6 @@
                         android:enabled="false"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Estado: Activo"
-                    android:id="@+id/tvEstado"
-                    android:textSize="16sp"
-                    android:textColor="@android:color/black"/>
 
             </LinearLayout>
         </LinearLayout>

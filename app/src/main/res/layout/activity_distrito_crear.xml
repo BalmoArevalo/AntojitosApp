@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Crear Distrito"
+                android:text="@string/title_crear_distrito"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Departamento">
+                android:hint="@string/hint_departamento">
 
                 <AutoCompleteTextView
                     android:id="@+id/spinnerDepartamento"
@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Municipio">
+                android:hint="@string/hint_municipio">
 
                 <AutoCompleteTextView
                     android:id="@+id/spinnerMunicipio"
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Nombre del Distrito">
+                android:hint="@string/hint_nombre_distrito">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtNombreDistrito"
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:hint="Código Postal">
+                android:hint="@string/hint_codigo_postal">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtCodigoPostal"
@@ -92,7 +92,7 @@
                 android:id="@+id/btnGuardar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Guardar"/>
+                android:text="@string/btn_guardar"/>
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

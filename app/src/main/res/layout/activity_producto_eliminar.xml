@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Eliminar Producto"
+                android:text="@string/title_eliminar_producto"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Seleccionar Producto">
+                android:hint="@string/hint_seleccionar_producto">
 
                 <AutoCompleteTextView
                     android:id="@+id/spinnerProducto"
@@ -65,7 +65,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="¿Está seguro de eliminar este producto?"
+                android:text="@string/label_pregunta_eliminar"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginBottom="16dp"/>
@@ -104,7 +104,7 @@
                     android:layout_weight="1"
                     android:layout_marginEnd="8dp"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:text="Cancelar"/>
+                    android:text="@string/btn_cancelar"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnConfirmarEliminar"
@@ -112,7 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:layout_marginStart="8dp"
-                    android:text="Eliminar"
+                    android:text="@string/btn_eliminar"
                     app:backgroundTint="@android:color/holo_red_light"/>
 
             </LinearLayout>

@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Eliminar Distrito"
+                android:text="@string/title_eliminar_distrito"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:hint="Seleccionar Distrito">
+                android:hint="@string/hint_seleccionar_distrito">
 
                 <AutoCompleteTextView
                     android:id="@+id/spinnerDistrito"
@@ -55,7 +55,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Detalles del Distrito"
+                    android:text="@string/label_detalle_distrito"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     android:layout_marginBottom="16dp"/>
@@ -107,7 +107,7 @@
                     android:id="@+id/btnDesactivar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Eliminar Distrito"
+                    android:text="@string/distrito_btn_eliminar"
                     android:textSize="16sp"
                     android:padding="12dp"
                     app:backgroundTint="@android:color/holo_red_light"/>

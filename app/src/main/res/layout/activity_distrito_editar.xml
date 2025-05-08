@@ -21,7 +21,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Editar Distrito"
+                android:text="@string/title_editar_distrito"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -34,7 +34,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
-                android:hint="Seleccionar Distrito">
+                android:hint="@string/hint_seleccionar_distrito">
 
                 <AutoCompleteTextView
                     android:id="@+id/spinnerDistrito"
@@ -57,7 +57,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Departamento">
+                    android:hint="@string/hint_departamento">
 
                     <AutoCompleteTextView
                         android:id="@+id/spinnerDepartamento"
@@ -72,7 +72,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Municipio">
+                    android:hint="@string/hint_municipio">
 
                     <AutoCompleteTextView
                         android:id="@+id/spinnerMunicipio"
@@ -87,7 +87,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Nombre del Distrito">
+                    android:hint="@string/hint_nombre_distrito">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtNombreDistrito"
@@ -102,7 +102,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
-                    android:hint="Código Postal">
+                    android:hint="@string/hint_codigo_postal">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/txtCodigoPostal"
@@ -117,13 +117,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
-                    android:text="Distrito Activo"/>
+                    android:text="@string/switch_distrito_activo"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnGuardar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Guardar Cambios"/>
+                    android:text="@string/btn_guardar_cambios"/>
 
             </LinearLayout>
         </LinearLayout>

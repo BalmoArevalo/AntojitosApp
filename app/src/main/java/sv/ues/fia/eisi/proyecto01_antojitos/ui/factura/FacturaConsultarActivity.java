@@ -1,23 +1,14 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.factura;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer; // No olvides este import si falta
-import androidx.lifecycle.ViewModelProvider;
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.util.Log;
-// import android.view.Gravity; // No se usa directamente, se puede quitar
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider; // Aunque no usemos ViewModel activamente aquí, lo mantenemos si se inicializó
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,150 +16,183 @@ import java.util.Locale;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
 import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
+// Importar DAOs y POJOs necesarios
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.factura.Factura;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.factura.FacturaDAO;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido.Pedido;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido.PedidoDAO; // Asegúrate que este DAO existe y tiene consultarPorId
+
 
 public class FacturaConsultarActivity extends AppCompatActivity {
 
-    private FacturaViewModel facturaViewModel;
-    private static final String TAG = "FacturaConsultarAct"; // Tag para Logs
+    private static final String TAG = "FacturaConsultarAct";
 
-    // Componentes UI Entrada
-    private Spinner spinnerConsultaPedido;
-    private Button btnConsultarFactura;
-
-    // Componentes UI Resultados
+    // UI Components
+    private Spinner spinnerPedidoFactura;
     private ScrollView scrollViewResultados;
-    private LinearLayout layoutResultadosList; // LinearLayout dentro del ScrollView
+    // TextViews para Factura
+    private TextView tvFacturaId, tvFacturaFecha, tvFacturaMonto, tvFacturaTipoPago, tvFacturaEstado, tvFacturaEsCredito;
+    // TextViews para Pedido
+    private TextView tvPedidoId, tvPedidoClienteId, tvPedidoSucursalId, tvPedidoRepartidorId, tvPedidoFechaHora, tvPedidoEstado;
 
-    private List<Integer> consultaPedidoIds = new ArrayList<>();
+    // Data and Helpers
+    private DBHelper dbHelper;
+    private FacturaDAO facturaDAO;
+    private PedidoDAO pedidoDAO; // Necesitamos este DAO
+    private List<Integer> pedidoConFacturaIds = new ArrayList<>();
+    private SQLiteDatabase dbRead;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_factura_consultar);
+        setContentView(R.layout.activity_factura_consultar); // Usar el layout simplificado
+        setTitle(getString(R.string.factura_consultar_s_title)); // Usar string estandarizado
 
-        facturaViewModel = new ViewModelProvider(this).get(FacturaViewModel.class);
+        // Inicializar Helper/DB y DAOs
+        dbHelper = new DBHelper(this);
+        dbRead = dbHelper.getReadableDatabase();
+        facturaDAO = new FacturaDAO(dbRead);
+        pedidoDAO = new PedidoDAO(dbRead); // Instanciar PedidoDAO
 
-        spinnerConsultaPedido = findViewById(R.id.spinnerConsultaPedido);
-        btnConsultarFactura = findViewById(R.id.btnConsultarFactura);
+        // Inicializar Vistas
+        spinnerPedidoFactura = findViewById(R.id.spinnerConsultaFacturaPedido);
+        scrollViewResultados = findViewById(R.id.scrollViewConsultaFactura);
 
-        scrollViewResultados = findViewById(R.id.scrollViewResultados);
-        layoutResultadosList = findViewById(R.id.layoutResultadosList);
+        // TextViews Factura
+        tvFacturaId = findViewById(R.id.tvConsultaFacturaId);
+        tvFacturaFecha = findViewById(R.id.tvConsultaFacturaFecha);
+        tvFacturaMonto = findViewById(R.id.tvConsultaFacturaMonto);
+        tvFacturaTipoPago = findViewById(R.id.tvConsultaFacturaTipoPago);
+        tvFacturaEstado = findViewById(R.id.tvConsultaFacturaEstado);
+        tvFacturaEsCredito = findViewById(R.id.tvConsultaFacturaEsCredito);
 
-        cargarSpinnerConsultaPedidos();
-        ocultarYLimpiarResultados();
+        // TextViews Pedido (Usando IDs del layout simplificado)
+        tvPedidoId = findViewById(R.id.tvConsultaPedidoId);
+        tvPedidoClienteId = findViewById(R.id.tvConsultaPedidoClienteId);
+        tvPedidoSucursalId = findViewById(R.id.tvConsultaPedidoSucursalId);
+        tvPedidoRepartidorId = findViewById(R.id.tvConsultaPedidoRepartidorId);
+        tvPedidoFechaHora = findViewById(R.id.tvConsultaPedidoFechaHora);
+        tvPedidoEstado = findViewById(R.id.tvConsultaPedidoEstado);
 
-        btnConsultarFactura.setOnClickListener(v -> realizarConsultaFacturaDePedido());
+        // Estado inicial
+        ocultarTodosLosDetalles();
+        cargarPedidosConFactura();
+        configurarListenerSpinner();
+    }
 
-        // Observar la FACTURA SELECCIONADA del ViewModel
-        facturaViewModel.getFacturaSeleccionada().observe(this, new Observer<Factura>() {
-            @Override
-            public void onChanged(Factura factura) {
-                ocultarYLimpiarResultados(); // Limpiar antes de mostrar nuevos resultados
-                if (factura != null) {
-                    // Se encontró una factura, mostrar sus detalles
-                    mostrarDetallesFactura(factura);
+    private void cargarPedidosConFactura() {
+        pedidoConFacturaIds.clear();
+        List<String> items = new ArrayList<>();
+        // Usar string resource estandarizado
+        items.add(getString(R.string.placeholder_seleccione));
+        pedidoConFacturaIds.add(-1);
+
+        String query = "SELECT P.ID_PEDIDO FROM PEDIDO P INNER JOIN FACTURA F ON P.ID_PEDIDO = F.ID_PEDIDO ORDER BY P.ID_PEDIDO ASC";
+        Cursor cursor = null;
+        try {
+            cursor = dbRead.rawQuery(query, null);
+            while (cursor.moveToNext()) {
+                int id = cursor.getInt(0);
+                pedidoConFacturaIds.add(id);
+                items.add("Pedido #" + id);
+            }
+            Log.d(TAG, "Pedidos CON factura cargados: " + (items.size() - 1));
+        } catch (SQLiteException e) {
+            Log.e(TAG, "Error cargando pedidos con factura", e);
+            // Usar string resource estandarizado
+            Toast.makeText(this, String.format(getString(R.string.direccion_crear_toast_error_carga), "Pedidos con Factura"), Toast.LENGTH_SHORT).show();
+        } finally {
+            if (cursor != null) cursor.close();
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, items);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPedidoFactura.setAdapter(adapter);
+        spinnerPedidoFactura.setEnabled(items.size() > 1);
+    }
+
+
+    private void configurarListenerSpinner() {
+        spinnerPedidoFactura.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position > 0) {
+                    int selectedPedidoId = pedidoConFacturaIds.get(position);
+                    Log.d(TAG, "Pedido seleccionado: " + selectedPedidoId + ". Cargando detalles...");
+                    cargarYMostrarDatos(selectedPedidoId);
                 } else {
-                    // Si la factura es null después de una consulta activa,
-                    // significa que no se encontró una factura para el pedido seleccionado.
-                    if (spinnerConsultaPedido.getSelectedItemPosition() > 0) { // Asegurarse que se intentó una consulta real
-                        Toast.makeText(FacturaConsultarActivity.this, "No se encontró factura para este pedido.", Toast.LENGTH_LONG).show();
-                        Log.d(TAG, "Observer: Factura es null, no se muestra nada.");
-                    }
+                    ocultarTodosLosDetalles();
                 }
+            }
+            @Override public void onNothingSelected(AdapterView<?> parent) {
+                ocultarTodosLosDetalles();
             }
         });
     }
 
-    private void cargarSpinnerConsultaPedidos() {
-        consultaPedidoIds.clear();
-        List<String> pedidoDescripciones = new ArrayList<>();
-        pedidoDescripciones.add("Seleccione un Pedido...");
-        consultaPedidoIds.add(-1); // ID inválido para el placeholder
+    // Carga y muestra datos de Factura y Pedido (SIN detalles)
+    private void cargarYMostrarDatos(int pedidoId) {
+        Factura factura = facturaDAO.consultarPorIdPedido(pedidoId);
+        Pedido pedido = pedidoDAO.consultarPorId(pedidoId); // Usar PedidoDAO
 
-        DBHelper localDbHelper = new DBHelper(this);
-        SQLiteDatabase db = null;
-        Cursor cursor = null;
-        try {
-            db = localDbHelper.getReadableDatabase();
-            cursor = db.rawQuery("SELECT ID_PEDIDO FROM PEDIDO ORDER BY ID_PEDIDO ASC", null);
-            while (cursor.moveToNext()) {
-                int id = cursor.getInt(0);
-                consultaPedidoIds.add(id);
-                pedidoDescripciones.add("Pedido #" + id);
-            }
-            Log.d(TAG, "Pedidos cargados en spinner: " + pedidoDescripciones.size());
-        } catch (SQLiteException e) {
-            Log.e(TAG, "Error al cargar pedidos para el spinner", e);
-            Toast.makeText(this, "Error al cargar pedidos", Toast.LENGTH_SHORT).show();
-        } finally {
-            if (cursor != null) cursor.close();
-            if (db != null && db.isOpen()) db.close();
-            // No es necesario cerrar localDbHelper aquí si getReadableDatabase/getWritableDatabase manejan el ciclo de vida de la BD.
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, pedidoDescripciones);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerConsultaPedido.setAdapter(adapter);
-    }
-
-    private void realizarConsultaFacturaDePedido() {
-        int pedidoPos = spinnerConsultaPedido.getSelectedItemPosition();
-        if (pedidoPos <= 0) { // El primer item es "Seleccione un Pedido..."
-            Toast.makeText(this, "Seleccione un pedido válido para consultar su factura.", Toast.LENGTH_SHORT).show();
-            ocultarYLimpiarResultados();
+        // Validar que ambos objetos se cargaron
+        if (factura == null) {
+            Toast.makeText(this, R.string.factura_consultar_s_toast_no_factura, Toast.LENGTH_SHORT).show();
+            ocultarTodosLosDetalles();
             return;
         }
-        int selectedPedidoId = consultaPedidoIds.get(pedidoPos);
-        Log.d(TAG, "Realizando consulta para Pedido ID: " + selectedPedidoId);
-
-        // Llamar al ViewModel para que cargue la factura de ESE pedido.
-        // El Observer se encargará de actualizar la UI.
-        facturaViewModel.consultarFacturaDePedido(selectedPedidoId);
-    }
-
-    private void mostrarDetallesFactura(Factura factura) {
-        if (layoutResultadosList == null || scrollViewResultados == null || factura == null) {
-            Log.w(TAG, "mostrarDetallesFactura: Componentes UI null o factura null.");
+        if (pedido == null) {
+            Toast.makeText(this, R.string.factura_consultar_s_toast_no_pedido, Toast.LENGTH_SHORT).show();
+            ocultarTodosLosDetalles();
             return;
         }
-        Log.d(TAG, "Mostrando detalles para Factura ID: " + factura.getIdFactura());
 
-        // Crear un TextView para mostrar los detalles de la ÚNICA factura
-        TextView tvFacturaDetalle = new TextView(this);
-        String detalles = String.format(Locale.getDefault(),
-                "Factura ID: %d\nPedido ID: %d\nFecha Emisión: %s\nMonto Total: $%.2f\nTipo de Pago: %s\nEstado: %s",
-                factura.getIdFactura(),
-                factura.getIdPedido(), // Es bueno mostrar a qué pedido pertenece
-                factura.getFechaEmision(),
-                factura.getMontoTotal(),
-                factura.getTipoPago(),
-                (factura.getPagado() == 1 ? "Pagado" : "Pendiente")
-        );
-        tvFacturaDetalle.setText(detalles);
-
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
-        params.setMargins(0, 0, 0, 16); // Margen inferior
-        tvFacturaDetalle.setLayoutParams(params);
-        tvFacturaDetalle.setTextSize(16);
-        tvFacturaDetalle.setPadding(8, 8, 8, 8);
-        // Si tienes el drawable 'borde_simple_textview.xml' y quieres usarlo:
-        // tvFacturaDetalle.setBackgroundResource(R.drawable.borde_simple_textview);
-
-        layoutResultadosList.addView(tvFacturaDetalle); // Añadir el TextView al LinearLayout
-        scrollViewResultados.setVisibility(View.VISIBLE);
+        // Mostrar detalles
+        mostrarDetallesFactura(factura);
+        mostrarDetallesPedido(pedido);
+        scrollViewResultados.setVisibility(View.VISIBLE); // Mostrar contenedor
     }
 
-    private void ocultarYLimpiarResultados() {
-        if (layoutResultadosList != null) {
-            layoutResultadosList.removeAllViews(); // Limpiar vistas anteriores
-            Log.d(TAG, "Resultados limpiados.");
+
+    private void mostrarDetallesFactura(Factura f) {
+        tvFacturaId.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.factura_consultar_s_label_id_factura), f.getIdFactura()));
+        tvFacturaFecha.setText(String.format("%s %s", getString(R.string.factura_consultar_s_label_fecha_emision), f.getFechaEmision()));
+        tvFacturaMonto.setText(String.format(Locale.US, "%s $%.2f", getString(R.string.factura_consultar_s_label_monto_total), f.getMontoTotal()));
+        tvFacturaTipoPago.setText(String.format("%s %s", getString(R.string.factura_consultar_s_label_tipo_pago), f.getTipoPago()));
+        tvFacturaEstado.setText(String.format("%s %s", getString(R.string.factura_consultar_s_label_estado_factura), f.getEstadoFactura()));
+        tvFacturaEsCredito.setText(String.format("%s %s", getString(R.string.factura_consultar_s_label_es_credito),
+                f.getEsCredito() == 1 ? getString(R.string.factura_consultar_s_valor_si) : getString(R.string.factura_consultar_s_valor_no)));
+    }
+
+    private void mostrarDetallesPedido(Pedido p) {
+        // Muestra IDs según layout simplificado y strings
+        tvPedidoId.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.factura_consultar_s_label_id_pedido), p.getIdPedido()));
+        tvPedidoClienteId.setText(String.format(Locale.getDefault(), "%s %s", getString(R.string.factura_consultar_s_label_id_cliente), p.getIdCliente() > 0 ? p.getIdCliente() : getString(R.string.factura_consultar_s_valor_no_definido)));
+        tvPedidoSucursalId.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.factura_consultar_s_label_id_sucursal), p.getIdSucursal()));
+        tvPedidoRepartidorId.setText(String.format(Locale.getDefault(), "%s %d", getString(R.string.factura_consultar_s_label_id_repartidor), p.getIdRepartidor()));
+        tvPedidoFechaHora.setText(String.format("%s %s", getString(R.string.factura_consultar_s_label_fecha_hora_pedido), p.getFechaHoraPedido()));
+        tvPedidoEstado.setText(String.format("%s %s", getString(R.string.factura_consultar_s_label_estado_pedido), p.getEstadoPedido()));
+    }
+
+    private void ocultarTodosLosDetalles(){
+        scrollViewResultados.setVisibility(View.GONE);
+        // Limpiar todos los TextViews
+        tvFacturaId.setText(""); tvFacturaFecha.setText(""); tvFacturaMonto.setText("");
+        tvFacturaTipoPago.setText(""); tvFacturaEstado.setText(""); tvFacturaEsCredito.setText("");
+        tvPedidoId.setText(""); tvPedidoClienteId.setText(""); tvPedidoSucursalId.setText("");
+        tvPedidoRepartidorId.setText(""); tvPedidoFechaHora.setText(""); tvPedidoEstado.setText("");
+        Log.d(TAG, "Detalles ocultados.");
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Cerrar la conexión de lectura si se mantuvo abierta
+        if (dbRead != null && dbRead.isOpen()) {
+            dbRead.close();
+            Log.d(TAG,"Base de datos de lectura cerrada.");
         }
-        if (scrollViewResultados != null) {
-            scrollViewResultados.setVisibility(View.GONE);
-        }
+        // No es necesario cerrar dbHelper explícitamente aquí si la app lo gestiona globalmente.
     }
 }

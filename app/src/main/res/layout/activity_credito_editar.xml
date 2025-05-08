@@ -1,10 +1,186 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.credito.CreditoEditarActivity">
+    android:fillViewport="true">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".ui.credito.CreditoEditarActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/credito_editar_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/credito_editar_label_seleccionar"
+            android:labelFor="@+id/spinnerSeleccionarCreditoEditar"/>
+        <Spinner
+            android:id="@+id/spinnerSeleccionarCreditoEditar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_marginBottom="24dp"/>
+
+        <ScrollView
+            android:id="@+id/scrollViewCreditoEditarDetalles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credito_editar_label_detalles"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_marginBottom="8dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    android:layout_marginBottom="16dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credito_editar_label_id_credito"/>
+                <TextView
+                    android:id="@+id/tvCreditoEditarIdCredito"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:paddingBottom="4dp"
+                    tools:text="1"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credito_editar_label_id_factura"/>
+                <TextView
+                    android:id="@+id/tvCreditoEditarIdFactura"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:paddingBottom="4dp"
+                    tools:text="101"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credito_editar_label_monto_autorizado"/>
+                <TextView
+                    android:id="@+id/tvCreditoEditarMontoAutorizado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:paddingBottom="4dp"
+                    tools:text="$100.00"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credito_editar_label_monto_pagado"/>
+                <TextView
+                    android:id="@+id/tvCreditoEditarMontoPagado"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:paddingBottom="4dp"
+                    tools:text="$25.00"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credito_editar_label_saldo_pendiente"/>
+                <TextView
+                    android:id="@+id/tvCreditoEditarSaldoPendiente"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Large"
+                    android:paddingBottom="8dp"
+                    tools:text="$75.00"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credito_editar_label_estado_credito"/>
+                <TextView
+                    android:id="@+id/tvCreditoEditarEstadoCredito"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:paddingBottom="16dp"
+                    tools:text="Activo"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credito_editar_label_fecha_limite"
+                    android:labelFor="@+id/editCreditoEditarFechaLimite"/>
+                <EditText
+                    android:id="@+id/editCreditoEditarFechaLimite"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:hint="@string/credito_editar_hint_fecha_limite"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:inputType="date"
+                    android:layout_marginBottom="8dp"/>
+                <Button
+                    android:id="@+id/btnCreditoEditarActualizarFecha"
+                    style="@style/Widget.AppCompat.Button.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credito_editar_btn_actualizar_fecha"
+                    android:enabled="false"
+                    android:layout_marginBottom="24dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credito_editar_label_abonar"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_marginBottom="8dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    android:layout_marginBottom="16dp"/>
+
+                <EditText
+                    android:id="@+id/editCreditoMontoAbonar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:hint="@string/credito_editar_hint_monto_abonar"
+                    android:inputType="numberDecimal"
+                    android:layout_marginBottom="8dp"/>
+
+                <Button
+                    android:id="@+id/btnCreditoRealizarAbono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credito_editar_btn_realizar_abono"
+                    android:enabled="false"/>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</ScrollView>

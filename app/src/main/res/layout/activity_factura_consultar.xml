@@ -6,60 +6,68 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".ui.factura.FacturaConsultarActivity">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Consultar Facturas por Pedido"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:gravity="center"
-        android:layout_marginBottom="24dp"/>
+    tools:context=".ui.factura.FacturaConsultarActivity"> <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/factura_consultar_s_title"
+    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+    android:gravity="center"
+    android:layout_marginBottom="16dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Seleccione el Pedido:"
-        android:labelFor="@+id/spinnerConsultaPedido"/>
+        android:text="@string/factura_consultar_s_label_seleccionar_pedido"
+        android:labelFor="@+id/spinnerConsultaFacturaPedido"/>
     <Spinner
-        android:id="@+id/spinnerConsultaPedido"
+        android:id="@+id/spinnerConsultaFacturaPedido"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:minHeight="48dp"/>
 
-    <Button
-        android:id="@+id/btnConsultarFactura"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
-        android:text="Consultar Facturas del Pedido"/>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        android:layout_marginBottom="16dp"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Facturas Encontradas:"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:layout_marginBottom="8dp"/>
-
     <ScrollView
-        android:id="@+id/scrollViewResultados"
+        android:id="@+id/scrollViewConsultaFactura"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" android:visibility="gone"
-        tools:visibility="visible"> <LinearLayout
-        android:id="@+id/layoutResultadosList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"/>
+        android:layout_height="match_parent"
+        android:visibility="gone" tools:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/factura_consultar_s_label_seccion_factura" />
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC" android:layout_marginTop="4dp" android:layout_marginBottom="8dp"/>
+
+            <TextView android:id="@+id/tvConsultaFacturaId" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="ID Factura: 1"/>
+            <TextView android:id="@+id/tvConsultaFacturaFecha" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Fecha: 2025-05-07"/>
+            <TextView android:id="@+id/tvConsultaFacturaMonto" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Monto: $56.50"/>
+            <TextView android:id="@+id/tvConsultaFacturaTipoPago" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Tipo Pago: Contado"/>
+            <TextView android:id="@+id/tvConsultaFacturaEstado" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Estado: Pagada"/>
+            <TextView android:id="@+id/tvConsultaFacturaEsCredito" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Es Crédito: No"/>
+
+            <TextView
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/factura_consultar_s_label_seccion_pedido" />
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC" android:layout_marginTop="4dp" android:layout_marginBottom="8dp"/>
+
+            <TextView android:id="@+id/tvConsultaPedidoId" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="ID Pedido: 1"/>
+            <TextView android:id="@+id/tvConsultaPedidoClienteId" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="ID Cliente: 101"/>
+            <TextView android:id="@+id/tvConsultaPedidoSucursalId" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="ID Sucursal: 1"/>
+            <TextView android:id="@+id/tvConsultaPedidoRepartidorId" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="ID Repartidor: 5"/>
+            <TextView android:id="@+id/tvConsultaPedidoFechaHora" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Fecha Pedido: 2025-05-01 10:00"/>
+            <TextView android:id="@+id/tvConsultaPedidoEstado" android:paddingTop="4dp" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Estado Pedido: entregado"/>
+
+        </LinearLayout>
     </ScrollView>
 
 </LinearLayout>

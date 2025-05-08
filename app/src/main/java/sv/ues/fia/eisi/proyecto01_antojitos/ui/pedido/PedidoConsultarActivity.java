@@ -5,55 +5,95 @@ import android.os.Bundle;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
-import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
+import sv.ues.fia.eisi.proyecto01_antojitos.db.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.cliente.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.tipoEvento.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.repartidor.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.sucursal.*;
 
 public class PedidoConsultarActivity extends AppCompatActivity {
 
-    private EditText editTextIdPedido;
+    private Spinner spinnerPedidos;
     private Button btnBuscar;
     private TextView tvResultado;
 
     private PedidoDAO pedidoDAO;
+    private ClienteDAO clienteDAO;
+    private RepartidorDAO repartidorDAO;
+    private TipoEventoDAO tipoEventoDAO;
+    private SucursalDAO sucursalDAO;
+
+    private List<Pedido> listaPedidos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedido_consultar);
 
-        editTextIdPedido = findViewById(R.id.editTextIdPedido);
+        spinnerPedidos = findViewById(R.id.spinnerPedidos);
         btnBuscar = findViewById(R.id.btnBuscarPedido);
         tvResultado = findViewById(R.id.tvResultadoPedido);
 
         DBHelper dbHelper = new DBHelper(this);
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        pedidoDAO = new PedidoDAO(db);
 
-        btnBuscar.setOnClickListener(v -> buscarPedido());
+        pedidoDAO = new PedidoDAO(db);
+        clienteDAO = new ClienteDAO(db);
+        repartidorDAO = new RepartidorDAO(db);
+        tipoEventoDAO = new TipoEventoDAO(db);
+        sucursalDAO = new SucursalDAO(db);
+
+        cargarPedidosEnSpinner();
+
+        btnBuscar.setOnClickListener(v -> buscarPedidoSeleccionado());
     }
 
-    private void buscarPedido() {
-        String input = editTextIdPedido.getText().toString().trim();
+    private void cargarPedidosEnSpinner() {
+        listaPedidos = pedidoDAO.obtenerTodos(); // Filtra dentro del DAO si es necesario
 
-        if (input.isEmpty()) {
-            Toast.makeText(this, "Ingrese un ID válido", Toast.LENGTH_SHORT).show();
+        List<String> opciones = new ArrayList<>();
+        for (Pedido p : listaPedidos) {
+            opciones.add("ID: " + p.getIdPedido() + " — " + p.getEstadoPedido());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, opciones);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerPedidos.setAdapter(adapter);
+    }
+
+    private void buscarPedidoSeleccionado() {
+        int posicion = spinnerPedidos.getSelectedItemPosition();
+        if (posicion == AdapterView.INVALID_POSITION || listaPedidos.isEmpty()) {
+            Toast.makeText(this, "Seleccione un pedido válido", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        int idPedido = Integer.parseInt(input);
-        Pedido pedido = pedidoDAO.consultarPorId(idPedido);
+        Pedido pedido = listaPedidos.get(posicion);
+        Cliente cliente = clienteDAO.consultarPorId(pedido.getIdCliente());
+        Repartidor repartidor = repartidorDAO.obtenerPorId(pedido.getIdRepartidor());
+        TipoEvento tipoEvento = tipoEventoDAO.consultarPorId(pedido.getIdTipoEvento());
+        Sucursal sucursal = sucursalDAO.obtenerPorId(pedido.getIdSucursal());
 
-        if (pedido != null) {
-            String resultado = "ID Pedido: " + pedido.getIdPedido() +
-                    "\nID Cliente: " + pedido.getIdCliente() +
-                    "\nID Repartidor: " + pedido.getIdRepartidor() +
-                    "\nID Tipo Evento: " + (pedido.getIdTipoEvento() == 0 ? "Ninguno" : pedido.getIdTipoEvento()) +
-                    "\nFecha/Hora: " + pedido.getFechaHoraPedido() +
-                    "\nEstado: " + pedido.getEstadoPedido();
+        String nombreSucursal = (sucursal != null) ? sucursal.getNombreSucursal() : "Desconocida";
+        String estadoActivo = (pedido.getActivoPedido() == 1) ? "Activo" : "Inactivo";
+        String nombreCliente = (cliente != null) ? cliente.getNombreCliente() : "Desconocido";
+        String nombreRepartidor = (repartidor != null) ? repartidor.getNombreRepartidor() : "Desconocido";
+        String nombreTipoEvento = (tipoEvento != null) ? tipoEvento.getNombreTipoEvento() : "Ninguno";
 
-            tvResultado.setText(resultado);
-        } else {
-            tvResultado.setText("No se encontró un pedido con ese ID.");
-        }
+        String resultado = "ID Pedido: " + pedido.getIdPedido() +
+                "\nID Cliente: " + pedido.getIdCliente() + " — " + nombreCliente +
+                "\nID Repartidor: " + pedido.getIdRepartidor() + " — " + nombreRepartidor +
+                "\nID Tipo Evento: " + pedido.getIdTipoEvento() + " — " + nombreTipoEvento +
+                "\nFecha/Hora: " + pedido.getFechaHoraPedido() +
+                "\nEstado: " + pedido.getEstadoPedido() +
+                "\nSucursal: " + pedido.getIdSucursal() + " — " + nombreSucursal +
+                "\nEstado del Pedido: " + estadoActivo;
+
+        tvResultado.setText(resultado);
     }
 }
+

@@ -1,10 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.factura.FacturaEliminarActivity">
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.factura.FacturaEliminarActivity"> <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/factura_eliminar_title" android:textAppearance="@style/TextAppearance.AppCompat.Large"
+    android:gravity="center"
+    android:layout_marginBottom="16dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/factura_eliminar_label_seleccionar" android:labelFor="@+id/spinnerSeleccionarFacturaEliminar"/> <Spinner
+        android:id="@+id/spinnerSeleccionarFacturaEliminar" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:minHeight="48dp"/>
+
+    <LinearLayout
+        android:id="@+id/layoutDetallesFacturaEliminar" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/factura_eliminar_label_detalles" android:layout_marginBottom="8dp"/>
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC" android:layout_marginBottom="8dp"/>
+
+        <TextView android:id="@+id/tvEliminarFacturaId" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="ID Factura: 1"/>
+        <TextView android:id="@+id/tvEliminarPedidoId" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="ID Pedido: 1"/>
+        <TextView android:id="@+id/tvEliminarFacturaFecha" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Fecha: 2025-05-07"/>
+        <TextView android:id="@+id/tvEliminarFacturaMonto" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Monto: $56.50"/>
+        <TextView android:id="@+id/tvEliminarFacturaTipoPago" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Tipo Pago: Contado"/>
+        <TextView android:id="@+id/tvEliminarFacturaEstado" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Estado: Pagada"/>
+        <TextView android:id="@+id/tvEliminarFacturaEsCredito" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Es Crédito: No"/>
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnConfirmarAnulacionFactura" android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/factura_eliminar_btn_anular" android:enabled="false"/> </LinearLayout>

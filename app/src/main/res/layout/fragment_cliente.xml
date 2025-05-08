@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gestión de Clientes"
+        android:text="@string/cliente_title"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -19,28 +19,28 @@
         android:id="@+id/btnCrearCliente"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Crear Cliente"
+        android:text="@string/cliente_btn_crear"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnConsultarCliente"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Consultar Cliente"
+        android:text="@string/cliente_btn_consultar"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnEditarCliente"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Editar Cliente"
+        android:text="@string/cliente_btn_editar"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnEliminarCliente"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Eliminar Cliente"
+        android:text="@string/cliente_btn_eliminar"
         android:layout_marginBottom="16dp"/>
 
 </LinearLayout>
