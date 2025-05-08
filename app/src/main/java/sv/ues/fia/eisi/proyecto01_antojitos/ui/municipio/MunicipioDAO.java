@@ -1,14 +1,13 @@
-package sv.ues.fia.eisi.proyecto01_antojitos.ui.municipio;
 package sv.ues.fia.eisi.proyecto01_antojitos.db;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import sv.ues.fia.eisi.proyecto01_antojitos.modelos.Municipio;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.municipio.Municipio;
 
 public class MunicipioDAO {
     private SQLiteDatabase db;
@@ -19,31 +18,45 @@ public class MunicipioDAO {
 
     public long insertar(Municipio municipio) {
         ContentValues valores = new ContentValues();
-        valores.put("idMunicipio", municipio.getIdMunicipio());
-        valores.put("nombre", municipio.getNombre());
-        valores.put("idDepartamento", municipio.getIdDepartamento());
-        return db.insert("Municipio", null, valores);
+        valores.put("ID_DEPARTAMENTO", municipio.getIdDepartamento());
+        valores.put("ID_MUNICIPIO", municipio.getIdMunicipio());
+        valores.put("NOMBRE_MUNICIPIO", municipio.getNombreMunicipio());
+        valores.put("ACTIVO_MUNICIPIO", municipio.getActivoMunicipio());
+
+        return db.insert("MUNICIPIO", null, valores);
     }
 
     public int actualizar(Municipio municipio) {
         ContentValues valores = new ContentValues();
-        valores.put("nombre", municipio.getNombre());
-        valores.put("idDepartamento", municipio.getIdDepartamento());
-        return db.update("Municipio", valores, "idMunicipio = ?", new String[]{String.valueOf(municipio.getIdMunicipio())});
+        valores.put("NOMBRE_MUNICIPIO", municipio.getNombreMunicipio());
+        valores.put("ACTIVO_MUNICIPIO", municipio.getActivoMunicipio());
+
+        String condicion = "ID_DEPARTAMENTO = ? AND ID_MUNICIPIO = ?";
+        String[] args = {
+                String.valueOf(municipio.getIdDepartamento()),
+                String.valueOf(municipio.getIdMunicipio())
+        };
+
+        return db.update("MUNICIPIO", valores, condicion, args);
     }
 
-    public int eliminar(int idMunicipio) {
-        return db.delete("Municipio", "idMunicipio = ?", new String[]{String.valueOf(idMunicipio)});
+    public int eliminar(int idDepartamento, int idMunicipio) {
+        String condicion = "ID_DEPARTAMENTO = ? AND ID_MUNICIPIO = ?";
+        String[] args = { String.valueOf(idDepartamento), String.valueOf(idMunicipio) };
+        return db.delete("MUNICIPIO", condicion, args);
     }
 
-    public Municipio consultarPorId(int idMunicipio) {
-        Cursor cursor = db.rawQuery("SELECT * FROM Municipio WHERE idMunicipio = ?", new String[]{String.valueOf(idMunicipio)});
+    public Municipio consultar(int idDepartamento, int idMunicipio) {
+        String consulta = "SELECT * FROM MUNICIPIO WHERE ID_DEPARTAMENTO = ? AND ID_MUNICIPIO = ?";
+        String[] args = { String.valueOf(idDepartamento), String.valueOf(idMunicipio) };
+
+        Cursor cursor = db.rawQuery(consulta, args);
         if (cursor.moveToFirst()) {
-            Municipio municipio = new Municipio(
-                    cursor.getInt(0),
-                    cursor.getString(1),
-                    cursor.getInt(2)
-            );
+            Municipio municipio = new Municipio();
+            municipio.setIdDepartamento(cursor.getInt(0));
+            municipio.setIdMunicipio(cursor.getInt(1));
+            municipio.setNombreMunicipio(cursor.getString(2));
+            municipio.setActivoMunicipio(cursor.getInt(3));
             cursor.close();
             return municipio;
         }
@@ -51,19 +64,21 @@ public class MunicipioDAO {
         return null;
     }
 
-    public List<Municipio> obtenerTodos() {
-        List<Municipio> lista = new ArrayList<>();
-        Cursor cursor = db.rawQuery("SELECT * FROM Municipio", null);
-        while (cursor.moveToNext()) {
-            Municipio municipio = new Municipio(
-                    cursor.getInt(0),
-                    cursor.getString(1),
-                    cursor.getInt(2)
-            );
-            lista.add(municipio);
+    public ArrayList<Municipio> obtenerTodos() {
+        ArrayList<Municipio> lista = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM MUNICIPIO", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Municipio municipio = new Municipio();
+                municipio.setIdDepartamento(cursor.getInt(0));
+                municipio.setIdMunicipio(cursor.getInt(1));
+                municipio.setNombreMunicipio(cursor.getString(2));
+                municipio.setActivoMunicipio(cursor.getInt(3));
+                lista.add(municipio);
+            } while (cursor.moveToNext());
         }
         cursor.close();
         return lista;
     }
 }
-

@@ -1,15 +1,18 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.municipio;
 
 public class Municipio {
-    private int idMunicipio;
-    private String nombre;
     private int idDepartamento;
+    private int idMunicipio;
+    private String nombreMunicipio;
+    private int activoMunicipio;
 
     public Municipio() {}
 
-    public Municipio(int idMunicipio, String nombre, int idDepartamento) {
-        this.idMunicipio = idMunicipio;
-        this.nombre = nombre;
+    public int getIdDepartamento() {
+        return idDepartamento;
+    }
+
+    public void setIdDepartamento(int idDepartamento) {
         this.idDepartamento = idDepartamento;
     }
 
@@ -21,24 +24,24 @@ public class Municipio {
         this.idMunicipio = idMunicipio;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombreMunicipio() {
+        return nombreMunicipio;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombreMunicipio(String nombreMunicipio) {
+        this.nombreMunicipio = nombreMunicipio;
     }
 
-    public int getIdDepartamento() {
-        return idDepartamento;
+    public int getActivoMunicipio() {
+        return activoMunicipio;
     }
 
-    public void setIdDepartamento(int idDepartamento) {
-        this.idDepartamento = idDepartamento;
+    public void setActivoMunicipio(int activoMunicipio) {
+        this.activoMunicipio = activoMunicipio;
     }
 
     @Override
     public String toString() {
-        return nombre;
+        return nombreMunicipio;
     }
 }
