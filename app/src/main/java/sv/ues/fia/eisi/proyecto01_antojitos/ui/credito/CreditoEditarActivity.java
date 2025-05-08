@@ -1,9 +1,8 @@
-package sv.ues.fia.eisi.proyecto01_antojitos.ui.credito; // Ajusta el paquete si es necesario
+package sv.ues.fia.eisi.proyecto01_antojitos.ui.credito;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -28,9 +25,6 @@ import java.util.List;
 import java.util.Locale;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
-// Importar ViewModel y POJO
-import sv.ues.fia.eisi.proyecto01_antojitos.ui.credito.Credito;
-import sv.ues.fia.eisi.proyecto01_antojitos.ui.credito.CreditoViewModel;
 
 public class CreditoEditarActivity extends AppCompatActivity {
 
@@ -39,17 +33,15 @@ public class CreditoEditarActivity extends AppCompatActivity {
     // --- UI Components ---
     private Spinner spinnerSeleccionarCredito;
     private ScrollView scrollViewDetalles;
-    // TextViews para mostrar datos
     private TextView tvIdCredito, tvIdFactura, tvMontoAutorizado, tvMontoPagado,
             tvSaldoPendiente, tvEstadoCredito;
-    // EditText para el campo editable
     private EditText editFechaLimite;
     private Button btnActualizarFecha;
 
     // --- Data ---
     private CreditoViewModel creditoViewModel;
-    private List<Credito> listaCreditosActivos = new ArrayList<>(); // Para el spinner
-    private Credito creditoSeleccionado; // El crédito cargado actualmente
+    private List<Credito> listaCreditosParaSpinner = new ArrayList<>();
+    private Credito creditoSeleccionado;
     private Calendar calendarioFechaLimite = Calendar.getInstance();
 
     @Override
@@ -62,74 +54,100 @@ public class CreditoEditarActivity extends AppCompatActivity {
 
         inicializarVistas();
         configurarListeners();
-        ocultarDetallesYDeshabilitar(); // Estado inicial
+        ocultarDetallesYDeshabilitarControles();
 
-        // Observador para la lista de créditos ACTIVOS
-        creditoViewModel.getListaCreditosActivos().observe(this, creditosActivos -> {
-            Log.d(TAG, "Observer: Lista de créditos activos actualizada. Total: " + (creditosActivos != null ? creditosActivos.size() : "null"));
-            if (creditosActivos != null) {
-                listaCreditosActivos = creditosActivos;
-                cargarSpinnerCreditosActivos();
+        creditoViewModel.getListaCreditosFiltradosParaUi().observe(this, creditosFiltrados -> {
+            Log.d(TAG, "Observer: Lista de créditos filtrados para UI actualizada. Total: " +
+                    (creditosFiltrados != null ? creditosFiltrados.size() : "null"));
+            if (creditosFiltrados != null) {
+                listaCreditosParaSpinner = creditosFiltrados;
+                cargarSpinnerCreditosParaEdicion(); // Llamada al método modificado
             }
         });
 
-        // Cargar los créditos activos al inicio
-        Log.d(TAG,"Solicitando carga inicial de créditos activos...");
-        creditoViewModel.cargarTodosLosCreditos(); // El ViewModel filtra los activos
+        Log.d(TAG,"Solicitando carga inicial de créditos (con filtro para UI)...");
+        creditoViewModel.cargarTodosLosCreditosYFiltrarParaUi();
     }
 
-    // Método para centralizar inicialización de vistas
+    // --- Métodos de Inicialización y Configuración ---
+
     private void inicializarVistas() {
         spinnerSeleccionarCredito = findViewById(R.id.spinnerSeleccionarCreditoEditar);
-        scrollViewDetalles = findViewById(R.id.scrollViewCreditoEditar);
-        tvIdCredito = findViewById(R.id.tvEditarCreditoIdCredito);
-        tvIdFactura = findViewById(R.id.tvEditarCreditoIdFactura);
-        tvMontoAutorizado = findViewById(R.id.tvEditarCreditoMontoAutorizado);
-        tvMontoPagado = findViewById(R.id.tvEditarCreditoMontoPagado);
-        tvSaldoPendiente = findViewById(R.id.tvEditarCreditoSaldoPendiente);
-        tvEstadoCredito = findViewById(R.id.tvEditarCreditoEstado);
+        scrollViewDetalles = findViewById(R.id.scrollViewCreditoEditarDetalles);
+        tvIdCredito = findViewById(R.id.tvCreditoEditarIdCredito);
+        tvIdFactura = findViewById(R.id.tvCreditoEditarIdFactura);
+        tvMontoAutorizado = findViewById(R.id.tvCreditoEditarMontoAutorizado);
+        tvMontoPagado = findViewById(R.id.tvCreditoEditarMontoPagado);
+        tvSaldoPendiente = findViewById(R.id.tvCreditoEditarSaldoPendiente);
+        tvEstadoCredito = findViewById(R.id.tvCreditoEditarEstadoCredito);
         editFechaLimite = findViewById(R.id.editCreditoEditarFechaLimite);
-        btnActualizarFecha = findViewById(R.id.btnActualizarFechaCredito);
+        btnActualizarFecha = findViewById(R.id.btnCreditoEditarActualizarFecha);
         Log.d(TAG,"Vistas inicializadas.");
     }
 
-    // Método para configurar listeners
     private void configurarListeners() {
         spinnerSeleccionarCredito.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position > 0 && (position - 1) < listaCreditosActivos.size()) {
-                    creditoSeleccionado = listaCreditosActivos.get(position - 1);
-                    poblarCampos(creditoSeleccionado);
+                if (position > 0 && (position - 1) < listaCreditosParaSpinner.size()) {
+                    creditoSeleccionado = listaCreditosParaSpinner.get(position - 1);
+                    poblarCamposConDatosDelCredito(creditoSeleccionado);
                     scrollViewDetalles.setVisibility(View.VISIBLE);
-                    editFechaLimite.setEnabled(true);
-                    btnActualizarFecha.setEnabled(true);
+                    if (creditoSeleccionado != null && getString(R.string.credito_estado_activo).equalsIgnoreCase(creditoSeleccionado.getEstadoCredito())) {
+                        editFechaLimite.setEnabled(true);
+                        btnActualizarFecha.setEnabled(true);
+                    } else {
+                        editFechaLimite.setEnabled(false);
+                        btnActualizarFecha.setEnabled(false);
+                        if (creditoSeleccionado != null) {
+                            Toast.makeText(CreditoEditarActivity.this, R.string.credito_editar_no_editable_estado, Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 } else {
-                    ocultarDetallesYDeshabilitar();
+                    ocultarDetallesYDeshabilitarControles();
                 }
             }
             @Override public void onNothingSelected(AdapterView<?> parent) {
-                ocultarDetallesYDeshabilitar();
+                ocultarDetallesYDeshabilitarControles();
             }
         });
 
         editFechaLimite.setOnClickListener(v -> {
-            if (editFechaLimite.isEnabled()) mostrarDatePickerDialog();
+            if (editFechaLimite.isEnabled()) mostrarDialogoDatePicker();
         });
 
-        btnActualizarFecha.setOnClickListener(v -> intentarActualizarFechaLimite());
+        btnActualizarFecha.setOnClickListener(v -> intentarActualizacionFechaLimite());
         Log.d(TAG,"Listeners configurados.");
     }
 
-    // Carga el spinner con créditos activos
-    private void cargarSpinnerCreditosActivos() {
+    // --- Métodos de Carga y UI ---
+
+    private void cargarSpinnerCreditosParaEdicion() {
         List<String> descripciones = new ArrayList<>();
         descripciones.add(getString(R.string.placeholder_seleccione));
 
-        for (Credito c : listaCreditosActivos) {
-            descripciones.add(String.format(Locale.getDefault(), "Crédito #%d (Fact: #%d) Saldo: $%.2f",
-                    c.getIdCredito(), c.getIdFactura(), c.getSaldoPendiente()));
+        // *** INICIO DEL WORKAROUND ***
+        for (Credito c : listaCreditosParaSpinner) {
+            try {
+                // 1. Formatear el saldo (double) por separado, forzando Locale US para el punto decimal
+                String saldoFormateado = String.format(Locale.US, "%.2f", c.getSaldoPendiente());
+
+                // 2. Construir el string final usando %s para el saldo ya formateado
+                String descripcion = String.format(Locale.getDefault(), // Usar Locale por defecto para el texto general
+                        "Crédito #%1$d (Fact: #%2$d) Saldo: $%3$s", // Usar %1$d, %2$d, %3$s
+                        c.getIdCredito(),       // Argumento 1 (int)
+                        c.getIdFactura(),       // Argumento 2 (int)
+                        saldoFormateado);       // Argumento 3 (String)
+                descripciones.add(descripcion);
+
+            } catch (Exception e) {
+                // Capturar cualquier excepción durante el formateo de este item específico
+                Log.e(TAG, "Error formateando descripción para spinner - Crédito ID: " + c.getIdCredito(), e);
+                // Añadir un mensaje de error al spinner para este item
+                descripciones.add("Error - Crédito #" + c.getIdCredito());
+            }
         }
+        // *** FIN DEL WORKAROUND ***
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, descripciones);
@@ -137,41 +155,41 @@ public class CreditoEditarActivity extends AppCompatActivity {
         spinnerSeleccionarCredito.setAdapter(adapter);
 
         if (descripciones.size() <= 1) {
-            Toast.makeText(this, R.string.credito_editar_no_creditos_activos, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.credito_editar_no_creditos_editables, Toast.LENGTH_LONG).show();
             spinnerSeleccionarCredito.setEnabled(false);
+            ocultarDetallesYDeshabilitarControles();
         } else {
             spinnerSeleccionarCredito.setEnabled(true);
         }
-        ocultarDetallesYDeshabilitar(); // Resetear al recargar spinner
     }
 
-    // Rellena la UI con los datos del crédito seleccionado
-    private void poblarCampos(Credito c) {
-        if (c == null) return;
-        Log.d(TAG,"Poblando campos para editar Crédito ID: " + c.getIdCredito());
 
-        // Campos de solo lectura
-        tvIdCredito.setText(String.valueOf(c.getIdCredito()));
-        tvIdFactura.setText(String.valueOf(c.getIdFactura()));
-        tvMontoAutorizado.setText(String.format(Locale.US, "$%.2f", c.getMontoAutorizadoCredito()));
-        tvMontoPagado.setText(String.format(Locale.US, "$%.2f", c.getMontoPagado()));
-        tvSaldoPendiente.setText(String.format(Locale.US, "$%.2f", c.getSaldoPendiente()));
-        tvEstadoCredito.setText(c.getEstadoCredito());
+    private void poblarCamposConDatosDelCredito(Credito credito) {
+        if (credito == null) {
+            ocultarDetallesYDeshabilitarControles();
+            return;
+        }
+        Log.d(TAG,"Poblando campos para editar Crédito ID: " + credito.getIdCredito());
 
-        // Campo editable: Fecha Límite
-        editFechaLimite.setText(c.getFechaLimitePago());
-        // Configurar calendario para el DatePicker
+        tvIdCredito.setText(String.valueOf(credito.getIdCredito()));
+        tvIdFactura.setText(String.valueOf(credito.getIdFactura()));
+        tvMontoAutorizado.setText(String.format(Locale.US, "$%.2f", credito.getMontoAutorizadoCredito()));
+        tvMontoPagado.setText(String.format(Locale.US, "$%.2f", credito.getMontoPagado()));
+        tvSaldoPendiente.setText(String.format(Locale.US, "$%.2f", credito.getSaldoPendiente()));
+        tvEstadoCredito.setText(credito.getEstadoCredito());
+        editFechaLimite.setText(credito.getFechaLimitePago());
+
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         try {
-            Date fecha = sdf.parse(c.getFechaLimitePago());
+            Date fecha = sdf.parse(credito.getFechaLimitePago());
             if (fecha != null) calendarioFechaLimite.setTime(fecha);
         } catch (ParseException e) {
-            Log.e(TAG, "Error parseando fecha límite al poblar: " + c.getFechaLimitePago(), e);
+            Log.e(TAG, "Error parseando fecha límite al poblar campos: " + credito.getFechaLimitePago(), e);
+            calendarioFechaLimite.setTime(new Date());
         }
     }
 
-    // Oculta la sección de detalles y deshabilita controles de edición/guardado
-    private void ocultarDetallesYDeshabilitar(){
+    private void ocultarDetallesYDeshabilitarControles(){
         if (scrollViewDetalles != null) scrollViewDetalles.setVisibility(View.GONE);
         if (editFechaLimite != null) editFechaLimite.setEnabled(false);
         if (btnActualizarFecha != null) btnActualizarFecha.setEnabled(false);
@@ -179,13 +197,12 @@ public class CreditoEditarActivity extends AppCompatActivity {
         Log.d(TAG,"Detalles de edición de crédito ocultados y campos deshabilitados.");
     }
 
-    // Muestra el DatePickerDialog para la fecha límite
-    private void mostrarDatePickerDialog() {
+    private void mostrarDialogoDatePicker() {
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
             calendarioFechaLimite.set(Calendar.YEAR, year);
             calendarioFechaLimite.set(Calendar.MONTH, month);
             calendarioFechaLimite.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            actualizarEditTextFechaLimite();
+            actualizarCampoTextoFechaLimite();
         };
         new DatePickerDialog(this, dateSetListener,
                 calendarioFechaLimite.get(Calendar.YEAR),
@@ -193,17 +210,27 @@ public class CreditoEditarActivity extends AppCompatActivity {
                 calendarioFechaLimite.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    // Actualiza el texto del EditText de fecha límite
-    private void actualizarEditTextFechaLimite() {
+    private void actualizarCampoTextoFechaLimite() {
         String formato = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(formato, Locale.getDefault());
         editFechaLimite.setText(sdf.format(calendarioFechaLimite.getTime()));
     }
 
-    // Intenta actualizar la fecha límite del crédito seleccionado
-    private void intentarActualizarFechaLimite() {
+    // --- Método de Acción ---
+
+    private void intentarActualizacionFechaLimite() {
         if (creditoSeleccionado == null) {
             Toast.makeText(this, R.string.credito_editar_toast_no_seleccion, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!getString(R.string.credito_estado_activo).equalsIgnoreCase(creditoSeleccionado.getEstadoCredito())) {
+            Toast.makeText(this, R.string.credito_editar_no_editable_estado, Toast.LENGTH_SHORT).show();
+            creditoViewModel.cargarTodosLosCreditosYFiltrarParaUi();
+            ocultarDetallesYDeshabilitarControles();
+            if(spinnerSeleccionarCredito.getAdapter() != null && spinnerSeleccionarCredito.getAdapter().getCount() > 0){
+                spinnerSeleccionarCredito.setSelection(0);
+            }
             return;
         }
 
@@ -213,29 +240,27 @@ public class CreditoEditarActivity extends AppCompatActivity {
             return;
         }
 
-        // Validar que la fecha no sea la misma (opcional, para evitar llamadas innecesarias)
         if (nuevaFechaLimiteStr.equals(creditoSeleccionado.getFechaLimitePago())) {
-            Toast.makeText(this, "La fecha límite no ha cambiado.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.credito_editar_toast_fecha_no_cambiada, Toast.LENGTH_SHORT).show();
             return;
         }
 
         Log.i(TAG, "Intentando actualizar fecha límite para Crédito ID: " + creditoSeleccionado.getIdCredito() + " a " + nuevaFechaLimiteStr);
 
-        // Llamar al ViewModel para actualizar
         boolean exito = creditoViewModel.actualizarFechaLimite(creditoSeleccionado.getIdCredito(), nuevaFechaLimiteStr);
 
         if (exito) {
             Toast.makeText(this,
                     String.format(getString(R.string.credito_editar_toast_exito), creditoSeleccionado.getIdCredito()),
                     Toast.LENGTH_SHORT).show();
-            // Refrescar datos y UI
-            creditoViewModel.cargarTodosLosCreditos(); // Recarga para actualizar LiveData y Spinner
-            ocultarDetallesYDeshabilitar();
-            spinnerSeleccionarCredito.setSelection(0);
-            // setResult(Activity.RESULT_OK); // Si se necesita devolver resultado
-            // finish(); // Opcional: Cerrar
+
+            ocultarDetallesYDeshabilitarControles();
+            if(spinnerSeleccionarCredito.getAdapter() != null && spinnerSeleccionarCredito.getAdapter().getCount() > 0){
+                spinnerSeleccionarCredito.setSelection(0);
+            }
         } else {
             Toast.makeText(this, R.string.credito_editar_toast_error, Toast.LENGTH_SHORT).show();
+            creditoViewModel.cargarTodosLosCreditosYFiltrarParaUi();
         }
     }
 }

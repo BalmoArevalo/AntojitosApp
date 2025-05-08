@@ -384,38 +384,45 @@
 
     <!-- Editar Credito-->
     <string name="credito_editar_title">Editar Fecha Límite de Crédito</string>
-    <string name="credito_editar_label_seleccionar_credito">Seleccione Crédito Activo a Editar:</string>
+    <string name="credito_editar_label_seleccionar">Seleccione Crédito a Editar:</string>
     <string name="credito_editar_label_detalles">--- Detalles del Crédito ---</string>
     <string name="credito_editar_label_id_credito">ID Crédito:</string>
     <string name="credito_editar_label_id_factura">ID Factura Asociada:</string>
     <string name="credito_editar_label_monto_autorizado">Monto Autorizado:</string>
     <string name="credito_editar_label_monto_pagado">Monto Pagado:</string>
     <string name="credito_editar_label_saldo_pendiente">Saldo Pendiente:</string>
-    <string name="credito_editar_label_fecha_limite_editable">Fecha Límite Pago (Editable):</string>
-    <string name="credito_editar_hint_fecha_limite">Tocar para seleccionar nueva fecha límite</string>
-    <string name="credito_editar_label_estado_credito">Estado Actual Crédito:</string>
-    <string name="credito_editar_btn_actualizar">Actualizar Fecha Límite</string>
-    <string name="credito_editar_toast_exito">Fecha límite del Crédito ID %1$d actualizada</string>
-    <string name="credito_editar_toast_error">Error al actualizar fecha límite del crédito</string>
-    <string name="credito_editar_toast_no_seleccion">Seleccione un crédito para editar</string>
-    <string name="credito_editar_toast_ingrese_fecha">Ingrese la nueva fecha límite</string>
-    <string name="credito_editar_no_creditos_activos">No hay créditos activos para editar.</string>
+    <string name="credito_editar_label_estado_credito">Estado Actual del Crédito:</string>
+    <string name="credito_editar_label_fecha_limite">Nueva Fecha Límite de Pago (Editable):</string>
+    <string name="credito_editar_hint_fecha_limite">Tocar para seleccionar fecha</string>
+    <string name="credito_editar_btn_actualizar_fecha">Actualizar Fecha Límite</string>
+    <string name="credito_spinner_item_format">Crédito #%1$d (Fact: #%2$d) Saldo: $%.2f</string>
+    <string name="credito_estado_activo">Activo</string>
+    <string name="credito_editar_no_creditos_editables">No hay créditos elegibles para edición.</string>
+    <string name="credito_editar_no_editable_estado">Este crédito no está activo y no se puede editar.</string>
+    <string name="credito_editar_toast_no_seleccion">Por favor, seleccione un crédito.</string>
+    <string name="credito_editar_toast_ingrese_fecha">Por favor, ingrese la nueva fecha límite.</string>
+    <string name="credito_editar_toast_fecha_no_cambiada">La fecha límite no ha cambiado.</string>
+    <string name="credito_editar_toast_exito">Fecha límite del Crédito ID %1$d actualizada correctamente.</string>
+    <string name="credito_editar_toast_error">Error al actualizar la fecha límite del crédito.</string>
 
     <!-- Eliminar Credito-->
     <string name="credito_cancelar_title">Cancelar Crédito</string>
-    <string name="credito_cancelar_label_seleccionar">Seleccione Crédito Activo a Cancelar:</string>
-    <string name="credito_cancelar_label_detalles">--- Detalles del Crédito ---</string>
+    <string name="credito_cancelar_label_seleccionar">Seleccione Crédito a Cancelar:</string>
+    <string name="credito_cancelar_label_detalles">--- Detalles del Crédito a Cancelar ---</string>
     <string name="credito_cancelar_label_id_credito">ID Crédito:</string>
     <string name="credito_cancelar_label_id_factura">ID Factura Asociada:</string>
     <string name="credito_cancelar_label_monto_autorizado">Monto Autorizado:</string>
     <string name="credito_cancelar_label_monto_pagado">Monto Pagado:</string>
     <string name="credito_cancelar_label_saldo_pendiente">Saldo Pendiente:</string>
-    <string name="credito_cancelar_label_fecha_limite_editable">Fecha Límite Pago:</string> <string name="credito_cancelar_label_estado_credito">Estado Actual Crédito:</string>
-    <string name="credito_cancelar_btn_cancelar">Confirmar Cancelación</string>
-    <string name="credito_cancelar_toast_exito">Crédito ID %1$d Cancelado. Factura asociada actualizada.</string>
-    <string name="credito_cancelar_toast_error">Error al cancelar el crédito</string>
-    <string name="credito_cancelar_toast_no_seleccion">Seleccione un crédito para cancelar</string>
-    <string name="credito_cancelar_no_creditos_activos">No hay créditos activos para cancelar.</string>
-    <string name="credito_cancelar_toast_no_cancelable">Este crédito no se puede cancelar (posiblemente ya está Pagado).</string>
+    <string name="credito_cancelar_label_fecha_limite">Fecha Límite de Pago:</string>
+    <string name="credito_cancelar_label_estado_credito">Estado Actual del Crédito:</string>
+    <string name="credito_cancelar_btn_confirmar">Confirmar Cancelación de Crédito</string>
+    <string name="credito_cancelar_no_creditos_cancelables">No hay créditos elegibles para cancelación.</string>
+    <string name="credito_cancelar_toast_no_seleccion">Por favor, seleccione un crédito para cancelar.</string>
+    <string name="credito_cancelar_toast_no_cancelable">Este crédito no se puede cancelar (puede que no esté activo, ya esté pagado, o tenga pagos realizados).</string>
+    <string name="credito_cancelar_toast_exito">Crédito ID %1$d cancelado exitosamente.</string>
+    <string name="credito_cancelar_toast_error">Error al cancelar el crédito.</string>
+    <string name="credito_cancelar_confirmacion_mensaje">¿Está seguro de que desea cancelar el Crédito #%1$d? Esta acción no se puede deshacer y la factura asociada volverá a ser una factura normal pendiente.</string>
+
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
 </resources>
