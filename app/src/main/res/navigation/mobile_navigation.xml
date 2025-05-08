@@ -101,4 +101,9 @@
         android:label="@string/menu_tipo_evento"
         tools:layout="@layout/fragment_tipo_evento" />
 
+    <fragment
+        android:id="@+id/nav_reparto_pedido"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.repartoPedido.RepartoPedidoFragment"
+        android:label="@string/menu_reparto_pedido"
+        tools:layout="@layout/fragment_reparto_pedido" />
 </navigation>
