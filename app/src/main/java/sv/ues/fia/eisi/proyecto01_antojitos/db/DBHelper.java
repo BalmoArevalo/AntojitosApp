@@ -27,13 +27,9 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.i("DBHelper", "onCreate: Creando tablas y triggers para la versión " + DB_VERSION);
 
-        /* 1. Seguridad */
-        crearTablasSeguridad(db);
-        SeguridadSeeder.poblar(db);
-
         /* 2. Negocio */
+        crearTablasSeguridad(db);
         crearTablasNegocio(db);
-        DatosInicialesSeeder.poblar(db);
 
         Log.i("DBHelper", "Estructura y datos iniciales creados.");
     }

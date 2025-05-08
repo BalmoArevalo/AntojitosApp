@@ -13,11 +13,11 @@ import sv.ues.fia.eisi.proyecto01_antojitos.util.SessionManager;
 /**
  * Repositorio de autenticación y permisos.
  *
- *  • login/logout → maneja SessionManager
- *  • exponer usuario y lista de permisos a la UI
+ * · login/logout   → gestiona SessionManager
+ * · getIdUsuario…  → expone el id ('SU','CL','RP','SC') a la UI
+ * · getPermisos…   → devuelve la lista de IDs de opción CRUD
  *
- *  **Futuro-proof**: si migras a Retrofit + API, cambia aquí y
- *  la UI seguirá igual.
+ * Si en el futuro migras a Retrofit + API, solo toca esta clase.
  */
 public class AuthRepository {
 
@@ -31,51 +31,35 @@ public class AuthRepository {
         this.accesoDAO  = new AccesoUsuarioDAO(ctx);
     }
 
-    /* ==================== Sesión ==================== */
+    /* ====================  Sesión  ==================== */
 
-    /**
-     * Intenta iniciar sesión.
-     * @return true si las credenciales son válidas.
-     */
+    /** Intenta iniciar sesión y guarda el id en SharedPreferences. */
     public boolean login(String nomUsuario, String clave) {
         Usuario u = usuarioDAO.validarLogin(nomUsuario, clave);
         if (u == null) return false;
 
-        // Guarda usuario en SharedPreferences
         SessionManager.login(ctx, u.getIdUsuario());
         return true;
     }
 
-    /** Borra la sesión actual. */
-    public void logout() {
-        SessionManager.logout(ctx);
-    }
+    public void logout()           { SessionManager.logout(ctx); }
+    public boolean isLoggedIn()    { return SessionManager.isLoggedIn(ctx); }
 
-    /** ¿Hay sesión activa? */
-    public boolean isLoggedIn() {
-        return SessionManager.isLoggedIn(ctx);
-    }
+    /** Id del usuario activo o null. */
+    public String getCurrentUserId()   { return SessionManager.getIdUsuario(ctx); }
+    /** Alias legible para la UI. */
+    public String getIdUsuarioActual() { return getCurrentUserId(); }
 
-    /** ID del usuario activo o null. */
-    public String getCurrentUserId() {
-        return SessionManager.getIdUsuario(ctx);
-    }
+    /* ====================  Permisos  ==================== */
 
-    /* ==================== Permisos ==================== */
-
-    /**
-     * Devuelve la lista de IDs de opción (permisos) para el usuario logueado.
-     * Si el usuario tiene 'todo_admin', se devuelve una lista con ese único comodín.
-     */
+    /** Lista de IDs de opción para el usuario logueado. */
     public List<String> getPermisosActuales() {
         String idUsuario = getCurrentUserId();
         if (idUsuario == null) return Collections.emptyList();
         return accesoDAO.obtenerOpcionesPorUsuario(idUsuario);
     }
 
-    /**
-     * Atajo: ¿el usuario activo tiene permiso explícito o 'todo_admin'?
-     */
+    /** true si posee idOpcion o 'todo_admin'. */
     public boolean tienePermiso(String idOpcion) {
         String idUsuario = getCurrentUserId();
         return idUsuario != null && accesoDAO.tieneAcceso(idUsuario, idOpcion);

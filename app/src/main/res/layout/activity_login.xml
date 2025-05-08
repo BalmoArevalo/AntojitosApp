@@ -14,7 +14,7 @@
         android:layout_height="100dp"
         android:src="@mipmap/ic_launcher_round"
         android:contentDescription="@string/app_name"
-        android:layout_marginBottom="32dp"/>
+        android:layout_marginBottom="32dp" />
 
     <!-- Campo de Usuario -->
     <EditText
@@ -24,11 +24,11 @@
         android:hint="Usuario"
         android:inputType="text"
         android:drawablePadding="8dp"
-        android:padding="12dp"/>
+        android:padding="12dp" />
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="16dp"/>
+        android:layout_height="16dp" />
 
     <!-- Campo de Contraseña -->
     <EditText
@@ -42,7 +42,7 @@
 
     <Space
         android:layout_width="match_parent"
-        android:layout_height="24dp"/>
+        android:layout_height="24dp" />
 
     <!-- Botón de Entrar -->
     <Button
@@ -52,14 +52,16 @@
         android:text="Entrar"
         android:textAllCaps="false"
         android:padding="12dp"
-        style="@style/Widget.MaterialComponents.Button"/>
+        style="@style/Widget.MaterialComponents.Button" />
 
+    <!-- Botón para crear usuarios y permisos -->
     <Button
-        android:id="@+id/btnCrearBD"
+        android:id="@+id/btnCrearUsuarios"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Crear BD y poblar"
+        android:text="Crear Usuarios y Permisos"
         android:textAllCaps="false"
         android:padding="12dp"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="12dp" />
+
 </LinearLayout>
