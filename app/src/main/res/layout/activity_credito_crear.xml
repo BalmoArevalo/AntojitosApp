@@ -1,10 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.credito.CreditoCrearActivity">
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.credito.CreditoCrearActivity"> <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/credito_crear_title"
+    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+    android:gravity="center"
+    android:layout_marginBottom="16dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/credito_crear_label_seleccionar_factura"
+        android:labelFor="@+id/spinnerSeleccionarFacturaParaCredito"/>
+    <Spinner
+        android:id="@+id/spinnerSeleccionarFacturaParaCredito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:minHeight="48dp"/>
+
+    <LinearLayout
+        android:id="@+id/layoutCreditoCrearCampos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/credito_crear_label_detalles_factura"
+            android:layout_marginBottom="8dp"/>
+        <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC" android:layout_marginBottom="8dp"/>
+
+        <TextView android:id="@+id/tvCreditoCrearIdFactura" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="ID Factura: 4"/>
+        <TextView android:id="@+id/tvCreditoCrearIdPedido" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="ID Pedido: 5"/>
+        <TextView android:id="@+id/tvCreditoCrearMonto" android:paddingBottom="16dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Monto a Otorgar: $40.00"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/credito_crear_label_fecha_limite"
+            android:labelFor="@+id/editCreditoFechaLimite"/>
+        <EditText
+            android:id="@+id/editCreditoFechaLimite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:hint="@string/credito_crear_hint_fecha_limite"
+            android:focusable="false"
+            android:clickable="true"
+            android:inputType="date"
+            android:minHeight="48dp"/>
+
+        <Button
+            android:id="@+id/btnConfirmarCrearCredito"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/credito_crear_btn_confirmar"/>
+
+    </LinearLayout>
+
+</LinearLayout>

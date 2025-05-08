@@ -1,10 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context=".ui.credito.CreditoConsultarActivity">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/credito_consultar_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/credito_consultar_label_seleccionar_factura"
+        android:labelFor="@+id/spinnerSeleccionarFacturaConCredito"/>
+    <Spinner
+        android:id="@+id/spinnerSeleccionarFacturaConCredito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:minHeight="48dp"/>
+
+    <ScrollView
+        android:id="@+id/scrollViewCreditoConsultar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/layoutDetallesCredito"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+            <TextView
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/credito_consultar_label_detalles"
+            android:layout_marginBottom="8dp"/>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC" android:layout_marginBottom="8dp"/>
+
+            <TextView android:id="@+id/tvConsultaCreditoIdCredito" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="ID Crédito: 1"/>
+            <TextView android:id="@+id/tvConsultaCreditoIdFactura" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="ID Factura: 4"/>
+            <TextView android:id="@+id/tvConsultaCreditoMontoAutorizado" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Monto Autorizado: $40.00"/>
+            <TextView android:id="@+id/tvConsultaCreditoMontoPagado" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Monto Pagado: $10.00"/>
+            <TextView android:id="@+id/tvConsultaCreditoSaldoPendiente" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Saldo Pendiente: $30.00"/>
+            <TextView android:id="@+id/tvConsultaCreditoFechaLimite" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Fecha Límite: 2025-06-15"/>
+            <TextView android:id="@+id/tvConsultaCreditoEstado" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Estado Crédito: Activo"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
