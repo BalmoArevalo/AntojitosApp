@@ -64,7 +64,6 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
         productoDAO = new ProductoDAO(db);
         categoriaDAO = new CategoriaProductoDAO(db);
 
-        // Actualizar disponibilidad al iniciar
         listaCategorias = categoriaDAO.obtenerTodos(false);
         actualizarDisponibilidadSegunHora(listaCategorias);
 
@@ -164,9 +163,9 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
     private void cargarPedidos() {
         List<Pedido> pedidos = pedidoDAO.obtenerTodos();
         List<String> items = new ArrayList<>();
-        items.add("Seleccione");
+        items.add(getString(R.string.detalle_pedido_editar_seleccione));
         for (Pedido p : pedidos) {
-            String label = "Pedido " + p.getIdPedido();
+            String label = getString(R.string.detalle_pedido_editar_prefijo_pedido) + " " + p.getIdPedido();
             items.add(label);
             pedidosMap.put(label, p);
         }
@@ -177,9 +176,10 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
         detallesMap.clear();
         List<DetallePedido> lista = detallePedidoDAO.obtenerPorPedido(idPedido);
         List<String> items = new ArrayList<>();
-        items.add("Seleccione");
+        items.add(getString(R.string.detalle_pedido_editar_seleccione));
         for (DetallePedido d : lista) {
-            String label = "Detalle " + d.getIdDetallePedido() + " - Prod " + d.getIdProducto();
+            String label = getString(R.string.detalle_pedido_editar_prefijo_detalle) + " " + d.getIdDetallePedido()
+                    + getString(R.string.detalle_pedido_editar_sep_producto) + d.getIdProducto();
             items.add(label);
             detallesMap.put(label, d);
         }
@@ -196,7 +196,6 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
 
             boolean disponible = cat != null && cat.getDisponibleCategoria() == 1;
 
-            // Asegura que el producto actual del detalle aparezca aunque esté inactivo
             if (detalleActual != null && p.getIdProducto() == detalleActual.getIdProducto()) {
                 disponible = true;
             }
@@ -209,10 +208,10 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
         }
 
         if (items.isEmpty()) {
-            items.add("No hay productos disponibles en este momento");
+            items.add(getString(R.string.detalle_pedido_editar_no_productos));
             spinnerProducto.setEnabled(false);
         } else {
-            items.add(0, "Seleccione");
+            items.add(0, getString(R.string.detalle_pedido_editar_seleccione));
             spinnerProducto.setEnabled(true);
         }
 
@@ -243,13 +242,13 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
         Producto productoSeleccionado = productosMap.get(productoKey);
 
         if (productoSeleccionado == null) {
-            Toast.makeText(this, "Seleccione un producto válido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.detalle_pedido_editar_producto_invalido), Toast.LENGTH_SHORT).show();
             return;
         }
 
         String cantidadStr = editTextCantidad.getText().toString().trim();
         if (cantidadStr.isEmpty()) {
-            Toast.makeText(this, "Ingrese una cantidad", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.detalle_pedido_editar_ingrese_cantidad), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -262,12 +261,12 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
         DatosProducto dp = datosProductoDAO.find(idSucursal, productoSeleccionado.getIdProducto());
 
         if (dp == null) {
-            Toast.makeText(this, "No hay datos del producto en esta sucursal", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.detalle_pedido_editar_no_datos), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (diferencia > 0 && diferencia > dp.getStock()) {
-            Toast.makeText(this, "Stock insuficiente. Solo quedan " + dp.getStock(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.detalle_pedido_editar_stock_insuficiente, dp.getStock()), Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -275,7 +274,7 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
             dp.setStock(dp.getStock() - diferencia);
             int actualizado = datosProductoDAO.update(dp);
             if (actualizado <= 0) {
-                Toast.makeText(this, "Error al actualizar stock", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.detalle_pedido_editar_error_stock), Toast.LENGTH_SHORT).show();
                 return;
             }
         }
@@ -288,21 +287,23 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
 
         int filas = detallePedidoDAO.actualizar(detalleActual);
         if (filas > 0) {
-            Toast.makeText(this, "Detalle actualizado correctamente", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.detalle_pedido_editar_ok), Toast.LENGTH_SHORT).show();
             resetearFormulario();
         } else {
             dp.setStock(dp.getStock() + diferencia);
             datosProductoDAO.update(dp);
-            Toast.makeText(this, "Error al actualizar el detalle", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.detalle_pedido_editar_error_detalle), Toast.LENGTH_SHORT).show();
         }
     }
 
     private void limpiarDetalles() {
-        spinnerDetalle.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Collections.singletonList("Seleccione")));
+        spinnerDetalle.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
+                Collections.singletonList(getString(R.string.detalle_pedido_editar_seleccione))));
     }
 
     private void limpiarProductos() {
-        spinnerProducto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Collections.singletonList("Seleccione")));
+        spinnerProducto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
+                Collections.singletonList(getString(R.string.detalle_pedido_editar_seleccione))));
         spinnerProducto.setEnabled(true);
     }
 
@@ -311,7 +312,7 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
         limpiarDetalles();
         limpiarProductos();
         editTextCantidad.setText("");
-        textViewSubtotal.setText("$ 0.00");
+        textViewSubtotal.setText(getString(R.string.detalle_pedido_editar_monto_inicial));
         btnActualizar.setEnabled(false);
         detalleActual = null;
     }

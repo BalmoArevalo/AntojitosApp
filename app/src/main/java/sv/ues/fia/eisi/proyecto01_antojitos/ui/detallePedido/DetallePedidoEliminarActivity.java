@@ -77,7 +77,7 @@ public class DetallePedidoEliminarActivity extends AppCompatActivity {
                 detalleSeleccionado = detallesMap.get(parent.getItemAtPosition(pos).toString());
                 if (detalleSeleccionado != null) {
                     Producto p = productoDAO.obtenerProductoPorId(detalleSeleccionado.getIdProducto());
-                    String nombreProd = (p != null) ? p.getNombreProducto() : "Desconocido";
+                    String nombreProd = (p != null) ? p.getNombreProducto() : getString(R.string.detalle_pedido_consultar_desconocido);
 
                     String info = "ID Detalle: " + detalleSeleccionado.getIdDetallePedido() + "\n"
                             + "Producto: " + nombreProd + "\n"
@@ -98,9 +98,9 @@ public class DetallePedidoEliminarActivity extends AppCompatActivity {
     private void cargarPedidos() {
         List<Pedido> pedidos = pedidoDAO.obtenerTodos();
         List<String> items = new ArrayList<>();
-        items.add("Seleccione");
+        items.add(getString(R.string.detalle_pedido_seleccione));
         for (Pedido p : pedidos) {
-            String label = "Pedido " + p.getIdPedido();
+            String label = getString(R.string.detalle_pedido_editar_prefijo_pedido) + " " + p.getIdPedido();
             items.add(label);
             pedidosMap.put(label, p);
         }
@@ -111,9 +111,10 @@ public class DetallePedidoEliminarActivity extends AppCompatActivity {
         detallesMap.clear();
         List<DetallePedido> lista = detallePedidoDAO.obtenerPorPedido(idPedido);
         List<String> items = new ArrayList<>();
-        items.add("Seleccione");
+        items.add(getString(R.string.detalle_pedido_seleccione));
         for (DetallePedido d : lista) {
-            String label = "Detalle " + d.getIdDetallePedido() + " - Prod " + d.getIdProducto();
+            String label = getString(R.string.detalle_pedido_editar_prefijo_detalle) + " " + d.getIdDetallePedido() +
+                    getString(R.string.detalle_pedido_editar_sep_producto) + d.getIdProducto();
             items.add(label);
             detallesMap.put(label, d);
         }
@@ -121,7 +122,8 @@ public class DetallePedidoEliminarActivity extends AppCompatActivity {
     }
 
     private void limpiarDetalles() {
-        spinnerDetalle.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Collections.singletonList("Seleccione")));
+        spinnerDetalle.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
+                Collections.singletonList(getString(R.string.detalle_pedido_seleccione))));
         textViewDetalle.setText("");
         detalleSeleccionado = null;
         btnEliminar.setEnabled(false);
@@ -131,23 +133,21 @@ public class DetallePedidoEliminarActivity extends AppCompatActivity {
         if (detalleSeleccionado == null) return;
 
         new android.app.AlertDialog.Builder(this)
-                .setTitle("Confirmar eliminación")
-                .setMessage("¿Estás seguro de que deseas eliminar este detalle del pedido?")
-                .setPositiveButton("Sí", (dialog, which) -> {
+                .setTitle(getString(R.string.detalle_pedido_eliminar_confirmar_titulo))
+                .setMessage(getString(R.string.detalle_pedido_eliminar_confirmar_mensaje))
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> {
                     int idPedido = detalleSeleccionado.getIdPedido();
                     int idProducto = detalleSeleccionado.getIdProducto();
                     int cantidad = detalleSeleccionado.getCantidad();
 
-                    // Obtener sucursal del pedido
                     Pedido pedido = pedidoDAO.consultarPorId(idPedido);
                     if (pedido == null) {
-                        Toast.makeText(this, "Error al obtener el pedido", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.detalle_pedido_eliminar_toast_error_pedido), Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     int idSucursal = pedido.getIdSucursal();
 
-                    // Devolver stock
                     DatosProductoDAO datosProductoDAO = new DatosProductoDAO(db);
                     DatosProducto dp = datosProductoDAO.find(idSucursal, idProducto);
                     if (dp != null) {
@@ -155,19 +155,17 @@ public class DetallePedidoEliminarActivity extends AppCompatActivity {
                         datosProductoDAO.update(dp);
                     }
 
-                    // Eliminar detalle
                     int filas = detallePedidoDAO.eliminar(detalleSeleccionado.getIdDetallePedido());
                     if (filas > 0) {
-                        Toast.makeText(this, "Detalle eliminado correctamente", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.detalle_pedido_eliminar_toast_ok), Toast.LENGTH_SHORT).show();
                         limpiarDetalles();
                         cargarDetalles(idPedido);
                         detalleSeleccionado = null;
                     } else {
-                        Toast.makeText(this, "Error al eliminar el detalle", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.detalle_pedido_eliminar_toast_error), Toast.LENGTH_SHORT).show();
                     }
                 })
-                .setNegativeButton("Cancelar", null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
-
 }

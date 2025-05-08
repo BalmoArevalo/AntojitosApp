@@ -11,10 +11,11 @@
 
         <!-- Pedido -->
         <TextView
-            android:text="Seleccionar Pedido:"
+            android:text="@string/detalle_pedido_label_pedido"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp" />
+            android:paddingBottom="8dp"
+            android:labelFor="@id/spinnerPedido" />
 
         <Spinner
             android:id="@+id/spinnerPedido"
@@ -24,11 +25,12 @@
 
         <!-- Producto -->
         <TextView
-            android:text="Seleccionar Producto:"
+            android:text="@string/detalle_pedido_label_producto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:paddingBottom="8dp" />
+            android:paddingBottom="8dp"
+            android:labelFor="@id/spinnerProducto" />
 
         <Spinner
             android:id="@+id/spinnerProducto"
@@ -38,22 +40,24 @@
 
         <!-- Cantidad -->
         <TextView
-            android:text="Cantidad:"
+            android:text="@string/detalle_pedido_label_cantidad"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
-            android:paddingBottom="8dp" />
+            android:paddingBottom="8dp"
+            android:labelFor="@id/editTextCantidad" />
 
         <EditText
             android:id="@+id/editTextCantidad"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:hint="@string/detalle_pedido_editar_hint_cantidad" />
 
         <!-- Precio unitario -->
         <TextView
-            android:text="Precio Unitario:"
+            android:text="@string/detalle_pedido_label_precio_unitario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp" />
@@ -62,13 +66,13 @@
             android:id="@+id/textViewPrecioUnitario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="--"
+            android:text="@string/detalle_pedido_vacio"
             android:textSize="16sp"
             android:paddingBottom="8dp" />
 
         <!-- Subtotal -->
         <TextView
-            android:text="Subtotal:"
+            android:text="@string/detalle_pedido_label_subtotal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -76,7 +80,7 @@
             android:id="@+id/textViewSubtotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="--"
+            android:text="@string/detalle_pedido_vacio"
             android:textSize="16sp"
             android:paddingBottom="16dp" />
 
@@ -85,6 +89,6 @@
             android:id="@+id/btnGuardarDetalle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar Detalle" />
+            android:text="@string/detalle_pedido_btn_guardar" />
     </LinearLayout>
 </ScrollView>

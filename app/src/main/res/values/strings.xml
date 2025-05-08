@@ -530,5 +530,69 @@
     <string name="pedido_eliminar_resultado_asociado">❌ No se puede eliminar: está asociado a una factura</string>
     <string name="pedido_eliminar_resultado_error">❌ Error al intentar eliminar el pedido</string>
 
+    <!-- DetallePedidoCrearActivity -->
+    <string name="detalle_pedido_seleccione">Seleccione</string>
+    <string name="detalle_pedido_prefijo_pedido">Pedido</string>
+    <string name="detalle_pedido_no_productos">No hay productos disponibles en este momento</string>
+    <string name="detalle_pedido_vacio">--</string>
+
+    <string name="detalle_pedido_toast_seleccion_invalida">Seleccione un pedido y un producto válidos</string>
+    <string name="detalle_pedido_toast_cantidad_invalida">Ingrese una cantidad válida</string>
+    <string name="detalle_pedido_toast_no_datos_producto">No hay datos del producto en esta sucursal</string>
+    <string name="detalle_pedido_toast_stock_insuficiente">Stock insuficiente. Solo quedan %1$d</string>
+    <string name="detalle_pedido_toast_error_stock">Error al actualizar el stock</string>
+    <string name="detalle_pedido_toast_insertado_ok">Detalle insertado (ID: %1$d)</string>
+    <string name="detalle_pedido_toast_insertado_error">Error al insertar detalle</string>
+
+    <!-- Layout XML -->
+    <string name="detalle_pedido_label_pedido">Seleccionar Pedido:</string>
+    <string name="detalle_pedido_label_producto">Seleccionar Producto:</string>
+    <string name="detalle_pedido_label_cantidad">Cantidad:</string>
+    <string name="detalle_pedido_label_precio_unitario">Precio Unitario:</string>
+    <string name="detalle_pedido_label_subtotal">Subtotal:</string>
+    <string name="detalle_pedido_btn_guardar">Guardar Detalle</string>
+
+    <!-- DetallePedidoConsultarActivity -->
+    <string name="detalle_pedido_consultar_seleccione">Seleccione</string>
+    <string name="detalle_pedido_consultar_prefijo_pedido">Pedido</string>
+    <string name="detalle_pedido_consultar_sin_productos">No hay productos asociados a este pedido.</string>
+    <string name="detalle_pedido_consultar_encabezado">Detalles del pedido %1$d:</string>
+    <string name="detalle_pedido_consultar_item_producto">\n\nProducto: %1$s\n  Cantidad: %2$d\n  Subtotal: $%3$.2f\n</string>
+    <string name="detalle_pedido_consultar_desconocido">Desconocido</string>
+    <string name="detalle_pedido_consultar_label_spinner">Seleccione Pedido:</string>
+
+    <!-- DetallePedidoEditarActivity -->
+    <string name="detalle_pedido_editar_seleccione">Seleccione</string>
+    <string name="detalle_pedido_editar_prefijo_pedido">Pedido</string>
+    <string name="detalle_pedido_editar_prefijo_detalle">Detalle</string>
+    <string name="detalle_pedido_editar_sep_producto"> - Prod </string>
+    <string name="detalle_pedido_editar_no_productos">No hay productos disponibles en este momento</string>
+    <string name="detalle_pedido_editar_producto_invalido">Seleccione un producto válido</string>
+    <string name="detalle_pedido_editar_ingrese_cantidad">Ingrese una cantidad</string>
+    <string name="detalle_pedido_editar_no_datos">No hay datos del producto en esta sucursal</string>
+    <string name="detalle_pedido_editar_stock_insuficiente">Stock insuficiente. Solo quedan %1$d</string>
+    <string name="detalle_pedido_editar_error_stock">Error al actualizar stock</string>
+    <string name="detalle_pedido_editar_ok">Detalle actualizado correctamente</string>
+    <string name="detalle_pedido_editar_error_detalle">Error al actualizar el detalle</string>
+    <string name="detalle_pedido_editar_monto_inicial">$ 0.00</string>
+
+    <!-- XML UI -->
+    <string name="detalle_pedido_editar_label_pedido">Seleccione Pedido:</string>
+    <string name="detalle_pedido_editar_label_detalle">Seleccione Detalle:</string>
+    <string name="detalle_pedido_editar_label_producto">Producto:</string>
+    <string name="detalle_pedido_editar_label_cantidad">Cantidad:</string>
+    <string name="detalle_pedido_editar_label_subtotal">Subtotal:</string>
+    <string name="detalle_pedido_editar_btn">Actualizar Detalle</string>
+    <string name="detalle_pedido_editar_hint_cantidad">Ingrese la cantidad</string>
+
+    <!-- DetallePedidoEliminar -->
+    <string name="detalle_pedido_eliminar_label_pedido">Seleccione Pedido:</string>
+    <string name="detalle_pedido_eliminar_label_detalle">Seleccione Detalle:</string>
+    <string name="detalle_pedido_eliminar_confirmar_titulo">Confirmar eliminación</string>
+    <string name="detalle_pedido_eliminar_confirmar_mensaje">¿Estás seguro de que deseas eliminar este detalle del pedido?</string>
+    <string name="detalle_pedido_eliminar_toast_ok">Detalle eliminado correctamente</string>
+    <string name="detalle_pedido_eliminar_toast_error">Error al eliminar el detalle</string>
+    <string name="detalle_pedido_eliminar_toast_error_pedido">Error al obtener el pedido</string>
+
 
 </resources>
