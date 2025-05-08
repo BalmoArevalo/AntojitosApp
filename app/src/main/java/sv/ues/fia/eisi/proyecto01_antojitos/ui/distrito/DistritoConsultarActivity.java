@@ -63,7 +63,6 @@ public class DistritoConsultarActivity extends AppCompatActivity {
         txtDepartamento = findViewById(R.id.txtDepartamento);
         txtMunicipio = findViewById(R.id.txtMunicipio);
         txtCodigoPostal = findViewById(R.id.txtCodigoPostal);
-        tvEstado = findViewById(R.id.tvEstado);
         layoutDetalles = findViewById(R.id.layoutDetalles);
 
         distritosMap = new HashMap<>();
@@ -109,8 +108,8 @@ public class DistritoConsultarActivity extends AppCompatActivity {
                     distrito.setCodigoPostal(cursor.getString(cursor.getColumnIndexOrThrow("CODIGO_POSTAL")));
                     distrito.setActivoDistrito(1); // Siempre será 1 por la consulta
 
-                    nombresDistritos.add(distrito.getNombreDistrito());
-                    distritosMap.put(distrito.getNombreDistrito(), distrito);
+                    nombresDistritos.add(distrito.getNombreDistrito() + "-" + distrito.getCodigoPostal());
+                    distritosMap.put(nombresDistritos.get(nombresDistritos.size() - 1), distrito);
                 }
 
                 if (nombresDistritos.isEmpty()) {

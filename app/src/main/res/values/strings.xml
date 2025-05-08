@@ -48,10 +48,10 @@
     <string name="title_consultar_cliente">Consultar Cliente</string>
     <string name="title_informacion_cliente">Información del Cliente</string>
     <string name="hint_seleccionar_cliente">Seleccionar Cliente</string>
-    <string name="label_id">ID cliente </string>
-    <string name="label_nombre">Nombre </string>
-    <string name="label_apellido">Apellido </string>
-    <string name="label_telefono">Teléfono </string>
+    <string name="label_id">ID cliente: </string>
+    <string name="label_nombre">Nombre: </string>
+    <string name="label_apellido">Apellido: </string>
+    <string name="label_telefono">Teléfono: </string>
     <string name="title_nuevo_cliente">Nuevo Cliente</string>
     <string name="btn_guardar">Guardar</string>
     <string name="btn_limpiar">Limpiar</string>
@@ -80,9 +80,9 @@
     <string name="title_consultar_producto">Consultar Producto</string>
     <string name="title_informacion_producto">Información del Producto</string>
     <string name="hint_seleccionar_producto">Seleccionar Producto</string>
-    <string name="label_id_producto">ID Producto </string>
-    <string name="label_id_categoria">ID Categoría </string>
-    <string name="label_descripcion">Descripción </string>
+    <string name="label_id_producto">ID Producto: </string>
+    <string name="label_id_categoria">ID Categoría: </string>
+    <string name="label_descripcion">Descripción: </string>
     <string name="title_crear_producto">Crear Nuevo Producto</string>
     <string name="hint_categoria">Categoría</string>
     <string name="btn_guardar_producto">Guardar Producto</string>
@@ -173,7 +173,7 @@
 
     <string name="hint_seleccionar_distrito">Seleccionar Distrito</string>
 
-    <string name="switch_distrito_activo">Cliente Activo</string>
+    <string name="switch_distrito_activo">Distrito Activo</string>
     <string name="label_detalle_distrito">Detalles del distrito</string>
     <string name="label_detalle_ubicacion">Detalles del ubicación</string>
 
