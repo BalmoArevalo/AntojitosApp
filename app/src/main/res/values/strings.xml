@@ -373,5 +373,25 @@
     <string name="credito_consultar_toast_error_carga">Error al cargar datos</string>
     <string name="credito_consultar_toast_no_credito">No se encontró información de crédito para la factura seleccionada.</string>
     <string name="credito_consultar_no_facturas_con_credito">No hay facturas marcadas a crédito.</string>
+
+    <!-- Editar Factura-->
+    <string name="credito_editar_title">Editar Fecha Límite de Crédito</string>
+    <string name="credito_editar_label_seleccionar_credito">Seleccione Crédito Activo a Editar:</string>
+    <string name="credito_editar_label_detalles">--- Detalles del Crédito ---</string>
+    <string name="credito_editar_label_id_credito">ID Crédito:</string>
+    <string name="credito_editar_label_id_factura">ID Factura Asociada:</string>
+    <string name="credito_editar_label_monto_autorizado">Monto Autorizado:</string>
+    <string name="credito_editar_label_monto_pagado">Monto Pagado:</string>
+    <string name="credito_editar_label_saldo_pendiente">Saldo Pendiente:</string>
+    <string name="credito_editar_label_fecha_limite_editable">Fecha Límite Pago (Editable):</string>
+    <string name="credito_editar_hint_fecha_limite">Tocar para seleccionar nueva fecha límite</string>
+    <string name="credito_editar_label_estado_credito">Estado Actual Crédito:</string>
+    <string name="credito_editar_btn_actualizar">Actualizar Fecha Límite</string>
+    <string name="credito_editar_toast_exito">Fecha límite del Crédito ID %1$d actualizada</string>
+    <string name="credito_editar_toast_error">Error al actualizar fecha límite del crédito</string>
+    <string name="credito_editar_toast_no_seleccion">Seleccione un crédito para editar</string>
+    <string name="credito_editar_toast_ingrese_fecha">Ingrese la nueva fecha límite</string>
+    <string name="credito_editar_no_creditos_activos">No hay créditos activos para editar.</string>
+
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
 </resources>
