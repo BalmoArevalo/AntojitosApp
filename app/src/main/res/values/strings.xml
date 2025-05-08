@@ -404,6 +404,15 @@
     <string name="credito_editar_toast_fecha_no_cambiada">La fecha límite no ha cambiado.</string>
     <string name="credito_editar_toast_exito">Fecha límite del Crédito ID %1$d actualizada correctamente.</string>
     <string name="credito_editar_toast_error">Error al actualizar la fecha límite del crédito.</string>
+    <string name="credito_editar_label_abonar">Realizar Abono:</string>
+    <string name="credito_editar_hint_monto_abonar">Monto a pagar</string>
+    <string name="credito_editar_btn_realizar_abono">Realizar Abono</string>
+    <string name="credito_editar_toast_abono_exito">Abono realizado correctamente.</string>
+    <string name="credito_editar_toast_abono_error">Error al procesar el abono.</string>
+    <string name="credito_editar_toast_abono_credito_pagado">¡Crédito saldado! Estado actualizado a Pagado.</string>
+    <string name="credito_editar_toast_monto_invalido">Ingrese un monto válido (mayor que 0).</string>
+    <string name="credito_editar_toast_monto_excede_saldo">El monto a abonar no puede exceder el saldo pendiente.</string>
+    <string name="credito_estado_pagado">Pagado</string>
 
     <!-- Eliminar Credito-->
     <string name="credito_cancelar_title">Cancelar Crédito</string>

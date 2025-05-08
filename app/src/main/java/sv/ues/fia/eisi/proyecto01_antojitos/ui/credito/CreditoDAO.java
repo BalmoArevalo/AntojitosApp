@@ -19,14 +19,15 @@ public class CreditoDAO {
     private static final String TAG = "CreditoDAO";
 
     // Constantes para la tabla y columnas (basado en DBHelper v4)
-    private static final String TABLA_CREDITO = "CREDITO";
-    private static final String COL_ID_CREDITO = "ID_CREDITO";
-    private static final String COL_ID_FACTURA = "ID_FACTURA";
-    private static final String COL_MONTO_AUTORIZADO = "MONTO_AUTORIZADO_CREDITO";
-    private static final String COL_MONTO_PAGADO = "MONTO_PAGADO";
-    private static final String COL_SALDO_PENDIENTE = "SALDO_PENDIENTE";
-    private static final String COL_FECHA_LIMITE = "FECHA_LIMITE_PAGO";
-    private static final String COL_ESTADO_CREDITO = "ESTADO_CREDITO";
+    // Asegúrate que estos nombres coincidan exactamente con tu esquema de base de datos
+    public static final String TABLA_CREDITO = "CREDITO";
+    public static final String COL_ID_CREDITO = "ID_CREDITO";
+    public static final String COL_ID_FACTURA = "ID_FACTURA";
+    public static final String COL_MONTO_AUTORIZADO = "MONTO_AUTORIZADO_CREDITO";
+    public static final String COL_MONTO_PAGADO = "MONTO_PAGADO";
+    public static final String COL_SALDO_PENDIENTE = "SALDO_PENDIENTE";
+    public static final String COL_FECHA_LIMITE = "FECHA_LIMITE_PAGO";
+    public static final String COL_ESTADO_CREDITO = "ESTADO_CREDITO";
 
     private static final String[] COLUMNAS_CREDITO = {
             COL_ID_CREDITO, COL_ID_FACTURA, COL_MONTO_AUTORIZADO,
@@ -94,13 +95,36 @@ public class CreditoDAO {
             if (rowsAffected > 0) {
                 Log.i(TAG, "Crédito actualizado con ID: " + credito.getIdCredito());
             } else {
-                Log.w(TAG, "No se actualizó crédito con ID: " + credito.getIdCredito());
+                Log.w(TAG, "No se actualizó crédito con ID: " + credito.getIdCredito() + ". ¿No encontrado o datos iguales?");
             }
             return rowsAffected;
         } catch (SQLiteException e) {
             // Podría fallar por CHECK constraints (ej: monto pagado > monto autorizado)
             Log.e(TAG, "Error al actualizar crédito ID " + credito.getIdCredito() + ": " + e.getMessage());
             return 0;
+        }
+    }
+
+    /**
+     * Elimina un crédito de la base de datos por su ID.
+     * ADVERTENCIA: Esta acción es irreversible.
+     * @param idCredito El ID del crédito a eliminar.
+     * @return El número de filas eliminadas (debería ser 1 si tuvo éxito, 0 si no se encontró el crédito).
+     */
+    public int eliminar(int idCredito) {
+        String whereClause = COL_ID_CREDITO + " = ?";
+        String[] whereArgs = {String.valueOf(idCredito)};
+        try {
+            int rowsAffected = db.delete(TABLA_CREDITO, whereClause, whereArgs);
+            if (rowsAffected > 0) {
+                Log.i(TAG, "Crédito ELIMINADO FÍSICAMENTE con ID: " + idCredito);
+            } else {
+                Log.w(TAG, "No se eliminó crédito con ID: " + idCredito + ". ¿No encontrado?");
+            }
+            return rowsAffected;
+        } catch (SQLiteException e) {
+            Log.e(TAG, "Error al eliminar físicamente el crédito ID " + idCredito + ": " + e.getMessage());
+            return 0; // Retorna 0 en caso de error para indicar que no se eliminaron filas.
         }
     }
 

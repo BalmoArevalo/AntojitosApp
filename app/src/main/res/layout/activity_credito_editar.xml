@@ -45,10 +45,10 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/credito_editar_label_detalles"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                     android:layout_marginBottom="8dp"/>
                 <View
                     android:layout_width="match_parent"
@@ -64,8 +64,8 @@
                     android:id="@+id/tvCreditoEditarIdCredito"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:paddingBottom="8dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:paddingBottom="4dp"
                     tools:text="1"/>
 
                 <TextView
@@ -76,8 +76,8 @@
                     android:id="@+id/tvCreditoEditarIdFactura"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:paddingBottom="8dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:paddingBottom="4dp"
                     tools:text="101"/>
 
                 <TextView
@@ -88,8 +88,8 @@
                     android:id="@+id/tvCreditoEditarMontoAutorizado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:paddingBottom="8dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:paddingBottom="4dp"
                     tools:text="$100.00"/>
 
                 <TextView
@@ -100,8 +100,8 @@
                     android:id="@+id/tvCreditoEditarMontoPagado"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
-                    android:paddingBottom="8dp"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:paddingBottom="4dp"
                     tools:text="$25.00"/>
 
                 <TextView
@@ -112,7 +112,7 @@
                     android:id="@+id/tvCreditoEditarSaldoPendiente"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    style="@style/TextAppearance.AppCompat.Large"
                     android:paddingBottom="8dp"
                     tools:text="$75.00"/>
 
@@ -124,7 +124,7 @@
                     android:id="@+id/tvCreditoEditarEstadoCredito"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp"
+                    style="@style/TextAppearance.AppCompat.Body1"
                     android:paddingBottom="16dp"
                     tools:text="Activo"/>
 
@@ -142,14 +142,44 @@
                     android:focusable="false"
                     android:clickable="true"
                     android:inputType="date"
-                    android:layout_marginBottom="16dp"/>
-
+                    android:layout_marginBottom="8dp"/>
                 <Button
                     android:id="@+id/btnCreditoEditarActualizarFecha"
+                    style="@style/Widget.AppCompat.Button.Small"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/credito_editar_btn_actualizar_fecha"
+                    android:enabled="false"
+                    android:layout_marginBottom="24dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credito_editar_label_abonar"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                    android:layout_marginBottom="8dp"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="?android:attr/listDivider"
+                    android:layout_marginBottom="16dp"/>
+
+                <EditText
+                    android:id="@+id/editCreditoMontoAbonar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:hint="@string/credito_editar_hint_monto_abonar"
+                    android:inputType="numberDecimal"
+                    android:layout_marginBottom="8dp"/>
+
+                <Button
+                    android:id="@+id/btnCreditoRealizarAbono"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/credito_editar_btn_realizar_abono"
                     android:enabled="false"/>
+
             </LinearLayout>
         </ScrollView>
     </LinearLayout>
