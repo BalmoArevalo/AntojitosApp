@@ -44,24 +44,24 @@
     <string name="cliente_btn_consultar">Consultar Cliente</string>
     <string name="cliente_btn_editar">Editar Cliente</string>
     <string name="cliente_btn_eliminar">Eliminar Cliente</string>
-    <string name="cliente_consultar_title">Consultar Cliente</string>
-    <string name="cliente_hint_id">Ingrese ID del Cliente</string>
 
-    <string name="cliente_btn_buscar">Buscar</string>
-    <string name="cliente_nombre">Nombre </string>
-    <string name="cliente_apellido">Apellido </string>
-    <string name="cliente_telefono">Teléfono </string>
-    <string name="cliente_id">ID del Cliente </string>
-    <string name="cliente_usuario_id">ID del usuario </string>
-    <string name="project_name">Proyecto01_Antojitos</string>
+    <string name="title_consultar_cliente">Consultar Cliente</string>
+    <string name="title_informacion_cliente">Información del Cliente</string>
+    <string name="hint_seleccionar_cliente">Seleccionar Cliente</string>
+    <string name="label_id">ID cliente </string>
+    <string name="label_nombre">Nombre </string>
+    <string name="label_apellido">Apellido </string>
+    <string name="label_telefono">Teléfono </string>
+    <string name="title_nuevo_cliente">Nuevo Cliente</string>
+    <string name="btn_guardar">Guardar</string>
+    <string name="btn_limpiar">Limpiar</string>
+    <string name="title_editar_cliente">Editar Cliente</string>
+    <string name="switch_cliente_activo">Cliente Activo</string>
+    <string name="btn_guardar_cambios">Guardar Cambios</string>
+    <string name="title_eliminar_cliente">Eliminar Cliente</string>
+    <string name="btn_eliminar">Eliminar</string>
+    <string name="btn_cancelar">Cancelar</string>
 
-    <string name="cliente_crear_title">Crear Nuevo Cliente</string>
-    <string name="cliente_btn_guardar">Guardar</string>
-    <string name="cliente_btn_limpiar">Limpiar</string>
-
-    <string name="cliente_editar_title">Editar Cliente</string>
-
-    <string name="cliente_eliminar_title">Eliminar Cliente</string>
 
 
     <!--    Titulos de Repartidor-->
@@ -77,21 +77,19 @@
     <string name="producto_btn_consultar">Consultar Producto</string>
     <string name="producto_btn_editar">Editar Producto</string>
     <string name="producto_btn_eliminar">Eliminar Producto</string>
-
-    <string name="producto_btn_guardar">Guardar</string>
-    <string name="producto_btn_limpiar">Limpiar</string>
-    <string name="producto_crear_title">Crear Producto</string>
-
-    <string name="producto_consultar_title">Consultar Producto</string>
-    <string name="producto_btn_buscar">Buscar</string>
-    <string name="producto_id">ID Producto </string>
-    <string name="producto_categoria_id">ID Categoría </string>
-    <string name="producto_nombre">Nombre </string>
-    <string name="producto_descripcion">Descripción </string>
-
-    <string name="producto_editar_title">Editar Producto</string>
-
-    <string name="producto_eliminar_title">Eliminar Producto</string>
+    <string name="title_consultar_producto">Consultar Producto</string>
+    <string name="title_informacion_producto">Información del Producto</string>
+    <string name="hint_seleccionar_producto">Seleccionar Producto</string>
+    <string name="label_id_producto">ID Producto </string>
+    <string name="label_id_categoria">ID Categoría </string>
+    <string name="label_descripcion">Descripción </string>
+    <string name="title_crear_producto">Crear Nuevo Producto</string>
+    <string name="hint_categoria">Categoría</string>
+    <string name="btn_guardar_producto">Guardar Producto</string>
+    <string name="title_editar_producto">Editar Producto</string>
+    <string name="btn_producto_activo">Producto Activo</string>">
+    <string name="title_eliminar_producto">Eliminar Producto</string>
+    <string name="label_pregunta_eliminar">¿Está seguro de eliminar este producto?</string>
 
     <!--    Titulos de Categoría Producto-->
     <string name="categoria_producto_title">Gestión de Categorías de Producto</string>
@@ -163,21 +161,21 @@
     <string name="distrito_btn_editar">Editar Distrito</string>
     <string name="distrito_btn_eliminar">Eliminar Distrito</string>
 
-    <string name="distrito_crear_title">Crear Distrito</string>
-    <string name="distrito_id">ID Distrito</string>
+    <string name="title_crear_distrito">Crear Distrito</string>
+    <string name="title_consultar_distrito">Consultar Distrito</string>
+    <string name="title_editar_distrito">Editar Distrito</string>
+    <string name="title_eliminar_distrito">Eliminar Distrito</string>
 
-    <string name="distrito_btn_guardar">Guardar</string>
-    <string name="distrito_btn_limpiar">Limpiar</string>
+    <string name="hint_departamento">Departamento</string>
+    <string name="hint_municipio">Municipio</string>
+    <string name="hint_nombre_distrito">Nombre del Distrito</string>
+    <string name="hint_codigo_postal">Código Postal</string>
 
-    <string name="distrito_consultar_title">Consultar Distrito</string>
-    <string name="distrito_btn_buscar">Buscar</string>
-    <string name="distrito_departamento_id">ID Departamento </string>
-    <string name="distrito_municipio_id">ID Municipio </string>
-    <string name="distrito_nombre">Nombre </string>
-    <string name="distrito_codigo_postal">Código Postal </string>
+    <string name="hint_seleccionar_distrito">Seleccionar Distrito</string>
 
-    <string name="distrito_editar_title">Editar Distrito</string>
-    <string name="distrito_eliminar_title">Eliminar Distrito</string>
+    <string name="switch_distrito_activo">Cliente Activo</string>
+    <string name="label_detalle_distrito">Detalles del distrito</string>
+    <string name="label_detalle_ubicacion">Detalles del ubicación</string>
 
     <!--    Titulos de Datos Producto-->
     <string name="datos_producto_title">Gestión de Datos de Producto</string>

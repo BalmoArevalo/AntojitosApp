@@ -113,7 +113,7 @@ public class DistritoEditarActivity extends AppCompatActivity {
                     distrito.setActivoDistrito(cursor.getInt(cursor.getColumnIndexOrThrow("ACTIVO_DISTRITO")));
 
                     String nombreMostrar = distrito.getNombreDistrito() +
-                            (distrito.getActivoDistrito() == 1 ? "(Activo)" : " (Inactivo)");
+                            (distrito.getActivoDistrito() == 1 ? "✓" : " ❌");
                     nombresDistritos.add(nombreMostrar);
                     distritosMap.put(nombreMostrar, distrito);
                 }

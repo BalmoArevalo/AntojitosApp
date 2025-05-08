@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Eliminar Cliente"
+                android:text="@string/title_eliminar_cliente"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Seleccionar Cliente">
+                android:hint="@string/hint_seleccionar_cliente">
 
                 <AutoCompleteTextView
                     android:id="@+id/spinnerClientes"
@@ -80,7 +80,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Eliminar"
+                            android:text="@string/btn_eliminar"
                             android:layout_marginEnd="8dp"
                             app:backgroundTint="@android:color/holo_red_light"/>
 
@@ -89,7 +89,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Cancelar"
+                            android:text="@string/btn_cancelar"
                             style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
                     </LinearLayout>
                 </LinearLayout>

@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Editar Producto"
+                android:text="@string/title_editar_producto"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Seleccionar Producto">
+                android:hint="@string/hint_seleccionar_producto">
 
                 <AutoCompleteTextView
                     android:id="@+id/spinnerProducto"
@@ -50,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Categoría">
+                android:hint="@string/hint_categoria">
 
                 <AutoCompleteTextView
                     android:id="@+id/spinnerCategoria"
@@ -65,7 +65,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:hint="Nombre del Producto">
+                android:hint="@string/label_nombre">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtNombreProducto"
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:hint="Descripción">
+                android:hint="@string/label_descripcion">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtDescripcionProducto"
@@ -96,14 +96,14 @@
                 android:id="@+id/switchEstadoProducto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Producto Activo"
+                android:text="@string/btn_producto_activo"
                 android:layout_marginBottom="24dp"/>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnGuardarCambios"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Guardar Cambios"/>
+                android:text="@string/btn_guardar_cambios"/>
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
