@@ -1,14 +1,12 @@
 package sv.ues.fia.eisi.proyecto01_antojitos;
 
-import android.content.Intent;          // ↖︎ Necesario para los Intents
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;           // ↖︎ Para manejar options menu clicks
+import android.view.MenuItem;
 import android.view.View;
 
-import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -16,92 +14,139 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
+
+import java.util.List;
+import java.util.Map;
+
+import sv.ues.fia.eisi.proyecto01_antojitos.data.AuthRepository;
 import sv.ues.fia.eisi.proyecto01_antojitos.databinding.ActivityMainBinding;
-import sv.ues.fia.eisi.proyecto01_antojitos.ui.login.LoginActivity;  // ↖︎ Para saber quién está logueado
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.login.LoginActivity;
+import sv.ues.fia.eisi.proyecto01_antojitos.util.MenuPermUtils;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
 
+    // ------------------------------------------------------------------
+    // Ciclo de vida
+    // ------------------------------------------------------------------
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // 1) Forzar login si no hay usuario en sesión
-        if (LoginActivity.currentUser == null) {
-            Intent i = new Intent(this, LoginActivity.class);
-            // Limpia back stack para evitar regresar con “Atrás”
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
-            finish();
+        /* 1)  Verificar sesión */
+        AuthRepository auth = new AuthRepository(this);
+        if (!auth.isLoggedIn()) {
+            goToLogin();   // sale si no hay sesión
             return;
         }
 
-        // 2) Enlazar con layout usando ViewBinding
+        /* 2)  ViewBinding + Toolbar */
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        // Configurar la Toolbar
         setSupportActionBar(binding.appBarMain.toolbar);
 
-        // Botón flotante
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        /* 3)  FAB (placeholder) */
+        binding.appBarMain.fab.setOnClickListener(view ->
                 Snackbar.make(view, "Acción aún no definida", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null)
-                        .setAnchorView(R.id.fab).show();
-            }
-        });
+                        .setAnchorView(R.id.fab).show());
 
-        // Drawer + NavController
-        DrawerLayout drawer = binding.drawerLayout;
-        NavigationView navigationView = binding.navView;
+        /* 4)  Drawer + Navigation */
+        DrawerLayout drawer         = binding.drawerLayout;
+        NavigationView navigation   = binding.navView;
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home,
                 R.id.nav_cliente,
-                /* … todos tus destinos … */
+                R.id.nav_sucursal,
+                R.id.nav_repartidor,
+                R.id.nav_producto,
+                R.id.nav_categoria_producto,
+                R.id.nav_pedido,
+                R.id.nav_factura,
+                R.id.nav_credito,
+                R.id.nav_detalle_pedido,
+                R.id.nav_tipo_evento,
+                R.id.nav_direccion,
+                R.id.nav_departamento,
+                R.id.nav_municipio,
+                R.id.nav_distrito,
                 R.id.nav_datos_producto
         ).setOpenableLayout(drawer).build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
 
-        // 3) (Opcional) Ocultar/mostrar items del drawer según usuario
-        // Menu navMenu = navigationView.getMenu();
-        // String u = LoginActivity.currentUser;
-        // if (!u.equals("SU")) {
-        //     navMenu.findItem(R.id.nav_producto).setVisible(u.equals("CL")); // p.ej.
-        // }
+        NavController navController = Navigation.findNavController(
+                this, R.id.nav_host_fragment_content_main);
+
+        NavigationUI.setupActionBarWithNavController(
+                this, navController, mAppBarConfiguration);
+        NavigationUI.setupWithNavController(navigation, navController);
+
+        /* 5)  Mostrar/ocultar ítems según permisos */
+        aplicarPermisosDrawer(navigation.getMenu(),
+                auth.getPermisosActuales(),
+                MenuPermUtils.MENU_TO_PERM);
     }
 
+    // ------------------------------------------------------------------
+    //  Menú overflow
+    // ------------------------------------------------------------------
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflar tu menú que ahora incluye <item android:id="@+id/action_logout" …/>
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.main, menu);   // incluye action_logout
         return true;
     }
 
-    // 4) Manejar clic en “Cerrar sesión”
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_logout) {
-            // Limpiar sesión
-            LoginActivity.currentUser = null;
-            // Regresar al login, limpiando stack
-            Intent i = new Intent(this, LoginActivity.class);
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(i);
+            new AuthRepository(this).logout();
+            goToLogin();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    // ------------------------------------------------------------------
+    //  Navegación Up
+    // ------------------------------------------------------------------
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+        NavController nav = Navigation.findNavController(
+                this, R.id.nav_host_fragment_content_main);
+        return NavigationUI.navigateUp(nav, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    // ------------------------------------------------------------------
+    //  Helpers privados
+    // ------------------------------------------------------------------
+    private void goToLogin() {
+        Intent i = new Intent(this, LoginActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(i);
+        finish();
+    }
+
+    /** Muestra u oculta cada item del drawer según la lista de permisos. */
+    private void aplicarPermisosDrawer(Menu menu,
+                                       List<String> permisosUsuario,
+                                       Map<Integer, String> mapMenuPerm) {
+
+        boolean esAdmin = permisosUsuario.contains("todo_admin");
+
+        for (int i = 0; i < menu.size(); i++) {
+            MenuItem item     = menu.getItem(i);
+            String permisoReq = mapMenuPerm.get(item.getItemId());
+
+            boolean visible =
+                    permisoReq == null              // sin mapeo => visible siempre
+                            || esAdmin
+                            || permisosUsuario.contains(permisoReq);
+
+            item.setVisible(visible);
+        }
     }
 }

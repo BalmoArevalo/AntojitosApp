@@ -75,6 +75,7 @@ public class UsuarioDAO {
             u = mapCursor(c);
         }
         c.close();
+        db.close();
         return u;
     }
 

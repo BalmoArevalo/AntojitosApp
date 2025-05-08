@@ -54,6 +54,7 @@ public class AccesoUsuarioDAO {
             lista.add(c.getString(0));
         }
         c.close();
+        db.close();
         return lista;
     }
 
@@ -65,6 +66,7 @@ public class AccesoUsuarioDAO {
                 new String[]{idUsuario, idOpcion});
         boolean ok = c.moveToFirst();
         c.close();
+        db.close();
         return ok;
     }
 }

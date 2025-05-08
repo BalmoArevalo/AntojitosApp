@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.MainActivity;
+import sv.ues.fia.eisi.proyecto01_antojitos.data.AuthRepository;
 import sv.ues.fia.eisi.proyecto01_antojitos.databinding.ActivityLoginBinding;
 import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
 
@@ -59,8 +60,8 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        if (loginOK(usuario, clave)) {
-            currentUser = usuario;          // Sesión en memoria
+        AuthRepository auth = new AuthRepository(this);
+        if (auth.login(usuario, clave)) {          // ← guarda sesión en SharedPrefs
             goToMain();
         } else {
             Toast.makeText(this, "Credenciales inválidas", Toast.LENGTH_SHORT).show();
