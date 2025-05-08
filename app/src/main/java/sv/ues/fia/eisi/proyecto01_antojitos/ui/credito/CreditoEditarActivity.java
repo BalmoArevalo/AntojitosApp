@@ -159,11 +159,11 @@ public class CreditoEditarActivity extends AppCompatActivity {
 
         for (Credito c : listaCreditosParaSpinner) {
             try {
-                // Usar el string.xml para el formato si es posible, o mantener el formato directo.
-                // El string.xml credito_spinner_item_format usa $%.2f, Locale.US es buena idea para asegurar el punto decimal.
+                // Usar el strings.xml para el formato si es posible, o mantener el formato directo.
+                // El strings.xml credito_spinner_item_format usa $%.2f, Locale.US es buena idea para asegurar el punto decimal.
                 String saldoFormateado = String.format(Locale.US, "%.2f", c.getSaldoPendiente());
                 // String descripcion = getString(R.string.credito_spinner_item_format, c.getIdCredito(), c.getIdFactura(), c.getSaldoPendiente()); // Si el formato es %.2f
-                // Si el formato en string.xml es %s para el saldo ya formateado:
+                // Si el formato en strings.xml es %s para el saldo ya formateado:
                 String descripcion = String.format(Locale.getDefault(), "Crédito #%1$d (Fact: #%2$d) Saldo: $%3$s", c.getIdCredito(), c.getIdFactura(), saldoFormateado);
 
 
