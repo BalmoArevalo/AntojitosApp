@@ -3,6 +3,7 @@ package sv.ues.fia.eisi.proyecto01_antojitos.ui.credito; // Ajusta el paquete
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -167,75 +168,6 @@ public class CreditoViewModel extends AndroidViewModel {
     }
 
     /**
-     * Cancela un crédito (cambia su estado a "Cancelado").
-     * NOTA: Considera si esto debería afectar también el estado de la FACTURA asociada.
-     * Por ahora, solo cambia el estado del CREDITO.
-     * @param idCredito El ID del crédito a cancelar.
-     * @return true si la cancelación (actualización) fue exitosa, false en caso contrario.
-     */
-    public boolean cancelarCredito(int idCredito) {
-        Log.d(TAG, "Intentando cancelar Crédito ID: " + idCredito);
-        SQLiteDatabase db = null;
-        boolean exito = false;
-        String estadoCancelado = "Cancelado"; // O el string que definas para este estado
-
-        try {
-            db = dbHelper.getWritableDatabase();
-            CreditoDAO dao = new CreditoDAO(db);
-            Credito credito = dao.consultarPorId(idCredito); // Obtener crédito actual
-
-            if (credito != null) {
-                // Podrías añadir validaciones: ¿Se puede cancelar un crédito ya pagado?
-                if (estadoCancelado.equalsIgnoreCase(credito.getEstadoCredito())){
-                    Log.w(TAG,"El crédito ID " + idCredito + " ya estaba cancelado.");
-                    return true; // Considerar éxito si ya estaba cancelado
-                }
-
-                credito.setEstadoCredito(estadoCancelado); // Cambiar estado
-                // ¿Qué pasa con Monto Pagado y Saldo Pendiente al cancelar? ¿Se mantienen?
-                // Por ahora, solo cambiamos el estado.
-                int filas = dao.actualizar(credito);
-                exito = (filas > 0);
-
-                // --- LÓGICA ADICIONAL OPCIONAL ---
-                // ¿Debería cambiar el estado de la Factura asociada?
-                // Si se cancela el crédito, ¿la factura vuelve a "Pendiente"?
-                // Esto requiere FacturaDAO.
-                 /*
-                 if (exito) {
-                     FacturaDAO facturaDAO = new FacturaDAO(db); // Necesita la misma instancia de DB!
-                     Factura factura = facturaDAO.consultarPorId(credito.getIdFactura());
-                     if (factura != null) {
-                         factura.setEstadoFactura("Pendiente"); // O algún otro estado
-                         factura.setEsCredito(0); // ¿Se quita la marca de crédito?
-                         facturaDAO.actualizar(factura);
-                     }
-                 }
-                 */
-
-            } else {
-                Log.w(TAG, "No se encontró crédito con ID " + idCredito + " para cancelar.");
-                exito = false;
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Error al cancelar crédito ID " + idCredito, e);
-            exito = false;
-        } finally {
-            // No cerrar db
-        }
-        if(exito) {
-            Log.i(TAG, "Crédito ID " + idCredito + " cancelado exitosamente.");
-            // Recargar listas/datos
-            cargarTodosLosCreditos();
-            // Limpiar selección si era este
-            // if (creditoSeleccionado.getValue() != null && creditoSeleccionado.getValue().getIdCredito() == idCredito) {
-            //      creditoSeleccionado.postValue(null);
-            // }
-        }
-        return exito;
-    }
-
-    /**
      * Inserta un nuevo registro de crédito usando el DAO.
      * @param credito El objeto Credito a insertar.
      * @return El ID del nuevo crédito o -1 si falla.
@@ -260,6 +192,101 @@ public class CreditoViewModel extends AndroidViewModel {
             // cargarTodosLosCreditos();
         }
         return nuevoId;
+    }
+
+    /**
+     * Cancela un crédito (cambia su estado a "Cancelado") y actualiza la factura asociada.
+     * La factura vuelve a estado "Pendiente" y se marca como ES_CREDITO = 0.
+     * @param idCredito El ID del crédito a cancelar.
+     * @return true si AMBAS actualizaciones (Crédito y Factura) fueron exitosas, false en caso contrario.
+     */
+    public boolean cancelarCredito(int idCredito) {
+        Log.i(TAG, "Intentando cancelar Crédito ID: " + idCredito + " y actualizar Factura asociada.");
+        SQLiteDatabase db = null;
+        boolean exitoFinal = false;
+        String estadoCreditoCancelado = "Cancelado";
+        String estadoFacturaDestino = "Pendiente"; // Estado al que vuelve la factura
+        int esCreditoFacturaDestino = 0; // Ya no será crédito
+
+        try {
+            // *** INICIO TRANSACCIÓN (MUY RECOMENDADO) ***
+            db = dbHelper.getWritableDatabase();
+            db.beginTransaction();
+
+            CreditoDAO creditoDAO = new CreditoDAO(db);
+            FacturaDAO facturaDAO = new FacturaDAO(db); // Necesitamos DAO de Factura
+
+            Credito credito = creditoDAO.consultarPorId(idCredito); // Obtener crédito actual
+
+            if (credito != null) {
+                // Validar si ya está cancelado o pagado? (Opcional)
+                if (estadoCreditoCancelado.equalsIgnoreCase(credito.getEstadoCredito())){
+                    Log.w(TAG,"El crédito ID " + idCredito + " ya estaba cancelado.");
+                    db.endTransaction(); // Terminar transacción (sin marcar éxito)
+                    return true; // Considerar éxito si ya estaba cancelado
+                }
+                if ("Pagado".equalsIgnoreCase(credito.getEstadoCredito())){
+                    Log.w(TAG,"No se puede cancelar un crédito que ya está pagado (ID: " + idCredito + ").");
+                    Toast.makeText(getApplication(), "No se puede cancelar un crédito pagado.", Toast.LENGTH_SHORT).show(); // Mensaje a usuario
+                    db.endTransaction();
+                    return false;
+                }
+
+
+                // 1. Actualizar el Crédito
+                credito.setEstadoCredito(estadoCreditoCancelado);
+                // ¿Resetear montos? Depende de reglas de negocio, por ahora solo estado.
+                // credito.setMontoPagado(0);
+                // credito.setSaldoPendiente(credito.getMontoAutorizadoCredito());
+                int filasCredito = creditoDAO.actualizar(credito);
+
+                if (filasCredito > 0) {
+                    Log.i(TAG, "Crédito ID: " + idCredito + " actualizado a estado Cancelado.");
+                    // 2. Actualizar la Factura Asociada
+                    Factura factura = facturaDAO.consultarPorId(credito.getIdFactura());
+                    if (factura != null) {
+                        factura.setEsCredito(esCreditoFacturaDestino);
+                        factura.setEstadoFactura(estadoFacturaDestino);
+                        // ¿El tipo de pago vuelve a "Contado" o se queda como "Crédito"?
+                        // factura.setTipoPago("Contado"); // Opcional
+                        int filasFactura = facturaDAO.actualizar(factura);
+                        if (filasFactura > 0) {
+                            Log.i(TAG, "Factura ID: " + factura.getIdFactura() + " actualizada a ES_CREDITO=0 y Estado=Pendiente.");
+                            db.setTransactionSuccessful(); // *** MARCAR ÉXITO TRANSACCIÓN ***
+                            exitoFinal = true;
+                        } else {
+                            Log.e(TAG, "Error al actualizar la factura asociada (ID: " + factura.getIdFactura() + ") tras cancelar crédito.");
+                        }
+                    } else {
+                        Log.e(TAG, "No se encontró la factura asociada (ID: " + credito.getIdFactura() + ") para actualizar.");
+                    }
+                } else {
+                    Log.e(TAG, "Error al actualizar el estado del crédito ID: " + idCredito + " a Cancelado.");
+                }
+
+            } else {
+                Log.w(TAG, "No se encontró crédito con ID " + idCredito + " para cancelar.");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Excepción al cancelar crédito ID " + idCredito, e);
+            exitoFinal = false;
+        } finally {
+            if (db != null) {
+                db.endTransaction(); // Finalizar transacción (commit si setSuccessful, rollback si no)
+            }
+            // No cerrar conexión db aquí si dbHelper es compartido/gestionado.
+        }
+        if(exitoFinal) {
+            Log.i(TAG, "Proceso de cancelación para Crédito ID " + idCredito + " completado exitosamente.");
+            // Recargar listas/datos para reflejar cambios
+            cargarTodosLosCreditos();
+            // Limpiar selección si era este
+            if (creditoSeleccionado.getValue() != null && creditoSeleccionado.getValue().getIdCredito() == idCredito) {
+                creditoSeleccionado.postValue(null);
+            }
+            // Podría ser necesario notificar al FacturaViewModel para que recargue también
+        }
+        return exitoFinal;
     }
 
     @Override

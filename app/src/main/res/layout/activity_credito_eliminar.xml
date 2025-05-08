@@ -1,10 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.credito.CreditoEliminarActivity">
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".ui.credito.CreditoEliminarActivity"> <TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/credito_cancelar_title"
+    android:textAppearance="@style/TextAppearance.AppCompat.Large"
+    android:gravity="center"
+    android:layout_marginBottom="16dp"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/credito_cancelar_label_seleccionar"
+        android:labelFor="@+id/spinnerSeleccionarCreditoCancelar"/>
+    <Spinner
+        android:id="@+id/spinnerSeleccionarCreditoCancelar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:minHeight="48dp"/>
+
+    <ScrollView
+        android:id="@+id/scrollViewCreditoCancelar"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <LinearLayout
+            android:id="@+id/layoutDetallesCreditoCancelar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="8dp">
+            <TextView
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/credito_cancelar_label_detalles"
+            android:layout_marginBottom="8dp"/>
+            <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#CCCCCC" android:layout_marginBottom="16dp"/>
+
+            <TextView android:id="@+id/tvCancelarCreditoIdCredito" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="ID Crédito: 1"/>
+            <TextView android:id="@+id/tvCancelarCreditoIdFactura" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="ID Factura: 4"/>
+            <TextView android:id="@+id/tvCancelarCreditoMontoAutorizado" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Monto Autorizado: $40.00"/>
+            <TextView android:id="@+id/tvCancelarCreditoMontoPagado" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Monto Pagado: $10.00"/>
+            <TextView android:id="@+id/tvCancelarCreditoSaldoPendiente" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Saldo Pendiente: $30.00"/>
+            <TextView android:id="@+id/tvCancelarCreditoFechaLimite" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Fecha Límite: 2025-06-15"/>
+            <TextView android:id="@+id/tvCancelarCreditoEstado" android:paddingBottom="4dp" android:layout_width="match_parent" android:layout_height="wrap_content" tools:text="Estado Crédito: Activo"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btnConfirmarCancelacionCredito"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/credito_cancelar_btn_cancelar"
+        android:enabled="false"/>
+</LinearLayout>

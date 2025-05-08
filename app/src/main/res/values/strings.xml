@@ -393,5 +393,21 @@
     <string name="credito_editar_toast_ingrese_fecha">Ingrese la nueva fecha límite</string>
     <string name="credito_editar_no_creditos_activos">No hay créditos activos para editar.</string>
 
+    <!-- Eliminar Factura-->
+    <string name="credito_cancelar_title">Cancelar Crédito</string>
+    <string name="credito_cancelar_label_seleccionar">Seleccione Crédito Activo a Cancelar:</string>
+    <string name="credito_cancelar_label_detalles">--- Detalles del Crédito ---</string>
+    <string name="credito_cancelar_label_id_credito">ID Crédito:</string>
+    <string name="credito_cancelar_label_id_factura">ID Factura Asociada:</string>
+    <string name="credito_cancelar_label_monto_autorizado">Monto Autorizado:</string>
+    <string name="credito_cancelar_label_monto_pagado">Monto Pagado:</string>
+    <string name="credito_cancelar_label_saldo_pendiente">Saldo Pendiente:</string>
+    <string name="credito_cancelar_label_fecha_limite_editable">Fecha Límite Pago:</string> <string name="credito_cancelar_label_estado_credito">Estado Actual Crédito:</string>
+    <string name="credito_cancelar_btn_cancelar">Confirmar Cancelación</string>
+    <string name="credito_cancelar_toast_exito">Crédito ID %1$d Cancelado. Factura asociada actualizada.</string>
+    <string name="credito_cancelar_toast_error">Error al cancelar el crédito</string>
+    <string name="credito_cancelar_toast_no_seleccion">Seleccione un crédito para cancelar</string>
+    <string name="credito_cancelar_no_creditos_activos">No hay créditos activos para cancelar.</string>
+    <string name="credito_cancelar_toast_no_cancelable">Este crédito no se puede cancelar (posiblemente ya está Pagado).</string>
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
 </resources>
