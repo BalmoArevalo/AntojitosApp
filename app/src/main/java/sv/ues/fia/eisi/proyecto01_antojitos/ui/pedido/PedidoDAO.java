@@ -127,4 +127,27 @@ public class PedidoDAO {
         return lista;
     }
 
+    public List<Pedido> obtenerTodosIncluyendoInactivos() {
+        List<Pedido> lista = new ArrayList<>();
+        Cursor cursor = db.rawQuery("SELECT * FROM PEDIDO", null); // sin filtro de activo
+
+        if (cursor.moveToFirst()) {
+            do {
+                Pedido pedido = new Pedido();
+                pedido.setIdPedido(cursor.getInt(cursor.getColumnIndexOrThrow("ID_PEDIDO")));
+                pedido.setIdCliente(cursor.getInt(cursor.getColumnIndexOrThrow("ID_CLIENTE")));
+                pedido.setIdTipoEvento(cursor.getInt(cursor.getColumnIndexOrThrow("ID_TIPO_EVENTO")));
+                pedido.setIdRepartidor(cursor.getInt(cursor.getColumnIndexOrThrow("ID_REPARTIDOR")));
+                pedido.setIdSucursal(cursor.getInt(cursor.getColumnIndexOrThrow("ID_SUCURSAL")));
+                pedido.setFechaHoraPedido(cursor.getString(cursor.getColumnIndexOrThrow("FECHA_HORA_PEDIDO")));
+                pedido.setEstadoPedido(cursor.getString(cursor.getColumnIndexOrThrow("ESTADO_PEDIDO")));
+                pedido.setActivoPedido(cursor.getInt(cursor.getColumnIndexOrThrow("ACTIVO_PEDIDO")));
+                lista.add(pedido);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        return lista;
+    }
+
+
 }

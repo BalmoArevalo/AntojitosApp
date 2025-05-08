@@ -17,20 +17,11 @@
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"/>
 
-        <EditText
-            android:id="@+id/editTextIdBuscar"
+        <Spinner
+            android:id="@+id/spinnerPedidoBuscar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:inputType="number"
-            android:minHeight="48dp"
-            tools:ignore="SpeakableTextPresentCheck" />
-
-        <Button
-            android:id="@+id/btnBuscarPedido"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Buscar" />
+            android:layout_marginBottom="12dp" />
 
         <!-- Cliente -->
         <TextView
