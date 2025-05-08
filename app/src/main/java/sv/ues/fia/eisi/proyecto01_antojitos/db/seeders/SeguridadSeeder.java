@@ -38,7 +38,13 @@ public final class SeguridadSeeder {
                             "('cliente_eliminar',  'Eliminar Cliente',    4)," +
                             "('producto_consultar','Consultar Producto',  2)," +
                             "('reparto_consultar', 'Consultar Reparto',   2)," +
+                            "('factura_consultar','Consultar factura',2)," +
+                            "('pedido_consultar','Consultar pedido',2)," +
+                            "('direccion_crear', 'Crear dirección',   1)," +
                             "('todo_admin',        'Acceso total',        0);");
+
+
+
 
             /* ─────  ACCESOS USUARIO  ───── */
             // Superusuario
@@ -47,7 +53,10 @@ public final class SeguridadSeeder {
             // Cliente
             db.execSQL("INSERT OR REPLACE INTO ACCESOUSUARIO VALUES" +
                     "('cliente_consultar','CL')," +
-                    "('producto_consultar','CL');");
+                    "('factura_consultar','CL')," +
+                    "('pedido_consultar','CL')," +
+                    "('direccion_crear','CL')," +
+                     "('producto_consultar','CL');");
 
             // Repartidor
             db.execSQL("INSERT OR REPLACE INTO ACCESOUSUARIO VALUES" +
