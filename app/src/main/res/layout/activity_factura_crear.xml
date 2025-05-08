@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Crear Nueva Factura"
+        android:text="@string/factura_crear_title"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:gravity="center"
         android:layout_marginBottom="24dp"/>
@@ -19,24 +19,39 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pedido Asociado:"
-        android:labelFor="@+id/spinnerPedido"/>
+        android:text="@string/factura_crear_label_pedido"
+        android:labelFor="@+id/spinnerPedidoFactura"/>
     <Spinner
-        android:id="@+id/spinnerPedido"
+        android:id="@+id/spinnerPedidoFactura"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:minHeight="48dp"/> <TextView
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Fecha de Emisión:"
-    android:labelFor="@+id/editFechaEmision"/>
+        android:minHeight="48dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/factura_crear_label_monto_calculado"/>
+    <TextView
+        android:id="@+id/tvCalculadoMontoTotal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"
+        android:text="@string/factura_crear_monto_placeholder" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/factura_crear_label_fecha"
+        android:labelFor="@+id/editFechaEmisionFactura"/>
     <EditText
-        android:id="@+id/editFechaEmision"
+        android:id="@+id/editFechaEmisionFactura"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="Tocar para seleccionar fecha"
+        android:hint="@string/factura_crear_hint_fecha"
         android:focusable="false"
         android:clickable="true"
         android:inputType="date"
@@ -45,41 +60,31 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Monto Total ($):"
-        android:labelFor="@+id/editMontoTotal"/>
-    <EditText
-        android:id="@+id/editMontoTotal"
+        android:text="@string/factura_crear_label_tipo_pago"
+        android:labelFor="@+id/spinnerTipoPagoFactura"/>
+    <Spinner
+        android:id="@+id/spinnerTipoPagoFactura"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
-        android:hint="Ej: 25.50"
-        android:inputType="numberDecimal"
         android:minHeight="48dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tipo de Pago:"
-        android:labelFor="@+id/spinnerTipoPago"/>
-    <Spinner
-        android:id="@+id/spinnerTipoPago"
+        android:text="@string/factura_crear_label_estado_inicial"/>
+    <TextView
+        android:id="@+id/tvEstadoFacturaInicial"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp"
-        android:minHeight="48dp"/>
-
-    <CheckBox
-        android:id="@+id/checkPagado"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:textSize="16sp"
         android:layout_marginBottom="24dp"
-        android:text="Marcar si ya está pagada"
-        android:minHeight="48dp"/>
+        android:text="@string/factura_crear_estado_default" />
 
     <Button
         android:id="@+id/btnGuardarFactura"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar Factura"/>
-
+        android:text="@string/factura_crear_btn_guardar"
+        android:enabled="false"/>
 </LinearLayout>

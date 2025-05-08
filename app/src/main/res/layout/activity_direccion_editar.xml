@@ -1,112 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:fillViewport="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:padding="8dp">
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".ui.direccion.DireccionEditarActivity">
 
-        <!-- Cliente -->
         <TextView
-            android:text="Cliente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textStyle="bold"/>
-        <Spinner
-            android:id="@+id/spinnerCliente"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:text="@string/direccion_editar_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"/>
 
-        <!-- Dirección -->
         <TextView
-            android:text="Dirección"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textStyle="bold"/>
-        <Spinner
-            android:id="@+id/spinnerDireccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Dirección Específica -->
-        <TextView
-            android:text="Dirección específica"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textStyle="bold"/>
-        <EditText
-            android:id="@+id/editDireccionEspecifica"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ingrese la dirección específica"
-            android:inputType="text"/>
-
-        <!-- Descripción -->
-        <TextView
-            android:text="Descripción"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textStyle="bold"/>
-        <EditText
-            android:id="@+id/editDescripcionDireccion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Ingrese una descripción (opcional)"
-            android:inputType="text"/>
-
-        <!-- Departamento -->
-        <TextView
-            android:text="Departamento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textStyle="bold"/>
-        <Spinner
-            android:id="@+id/spinnerDepartamento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <!-- Municipio -->
-        <TextView
-            android:text="Municipio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textStyle="bold"/>
-        <Spinner
-            android:id="@+id/spinnerMunicipio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"/>
-
-        <!-- Distrito -->
-        <TextView
-            android:text="Distrito"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="12dp"
-            android:textStyle="bold"/>
-        <Spinner
-            android:id="@+id/spinnerDistrito"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:enabled="false"/>
-
-        <!-- Botón actualizar -->
-        <Button
-            android:id="@+id/btnActualizarDireccion"
-            android:text="Actualizar dirección"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:layout_gravity="center_horizontal"/>
+            android:text="@string/direccion_editar_label_cliente"
+            android:labelFor="@+id/spinnerEditarDireccionCliente"/>
+        <Spinner
+            android:id="@+id/spinnerEditarDireccionCliente"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:minHeight="48dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/direccion_editar_label_direccion"
+            android:labelFor="@+id/spinnerEditarDireccionSeleccion"/>
+        <Spinner
+            android:id="@+id/spinnerEditarDireccionSeleccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:minHeight="48dp"
+            android:enabled="false"/> <LinearLayout
+        android:id="@+id/layoutEditarDireccionCampos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/direccion_editar_label_departamento"
+            android:labelFor="@+id/spinnerEditarDireccionDepartamento"/>
+        <Spinner
+            android:id="@+id/spinnerEditarDireccionDepartamento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:minHeight="48dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/direccion_editar_label_municipio"
+            android:labelFor="@+id/spinnerEditarDireccionMunicipio"/>
+        <Spinner
+            android:id="@+id/spinnerEditarDireccionMunicipio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:minHeight="48dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/direccion_editar_label_distrito"
+            android:labelFor="@+id/spinnerEditarDireccionDistrito"/>
+        <Spinner
+            android:id="@+id/spinnerEditarDireccionDistrito"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:minHeight="48dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/direccion_editar_label_especifica"
+            android:labelFor="@+id/editEditarDireccionEspecifica"/>
+        <EditText
+            android:id="@+id/editEditarDireccionEspecifica"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/direccion_editar_hint_especifica"
+            android:inputType="textPostalAddress"
+            android:minHeight="48dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/direccion_editar_label_descripcion"
+            android:labelFor="@+id/editEditarDireccionDescripcion"/>
+        <EditText
+            android:id="@+id/editEditarDireccionDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="@string/direccion_editar_hint_descripcion"
+            android:inputType="textMultiLine"
+            android:minLines="2"
+            android:gravity="top|start"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/direccion_editar_label_activo"/>
+        <CheckBox
+            android:id="@+id/checkEditarDireccionActivo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="@string/direccion_editar_checkbox_activo"
+            android:minHeight="48dp"/>
+
+        <Button
+            android:id="@+id/btnActualizarDireccion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/direccion_editar_btn_actualizar"/>
+
+    </LinearLayout>
+
     </LinearLayout>
 </ScrollView>
