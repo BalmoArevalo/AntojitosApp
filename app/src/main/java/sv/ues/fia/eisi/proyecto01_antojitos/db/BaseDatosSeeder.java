@@ -9,6 +9,11 @@ public class BaseDatosSeeder {
         Log.i("BaseDatosSeeder", "Insertando datos iniciales...");
         // 1 - Deshabilitar temporalmente FK y limpiar tablas en orden inverso
         db.execSQL("PRAGMA foreign_keys=OFF;");
+
+        db.execSQL("DELETE FROM ACCESOUSUARIO;");
+        db.execSQL("DELETE FROM OPCIONCRUD;");
+        db.execSQL("DELETE FROM USUARIO;");
+
         db.execSQL("DELETE FROM DETALLEPEDIDO;");
         db.execSQL("DELETE FROM REPARTOPEDIDO;");
         db.execSQL("DELETE FROM DIRECCION;");
@@ -28,6 +33,42 @@ public class BaseDatosSeeder {
         // Resetear secuencias AUTOINCREMENT
         db.execSQL("DELETE FROM sqlite_sequence;");
         db.execSQL("PRAGMA foreign_keys=ON;");
+
+        db.execSQL("INSERT OR REPLACE INTO USUARIO(ID_USUARIO, NOM_USUARIO, CLAVE) VALUES " +
+                "('SU','superusuario','12345')," +
+                "('CL','cliente','123')," +
+                "('RP','repartidor','123')," +
+                "('SC','sucursal','123');");
+
+        // 2 - Datos para OPCIONCRUD
+        db.execSQL("INSERT OR REPLACE INTO OPCIONCRUD(ID_OPCION, DES_OPCION, NUM_CRUD) VALUES " +
+                "('cliente_crear',     'Crear Cliente',       1)," +
+                "('cliente_consultar', 'Consultar Cliente',   2)," +
+                "('cliente_editar',    'Editar Cliente',      3)," +
+                "('cliente_eliminar',  'Eliminar Cliente',    4)," +
+                "('producto_consultar','Consultar Producto',  2)," +   // solo lectura para clientes
+                "('reparto_consultar', 'Consultar Reparto',   2)," +
+                "('todo_admin',        'Acceso total',        0);");    // 0 = comodín para superusuario
+
+        // 3 - Datos para ACCESOUSUARIO
+        // -- Superusuario: una sola fila comodín
+        db  .execSQL("INSERT OR REPLACE INTO ACCESOUSUARIO(ID_OPCION, ID_USUARIO) VALUES " +
+                "('todo_admin','SU');");
+
+        // -- Cliente: solo lectura de productos y sus propios datos
+        db.execSQL("INSERT OR REPLACE INTO ACCESOUSUARIO(ID_OPCION, ID_USUARIO) VALUES " +
+                "('cliente_consultar','CL')," +
+                "('producto_consultar','CL');");
+
+        // -- Repartidor: puede consultar repartos
+        db.execSQL("INSERT OR REPLACE INTO ACCESOUSUARIO(ID_OPCION, ID_USUARIO) VALUES " +
+                "('reparto_consultar','RP');");
+
+        // -- Sucursal: ejemplo de permisos variados
+        db.execSQL("INSERT OR REPLACE INTO ACCESOUSUARIO(ID_OPCION, ID_USUARIO) VALUES " +
+                "('producto_consultar','SC')," +
+                "('cliente_consultar','SC');");
+
 
         // 2 - Datos para DEPARTAMENTO
         db.execSQL("INSERT OR REPLACE INTO DEPARTAMENTO(ID_DEPARTAMENTO,NOMBRE_DEPARTAMENTO, ACTIVO_DEPARTAMENTO) VALUES (1,'San Salvador', 1);");

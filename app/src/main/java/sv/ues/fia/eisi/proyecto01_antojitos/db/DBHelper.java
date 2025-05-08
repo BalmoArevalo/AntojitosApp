@@ -216,6 +216,31 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY (ID_DEPARTAMENTO, ID_MUNICIPIO, ID_DISTRITO) REFERENCES DISTRITO(ID_DEPARTAMENTO, ID_MUNICIPIO, ID_DISTRITO)"
                 + ");");
 
+        /* ======================  TABLAS DE SEGURIDAD  ====================== */
+
+        // 🔸 NUEVO  - tabla USUARIO
+        db.execSQL("CREATE TABLE USUARIO ("
+                + "ID_USUARIO TEXT PRIMARY KEY,"
+                + "NOM_USUARIO TEXT NOT NULL,"
+                + "CLAVE TEXT NOT NULL"
+                + ");");
+
+        // 🔸 NUEVO - tabla OPCIONCRUD
+        db.execSQL("CREATE TABLE OPCIONCRUD ("
+                + "ID_OPCION TEXT PRIMARY KEY,"
+                + "DES_OPCION TEXT NOT NULL,"
+                + "NUM_CRUD INTEGER NOT NULL"       // 1-Crear, 2-Consultar, 3-Editar, 4-Eliminar
+                + ");");
+
+        // 🔸 NUEVO - tabla ACCESOUSUARIO (FK a las dos anteriores)
+        db.execSQL("CREATE TABLE ACCESOUSUARIO ("
+                + "ID_OPCION TEXT NOT NULL,"
+                + "ID_USUARIO TEXT NOT NULL,"
+                + "PRIMARY KEY (ID_OPCION, ID_USUARIO),"
+                + "FOREIGN KEY (ID_OPCION) REFERENCES OPCIONCRUD(ID_OPCION),"
+                + "FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID_USUARIO)"
+                + ");");
+
         Log.i("DBHelper", "Tablas creadas.");
 
         // LLAMADA AL SEEDER (Después de crear tablas y triggers)
@@ -232,6 +257,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w("DBHelper", "Actualizando base de datos de la versión " + oldVersion + " a " + newVersion + ", se eliminarán los datos antiguos.");
         // eliminar tablas en orden inverso para evitar problemas de FK
+        db.execSQL("DROP TABLE IF EXISTS ACCESOUSUARIO;");   // 🔸 NUEVO
+        db.execSQL("DROP TABLE IF EXISTS OPCIONCRUD;");      // 🔸 NUEVO
+        db.execSQL("DROP TABLE IF EXISTS USUARIO;");         // 🔸 NUEVO
+
         db.execSQL("DROP TABLE IF EXISTS DETALLEPEDIDO;");
         db.execSQL("DROP TABLE IF EXISTS REPARTOPEDIDO;");
         db.execSQL("DROP TABLE IF EXISTS DIRECCION;");
