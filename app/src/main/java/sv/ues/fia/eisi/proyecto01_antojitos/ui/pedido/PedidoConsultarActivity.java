@@ -53,7 +53,7 @@ public class PedidoConsultarActivity extends AppCompatActivity {
     }
 
     private void cargarPedidosEnSpinner() {
-        listaPedidos = pedidoDAO.obtenerTodos(); // Filtra dentro del DAO si es necesario
+        listaPedidos = pedidoDAO.obtenerTodos();
 
         List<String> opciones = new ArrayList<>();
         for (Pedido p : listaPedidos) {
@@ -68,7 +68,7 @@ public class PedidoConsultarActivity extends AppCompatActivity {
     private void buscarPedidoSeleccionado() {
         int posicion = spinnerPedidos.getSelectedItemPosition();
         if (posicion == AdapterView.INVALID_POSITION || listaPedidos.isEmpty()) {
-            Toast.makeText(this, "Seleccione un pedido válido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.pedido_toast_seleccion_invalida), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -78,22 +78,24 @@ public class PedidoConsultarActivity extends AppCompatActivity {
         TipoEvento tipoEvento = tipoEventoDAO.consultarPorId(pedido.getIdTipoEvento());
         Sucursal sucursal = sucursalDAO.obtenerPorId(pedido.getIdSucursal());
 
-        String nombreSucursal = (sucursal != null) ? sucursal.getNombreSucursal() : "Desconocida";
-        String estadoActivo = (pedido.getActivoPedido() == 1) ? "Activo" : "Inactivo";
-        String nombreCliente = (cliente != null) ? cliente.getNombreCliente() : "Desconocido";
-        String nombreRepartidor = (repartidor != null) ? repartidor.getNombreRepartidor() : "Desconocido";
-        String nombreTipoEvento = (tipoEvento != null) ? tipoEvento.getNombreTipoEvento() : "Ninguno";
+        String nombreSucursal = (sucursal != null) ? sucursal.getNombreSucursal() : getString(R.string.pedido_nombre_sucursal_desconocida);
+        String estadoActivo = (pedido.getActivoPedido() == 1) ? getString(R.string.pedido_estado_activo) : getString(R.string.pedido_estado_inactivo);
+        String nombreCliente = (cliente != null) ? cliente.getNombreCliente() : getString(R.string.pedido_nombre_cliente_desconocido);
+        String nombreRepartidor = (repartidor != null) ? repartidor.getNombreRepartidor() : getString(R.string.pedido_nombre_repartidor_desconocido);
+        String nombreTipoEvento = (tipoEvento != null) ? tipoEvento.getNombreTipoEvento() : getString(R.string.pedido_nombre_tipo_evento_ninguno);
 
-        String resultado = "ID Pedido: " + pedido.getIdPedido() +
-                "\nID Cliente: " + pedido.getIdCliente() + " — " + nombreCliente +
-                "\nID Repartidor: " + pedido.getIdRepartidor() + " — " + nombreRepartidor +
-                "\nID Tipo Evento: " + pedido.getIdTipoEvento() + " — " + nombreTipoEvento +
-                "\nFecha/Hora: " + pedido.getFechaHoraPedido() +
-                "\nEstado: " + pedido.getEstadoPedido() +
-                "\nSucursal: " + pedido.getIdSucursal() + " — " + nombreSucursal +
-                "\nEstado del Pedido: " + estadoActivo;
+        String resultado = getString(
+                R.string.pedido_resultado_formato,
+                pedido.getIdPedido(),
+                pedido.getIdCliente(), nombreCliente,
+                pedido.getIdRepartidor(), nombreRepartidor,
+                pedido.getIdTipoEvento(), nombreTipoEvento,
+                pedido.getFechaHoraPedido(),
+                pedido.getEstadoPedido(),
+                pedido.getIdSucursal(), nombreSucursal,
+                estadoActivo
+        );
 
         tvResultado.setText(resultado);
     }
 }
-

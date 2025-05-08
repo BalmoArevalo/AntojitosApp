@@ -432,4 +432,103 @@
     <string name="credito_cancelar_confirmacion_mensaje">¿Está seguro de que desea cancelar el Crédito #%1$d? Esta acción no se puede deshacer y la factura asociada volverá a ser una factura normal pendiente.</string>
 
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
+
+    <!-- PANTALLAS BENITEZ - INICIO -->
+
+    <!-- PedidoConsultarActivity -->
+    <string name="pedido_seleccione_label">Seleccione un Pedido:</string>
+    <string name="pedido_btn_mostrar_datos">Mostrar Datos</string>
+    <string name="pedido_toast_seleccion_invalida">Seleccione un pedido válido</string>
+    <string name="pedido_nombre_sucursal_desconocida">Desconocida</string>
+    <string name="pedido_estado_activo">Activo</string>
+    <string name="pedido_estado_inactivo">Inactivo</string>
+    <string name="pedido_nombre_cliente_desconocido">Desconocido</string>
+    <string name="pedido_nombre_repartidor_desconocido">Desconocido</string>
+    <string name="pedido_nombre_tipo_evento_ninguno">Ninguno</string>
+    <string name="pedido_resultado_formato">
+    ID Pedido: %1$d\n
+    ID Cliente: %2$d — %3$s\n
+    ID Repartidor: %4$d — %5$s\n
+    ID Tipo Evento: %6$d — %7$s\n
+    Fecha/Hora: %8$s\n
+    Estado: %9$s\n
+    Sucursal: %10$d — %11$s\n
+    Estado del Pedido: %12$s
+    </string>
+
+    <!-- PedidoCrearActivity -->
+    <string name="pedido_crear_cliente_label">Cliente:</string>
+    <string name="pedido_crear_repartidor_label">Repartidor:</string>
+    <string name="pedido_crear_tipo_evento_label">Tipo de Evento:</string>
+    <string name="pedido_crear_fecha_hora_label">Fecha y Hora:</string>
+    <string name="pedido_crear_estado_label">Estado:</string>
+    <string name="pedido_crear_sucursal_label">Sucursal:</string>
+    <string name="pedido_crear_btn_guardar">Guardar Pedido</string>
+    <string name="pedido_crear_hint_fecha">dd/MM/yyyy HH:mm</string>
+
+    <string name="pedido_spinner_seleccione">Seleccione</string>
+    <string name="pedido_spinner_ninguno">Ninguno</string>
+    <string name="pedido_estado_pendiente">Pendiente</string>
+    <string name="pedido_estado_despachado">Despachado</string>
+    <string name="pedido_estado_entregado">Entregado</string>
+    <string name="pedido_estado_cancelado">Cancelado</string>
+
+    <string name="pedido_toast_campos_obligatorios">Completa los campos obligatorios</string>
+    <string name="pedido_toast_sucursal_requerida">Selecciona una sucursal</string>
+    <string name="pedido_toast_insertado_ok">Pedido creado (ID: %1$d)</string>
+    <string name="pedido_toast_insertado_error">Error al insertar pedido</string>
+
+    <!-- PedidoEditarActivity -->
+    <string name="pedido_editar_label_buscar">ID del Pedido a Editar:</string>
+    <string name="pedido_editar_label_cliente">Cliente:</string>
+    <string name="pedido_editar_label_repartidor">Repartidor:</string>
+    <string name="pedido_editar_label_evento">Tipo de Evento:</string>
+    <string name="pedido_editar_label_fecha">Fecha y Hora:</string>
+    <string name="pedido_editar_hint_fecha">dd/MM/yyyy HH:mm</string>
+    <string name="pedido_editar_label_estado">Estado:</string>
+    <string name="pedido_editar_label_sucursal">Sucursal:</string>
+    <string name="pedido_editar_switch_activo">¿Pedido Activo?</string>
+    <string name="pedido_editar_btn_guardar">Guardar Cambios</string>
+
+    <string name="pedido_editar_prefix">Pedido</string>
+    <string name="pedido_editar_sufijo_inactivo">(inactivo)</string>
+
+    <string name="pedido_editar_toast_actualizado">Pedido actualizado correctamente</string>
+    <string name="pedido_editar_toast_error">Error al actualizar</string>
+
+    <!-- PedidoEliminarActivity -->
+    <string name="pedido_eliminar_label_titulo">Seleccione el Pedido a Eliminar:</string>
+    <string name="pedido_eliminar_btn_buscar">Buscar Pedido</string>
+    <string name="pedido_eliminar_btn_eliminar">Eliminar Pedido</string>
+    <string name="pedido_eliminar_toast_seleccion_invalida">Seleccione un pedido válido</string>
+    <string name="pedido_eliminar_nombre_sucursal_desconocida">Desconocida</string>
+    <string name="pedido_eliminar_nombre_cliente_desconocido">Desconocido</string>
+    <string name="pedido_eliminar_nombre_repartidor_desconocido">Desconocido</string>
+    <string name="pedido_eliminar_nombre_evento_ninguno">Ninguno</string>
+    <string name="pedido_eliminar_estado_activo">Activo</string>
+    <string name="pedido_eliminar_estado_inactivo">Inactivo</string>
+
+    <string name="pedido_eliminar_resultado">
+    Pedido encontrado:\n
+    ID Pedido: %1$d\n
+    ID Cliente: %2$d — %3$s\n
+    ID Repartidor: %4$d — %5$s\n
+    ID Tipo Evento: %6$d — %7$s\n
+    ID Sucursal: %8$d — %9$s\n
+    Fecha/Hora: %10$s\n
+    Estado: %11$s\n
+    Activo: %12$s
+    </string>
+
+    <string name="pedido_eliminar_dialog_titulo">Confirmar eliminación</string>
+    <string name="pedido_eliminar_dialog_mensaje">¿Estás seguro de que deseas eliminar el pedido ID %1$d? Esta acción no se puede deshacer.</string>
+    <string name="pedido_eliminar_dialog_confirmar">Sí, eliminar</string>
+    <string name="pedido_eliminar_dialog_cancelar">Cancelar</string>
+
+    <string name="pedido_eliminar_resultado_ok">✅ Pedido eliminado correctamente</string>
+    <string name="pedido_eliminar_resultado_desactivado">⚠️ Pedido desactivado (asociado a detalle o reparto)</string>
+    <string name="pedido_eliminar_resultado_asociado">❌ No se puede eliminar: está asociado a una factura</string>
+    <string name="pedido_eliminar_resultado_error">❌ Error al intentar eliminar el pedido</string>
+
+
 </resources>

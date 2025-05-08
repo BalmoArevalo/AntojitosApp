@@ -32,7 +32,6 @@ public class PedidoCrearActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedido_crear);
 
-        // UI
         spinnerCliente = findViewById(R.id.spinnerCliente);
         spinnerTipoEvento = findViewById(R.id.spinnerTipoEvento);
         spinnerRepartidor = findViewById(R.id.spinnerRepartidor);
@@ -43,64 +42,60 @@ public class PedidoCrearActivity extends AppCompatActivity {
 
         calendario = Calendar.getInstance();
 
-        // Inicializar DB y DAO
         DBHelper dbHelper = new DBHelper(this);
         db = dbHelper.getWritableDatabase();
         pedidoDAO = new PedidoDAO(db);
 
-        // Cargar datos desde la base
         cargarSpinnersDesdeBD();
 
-        // Fecha y hora
         editTextFechaHora.setOnClickListener(v -> mostrarDateTimePicker());
 
-        // Guardar pedido
         btnGuardar.setOnClickListener(v -> guardarPedido());
     }
 
     private void cargarSpinnersDesdeBD() {
-        // Clientes
         ClienteDAO clienteDAO = new ClienteDAO(db);
         List<Cliente> listaClientes = clienteDAO.obtenerTodos();
         List<String> clientes = new ArrayList<>();
-        clientes.add("Seleccione");
+        clientes.add(getString(R.string.pedido_spinner_seleccione));
         for (Cliente c : listaClientes) {
             clientes.add(c.getIdCliente() + " - " + c.getNombreCliente());
         }
         spinnerCliente.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, clientes));
 
-        // Tipo de Evento
         TipoEventoDAO tipoEventoDAO = new TipoEventoDAO(db);
         List<TipoEvento> listaEventos = tipoEventoDAO.obtenerTodos();
         List<String> eventos = new ArrayList<>();
-        eventos.add("Ninguno");
+        eventos.add(getString(R.string.pedido_spinner_ninguno));
         for (TipoEvento t : listaEventos) {
             eventos.add(t.getIdTipoEvento() + " - " + t.getNombreTipoEvento());
         }
         spinnerTipoEvento.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, eventos));
 
-        // Repartidores
         RepartidorDAO repartidorDAO = new RepartidorDAO(db);
         List<Repartidor> listaRepartidores = repartidorDAO.obtenerTodos();
         List<String> repartidores = new ArrayList<>();
-        repartidores.add("Seleccione");
+        repartidores.add(getString(R.string.pedido_spinner_seleccione));
         for (Repartidor r : listaRepartidores) {
             repartidores.add(r.getIdRepartidor() + " - " + r.getNombreRepartidor() + " " + r.getApellidoRepartidor());
         }
         spinnerRepartidor.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, repartidores));
 
-        // Sucursales
         SucursalDAO sucursalDAO = new SucursalDAO(db);
         List<Sucursal> listaSucursales = sucursalDAO.obtenerTodos();
         List<String> sucursales = new ArrayList<>();
-        sucursales.add("Seleccione");
+        sucursales.add(getString(R.string.pedido_spinner_seleccione));
         for (Sucursal s : listaSucursales) {
             sucursales.add(s.getIdSucursal() + " - " + s.getNombreSucursal());
         }
         spinnerSucursal.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sucursales));
 
-        // Estados
-        List<String> estados = Arrays.asList("Pendiente", "Despachado", "Entregado", "Cancelado");
+        List<String> estados = Arrays.asList(
+                getString(R.string.pedido_estado_pendiente),
+                getString(R.string.pedido_estado_despachado),
+                getString(R.string.pedido_estado_entregado),
+                getString(R.string.pedido_estado_cancelado)
+        );
         spinnerEstado.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, estados));
     }
 
@@ -128,7 +123,12 @@ public class PedidoCrearActivity extends AppCompatActivity {
         if (spinnerCliente.getSelectedItemPosition() == 0 ||
                 spinnerRepartidor.getSelectedItemPosition() == 0 ||
                 editTextFechaHora.getText().toString().isEmpty()) {
-            Toast.makeText(this, "Completa los campos obligatorios", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.pedido_toast_campos_obligatorios), Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (spinnerSucursal.getSelectedItemPosition() == 0) {
+            Toast.makeText(this, getString(R.string.pedido_toast_sucursal_requerida), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -138,26 +138,20 @@ public class PedidoCrearActivity extends AppCompatActivity {
         pedido.setFechaHoraPedido(editTextFechaHora.getText().toString());
         pedido.setEstadoPedido(spinnerEstado.getSelectedItem().toString());
         pedido.setIdSucursal(extraerId(spinnerSucursal));
-        pedido.setActivoPedido(1); // Siempre activo al crearse
-
+        pedido.setActivoPedido(1);
 
         if (spinnerTipoEvento.getSelectedItemPosition() != 0) {
             pedido.setIdTipoEvento(extraerId(spinnerTipoEvento));
         } else {
-            pedido.setIdTipoEvento(0); // Opcional
-        }
-
-        if (spinnerSucursal.getSelectedItemPosition() == 0) {
-            Toast.makeText(this, "Selecciona una sucursal", Toast.LENGTH_SHORT).show();
-            return;
+            pedido.setIdTipoEvento(0);
         }
 
         long idInsertado = pedidoDAO.insertar(pedido);
         if (idInsertado > 0) {
-            Toast.makeText(this, "Pedido creado (ID: " + idInsertado + ")", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.pedido_toast_insertado_ok, idInsertado), Toast.LENGTH_LONG).show();
             limpiar();
         } else {
-            Toast.makeText(this, "Error al insertar pedido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.pedido_toast_insertado_error), Toast.LENGTH_SHORT).show();
         }
     }
 

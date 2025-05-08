@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="Seleccione el Pedido a Eliminar:"
+            android:text="@string/pedido_eliminar_label_titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp" />
@@ -25,7 +25,7 @@
             android:id="@+id/btnBuscarEliminar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Buscar Pedido" />
+            android:text="@string/pedido_eliminar_btn_buscar" />
 
         <TextView
             android:id="@+id/textViewResultadoEliminar"
@@ -40,7 +40,7 @@
             android:id="@+id/btnEliminar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Eliminar Pedido"
+            android:text="@string/pedido_eliminar_btn_eliminar"
             android:enabled="false"
             android:layout_marginTop="16dp" />
     </LinearLayout>
