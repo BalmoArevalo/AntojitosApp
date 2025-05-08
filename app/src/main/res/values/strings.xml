@@ -594,5 +594,48 @@
     <string name="detalle_pedido_eliminar_toast_error">Error al eliminar el detalle</string>
     <string name="detalle_pedido_eliminar_toast_error_pedido">Error al obtener el pedido</string>
 
+    <!-- CategoriaProductoConsultarActivity -->
+    <string name="categoria_producto_consultar_titulo">Categorías Disponibles</string>
+    <string name="categoria_producto_item_formato">ID: %1$d\nNombre: %2$s\nDescripción: %3$s\nDisponible ahora: %4$s\nHorario: %5$s - %6$s</string>
 
+    <!-- CategoriaProductoCrearActivity -->
+    <string name="categoria_producto_crear_titulo">Crear Categoría</string>
+    <string name="categoria_producto_hint_nombre">Nombre de la categoría</string>
+    <string name="categoria_producto_hint_descripcion">Descripción</string>
+    <string name="categoria_producto_hint_hora_desde">Hora disponible desde</string>
+    <string name="categoria_producto_hint_hora_hasta">Hora disponible hasta</string>
+    <string name="categoria_producto_disponible_label">Disponible ahora: %1$s</string>
+    <string name="categoria_producto_disponible_default">Disponible ahora: -</string>
+    <string name="categoria_producto_disponible_error">Error al calcular disponibilidad</string>
+    <string name="categoria_producto_btn_guardar">Guardar</string>
+    <string name="categoria_producto_toast_campos_obligatorios">Todos los campos son obligatorios</string>
+    <string name="categoria_producto_toast_guardado_ok">Categoría guardada correctamente</string>
+    <string name="categoria_producto_toast_guardado_error">Error al guardar la categoría</string>
+
+    <!-- CategoriaProductoEditarActivity -->
+    <string name="categoria_producto_editar_titulo">Editar Categoría</string>
+    <string name="categoria_producto_editar_spinner_default">Seleccione</string>
+    <string name="categoria_producto_hint_nombre_editar">Nombre</string>
+    <string name="categoria_producto_hint_descripcion_editar">Descripción</string>
+    <string name="categoria_producto_hint_hora_desde_editar">Hora desde</string>
+    <string name="categoria_producto_hint_hora_hasta_editar">Hora hasta</string>
+    <string name="categoria_producto_switch_activo">Activo</string>
+    <string name="categoria_producto_btn_actualizar">Actualizar</string>
+    <string name="categoria_producto_toast_actualizar_ok">Categoría actualizada correctamente</string>
+    <string name="categoria_producto_toast_actualizar_error">Error al actualizar categoría</string>
+
+    <!-- CategoriaProductoEliminarActivity - Detalles -->
+    <string name="categoria_producto_eliminar_titulo">Eliminar Categoría</string>
+    <string name="categoria_producto_eliminar_spinner_default">Seleccione</string>
+    <string name="categoria_producto_eliminar_btn">Eliminar Categoría</string>
+    <string name="categoria_producto_eliminar_toast_seleccionar">Seleccione una categoría</string>
+    <string name="categoria_producto_eliminar_toast_ok">Categoría eliminada correctamente</string>
+    <string name="categoria_producto_eliminar_toast_error">Error al eliminar la categoría</string>
+
+    <string name="categoria_producto_eliminar_detalle_titulo">Detalles de la categoría:</string>
+    <string name="categoria_producto_eliminar_detalle_formato">
+        ID: %1$d\nNombre: %2$s\nDescripción: %3$s\nHorario: %4$s - %5$s\nDisponible ahora: %6$s
+    </string>
+
+    <!-- PANTALLAS BENITEZ - FIN -->
 </resources>
