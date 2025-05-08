@@ -320,6 +320,14 @@
     <string name="factura_editar_toast_fecha_requerida">Ingrese la fecha de emisión</string>
     <string name="factura_editar_toast_tipo_pago_requerido">Seleccione un tipo de pago</string>
     <string name="factura_editar_estado_destino_reactivada">Pendiente</string>
+    <string name="factura_editar_btn_pagar">Marcar como Pagada (Pago Completo)</string>
+    <string name="factura_editar_toast_pagada_exito">Factura ID %1$d marcada como Pagada</string>
+    <string name="factura_editar_toast_pagada_error">Error al marcar factura como Pagada</string>
+    <string name="factura_editar_toast_no_pagable">Esta factura no se puede marcar como pagada directamente (puede ser crédito o ya no está pendiente).</string>
+    <string name="factura_estado_pagada">Pagada</string>
+    <string name="factura_estado_pendiente">Pendiente</string>
+    <string name="respuesta_si">Sí</string>
+    <string name="respuesta_no">No</string>
 
     <!-- Eliminar Factura-->
     <string name="factura_eliminar_title">Anular Factura</string> <string name="factura_eliminar_label_seleccionar">Seleccione Factura a Anular:</string>
@@ -339,8 +347,8 @@
     <string name="factura_eliminar_toast_ya_anulada">Esta factura ya está anulada.</string>
     <string name="factura_eliminar_no_facturas_disponibles">No hay facturas disponibles para anular.</string>
 
-    <!-- Titulos de Factura-->
-    <!-- Crear Factura-->
+    <!-- Titulos de Credito -->
+    <!-- Crear Credito -->
     <string name="credito_crear_title">Activar Crédito para Factura</string>
     <string name="credito_crear_label_seleccionar_factura">Seleccione Factura (Pendiente, Sin Crédito):</string>
     <string name="credito_crear_label_detalles_factura">--- Detalles de la Factura Seleccionada ---</string>
@@ -358,7 +366,7 @@
     <string name="credito_crear_no_facturas_disponibles">No hay facturas elegibles para activar crédito.</string>
     <string name="credito_crear_estado_credito_inicial">Activo</string> <string name="factura_estado_en_credito">En Crédito</string> <string name="factura_tipo_pago_credito">Crédito</string>
 
-    <!-- Consultar Factura-->
+    <!-- Consultar Credito-->
     <string name="credito_consultar_title">Consultar Detalles de Crédito</string>
     <string name="credito_consultar_label_seleccionar_factura">Seleccione Factura a Crédito:</string>
     <string name="credito_consultar_label_detalles">--- Detalles del Crédito Asociado ---</string>
@@ -374,7 +382,7 @@
     <string name="credito_consultar_toast_no_credito">No se encontró información de crédito para la factura seleccionada.</string>
     <string name="credito_consultar_no_facturas_con_credito">No hay facturas marcadas a crédito.</string>
 
-    <!-- Editar Factura-->
+    <!-- Editar Credito-->
     <string name="credito_editar_title">Editar Fecha Límite de Crédito</string>
     <string name="credito_editar_label_seleccionar_credito">Seleccione Crédito Activo a Editar:</string>
     <string name="credito_editar_label_detalles">--- Detalles del Crédito ---</string>
@@ -393,7 +401,7 @@
     <string name="credito_editar_toast_ingrese_fecha">Ingrese la nueva fecha límite</string>
     <string name="credito_editar_no_creditos_activos">No hay créditos activos para editar.</string>
 
-    <!-- Eliminar Factura-->
+    <!-- Eliminar Credito-->
     <string name="credito_cancelar_title">Cancelar Crédito</string>
     <string name="credito_cancelar_label_seleccionar">Seleccione Crédito Activo a Cancelar:</string>
     <string name="credito_cancelar_label_detalles">--- Detalles del Crédito ---</string>

@@ -212,6 +212,65 @@ public class FacturaViewModel extends AndroidViewModel {
         Log.d(TAG,"LiveData facturaSeleccionada limpiado.");
     }
 
+    /**
+     * Marca una factura como pagada (cambia ESTADO_FACTURA a "Pagada").
+     * Solo debería llamarse para facturas no a crédito y pendientes.
+     * @param idFactura El ID de la factura a marcar como pagada.
+     * @return true si la actualización fue exitosa, false en caso contrario.
+     */
+    public boolean marcarComoPagada(int idFactura) {
+        Log.i(TAG, "Intentando marcar como pagada Factura ID: " + idFactura);
+        SQLiteDatabase db = null;
+        boolean exito = false;
+        String estadoPagada = "Pagada"; // O usa R.string.factura_estado_pagada
+
+        try {
+            db = dbHelper.getWritableDatabase();
+            FacturaDAO dao = new FacturaDAO(db);
+            Factura factura = dao.consultarPorId(idFactura); // Obtener factura actual
+
+            if (factura != null) {
+                // Validación (importante hacerla aquí o en la Activity)
+                if (factura.getEsCredito() == 1) {
+                    Log.w(TAG,"Intento de marcar como pagada una factura a crédito (ID: " + idFactura + "). Usar lógica de crédito.");
+                    // Considera lanzar una excepción o devolver un código de error específico
+                    return false;
+                }
+                if (!"Pendiente".equalsIgnoreCase(factura.getEstadoFactura())) { // O el estado que consideres pagable
+                    Log.w(TAG,"Intento de marcar como pagada una factura que no está pendiente (ID: " + idFactura + ", Estado: " + factura.getEstadoFactura() + ").");
+                    // Podrías permitir pagar si está "En Crédito" si se salda el crédito? No, esa es otra lógica.
+                    // Si ya está "Pagada", considerar éxito silencioso?
+                    if (estadoPagada.equalsIgnoreCase(factura.getEstadoFactura())) return true;
+                    return false; // No está en estado pagable
+                }
+
+                // Actualizar estado
+                factura.setEstadoFactura(estadoPagada);
+                // Podrías querer actualizar TIPO_PAGO si se pagó diferente? No en esta lógica simple.
+
+                int filasAfectadas = dao.actualizar(factura);
+                exito = (filasAfectadas > 0);
+
+            } else {
+                Log.w(TAG, "No se encontró factura con ID " + idFactura + " para marcar como pagada.");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error al marcar factura como pagada ID " + idFactura, e);
+            exito = false;
+        } finally {
+            // No cerrar db si helper es compartido
+        }
+        if (exito) {
+            Log.i(TAG, "Factura ID: " + idFactura + " marcada como Pagada.");
+            // Recargar datos para reflejar cambios
+            consultarFacturaPorId(idFactura); // Actualiza facturaSeleccionada
+            cargarTodasLasFacturas(); // Actualiza la lista
+            // La actualización del estado del Pedido asociado debería ocurrir
+            // vía trigger (si lo reactivas) o llamando a lógica de Pedido aquí.
+        }
+        return exito;
+    }
+
 
     @Override
     protected void onCleared() {

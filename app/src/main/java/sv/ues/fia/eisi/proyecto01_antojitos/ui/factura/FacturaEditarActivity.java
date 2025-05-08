@@ -34,7 +34,11 @@ import sv.ues.fia.eisi.proyecto01_antojitos.ui.factura.Factura;
 public class FacturaEditarActivity extends AppCompatActivity {
 
     private static final String TAG = "FacturaEditarActivity";
-    private static final String ESTADO_ANULADA = "Anulada";
+    // Constantes de Estado (Leer desde Strings idealmente)
+    private static final String ESTADO_ANULADA = "Anulada"; // Considerar R.string.factura_estado_anulada
+    private static final String ESTADO_PAGADA = "Pagada";   // Considerar R.string.factura_estado_pagada
+    private static final String ESTADO_EN_CREDITO = "En Crédito"; // Considerar R.string.factura_estado_en_credito
+    private static final String ESTADO_PENDIENTE = "Pendiente"; // Considerar R.string.factura_estado_pendiente
 
     // --- UI Components ---
     private Spinner spinnerSeleccionarFactura;
@@ -44,12 +48,14 @@ public class FacturaEditarActivity extends AppCompatActivity {
     private Spinner spinnerTipoPago;
     private Button btnActualizarFactura;
     private Button btnReactivarFactura;
+    private Button btnMarcarComoPagadaFactura; // Nuevo Botón
 
     // --- Data ---
     private FacturaViewModel facturaViewModel;
     private List<Factura> listaDeTodasLasFacturas = new ArrayList<>();
     private Factura facturaSeleccionadaActual;
-    private List<String> tiposPagoEditables = Arrays.asList("Contado", "Transferencia", "Cheque", "Otro", "Bitcoin", "Tarjeta", "Efectivo"); // Tipos de pago permitidos
+    // Lista de tipos de pago que se permiten seleccionar al editar
+    private List<String> tiposPagoEditables = Arrays.asList("Contado", "Transferencia", "Cheque", "Otro", "Bitcoin", "Tarjeta", "Efectivo"); //Considerar leer de R.array
     private Calendar calendario = Calendar.getInstance();
 
     @Override
@@ -60,7 +66,26 @@ public class FacturaEditarActivity extends AppCompatActivity {
 
         facturaViewModel = new ViewModelProvider(this).get(FacturaViewModel.class);
 
-        // Inicializar Vistas
+        inicializarVistas();
+        ocultarYDeshabilitarTodo(); // Estado inicial UI
+        cargarSpinnerTipoPagoEditables();
+        configurarListeners();
+
+        // Observador para la lista de todas las facturas
+        facturaViewModel.getListaFacturas().observe(this, facturas -> {
+            Log.d(TAG, "LiveData listaFacturas actualizado. Facturas: " + (facturas != null ? facturas.size() : "null"));
+            if (facturas != null) {
+                listaDeTodasLasFacturas = facturas;
+                cargarSpinnerFacturas();
+            }
+        });
+
+        // Carga inicial
+        Log.d(TAG, "Solicitando carga de todas las facturas...");
+        facturaViewModel.cargarTodasLasFacturas();
+    }
+
+    private void inicializarVistas() {
         spinnerSeleccionarFactura = findViewById(R.id.spinnerSeleccionarFacturaEditar);
         layoutCamposEditables = findViewById(R.id.layoutFacturaEditarCampos);
         tvIdFactura = findViewById(R.id.tvFacturaEditarIdFactura);
@@ -72,83 +97,51 @@ public class FacturaEditarActivity extends AppCompatActivity {
         tvEsCredito = findViewById(R.id.tvFacturaEditarEsCredito);
         btnActualizarFactura = findViewById(R.id.btnActualizarFacturaEditar);
         btnReactivarFactura = findViewById(R.id.btnReactivarFactura);
+        btnMarcarComoPagadaFactura = findViewById(R.id.btnMarcarComoPagadaFactura); // Inicializar nuevo botón
+        Log.d(TAG,"Vistas inicializadas.");
+    }
 
-        // Configurar estado inicial
-        ocultarYDeshabilitarTodo();
-        cargarSpinnerTipoPagoEditables();
-
-        // Configurar DatePicker para Fecha de Emisión
-        editFechaEmision.setOnClickListener(v -> {
-            if(editFechaEmision.isEnabled()) mostrarDatePickerDialog();
-        });
-
-        // Listeners para los botones
-        btnActualizarFactura.setOnClickListener(v -> intentarActualizarFactura());
-        btnReactivarFactura.setOnClickListener(v -> intentarReactivarFactura());
-
-        // Observador para la lista de todas las facturas (para el spinner de selección)
-        facturaViewModel.getListaFacturas().observe(this, facturas -> {
-            Log.d(TAG, "LiveData listaFacturas actualizado. Facturas: " + (facturas != null ? facturas.size() : "null"));
-            if (facturas != null) {
-                listaDeTodasLasFacturas = facturas; // Guardar lista completa
-                cargarSpinnerFacturas(); // Poblar spinner cuando lleguen los datos
-            }
-        });
-
-        // Solicitar la carga inicial de todas las facturas
-        Log.d(TAG, "Solicitando carga de todas las facturas...");
-        facturaViewModel.cargarTodasLasFacturas();
-
+    private void configurarListeners() {
         // Listener para el spinner de selección de factura
         spinnerSeleccionarFactura.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ocultarYDeshabilitarTodo(); // Resetear UI al cambiar selección
                 if (position > 0 && (position - 1) < listaDeTodasLasFacturas.size()) {
-                    // Selección válida
                     facturaSeleccionadaActual = listaDeTodasLasFacturas.get(position - 1);
-                    Log.d(TAG, "Factura seleccionada ID: " + facturaSeleccionadaActual.getIdFactura() + ", Estado: " + facturaSeleccionadaActual.getEstadoFactura());
-                    poblarCampos(facturaSeleccionadaActual); // Mostrar datos
-                    layoutCamposEditables.setVisibility(View.VISIBLE); // Mostrar sección de campos
-
-                    // Lógica Condicional para Botones y Edición
-                    if (ESTADO_ANULADA.equalsIgnoreCase(facturaSeleccionadaActual.getEstadoFactura())) {
-                        habilitarCamposParaEdicion(false); // Deshabilitar campos
-                        btnActualizarFactura.setVisibility(View.GONE); // Ocultar Actualizar
-                        btnReactivarFactura.setVisibility(View.VISIBLE); // Mostrar Reactivar
-                        btnReactivarFactura.setEnabled(true); // Habilitar Reactivar
-                    } else {
-                        // No está Anulada: Habilitar edición, mostrar Actualizar, ocultar Reactivar
-                        habilitarCamposParaEdicion(true); // Habilitar Fecha y Tipo Pago
-                        btnActualizarFactura.setVisibility(View.VISIBLE); // Mostrar Actualizar
-                        btnActualizarFactura.setEnabled(true); // Habilitar Actualizar
-                        btnReactivarFactura.setVisibility(View.GONE); // Ocultar Reactivar
-                        // Considera añadir lógica extra aquí si no se puede editar si está "Pagada" o "En Crédito"
-                        // if ("Pagada".equalsIgnoreCase(facturaSeleccionadaActual.getEstadoFactura()) || ...) {
-                        //     habilitarCamposParaEdicion(false);
-                        //     btnActualizarFactura.setEnabled(false);
-                        // }
-                    }
-                } else {
-                    // Placeholder seleccionado
-                    ocultarYDeshabilitarTodo();
+                    Log.d(TAG, "Factura seleccionada ID: " + facturaSeleccionadaActual.getIdFactura() + ", Estado: " + facturaSeleccionadaActual.getEstadoFactura() + ", EsCredito: " + facturaSeleccionadaActual.getEsCredito());
+                    poblarCampos(facturaSeleccionadaActual);
+                    layoutCamposEditables.setVisibility(View.VISIBLE);
+                    configurarVisibilidadBotonesYEdicion(); // Decide qué mostrar/habilitar
                 }
             }
             @Override public void onNothingSelected(AdapterView<?> parent) {
                 ocultarYDeshabilitarTodo();
             }
         });
+
+        // Listener para Fecha Emisión
+        editFechaEmision.setOnClickListener(v -> {
+            if(editFechaEmision.isEnabled()) mostrarDatePickerDialog();
+        });
+
+        // Listeners para los botones de acción
+        btnActualizarFactura.setOnClickListener(v -> intentarActualizarFactura());
+        btnReactivarFactura.setOnClickListener(v -> intentarReactivarFactura());
+        btnMarcarComoPagadaFactura.setOnClickListener(v -> intentarMarcarComoPagada()); // Listener nuevo botón
+
+        Log.d(TAG,"Listeners configurados.");
     }
 
     // Carga el spinner con todas las facturas existentes mostrando estado
     private void cargarSpinnerFacturas() {
         List<String> descripcionesFacturas = new ArrayList<>();
-        descripcionesFacturas.add(getString(R.string.placeholder_seleccione));
+        descripcionesFacturas.add(getString(R.string.placeholder_seleccione)); // Usar string resource
 
         for (Factura f : listaDeTodasLasFacturas) {
             descripcionesFacturas.add(String.format(Locale.getDefault(), "Factura #%d (Pedido #%d) - %s",
                     f.getIdFactura(), f.getIdPedido(), f.getEstadoFactura()));
         }
-
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, descripcionesFacturas);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -184,7 +177,7 @@ public class FacturaEditarActivity extends AppCompatActivity {
         tvIdPedido.setText(String.valueOf(factura.getIdPedido()));
         tvMontoTotal.setText(String.format(Locale.US, "$%.2f", factura.getMontoTotal()));
         tvEstadoFactura.setText(factura.getEstadoFactura());
-        tvEsCredito.setText(factura.getEsCredito() == 1 ? getString(R.string.factura_consultar_s_valor_si) : getString(R.string.factura_consultar_s_valor_no));
+        tvEsCredito.setText(factura.getEsCredito() == 1 ? getString(R.string.respuesta_si) : getString(R.string.respuesta_no)); // Usar strings genéricos
 
         // Campos editables (establecer valor inicial)
         editFechaEmision.setText(factura.getFechaEmision());
@@ -210,7 +203,7 @@ public class FacturaEditarActivity extends AppCompatActivity {
         spinnerTipoPago.setSelection(spinnerPosition);
     }
 
-    // DatePicker (sin cambios)
+    // Muestra DatePicker
     private void mostrarDatePickerDialog() {
         DatePickerDialog.OnDateSetListener dateSetListener = (view, year, month, dayOfMonth) -> {
             calendario.set(Calendar.YEAR, year);
@@ -218,12 +211,12 @@ public class FacturaEditarActivity extends AppCompatActivity {
             calendario.set(Calendar.DAY_OF_MONTH, dayOfMonth);
             actualizarEditTextFecha();
         };
-
         new DatePickerDialog(this, dateSetListener,
                 calendario.get(Calendar.YEAR),
                 calendario.get(Calendar.MONTH),
                 calendario.get(Calendar.DAY_OF_MONTH)).show();
     }
+    // Actualiza EditText de Fecha
     private void actualizarEditTextFecha() {
         String formato = "yyyy-MM-dd";
         SimpleDateFormat sdf = new SimpleDateFormat(formato, Locale.getDefault());
@@ -234,15 +227,72 @@ public class FacturaEditarActivity extends AppCompatActivity {
     private void habilitarCamposParaEdicion(boolean habilitar) {
         editFechaEmision.setEnabled(habilitar);
         spinnerTipoPago.setEnabled(habilitar);
+        Log.d(TAG, "Campos editables habilitados: " + habilitar);
     }
 
-    // Resetea la UI a su estado inicial
-    private void ocultarYDeshabilitarTodo() {
-        layoutCamposEditables.setVisibility(View.GONE);
+    // Configura visibilidad de botones y campos según estado de factura
+    private void configurarVisibilidadBotonesYEdicion() {
+        if (facturaSeleccionadaActual == null) {
+            ocultarYDeshabilitarTodo();
+            return;
+        }
+
+        String estado = facturaSeleccionadaActual.getEstadoFactura();
+        boolean esCredito = facturaSeleccionadaActual.getEsCredito() == 1;
+
+        // Resetear visibilidad y estado de todos los botones de acción primero
         btnActualizarFactura.setVisibility(View.GONE);
-        btnReactivarFactura.setVisibility(View.GONE);
         btnActualizarFactura.setEnabled(false);
+        btnReactivarFactura.setVisibility(View.GONE);
         btnReactivarFactura.setEnabled(false);
+        btnMarcarComoPagadaFactura.setVisibility(View.GONE);
+        btnMarcarComoPagadaFactura.setEnabled(false);
+
+        if (ESTADO_ANULADA.equalsIgnoreCase(estado)) {
+            habilitarCamposParaEdicion(false);
+            btnReactivarFactura.setVisibility(View.VISIBLE);
+            btnReactivarFactura.setEnabled(true);
+        } else if (ESTADO_PENDIENTE.equalsIgnoreCase(estado)) {
+            habilitarCamposParaEdicion(true); // Fecha y tipo de pago son editables
+            btnActualizarFactura.setVisibility(View.VISIBLE);
+            btnActualizarFactura.setEnabled(true);
+
+            if (!esCredito) { // Si está PENDIENTE y NO ES CRÉDITO, se puede pagar
+                btnMarcarComoPagadaFactura.setVisibility(View.VISIBLE);
+                btnMarcarComoPagadaFactura.setEnabled(true);
+            }
+        } else if (ESTADO_EN_CREDITO.equalsIgnoreCase(estado)) {
+            // Si está "En Crédito", solo se permite editar Fecha/TipoPago.
+            // No se puede pagar directamente aquí (se maneja en módulo de créditos).
+            habilitarCamposParaEdicion(true);
+            btnActualizarFactura.setVisibility(View.VISIBLE);
+            btnActualizarFactura.setEnabled(true);
+        } else if (ESTADO_PAGADA.equalsIgnoreCase(estado)) {
+            // Si está Pagada, no se puede editar, ni reactivar, ni pagar de nuevo.
+            habilitarCamposParaEdicion(false);
+        } else {
+            // Estado desconocido, deshabilitar todo y ocultar campos
+            ocultarYDeshabilitarTodo();
+            Log.w(TAG, "Estado de factura desconocido: " + estado);
+        }
+    }
+
+
+    // Resetea la UI
+    private void ocultarYDeshabilitarTodo() {
+        if (layoutCamposEditables != null) layoutCamposEditables.setVisibility(View.GONE);
+        if (btnActualizarFactura != null) {
+            btnActualizarFactura.setVisibility(View.GONE);
+            btnActualizarFactura.setEnabled(false);
+        }
+        if (btnReactivarFactura != null) {
+            btnReactivarFactura.setVisibility(View.GONE);
+            btnReactivarFactura.setEnabled(false);
+        }
+        if (btnMarcarComoPagadaFactura != null) { // Incluir nuevo botón
+            btnMarcarComoPagadaFactura.setVisibility(View.GONE);
+            btnMarcarComoPagadaFactura.setEnabled(false);
+        }
         facturaSeleccionadaActual = null;
         Log.d(TAG,"UI reseteada / campos ocultados.");
     }
@@ -254,9 +304,11 @@ public class FacturaEditarActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.factura_editar_toast_no_seleccion, Toast.LENGTH_SHORT).show();
             return;
         }
-        // No permitir actualizar si está anulada
-        if (ESTADO_ANULADA.equalsIgnoreCase(facturaSeleccionadaActual.getEstadoFactura())) {
-            Toast.makeText(this,"La factura está anulada, no se puede editar.", Toast.LENGTH_SHORT).show();
+        // Validar que no esté Anulada o Pagada antes de intentar actualizar
+        // (Aunque configurarVisibilidadBotonesYEdicion ya debería prevenir esto)
+        if (ESTADO_ANULADA.equalsIgnoreCase(facturaSeleccionadaActual.getEstadoFactura()) ||
+                ESTADO_PAGADA.equalsIgnoreCase(facturaSeleccionadaActual.getEstadoFactura())) {
+            Toast.makeText(this,"La factura está " + facturaSeleccionadaActual.getEstadoFactura() + ", no se puede editar.", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -266,19 +318,25 @@ public class FacturaEditarActivity extends AppCompatActivity {
             Toast.makeText(this, R.string.factura_editar_toast_fecha_requerida, Toast.LENGTH_SHORT).show();
             return;
         }
-
         int tipoPagoPos = spinnerTipoPago.getSelectedItemPosition();
-        if (tipoPagoPos <= 0) {
+        if (tipoPagoPos <= 0) { // El índice 0 es el placeholder "Seleccione"
             Toast.makeText(this, R.string.factura_editar_toast_tipo_pago_requerido, Toast.LENGTH_SHORT).show();
             return;
         }
-        String tipoPagoSeleccionado = tiposPagoEditables.get(tipoPagoPos - 1);
+        String tipoPagoSeleccionado = tiposPagoEditables.get(tipoPagoPos - 1); // -1 por el placeholder
 
         // --- Crear Objeto Actualizado ---
-        Factura facturaActualizada = facturaSeleccionadaActual; // Usar el objeto cargado como base
-        facturaActualizada.setFechaEmision(fechaEmision);       // Establecer nuevo valor
-        facturaActualizada.setTipoPago(tipoPagoSeleccionado);  // Establecer nuevo valor
-        // Los demás campos (ID_Factura, ID_Pedido, Monto, Estado, EsCredito) NO se modifican aquí
+        // Es importante crear una nueva instancia o clonar para evitar modificar directamente
+        // el objeto en la lista que podría estar siendo usado por el adapter del spinner.
+        // Sin embargo, si el objeto facturaSeleccionadaActual se obtiene fresco del DAO cada vez
+        // o si el ViewModel maneja la inmutabilidad, podría ser menos problemático.
+        // Por seguridad y buenas prácticas con LiveData, es mejor enviar un objeto "limpio"
+        // o asegurar que el ViewModel maneje la actualización de forma correcta.
+        // En este caso, estamos modificando el objeto que ya tenemos y lo pasamos.
+        Factura facturaActualizada = facturaSeleccionadaActual; // Se modifica la instancia actual
+        facturaActualizada.setFechaEmision(fechaEmision);
+        facturaActualizada.setTipoPago(tipoPagoSeleccionado);
+        // Los demás campos (ID, PedidoID, Monto, Estado, EsCredito) se mantienen.
 
         Log.d(TAG, "Objeto Factura a actualizar: " + facturaActualizada.toString());
 
@@ -290,8 +348,12 @@ public class FacturaEditarActivity extends AppCompatActivity {
             Toast.makeText(this,
                     String.format(getString(R.string.factura_editar_toast_exito), facturaActualizada.getIdFactura()),
                     Toast.LENGTH_SHORT).show();
-            setResult(Activity.RESULT_OK);
-            finish(); // Cerrar al éxito
+            setResult(Activity.RESULT_OK); // Informar éxito a actividad anterior si es necesario
+            // Refrescar datos y resetear UI
+            facturaViewModel.cargarTodasLasFacturas();
+            ocultarYDeshabilitarTodo();
+            spinnerSeleccionarFactura.setSelection(0); // Resetear spinner
+            // Opcional: finish();
         } else {
             Toast.makeText(this, R.string.factura_editar_toast_error, Toast.LENGTH_LONG).show();
         }
@@ -312,8 +374,8 @@ public class FacturaEditarActivity extends AppCompatActivity {
         Log.i(TAG, "Solicitando reactivación para Factura ID: " + facturaSeleccionadaActual.getIdFactura());
 
         Factura facturaParaReactivar = facturaSeleccionadaActual;
-        // Cambiar estado a "Pendiente" (o el estado por defecto definido)
-        facturaParaReactivar.setEstadoFactura(getString(R.string.factura_editar_estado_destino_reactivada));
+        // Cambiar estado a "Pendiente"
+        facturaParaReactivar.setEstadoFactura(getString(R.string.factura_editar_estado_destino_reactivada)); //Debería ser ESTADO_PENDIENTE
 
         boolean exito = facturaViewModel.actualizarFactura(facturaParaReactivar);
 
@@ -322,12 +384,51 @@ public class FacturaEditarActivity extends AppCompatActivity {
                     String.format(getString(R.string.factura_editar_toast_reactivada), facturaSeleccionadaActual.getIdFactura()),
                     Toast.LENGTH_SHORT).show();
             // Refrescar lista del spinner y ocultar/resetear detalles
-            facturaViewModel.cargarTodasLasFacturas(); // Para que el observer actualice el spinner
+            facturaViewModel.cargarTodasLasFacturas();
             ocultarYDeshabilitarTodo();
-            spinnerSeleccionarFactura.setSelection(0); // Volver al placeholder
-            // finish(); // Opcional: cerrar actividad
+            spinnerSeleccionarFactura.setSelection(0);
+            // Opcional: finish();
         } else {
             Toast.makeText(this, R.string.factura_editar_toast_error_reactivar, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // NUEVO MÉTODO: Lógica para el botón "Marcar como Pagada"
+    private void intentarMarcarComoPagada() {
+        if (facturaSeleccionadaActual == null) {
+            Toast.makeText(this, R.string.factura_editar_toast_no_seleccion, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Doble validación (aunque configurarVisibilidadBotonesYEdicion ya debería manejarlo)
+        if (facturaSeleccionadaActual.getEsCredito() == 1 ||
+                !ESTADO_PENDIENTE.equalsIgnoreCase(facturaSeleccionadaActual.getEstadoFactura())) {
+            Toast.makeText(this, R.string.factura_editar_toast_no_pagable, Toast.LENGTH_LONG).show();
+            Log.w(TAG, "Intento de marcar como pagada una factura no elegible. ID: " + facturaSeleccionadaActual.getIdFactura() +
+                    ", EsCredito: " + facturaSeleccionadaActual.getEsCredito() +
+                    ", Estado: " + facturaSeleccionadaActual.getEstadoFactura());
+            return;
+        }
+
+        Log.i(TAG, "Intentando marcar como pagada Factura ID: " + facturaSeleccionadaActual.getIdFactura());
+
+        boolean exito = facturaViewModel.marcarComoPagada(facturaSeleccionadaActual.getIdFactura());
+
+        if (exito) {
+            Toast.makeText(this,
+                    String.format(getString(R.string.factura_editar_toast_pagada_exito), facturaSeleccionadaActual.getIdFactura()),
+                    Toast.LENGTH_SHORT).show();
+
+            // La factura se habrá actualizado. Refrescar la lista del spinner y resetear la UI.
+            facturaViewModel.cargarTodasLasFacturas(); // Para actualizar el spinner
+            ocultarYDeshabilitarTodo(); // Oculta los detalles y deshabilita botones
+            spinnerSeleccionarFactura.setSelection(0); // Resetea la selección del spinner
+
+            // Opcionalmente, podrías querer finalizar la actividad si la acción es terminal.
+            // setResult(Activity.RESULT_OK);
+            // finish();
+        } else {
+            Toast.makeText(this, R.string.factura_editar_toast_pagada_error, Toast.LENGTH_SHORT).show();
         }
     }
 }

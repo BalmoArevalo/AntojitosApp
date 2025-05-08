@@ -2,8 +2,9 @@ package sv.ues.fia.eisi.proyecto01_antojitos.ui.credito; // Ajusta el paquete
 
 import android.app.Application;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException; // Importar para usar en catch específico
 import android.util.Log;
-import android.widget.Toast;
+import android.widget.Toast; // Importar Toast para mensajes internos (alternativa a devolver códigos)
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -15,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors; // API 24+ para filtrar
 
+import sv.ues.fia.eisi.proyecto01_antojitos.R; // Importar R para strings
 import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
 // Importar POJO y DAO
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.credito.Credito;
@@ -28,15 +30,19 @@ public class CreditoViewModel extends AndroidViewModel {
 
     private static final String TAG = "CreditoViewModel";
 
-    // LiveData para listas
+    // LiveData
     private final MutableLiveData<List<Credito>> listaTodosCreditos = new MutableLiveData<>();
     private final MutableLiveData<List<Credito>> listaCreditosActivos = new MutableLiveData<>();
-    // LiveData para un crédito específico (resultado de consulta)
     private final MutableLiveData<Credito> creditoSeleccionado = new MutableLiveData<>();
 
     private DBHelper dbHelper;
-    // Podríamos necesitar FacturaDAO para actualizar estado de Factura al cancelar crédito
-    // private FacturaDAO facturaDAO;
+
+    // Constantes para estados (mejor definirlas aquí que hardcodear)
+    private static final String ESTADO_CREDITO_ACTIVO = "Activo";
+    private static final String ESTADO_CREDITO_PAGADO = "Pagado";
+    private static final String ESTADO_CREDITO_CANCELADO = "Cancelado";
+    private static final String ESTADO_FACTURA_PENDIENTE = "Pendiente";
+    private static final String TIPO_PAGO_CONTADO = "Contado"; // O el default que uses
 
     public CreditoViewModel(@NonNull Application application) {
         super(application);
@@ -60,26 +66,27 @@ public class CreditoViewModel extends AndroidViewModel {
         try {
             db = dbHelper.getReadableDatabase();
             CreditoDAO dao = new CreditoDAO(db);
-            todos = dao.obtenerTodos(); // Asume que existe en DAO
+            todos = dao.obtenerTodos();
             listaTodosCreditos.postValue(todos);
 
             // Filtrar activos
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
                 List<Credito> activos = todos.stream()
-                        .filter(c -> "Activo".equalsIgnoreCase(c.getEstadoCredito())) // Ajusta el string si es diferente
+                        .filter(c -> ESTADO_CREDITO_ACTIVO.equalsIgnoreCase(c.getEstadoCredito()))
                         .collect(Collectors.toList());
                 listaCreditosActivos.postValue(activos);
                 Log.d(TAG, "Créditos cargados: Todos=" + todos.size() + ", Activos=" + activos.size());
             } else {
-                // Lógica de filtrado para API < 24
                 List<Credito> activos = new ArrayList<>();
-                for (Credito c : todos){
-                    if ("Activo".equalsIgnoreCase(c.getEstadoCredito())){
-                        activos.add(c);
+                if (todos != null) { // Chequeo null safety
+                    for (Credito c : todos){
+                        if (ESTADO_CREDITO_ACTIVO.equalsIgnoreCase(c.getEstadoCredito())){
+                            activos.add(c);
+                        }
                     }
                 }
                 listaCreditosActivos.postValue(activos);
-                Log.d(TAG, "Créditos cargados: Todos=" + todos.size() + ", Activos=" + activos.size());
+                Log.d(TAG, "Créditos cargados: Todos=" + (todos != null ? todos.size(): 0) + ", Activos=" + activos.size());
             }
 
         } catch (Exception e) {
@@ -87,7 +94,7 @@ public class CreditoViewModel extends AndroidViewModel {
             listaTodosCreditos.postValue(Collections.emptyList());
             listaCreditosActivos.postValue(Collections.emptyList());
         } finally {
-            // No cerrar db
+            // No cerrar db aquí si dbHelper es miembro y se reutiliza
         }
     }
 
@@ -99,13 +106,12 @@ public class CreditoViewModel extends AndroidViewModel {
         try {
             db = dbHelper.getReadableDatabase();
             CreditoDAO dao = new CreditoDAO(db);
-            credito = dao.consultarPorId(idCredito); // Usa método del DAO
+            credito = dao.consultarPorId(idCredito);
             creditoSeleccionado.postValue(credito);
         } catch (Exception e) {
             Log.e(TAG, "Error consultando crédito por ID " + idCredito, e);
             creditoSeleccionado.postValue(null);
         } finally {
-            // No cerrar db
             Log.d(TAG, "Consulta crédito ID " + idCredito + " finalizada. Encontrado: " + (credito != null));
         }
     }
@@ -118,54 +124,17 @@ public class CreditoViewModel extends AndroidViewModel {
         try {
             db = dbHelper.getReadableDatabase();
             CreditoDAO dao = new CreditoDAO(db);
-            credito = dao.consultarPorIdFactura(idFactura); // Usa método del DAO
+            credito = dao.consultarPorIdFactura(idFactura);
             creditoSeleccionado.postValue(credito);
         } catch (Exception e) {
             Log.e(TAG, "Error consultando crédito por ID Factura " + idFactura, e);
             creditoSeleccionado.postValue(null);
         } finally {
-            // No cerrar db
             Log.d(TAG, "Consulta crédito por ID Factura " + idFactura + " finalizada. Encontrado: " + (credito != null));
         }
     }
 
     // --- Métodos para Modificar Crédito ---
-
-    /**
-     * Actualiza la fecha límite de pago de un crédito.
-     * @param idCredito El ID del crédito a actualizar.
-     * @param nuevaFechaLimite La nueva fecha límite en formato YYYY-MM-DD.
-     * @return true si la actualización fue exitosa, false en caso contrario.
-     */
-    public boolean actualizarFechaLimite(int idCredito, String nuevaFechaLimite) {
-        Log.d(TAG, "Intentando actualizar fecha límite para Crédito ID: " + idCredito);
-        SQLiteDatabase db = null;
-        boolean exito = false;
-        try {
-            db = dbHelper.getWritableDatabase();
-            CreditoDAO dao = new CreditoDAO(db);
-            Credito credito = dao.consultarPorId(idCredito); // Obtener crédito actual
-            if (credito != null) {
-                credito.setFechaLimitePago(nuevaFechaLimite); // Cambiar solo la fecha
-                int filas = dao.actualizar(credito); // Llamar al actualizar del DAO
-                exito = (filas > 0);
-            } else {
-                Log.w(TAG, "No se encontró crédito con ID " + idCredito + " para actualizar fecha.");
-            }
-        } catch (Exception e) {
-            Log.e(TAG, "Error al actualizar fecha límite para crédito ID " + idCredito, e);
-            exito = false;
-        } finally {
-            // No cerrar db
-        }
-        if(exito) {
-            Log.i(TAG, "Fecha límite actualizada para crédito ID " + idCredito);
-            // Podrías recargar los datos si es necesario
-            // consultarCreditoPorId(idCredito);
-            // cargarTodosLosCreditos();
-        }
-        return exito;
-    }
 
     /**
      * Inserta un nuevo registro de crédito usando el DAO.
@@ -179,115 +148,167 @@ public class CreditoViewModel extends AndroidViewModel {
         try {
             db = dbHelper.getWritableDatabase();
             CreditoDAO dao = new CreditoDAO(db);
-            nuevoId = dao.insertar(credito); // Llama al insertar del DAO
+            nuevoId = dao.insertar(credito);
         } catch (Exception e) {
             Log.e(TAG, "Error insertando crédito VM", e);
             nuevoId = -1;
         } finally {
-            // No cerrar DB aquí
+            // No cerrar DB
         }
         if(nuevoId != -1) {
             Log.i(TAG,"Crédito insertado exitosamente con ID: " + nuevoId);
-            // Podrías recargar la lista de créditos si es necesario
-            // cargarTodosLosCreditos();
+            cargarTodosLosCreditos(); // Recargar listas
         }
         return nuevoId;
     }
 
+
+    /**
+     * Actualiza la fecha límite de pago de un crédito.
+     * @param idCredito El ID del crédito a actualizar.
+     * @param nuevaFechaLimite La nueva fecha límite en formato `"yyyy-MM-dd"`.
+     * @return true si la actualización fue exitosa, false en caso contrario.
+     */
+    public boolean actualizarFechaLimite(int idCredito, String nuevaFechaLimite) {
+        Log.d(TAG, "Intentando actualizar fecha límite para Crédito ID: " + idCredito);
+        SQLiteDatabase db = null;
+        boolean exito = false;
+        try {
+            db = dbHelper.getWritableDatabase();
+            CreditoDAO dao = new CreditoDAO(db);
+            Credito credito = dao.consultarPorId(idCredito);
+            if (credito != null) {
+                // Solo actualizar si la fecha es diferente para evitar updates innecesarios
+                if (!nuevaFechaLimite.equals(credito.getFechaLimitePago())) {
+                    credito.setFechaLimitePago(nuevaFechaLimite);
+                    int filas = dao.actualizar(credito); // Llama a actualizar del DAO
+                    exito = (filas > 0);
+                } else {
+                    Log.d(TAG,"La fecha límite proporcionada es la misma que la actual.");
+                    exito = true; // Considerar éxito si no hay cambio necesario
+                }
+            } else {
+                Log.w(TAG, "No se encontró crédito con ID " + idCredito + " para actualizar fecha.");
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "Error al actualizar fecha límite para crédito ID " + idCredito, e);
+            exito = false;
+        } finally {
+            // No cerrar db
+        }
+        if(exito) {
+            Log.i(TAG, "Fecha límite actualizada para crédito ID " + idCredito);
+            // Recargar el crédito específico o toda la lista
+            consultarCreditoPorId(idCredito);
+            cargarTodosLosCreditos();
+        }
+        return exito;
+    }
+
     /**
      * Cancela un crédito (cambia su estado a "Cancelado") y actualiza la factura asociada.
-     * La factura vuelve a estado "Pendiente" y se marca como ES_CREDITO = 0.
+     * **Nueva Validación:** No permite cancelar si el crédito ya está pagado o si tiene pagos realizados.
      * @param idCredito El ID del crédito a cancelar.
-     * @return true si AMBAS actualizaciones (Crédito y Factura) fueron exitosas, false en caso contrario.
+     * @return true si la cancelación (ambas actualizaciones) fue exitosa, false en caso contrario o si no se puede cancelar.
      */
     public boolean cancelarCredito(int idCredito) {
         Log.i(TAG, "Intentando cancelar Crédito ID: " + idCredito + " y actualizar Factura asociada.");
         SQLiteDatabase db = null;
         boolean exitoFinal = false;
-        String estadoCreditoCancelado = "Cancelado";
-        String estadoFacturaDestino = "Pendiente"; // Estado al que vuelve la factura
-        int esCreditoFacturaDestino = 0; // Ya no será crédito
+
+        // Obtener strings de estados desde resources para consistencia
+        String estadoCreditoCancelado = ESTADO_CREDITO_CANCELADO; // "Cancelado"
+        String estadoCreditoPagado = ESTADO_CREDITO_PAGADO; // "Pagado"
+        String estadoFacturaDestino = ESTADO_FACTURA_PENDIENTE; // "Pendiente"
+        int esCreditoFacturaDestino = 0; // 0 = No
+        String tipoPagoFacturaDestino = TIPO_PAGO_CONTADO; // Opcional: Cambiar tipo pago
 
         try {
-            // *** INICIO TRANSACCIÓN (MUY RECOMENDADO) ***
             db = dbHelper.getWritableDatabase();
-            db.beginTransaction();
+            db.beginTransaction(); // Iniciar transacción
 
             CreditoDAO creditoDAO = new CreditoDAO(db);
             FacturaDAO facturaDAO = new FacturaDAO(db); // Necesitamos DAO de Factura
 
-            Credito credito = creditoDAO.consultarPorId(idCredito); // Obtener crédito actual
+            Credito credito = creditoDAO.consultarPorId(idCredito);
 
-            if (credito != null) {
-                // Validar si ya está cancelado o pagado? (Opcional)
-                if (estadoCreditoCancelado.equalsIgnoreCase(credito.getEstadoCredito())){
-                    Log.w(TAG,"El crédito ID " + idCredito + " ya estaba cancelado.");
-                    db.endTransaction(); // Terminar transacción (sin marcar éxito)
-                    return true; // Considerar éxito si ya estaba cancelado
-                }
-                if ("Pagado".equalsIgnoreCase(credito.getEstadoCredito())){
-                    Log.w(TAG,"No se puede cancelar un crédito que ya está pagado (ID: " + idCredito + ").");
-                    Toast.makeText(getApplication(), "No se puede cancelar un crédito pagado.", Toast.LENGTH_SHORT).show(); // Mensaje a usuario
-                    db.endTransaction();
-                    return false;
-                }
+            // --- VALIDACIONES ---
+            if (credito == null) {
+                Log.w(TAG, "No se encontró crédito con ID " + idCredito + " para cancelar.");
+                db.endTransaction(); // Terminar transacción sin éxito
+                return false; // Salir si no existe
+            }
+            if (estadoCreditoCancelado.equalsIgnoreCase(credito.getEstadoCredito())){
+                Log.w(TAG,"El crédito ID " + idCredito + " ya estaba cancelado.");
+                db.endTransaction();
+                return true; // Ya estaba cancelado, considerar éxito
+            }
+            if (estadoCreditoPagado.equalsIgnoreCase(credito.getEstadoCredito())){
+                Log.w(TAG,"El crédito ID " + idCredito + " está pagado, no se puede cancelar.");
+                // Informar al usuario (idealmente desde la Activity basada en el retorno 'false')
+                // Toast.makeText(getApplication(), R.string.credito_cancelar_toast_no_cancelable_pagado, Toast.LENGTH_SHORT).show();
+                db.endTransaction();
+                return false; // No se puede cancelar si ya está pagado
+            }
+            // *** NUEVA VALIDACIÓN ***
+            if (credito.getMontoPagado() > 0) {
+                Log.w(TAG,"El crédito ID " + idCredito + " tiene pagos realizados (" + credito.getMontoPagado() + "), no se puede cancelar.");
+                // Toast.makeText(getApplication(), R.string.credito_cancelar_toast_no_cancelable_pagos, Toast.LENGTH_SHORT).show();
+                db.endTransaction();
+                return false; // No se puede cancelar si ya tiene pagos
+            }
 
+            // --- ACTUALIZACIONES (Si pasa validaciones) ---
+            // 1. Actualizar el Crédito
+            credito.setEstadoCredito(estadoCreditoCancelado);
+            int filasCredito = creditoDAO.actualizar(credito);
 
-                // 1. Actualizar el Crédito
-                credito.setEstadoCredito(estadoCreditoCancelado);
-                // ¿Resetear montos? Depende de reglas de negocio, por ahora solo estado.
-                // credito.setMontoPagado(0);
-                // credito.setSaldoPendiente(credito.getMontoAutorizadoCredito());
-                int filasCredito = creditoDAO.actualizar(credito);
-
-                if (filasCredito > 0) {
-                    Log.i(TAG, "Crédito ID: " + idCredito + " actualizado a estado Cancelado.");
-                    // 2. Actualizar la Factura Asociada
-                    Factura factura = facturaDAO.consultarPorId(credito.getIdFactura());
-                    if (factura != null) {
-                        factura.setEsCredito(esCreditoFacturaDestino);
-                        factura.setEstadoFactura(estadoFacturaDestino);
-                        // ¿El tipo de pago vuelve a "Contado" o se queda como "Crédito"?
-                        // factura.setTipoPago("Contado"); // Opcional
-                        int filasFactura = facturaDAO.actualizar(factura);
-                        if (filasFactura > 0) {
-                            Log.i(TAG, "Factura ID: " + factura.getIdFactura() + " actualizada a ES_CREDITO=0 y Estado=Pendiente.");
-                            db.setTransactionSuccessful(); // *** MARCAR ÉXITO TRANSACCIÓN ***
-                            exitoFinal = true;
-                        } else {
-                            Log.e(TAG, "Error al actualizar la factura asociada (ID: " + factura.getIdFactura() + ") tras cancelar crédito.");
-                        }
+            if (filasCredito > 0) {
+                Log.i(TAG, "Crédito ID: " + idCredito + " actualizado a estado Cancelado.");
+                // 2. Actualizar la Factura Asociada
+                Factura factura = facturaDAO.consultarPorId(credito.getIdFactura());
+                if (factura != null) {
+                    factura.setEsCredito(esCreditoFacturaDestino);
+                    factura.setEstadoFactura(estadoFacturaDestino);
+                    // Opcional: Cambiar tipo de pago si se revierte a no crédito
+                    // factura.setTipoPago(tipoPagoFacturaDestino);
+                    int filasFactura = facturaDAO.actualizar(factura);
+                    if (filasFactura > 0) {
+                        Log.i(TAG, "Factura ID: " + factura.getIdFactura() + " asociada actualizada (ES_CREDITO=0, Estado=Pendiente).");
+                        db.setTransactionSuccessful(); // Marcar éxito SOLO si AMBAS actualizaciones funcionan
+                        exitoFinal = true;
                     } else {
-                        Log.e(TAG, "No se encontró la factura asociada (ID: " + credito.getIdFactura() + ") para actualizar.");
+                        Log.e(TAG, "Error al actualizar la factura asociada (ID: " + factura.getIdFactura() + ") tras cancelar crédito.");
                     }
                 } else {
-                    Log.e(TAG, "Error al actualizar el estado del crédito ID: " + idCredito + " a Cancelado.");
+                    Log.e(TAG, "No se encontró la factura asociada (ID: " + credito.getIdFactura() + ") para actualizar.");
                 }
-
             } else {
-                Log.w(TAG, "No se encontró crédito con ID " + idCredito + " para cancelar.");
+                Log.e(TAG, "Error al actualizar el estado del crédito ID: " + idCredito + " a Cancelado.");
             }
+
         } catch (Exception e) {
             Log.e(TAG, "Excepción al cancelar crédito ID " + idCredito, e);
             exitoFinal = false;
         } finally {
             if (db != null) {
-                db.endTransaction(); // Finalizar transacción (commit si setSuccessful, rollback si no)
+                db.endTransaction(); // Finalizar transacción (Commit o Rollback)
             }
-            // No cerrar conexión db aquí si dbHelper es compartido/gestionado.
+            // No cerrar conexión dbHelper aquí
         }
         if(exitoFinal) {
             Log.i(TAG, "Proceso de cancelación para Crédito ID " + idCredito + " completado exitosamente.");
-            // Recargar listas/datos para reflejar cambios
-            cargarTodosLosCreditos();
-            // Limpiar selección si era este
+            cargarTodosLosCreditos(); // Recargar listas
+            // Limpiar selección actual
             if (creditoSeleccionado.getValue() != null && creditoSeleccionado.getValue().getIdCredito() == idCredito) {
                 creditoSeleccionado.postValue(null);
             }
-            // Podría ser necesario notificar al FacturaViewModel para que recargue también
+            // Considera notificar al FacturaViewModel si es necesario que él también refresque
+            // ((FacturaViewModel) // obtener instancia // ).cargarTodasLasFacturas();
         }
         return exitoFinal;
     }
+
 
     @Override
     protected void onCleared() {
