@@ -112,8 +112,8 @@ public class DistritoEditarActivity extends AppCompatActivity {
                     distrito.setCodigoPostal(cursor.getString(cursor.getColumnIndexOrThrow("CODIGO_POSTAL")));
                     distrito.setActivoDistrito(cursor.getInt(cursor.getColumnIndexOrThrow("ACTIVO_DISTRITO")));
 
-                    String nombreMostrar = distrito.getNombreDistrito() +
-                            (distrito.getActivoDistrito() == 1 ? "(Activo)" : " (Inactivo)");
+                    String nombreMostrar = distrito.getNombreDistrito() + "-" + distrito.getCodigoPostal() +
+                            (distrito.getActivoDistrito() == 1 ? " ✓" : " ❌");
                     nombresDistritos.add(nombreMostrar);
                     distritosMap.put(nombreMostrar, distrito);
                 }

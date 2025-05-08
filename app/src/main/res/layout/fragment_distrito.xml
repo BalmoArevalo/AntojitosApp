@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Gestión de Distritos"
+        android:text="@string/distrito_title"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -19,28 +19,28 @@
         android:id="@+id/btnCrearDistrito"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Crear Distrito"
+        android:text="@string/distrito_btn_crear"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnConsultarDistrito"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Consultar Distrito"
+        android:text="@string/distrito_btn_consultar"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnEditarDistrito"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Editar Distrito"
+        android:text="@string/distrito_btn_editar"
         android:layout_marginBottom="16dp"/>
 
     <Button
         android:id="@+id/btnEliminarDistrito"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Eliminar Distrito"
+        android:text="@string/distrito_btn_eliminar"
         android:layout_marginBottom="16dp"/>
 
 </LinearLayout>

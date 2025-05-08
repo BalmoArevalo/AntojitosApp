@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Consultar Producto"
+                android:text="@string/title_consultar_producto"
                 android:textAlignment="center"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
-                android:hint="Seleccionar Producto">
+                android:hint="@string/hint_seleccionar_producto">
 
                 <AutoCompleteTextView
                     android:id="@+id/spinnerProducto"
@@ -65,7 +65,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Información del Producto"
+                android:text="@string/title_informacion_producto"
                 android:textStyle="bold"
                 android:textSize="18sp"
                 android:layout_marginBottom="16dp"/>
@@ -89,7 +89,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ID Producto: "
+                        android:text="@string/label_id_producto"
                         android:textStyle="bold"/>
 
                     <TextView
@@ -118,7 +118,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="ID Categoría: "
+                        android:text="@string/label_id_categoria"
                         android:textStyle="bold"/>
 
                     <TextView
@@ -147,7 +147,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Nombre: "
+                        android:text="@string/label_nombre"
                         android:textStyle="bold"/>
 
                     <TextView
@@ -175,7 +175,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Descripción: "
+                        android:text="@string/label_descripcion"
                         android:textStyle="bold"/>
 
                     <TextView

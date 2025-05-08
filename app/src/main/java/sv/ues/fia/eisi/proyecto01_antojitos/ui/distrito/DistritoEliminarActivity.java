@@ -69,7 +69,6 @@ public class DistritoEliminarActivity extends AppCompatActivity {
         tvDepartamento = findViewById(R.id.tvDepartamento);
         tvMunicipio = findViewById(R.id.tvMunicipio);
         tvCodigoPostal = findViewById(R.id.tvCodigoPostal);
-        tvEstado = findViewById(R.id.tvEstado);
         btnDesactivar = findViewById(R.id.btnDesactivar);
         layoutDetalles = findViewById(R.id.layoutDetalles);
 
@@ -117,8 +116,8 @@ public class DistritoEliminarActivity extends AppCompatActivity {
                     distrito.setCodigoPostal(cursor.getString(cursor.getColumnIndexOrThrow("CODIGO_POSTAL")));
                     distrito.setActivoDistrito(cursor.getInt(cursor.getColumnIndexOrThrow("ACTIVO_DISTRITO")));
 
-                    nombresDistritos.add(distrito.getNombreDistrito());
-                    distritosMap.put(distrito.getNombreDistrito(), distrito);
+                    nombresDistritos.add(distrito.getNombreDistrito() + "-" + distrito.getCodigoPostal());
+                    distritosMap.put(nombresDistritos.get(nombresDistritos.size() - 1), distrito);
                 }
             }
 
