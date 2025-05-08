@@ -4,7 +4,9 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.*;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
@@ -12,26 +14,31 @@ import sv.ues.fia.eisi.proyecto01_antojitos.db.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.cliente.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.tipoEvento.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.repartidor.*;
-
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.sucursal.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class PedidoEditarActivity extends AppCompatActivity {
 
-    private EditText editTextIdBuscar, editTextFecha;
-    private Spinner spinnerCliente, spinnerRepartidor, spinnerEvento, spinnerEstado;
-    private Button btnBuscar, btnActualizar;
+    private Spinner spinnerPedidoBuscar, spinnerCliente, spinnerRepartidor, spinnerEvento, spinnerEstado, spinnerSucursal;
+    private EditText editTextFecha;
+    private Button btnActualizar;
+    private Switch switchActivo;
 
     private PedidoDAO pedidoDAO;
     private ClienteDAO clienteDAO;
     private RepartidorDAO repartidorDAO;
     private TipoEventoDAO tipoEventoDAO;
+    private SucursalDAO sucursalDAO;
 
+    private List<Pedido> pedidos;
     private List<Cliente> clientes;
     private List<Repartidor> repartidores;
     private List<TipoEvento> eventos;
+    private List<Sucursal> sucursales;
 
+    private Map<String, Pedido> pedidosMap = new HashMap<>();
     private Pedido pedidoActual;
     private Calendar calendar;
 
@@ -40,28 +47,53 @@ public class PedidoEditarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedido_editar);
 
-        editTextIdBuscar = findViewById(R.id.editTextIdBuscar);
-        editTextFecha = findViewById(R.id.editTextFecha);
+        // UI
+        spinnerPedidoBuscar = findViewById(R.id.spinnerPedidoBuscar);
         spinnerCliente = findViewById(R.id.spinnerCliente);
         spinnerRepartidor = findViewById(R.id.spinnerRepartidor);
         spinnerEvento = findViewById(R.id.spinnerEvento);
         spinnerEstado = findViewById(R.id.spinnerEstado);
-        btnBuscar = findViewById(R.id.btnBuscarPedido);
+        spinnerSucursal = findViewById(R.id.spinnerSucursal);
+        editTextFecha = findViewById(R.id.editTextFecha);
         btnActualizar = findViewById(R.id.btnActualizar);
+        switchActivo = findViewById(R.id.switchActivo);
 
         calendar = Calendar.getInstance();
 
+        // DB
         DBHelper dbHelper = new DBHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         pedidoDAO = new PedidoDAO(db);
         clienteDAO = new ClienteDAO(db);
         repartidorDAO = new RepartidorDAO(db);
         tipoEventoDAO = new TipoEventoDAO(db);
+        sucursalDAO = new SucursalDAO(db);
 
         cargarSpinners();
+        cargarPedidosEnSpinner();
+
+        spinnerPedidoBuscar.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (position == 0) {
+                    pedidoActual = null;
+                    btnActualizar.setEnabled(false);
+                    return;
+                }
+
+                String label = parent.getItemAtPosition(position).toString();
+                pedidoActual = pedidosMap.get(label);
+                if (pedidoActual != null) {
+                    mostrarDatosPedido(pedidoActual);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
 
         editTextFecha.setOnClickListener(v -> mostrarDateTimePicker());
-        btnBuscar.setOnClickListener(v -> buscarPedido());
         btnActualizar.setOnClickListener(v -> actualizarPedido());
     }
 
@@ -69,6 +101,7 @@ public class PedidoEditarActivity extends AppCompatActivity {
         clientes = clienteDAO.obtenerTodos();
         repartidores = repartidorDAO.obtenerTodos();
         eventos = tipoEventoDAO.obtenerTodos();
+        sucursales = sucursalDAO.obtenerTodos();
 
         List<String> clienteItems = new ArrayList<>();
         clienteItems.add("Seleccione");
@@ -90,10 +123,45 @@ public class PedidoEditarActivity extends AppCompatActivity {
 
         List<String> estados = Arrays.asList("Pendiente", "Despachado", "Entregado", "Cancelado");
 
+        List<String> sucursalItems = new ArrayList<>();
+        sucursalItems.add("Seleccione");
+        for (Sucursal s : sucursales) {
+            sucursalItems.add(s.getIdSucursal() + " - " + s.getNombreSucursal());
+        }
+
         spinnerCliente.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, clienteItems));
         spinnerRepartidor.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, repartidorItems));
         spinnerEvento.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, eventoItems));
         spinnerEstado.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, estados));
+        spinnerSucursal.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sucursalItems));
+    }
+
+    private void cargarPedidosEnSpinner() {
+        pedidos = pedidoDAO.obtenerTodosIncluyendoInactivos(); // usar metodo que obtenga todos
+        List<String> items = new ArrayList<>();
+        items.add("Seleccione");
+
+        for (Pedido p : pedidos) {
+            String label = "Pedido " + p.getIdPedido();
+            if (p.getActivoPedido() == 0) {
+                label += " (inactivo)";
+            }
+            items.add(label);
+            pedidosMap.put(label, p);
+        }
+
+        spinnerPedidoBuscar.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items));
+    }
+
+    private void mostrarDatosPedido(Pedido pedido) {
+        spinnerCliente.setSelection(obtenerIndicePorId(spinnerCliente, pedido.getIdCliente()));
+        spinnerRepartidor.setSelection(obtenerIndicePorId(spinnerRepartidor, pedido.getIdRepartidor()));
+        spinnerEvento.setSelection(obtenerIndicePorId(spinnerEvento, pedido.getIdTipoEvento()));
+        spinnerEstado.setSelection(obtenerIndiceTexto(spinnerEstado, pedido.getEstadoPedido()));
+        editTextFecha.setText(pedido.getFechaHoraPedido());
+        spinnerSucursal.setSelection(obtenerIndicePorId(spinnerSucursal, pedido.getIdSucursal()));
+        switchActivo.setChecked(pedido.getActivoPedido() == 1);
+        btnActualizar.setEnabled(true);
     }
 
     private void mostrarDateTimePicker() {
@@ -108,28 +176,6 @@ public class PedidoEditarActivity extends AppCompatActivity {
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    private void buscarPedido() {
-        String idStr = editTextIdBuscar.getText().toString().trim();
-        if (idStr.isEmpty()) {
-            Toast.makeText(this, "Ingrese un ID", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        int id = Integer.parseInt(idStr);
-        pedidoActual = pedidoDAO.consultarPorId(id);
-        if (pedidoActual != null) {
-            spinnerCliente.setSelection(obtenerIndicePorId(spinnerCliente, pedidoActual.getIdCliente()));
-            spinnerRepartidor.setSelection(obtenerIndicePorId(spinnerRepartidor, pedidoActual.getIdRepartidor()));
-            spinnerEvento.setSelection(obtenerIndicePorId(spinnerEvento, pedidoActual.getIdTipoEvento()));
-            spinnerEstado.setSelection(obtenerIndiceTexto(spinnerEstado, pedidoActual.getEstadoPedido()));
-            editTextFecha.setText(pedidoActual.getFechaHoraPedido());
-            btnActualizar.setEnabled(true);
-        } else {
-            Toast.makeText(this, "Pedido no encontrado", Toast.LENGTH_SHORT).show();
-            btnActualizar.setEnabled(false);
-        }
-    }
-
     private void actualizarPedido() {
         if (pedidoActual == null) return;
 
@@ -138,10 +184,16 @@ public class PedidoEditarActivity extends AppCompatActivity {
         pedidoActual.setIdTipoEvento(extraerId(spinnerEvento));
         pedidoActual.setEstadoPedido(spinnerEstado.getSelectedItem().toString());
         pedidoActual.setFechaHoraPedido(editTextFecha.getText().toString());
+        pedidoActual.setIdSucursal(extraerId(spinnerSucursal));
+        pedidoActual.setActivoPedido(switchActivo.isChecked() ? 1 : 0);
 
         int filas = pedidoDAO.actualizar(pedidoActual);
         if (filas > 0) {
             Toast.makeText(this, "Pedido actualizado correctamente", Toast.LENGTH_SHORT).show();
+            cargarPedidosEnSpinner(); // refrescar spinner
+            spinnerPedidoBuscar.setSelection(0); // opcional: volver a "Seleccione"
+            btnActualizar.setEnabled(false);
+            limpiarCampos(); // si quieres limpiar los campos
         } else {
             Toast.makeText(this, "Error al actualizar", Toast.LENGTH_SHORT).show();
         }
@@ -168,5 +220,15 @@ public class PedidoEditarActivity extends AppCompatActivity {
             if (spinner.getItemAtPosition(i).toString().equalsIgnoreCase(texto)) return i;
         }
         return 0;
+    }
+
+    private void limpiarCampos() {
+        spinnerCliente.setSelection(0);
+        spinnerRepartidor.setSelection(0);
+        spinnerEvento.setSelection(0);
+        spinnerEstado.setSelection(0);
+        spinnerSucursal.setSelection(0);
+        editTextFecha.setText("");
+        switchActivo.setChecked(false);
     }
 }

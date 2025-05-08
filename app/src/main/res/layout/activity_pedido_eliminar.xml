@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
@@ -11,19 +10,16 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="ID del Pedido a Eliminar:"
+            android:text="Seleccione el Pedido a Eliminar:"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp" />
 
-        <EditText
-            android:id="@+id/editTextIdEliminar"
+        <Spinner
+            android:id="@+id/spinnerEliminarPedidos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:inputType="number"
-            android:minHeight="48dp"
-            tools:ignore="SpeakableTextPresentCheck" />
+            android:layout_marginBottom="12dp" />
 
         <Button
             android:id="@+id/btnBuscarEliminar"

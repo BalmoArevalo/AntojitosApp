@@ -1,10 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.categoriaProducto.CategoriaProductoCrearActivity">
+    android:orientation="vertical"
+    android:padding="24dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Crear Categoría"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/editTextNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre de la categoría"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/editTextDescripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Descripción"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/editTextDesde"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Hora disponible desde"
+        android:focusable="false"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/editTextHasta"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Hora disponible hasta"
+        android:focusable="false"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/textViewDisponible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Disponible ahora: -"
+        android:textStyle="italic"
+        android:layout_marginTop="12dp"/>
+
+    <Button
+        android:id="@+id/btnGuardarCategoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Guardar"
+        android:layout_marginTop="24dp" />
+
+</LinearLayout>

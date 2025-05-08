@@ -108,4 +108,45 @@ public class ProductoDAO {
                 new String[]{String.valueOf(idProducto)}
         );
     }
+
+    public List<Producto> obtenerProductosPorSucursal(int idSucursal) {
+        List<Producto> productos = new ArrayList<>();
+        Cursor cursor = db.rawQuery(
+                "SELECT P.* FROM PRODUCTO P " +
+                        "INNER JOIN DATOSPRODUCTO DP ON P.ID_PRODUCTO = DP.ID_PRODUCTO " +
+                        "WHERE DP.ID_SUCURSAL = ? AND DP.STOCK > 0 AND DP.ACTIVO_DATOSPRODUCTO = 1",
+                new String[]{String.valueOf(idSucursal)}
+        );
+
+        if (cursor.moveToFirst()) {
+            do {
+                Producto producto = new Producto();
+                producto.setIdProducto(cursor.getInt(cursor.getColumnIndexOrThrow("ID_PRODUCTO")));
+                producto.setIdCategoriaProducto(cursor.getInt(cursor.getColumnIndexOrThrow("ID_CATEGORIAPRODUCTO")));
+                producto.setNombreProducto(cursor.getString(cursor.getColumnIndexOrThrow("NOMBRE_PRODUCTO")));
+                producto.setDescripcionProducto(cursor.getString(cursor.getColumnIndexOrThrow("DESCRIPCION_PRODUCTO")));
+                producto.setActivoProducto(cursor.getInt(cursor.getColumnIndexOrThrow("ACTIVO_PRODUCTO")));
+                productos.add(producto);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return productos;
+    }
+
+    public double obtenerPrecioProductoEnSucursal(int idProducto, int idSucursal) {
+        double precio = -1;
+        Cursor cursor = db.rawQuery(
+                "SELECT PRECIO_SUCURSAL_PRODUCTO FROM DATOSPRODUCTO " +
+                        "WHERE ID_PRODUCTO = ? AND ID_SUCURSAL = ?",
+                new String[]{String.valueOf(idProducto), String.valueOf(idSucursal)}
+        );
+
+        if (cursor.moveToFirst()) {
+            precio = cursor.getDouble(0);
+        }
+
+        cursor.close();
+        return precio;
+    }
 }

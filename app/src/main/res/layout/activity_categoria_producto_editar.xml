@@ -1,10 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.categoriaProducto.CategoriaProductoEditarActivity">
+    android:layout_height="match_parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editar Categoría"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp" />
+
+        <Spinner
+            android:id="@+id/spinnerCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/editTextNombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre"
+            android:layout_marginTop="12dp" />
+
+        <EditText
+            android:id="@+id/editTextDescripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descripción"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/editTextHoraDesde"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora desde"
+            android:focusable="false"
+            android:layout_marginTop="8dp" />
+
+        <EditText
+            android:id="@+id/editTextHoraHasta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Hora hasta"
+            android:focusable="false"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/textViewDisponible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Disponible ahora: -"
+            android:textStyle="italic"
+            android:layout_marginTop="12dp" />
+
+        <Switch
+            android:id="@+id/switchActivo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Activo"
+            android:layout_marginTop="16dp" />
+
+        <Button
+            android:id="@+id/btnActualizarCategoria"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Actualizar"
+            android:layout_marginTop="24dp" />
+    </LinearLayout>
+</ScrollView>

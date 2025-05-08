@@ -12,13 +12,14 @@ import sv.ues.fia.eisi.proyecto01_antojitos.db.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.cliente.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.tipoEvento.*;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.repartidor.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.sucursal.*;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class PedidoCrearActivity extends AppCompatActivity {
 
-    private Spinner spinnerCliente, spinnerTipoEvento, spinnerRepartidor, spinnerEstado;
+    private Spinner spinnerCliente, spinnerTipoEvento, spinnerRepartidor, spinnerEstado, spinnerSucursal;
     private EditText editTextFechaHora;
     private Button btnGuardar;
     private Calendar calendario;
@@ -36,6 +37,7 @@ public class PedidoCrearActivity extends AppCompatActivity {
         spinnerTipoEvento = findViewById(R.id.spinnerTipoEvento);
         spinnerRepartidor = findViewById(R.id.spinnerRepartidor);
         spinnerEstado = findViewById(R.id.spinnerEstado);
+        spinnerSucursal = findViewById(R.id.spinnerSucursal);
         editTextFechaHora = findViewById(R.id.editTextFechaHora);
         btnGuardar = findViewById(R.id.btnGuardarPedido);
 
@@ -87,6 +89,16 @@ public class PedidoCrearActivity extends AppCompatActivity {
         }
         spinnerRepartidor.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, repartidores));
 
+        // Sucursales
+        SucursalDAO sucursalDAO = new SucursalDAO(db);
+        List<Sucursal> listaSucursales = sucursalDAO.obtenerTodos();
+        List<String> sucursales = new ArrayList<>();
+        sucursales.add("Seleccione");
+        for (Sucursal s : listaSucursales) {
+            sucursales.add(s.getIdSucursal() + " - " + s.getNombreSucursal());
+        }
+        spinnerSucursal.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sucursales));
+
         // Estados
         List<String> estados = Arrays.asList("Pendiente", "Despachado", "Entregado", "Cancelado");
         spinnerEstado.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, estados));
@@ -125,11 +137,19 @@ public class PedidoCrearActivity extends AppCompatActivity {
         pedido.setIdRepartidor(extraerId(spinnerRepartidor));
         pedido.setFechaHoraPedido(editTextFechaHora.getText().toString());
         pedido.setEstadoPedido(spinnerEstado.getSelectedItem().toString());
+        pedido.setIdSucursal(extraerId(spinnerSucursal));
+        pedido.setActivoPedido(1); // Siempre activo al crearse
+
 
         if (spinnerTipoEvento.getSelectedItemPosition() != 0) {
             pedido.setIdTipoEvento(extraerId(spinnerTipoEvento));
         } else {
             pedido.setIdTipoEvento(0); // Opcional
+        }
+
+        if (spinnerSucursal.getSelectedItemPosition() == 0) {
+            Toast.makeText(this, "Selecciona una sucursal", Toast.LENGTH_SHORT).show();
+            return;
         }
 
         long idInsertado = pedidoDAO.insertar(pedido);
@@ -155,6 +175,7 @@ public class PedidoCrearActivity extends AppCompatActivity {
         spinnerTipoEvento.setSelection(0);
         spinnerRepartidor.setSelection(0);
         spinnerEstado.setSelection(0);
+        spinnerSucursal.setSelection(0);
         editTextFechaHora.setText("");
     }
 }
