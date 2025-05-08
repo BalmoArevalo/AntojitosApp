@@ -10,6 +10,8 @@ import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
@@ -19,6 +21,7 @@ import sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido.PedidoDAO;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.producto.Producto;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.producto.ProductoDAO;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.datosProducto.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.categoriaProducto.*;
 
 public class DetallePedidoEditarActivity extends AppCompatActivity {
 
@@ -31,7 +34,9 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
     private DetallePedidoDAO detallePedidoDAO;
     private PedidoDAO pedidoDAO;
     private ProductoDAO productoDAO;
+    private CategoriaProductoDAO categoriaDAO;
 
+    private List<CategoriaProducto> listaCategorias;
     private Map<String, Pedido> pedidosMap = new HashMap<>();
     private Map<String, Producto> productosMap = new HashMap<>();
     private Map<String, DetallePedido> detallesMap = new HashMap<>();
@@ -45,7 +50,6 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_pedido_editar);
 
-        // Referencias UI
         spinnerPedido = findViewById(R.id.spinnerPedido);
         spinnerDetalle = findViewById(R.id.spinnerDetalle);
         spinnerProducto = findViewById(R.id.spinnerProducto);
@@ -53,14 +57,17 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
         textViewSubtotal = findViewById(R.id.textViewSubtotal);
         btnActualizar = findViewById(R.id.btnActualizarDetalle);
 
-        // Inicializar BD y DAOs
         DBHelper dbHelper = new DBHelper(this);
         db = dbHelper.getWritableDatabase();
         detallePedidoDAO = new DetallePedidoDAO(db);
         pedidoDAO = new PedidoDAO(db);
         productoDAO = new ProductoDAO(db);
+        categoriaDAO = new CategoriaProductoDAO(db);
 
-        // Cargar pedidos al iniciar
+        // Actualizar disponibilidad al iniciar
+        listaCategorias = categoriaDAO.obtenerTodos(false);
+        actualizarDisponibilidadSegunHora(listaCategorias);
+
         cargarPedidos();
 
         spinnerPedido.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -129,6 +136,31 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
         btnActualizar.setOnClickListener(v -> actualizarDetalle());
     }
 
+    private void actualizarDisponibilidadSegunHora(List<CategoriaProducto> lista) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        String ahoraStr = sdf.format(new Date());
+
+        try {
+            Date ahora = sdf.parse(ahoraStr);
+            for (CategoriaProducto c : lista) {
+                Date desde = sdf.parse(c.getHoraDisponibleDesde());
+                Date hasta = sdf.parse(c.getHoraDisponibleHasta());
+
+                boolean disponible = ahora.equals(desde) || ahora.equals(hasta)
+                        || (ahora.after(desde) && ahora.before(hasta));
+
+                int nuevoEstado = disponible ? 1 : 0;
+
+                if (c.getDisponibleCategoria() != nuevoEstado) {
+                    c.setDisponibleCategoria(nuevoEstado);
+                    categoriaDAO.actualizar(c);
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void cargarPedidos() {
         List<Pedido> pedidos = pedidoDAO.obtenerTodos();
         List<String> items = new ArrayList<>();
@@ -158,12 +190,32 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
         productosMap.clear();
         List<Producto> productos = productoDAO.obtenerProductosPorSucursal(idSucursal);
         List<String> items = new ArrayList<>();
-        items.add("Seleccione");
+
         for (Producto p : productos) {
-            String label = p.getIdProducto() + " - " + p.getNombreProducto();
-            items.add(label);
-            productosMap.put(label, p);
+            CategoriaProducto cat = categoriaDAO.obtenerPorId(p.getIdCategoriaProducto());
+
+            boolean disponible = cat != null && cat.getDisponibleCategoria() == 1;
+
+            // Asegura que el producto actual del detalle aparezca aunque esté inactivo
+            if (detalleActual != null && p.getIdProducto() == detalleActual.getIdProducto()) {
+                disponible = true;
+            }
+
+            if (disponible) {
+                String label = p.getIdProducto() + " - " + p.getNombreProducto();
+                items.add(label);
+                productosMap.put(label, p);
+            }
         }
+
+        if (items.isEmpty()) {
+            items.add("No hay productos disponibles en este momento");
+            spinnerProducto.setEnabled(false);
+        } else {
+            items.add(0, "Seleccione");
+            spinnerProducto.setEnabled(true);
+        }
+
         spinnerProducto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items));
     }
 
@@ -172,7 +224,7 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
             String label = spinnerProducto.getItemAtPosition(i).toString();
             if (label.startsWith(idProducto + " -")) {
                 spinnerProducto.setSelection(i);
-                break;
+                return;
             }
         }
     }
@@ -214,13 +266,11 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
             return;
         }
 
-        // Si aumenta la cantidad
         if (diferencia > 0 && diferencia > dp.getStock()) {
             Toast.makeText(this, "Stock insuficiente. Solo quedan " + dp.getStock(), Toast.LENGTH_LONG).show();
             return;
         }
 
-        // Actualizar stock si cambió la cantidad
         if (diferencia != 0) {
             dp.setStock(dp.getStock() - diferencia);
             int actualizado = datosProductoDAO.update(dp);
@@ -241,13 +291,11 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
             Toast.makeText(this, "Detalle actualizado correctamente", Toast.LENGTH_SHORT).show();
             resetearFormulario();
         } else {
-            // Revertir stock en caso de error
             dp.setStock(dp.getStock() + diferencia);
             datosProductoDAO.update(dp);
             Toast.makeText(this, "Error al actualizar el detalle", Toast.LENGTH_SHORT).show();
         }
     }
-
 
     private void limpiarDetalles() {
         spinnerDetalle.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Collections.singletonList("Seleccione")));
@@ -255,6 +303,7 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
 
     private void limpiarProductos() {
         spinnerProducto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Collections.singletonList("Seleccione")));
+        spinnerProducto.setEnabled(true);
     }
 
     private void resetearFormulario() {
@@ -266,5 +315,4 @@ public class DetallePedidoEditarActivity extends AppCompatActivity {
         btnActualizar.setEnabled(false);
         detalleActual = null;
     }
-
 }

@@ -8,6 +8,9 @@ import android.widget.*;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
@@ -17,6 +20,7 @@ import sv.ues.fia.eisi.proyecto01_antojitos.ui.pedido.PedidoDAO;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.producto.Producto;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.producto.ProductoDAO;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.datosProducto.*;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.categoriaProducto.*;
 
 public class DetallePedidoCrearActivity extends AppCompatActivity {
 
@@ -29,7 +33,9 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
     private DetallePedidoDAO detallePedidoDAO;
     private PedidoDAO pedidoDAO;
     private ProductoDAO productoDAO;
+    private CategoriaProductoDAO categoriaDAO;
 
+    private List<CategoriaProducto> listaCategorias;
     private Map<String, Pedido> pedidosMap = new HashMap<>();
     private Map<String, Producto> productosMap = new HashMap<>();
     private double precioActual = 0.0;
@@ -53,6 +59,11 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
         detallePedidoDAO = new DetallePedidoDAO(db);
         pedidoDAO = new PedidoDAO(db);
         productoDAO = new ProductoDAO(db);
+        categoriaDAO = new CategoriaProductoDAO(db);
+
+        // Actualizar disponibilidad de categorías antes de usarlas
+        listaCategorias = categoriaDAO.obtenerTodos(false);
+        actualizarDisponibilidadSegunHora(listaCategorias);
 
         cargarPedidos();
 
@@ -69,9 +80,7 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // No hacer nada
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         spinnerProducto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -119,13 +128,52 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
         productosMap.clear();
         List<Producto> productos = productoDAO.obtenerProductosPorSucursal(idSucursal);
         List<String> items = new ArrayList<>();
-        items.add("Seleccione");
+
         for (Producto p : productos) {
-            String label = p.getIdProducto() + " - " + p.getNombreProducto();
-            items.add(label);
-            productosMap.put(label, p);
+            CategoriaProducto cat = categoriaDAO.obtenerPorId(p.getIdCategoriaProducto());
+            if (cat != null && cat.getDisponibleCategoria() == 1) {
+                String label = p.getIdProducto() + " - " + p.getNombreProducto();
+                items.add(label);
+                productosMap.put(label, p);
+            }
         }
+
+        if (items.isEmpty()) {
+            items.add("No hay productos disponibles en este momento");
+            spinnerProducto.setEnabled(false);
+        } else {
+            items.add(0, "Seleccione");
+            spinnerProducto.setEnabled(true);
+        }
+
         spinnerProducto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items));
+    }
+
+
+    private void actualizarDisponibilidadSegunHora(List<CategoriaProducto> lista) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+        String ahoraStr = sdf.format(new Date());
+
+        try {
+            Date ahora = sdf.parse(ahoraStr);
+
+            for (CategoriaProducto c : lista) {
+                Date desde = sdf.parse(c.getHoraDisponibleDesde());
+                Date hasta = sdf.parse(c.getHoraDisponibleHasta());
+
+                boolean disponible = ahora.equals(desde) || ahora.equals(hasta)
+                        || (ahora.after(desde) && ahora.before(hasta));
+
+                int nuevoEstado = disponible ? 1 : 0;
+
+                if (c.getDisponibleCategoria() != nuevoEstado) {
+                    c.setDisponibleCategoria(nuevoEstado);
+                    categoriaDAO.actualizar(c);
+                }
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     private void limpiarProductos() {
@@ -194,7 +242,7 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
         detalle.setCantidad(cantidad);
         detalle.setSubtotal(subtotal);
 
-        // Actualizar stock primero
+        // Actualizar stock
         dp.setStock(dp.getStock() - cantidad);
         int actualizado = datosProductoDAO.update(dp);
         if (actualizado <= 0) {
@@ -207,17 +255,17 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
             Toast.makeText(this, "Detalle insertado (ID: " + idInsertado + ")", Toast.LENGTH_LONG).show();
             resetearFormulario();
         } else {
-            // Revertir el stock si falla
+            // Revertir stock
             dp.setStock(dp.getStock() + cantidad);
             datosProductoDAO.update(dp);
             Toast.makeText(this, "Error al insertar detalle", Toast.LENGTH_SHORT).show();
         }
     }
+
     private void resetearFormulario() {
         spinnerPedido.setSelection(0);
         limpiarProductos();
         editTextCantidad.setText("");
         textViewSubtotal.setText("--");
     }
-
 }
