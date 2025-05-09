@@ -431,6 +431,12 @@
     <string name="credito_cancelar_toast_error">Error al cancelar el crédito.</string>
     <string name="credito_cancelar_confirmacion_mensaje">¿Está seguro de que desea cancelar el Crédito #%1$d? Esta acción no se puede deshacer y la factura asociada volverá a ser una factura normal pendiente.</string>
 
+    <string name="menu_reparto_pedido">Reparto Pedido</string>
+    <string name="reparto_pedido_title">Gestión de Reparto de Pedidos</string>
+    <string name="reparto_pedido_btn_crear">Crear Registro de Reparto</string>
+    <string name="reparto_pedido_btn_consultar">Consultar Repartos</string>
+    <string name="reparto_pedido_btn_editar">Editar Reparto</string>
+    <string name="reparto_pedido_btn_eliminar">Eliminar Registro de Reparto</string>
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
 
     <!-- PANTALLAS BENITEZ - INICIO -->

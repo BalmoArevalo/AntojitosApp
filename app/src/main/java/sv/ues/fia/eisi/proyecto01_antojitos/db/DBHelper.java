@@ -190,14 +190,12 @@ public class DBHelper extends SQLiteOpenHelper {
 
         // 15 - tabla de REPARTOPEDIDO
         db.execSQL("CREATE TABLE REPARTOPEDIDO ("
-                + "ID_REPARTIDOR INTEGER NOT NULL,"
                 + "ID_PEDIDO INTEGER NOT NULL,"
                 + "ID_REPARTO_PEDIDO INTEGER NOT NULL,"
                 + "HORA_ASIGNACION TEXT NOT NULL,"
                 + "UBICACION_ENTREGA TEXT NOT NULL,"
                 + "FECHA_HORA_ENTREGA TEXT,"
-                + "PRIMARY KEY (ID_REPARTIDOR, ID_PEDIDO, ID_REPARTO_PEDIDO),"
-                + "FOREIGN KEY (ID_REPARTIDOR) REFERENCES REPARTIDOR(ID_REPARTIDOR),"
+                + "PRIMARY KEY (ID_PEDIDO, ID_REPARTO_PEDIDO),"
                 + "FOREIGN KEY (ID_PEDIDO) REFERENCES PEDIDO(ID_PEDIDO)"
                 + ");");
 
