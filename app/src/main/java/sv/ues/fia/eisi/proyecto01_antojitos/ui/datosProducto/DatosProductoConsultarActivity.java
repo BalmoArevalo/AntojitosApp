@@ -32,7 +32,6 @@ public class DatosProductoConsultarActivity extends AppCompatActivity {
     private TextView tvResultado;
     private DBHelper dbHelper;
 
-    // Listas auxiliares para ids
     private List<Integer> listaIdsSucursal;
     private List<Integer> listaIdsProducto;
 
@@ -53,9 +52,8 @@ public class DatosProductoConsultarActivity extends AppCompatActivity {
         btnMostrarDetalles = findViewById(R.id.btnMostrarDetalles);
         tvResultado = findViewById(R.id.tvResultadoDatosProducto);
 
-        // Cargar sucursales activas con id y nombre
         cargarSucursales();
-        // Listener para cargar productos según sucursal
+
         spinnerSucursal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -94,7 +92,8 @@ public class DatosProductoConsultarActivity extends AppCompatActivity {
                 "SELECT P.ID_PRODUCTO, P.NOMBRE_PRODUCTO " +
                         "FROM PRODUCTO P INNER JOIN DATOSPRODUCTO DP " +
                         "ON P.ID_PRODUCTO = DP.ID_PRODUCTO " +
-                        "WHERE DP.ID_SUCURSAL=? AND DP.ACTIVO_DATOSPRODUCTO=1 AND DP.STOCK>0", new String[]{String.valueOf(idSucursal)});
+                        "WHERE DP.ID_SUCURSAL=? AND DP.ACTIVO_DATOSPRODUCTO=1 AND DP.STOCK>0",
+                new String[]{String.valueOf(idSucursal)});
         while (c.moveToNext()) {
             int id = c.getInt(0);
             String nombre = c.getString(1);
@@ -112,7 +111,7 @@ public class DatosProductoConsultarActivity extends AppCompatActivity {
         int posSuc = spinnerSucursal.getSelectedItemPosition();
         int posProd = spinnerProducto.getSelectedItemPosition();
         if (posSuc < 0 || posProd < 0) {
-            Toast.makeText(this, "Selecciona sucursal y producto", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.datos_producto_consultar_toast_seleccion_invalida), Toast.LENGTH_SHORT).show();
             return;
         }
         int idSuc = listaIdsSucursal.get(posSuc);
@@ -120,12 +119,11 @@ public class DatosProductoConsultarActivity extends AppCompatActivity {
         DatosProductoDAO dpDao = new DatosProductoDAO(dbHelper.getReadableDatabase());
         DatosProducto dp = dpDao.find(idSuc, idProd);
         if (dp != null) {
-            String info = "ID: " + idProd +
-                    "\nPrecio: " + dp.getPrecioSucursalProducto() +
-                    "\nStock: " + dp.getStock();
+            String info = getString(R.string.datos_producto_consultar_resultado,
+                    idProd, dp.getPrecioSucursalProducto(), dp.getStock());
             tvResultado.setText(info);
         } else {
-            tvResultado.setText("Registro no encontrado o inactivo");
+            tvResultado.setText(getString(R.string.datos_producto_consultar_no_encontrado));
         }
     }
 

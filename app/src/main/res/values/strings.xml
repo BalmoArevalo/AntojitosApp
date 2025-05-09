@@ -432,4 +432,411 @@
     <string name="credito_cancelar_confirmacion_mensaje">¿Está seguro de que desea cancelar el Crédito #%1$d? Esta acción no se puede deshacer y la factura asociada volverá a ser una factura normal pendiente.</string>
 
     <!-- PANTALLAS CARLOS RAUDA - FIN -->
+
+    <!-- PANTALLAS BENITEZ - INICIO -->
+
+    <!-- PedidoConsultarActivity -->
+    <string name="pedido_seleccione_label">Seleccione un Pedido:</string>
+    <string name="pedido_btn_mostrar_datos">Mostrar Datos</string>
+    <string name="pedido_toast_seleccion_invalida">Seleccione un pedido válido</string>
+    <string name="pedido_nombre_sucursal_desconocida">Desconocida</string>
+    <string name="pedido_estado_activo">Activo</string>
+    <string name="pedido_estado_inactivo">Inactivo</string>
+    <string name="pedido_nombre_cliente_desconocido">Desconocido</string>
+    <string name="pedido_nombre_repartidor_desconocido">Desconocido</string>
+    <string name="pedido_nombre_tipo_evento_ninguno">Ninguno</string>
+    <string name="pedido_resultado_formato">
+    ID Pedido: %1$d\n
+    ID Cliente: %2$d — %3$s\n
+    ID Repartidor: %4$d — %5$s\n
+    ID Tipo Evento: %6$d — %7$s\n
+    Fecha/Hora: %8$s\n
+    Estado: %9$s\n
+    Sucursal: %10$d — %11$s\n
+    Estado del Pedido: %12$s
+    </string>
+
+    <!-- PedidoCrearActivity -->
+    <string name="pedido_crear_cliente_label">Cliente:</string>
+    <string name="pedido_crear_repartidor_label">Repartidor:</string>
+    <string name="pedido_crear_tipo_evento_label">Tipo de Evento:</string>
+    <string name="pedido_crear_fecha_hora_label">Fecha y Hora:</string>
+    <string name="pedido_crear_estado_label">Estado:</string>
+    <string name="pedido_crear_sucursal_label">Sucursal:</string>
+    <string name="pedido_crear_btn_guardar">Guardar Pedido</string>
+    <string name="pedido_crear_hint_fecha">dd/MM/yyyy HH:mm</string>
+
+    <string name="pedido_spinner_seleccione">Seleccione</string>
+    <string name="pedido_spinner_ninguno">Ninguno</string>
+    <string name="pedido_estado_pendiente">Pendiente</string>
+    <string name="pedido_estado_despachado">Despachado</string>
+    <string name="pedido_estado_entregado">Entregado</string>
+    <string name="pedido_estado_cancelado">Cancelado</string>
+
+    <string name="pedido_toast_campos_obligatorios">Completa los campos obligatorios</string>
+    <string name="pedido_toast_sucursal_requerida">Selecciona una sucursal</string>
+    <string name="pedido_toast_insertado_ok">Pedido creado (ID: %1$d)</string>
+    <string name="pedido_toast_insertado_error">Error al insertar pedido</string>
+
+    <!-- PedidoEditarActivity -->
+    <string name="pedido_editar_label_buscar">ID del Pedido a Editar:</string>
+    <string name="pedido_editar_label_cliente">Cliente:</string>
+    <string name="pedido_editar_label_repartidor">Repartidor:</string>
+    <string name="pedido_editar_label_evento">Tipo de Evento:</string>
+    <string name="pedido_editar_label_fecha">Fecha y Hora:</string>
+    <string name="pedido_editar_hint_fecha">dd/MM/yyyy HH:mm</string>
+    <string name="pedido_editar_label_estado">Estado:</string>
+    <string name="pedido_editar_label_sucursal">Sucursal:</string>
+    <string name="pedido_editar_switch_activo">¿Pedido Activo?</string>
+    <string name="pedido_editar_btn_guardar">Guardar Cambios</string>
+
+    <string name="pedido_editar_prefix">Pedido</string>
+    <string name="pedido_editar_sufijo_inactivo">(inactivo)</string>
+
+    <string name="pedido_editar_toast_actualizado">Pedido actualizado correctamente</string>
+    <string name="pedido_editar_toast_error">Error al actualizar</string>
+
+    <!-- PedidoEliminarActivity -->
+    <string name="pedido_eliminar_label_titulo">Seleccione el Pedido a Eliminar:</string>
+    <string name="pedido_eliminar_btn_buscar">Buscar Pedido</string>
+    <string name="pedido_eliminar_btn_eliminar">Eliminar Pedido</string>
+    <string name="pedido_eliminar_toast_seleccion_invalida">Seleccione un pedido válido</string>
+    <string name="pedido_eliminar_nombre_sucursal_desconocida">Desconocida</string>
+    <string name="pedido_eliminar_nombre_cliente_desconocido">Desconocido</string>
+    <string name="pedido_eliminar_nombre_repartidor_desconocido">Desconocido</string>
+    <string name="pedido_eliminar_nombre_evento_ninguno">Ninguno</string>
+    <string name="pedido_eliminar_estado_activo">Activo</string>
+    <string name="pedido_eliminar_estado_inactivo">Inactivo</string>
+
+    <string name="pedido_eliminar_resultado">
+    Pedido encontrado:\n
+    ID Pedido: %1$d\n
+    ID Cliente: %2$d — %3$s\n
+    ID Repartidor: %4$d — %5$s\n
+    ID Tipo Evento: %6$d — %7$s\n
+    ID Sucursal: %8$d — %9$s\n
+    Fecha/Hora: %10$s\n
+    Estado: %11$s\n
+    Activo: %12$s
+    </string>
+
+    <string name="pedido_eliminar_dialog_titulo">Confirmar eliminación</string>
+    <string name="pedido_eliminar_dialog_mensaje">¿Estás seguro de que deseas eliminar el pedido ID %1$d? Esta acción no se puede deshacer.</string>
+    <string name="pedido_eliminar_dialog_confirmar">Sí, eliminar</string>
+    <string name="pedido_eliminar_dialog_cancelar">Cancelar</string>
+
+    <string name="pedido_eliminar_resultado_ok">✅ Pedido eliminado correctamente</string>
+    <string name="pedido_eliminar_resultado_desactivado">⚠️ Pedido desactivado (asociado a detalle o reparto)</string>
+    <string name="pedido_eliminar_resultado_asociado">❌ No se puede eliminar: está asociado a una factura</string>
+    <string name="pedido_eliminar_resultado_error">❌ Error al intentar eliminar el pedido</string>
+
+    <!-- DetallePedidoCrearActivity -->
+    <string name="detalle_pedido_seleccione">Seleccione</string>
+    <string name="detalle_pedido_prefijo_pedido">Pedido</string>
+    <string name="detalle_pedido_no_productos">No hay productos disponibles en este momento</string>
+    <string name="detalle_pedido_vacio">--</string>
+
+    <string name="detalle_pedido_toast_seleccion_invalida">Seleccione un pedido y un producto válidos</string>
+    <string name="detalle_pedido_toast_cantidad_invalida">Ingrese una cantidad válida</string>
+    <string name="detalle_pedido_toast_no_datos_producto">No hay datos del producto en esta sucursal</string>
+    <string name="detalle_pedido_toast_stock_insuficiente">Stock insuficiente. Solo quedan %1$d</string>
+    <string name="detalle_pedido_toast_error_stock">Error al actualizar el stock</string>
+    <string name="detalle_pedido_toast_insertado_ok">Detalle insertado (ID: %1$d)</string>
+    <string name="detalle_pedido_toast_insertado_error">Error al insertar detalle</string>
+
+    <!-- Layout XML -->
+    <string name="detalle_pedido_label_pedido">Seleccionar Pedido:</string>
+    <string name="detalle_pedido_label_producto">Seleccionar Producto:</string>
+    <string name="detalle_pedido_label_cantidad">Cantidad:</string>
+    <string name="detalle_pedido_label_precio_unitario">Precio Unitario:</string>
+    <string name="detalle_pedido_label_subtotal">Subtotal:</string>
+    <string name="detalle_pedido_btn_guardar">Guardar Detalle</string>
+
+    <!-- DetallePedidoConsultarActivity -->
+    <string name="detalle_pedido_consultar_seleccione">Seleccione</string>
+    <string name="detalle_pedido_consultar_prefijo_pedido">Pedido</string>
+    <string name="detalle_pedido_consultar_sin_productos">No hay productos asociados a este pedido.</string>
+    <string name="detalle_pedido_consultar_encabezado">Detalles del pedido %1$d:</string>
+    <string name="detalle_pedido_consultar_item_producto">\n\nProducto: %1$s\n  Cantidad: %2$d\n  Subtotal: $%3$.2f\n</string>
+    <string name="detalle_pedido_consultar_desconocido">Desconocido</string>
+    <string name="detalle_pedido_consultar_label_spinner">Seleccione Pedido:</string>
+
+    <!-- DetallePedidoEditarActivity -->
+    <string name="detalle_pedido_editar_seleccione">Seleccione</string>
+    <string name="detalle_pedido_editar_prefijo_pedido">Pedido</string>
+    <string name="detalle_pedido_editar_prefijo_detalle">Detalle</string>
+    <string name="detalle_pedido_editar_sep_producto"> - Prod </string>
+    <string name="detalle_pedido_editar_no_productos">No hay productos disponibles en este momento</string>
+    <string name="detalle_pedido_editar_producto_invalido">Seleccione un producto válido</string>
+    <string name="detalle_pedido_editar_ingrese_cantidad">Ingrese una cantidad</string>
+    <string name="detalle_pedido_editar_no_datos">No hay datos del producto en esta sucursal</string>
+    <string name="detalle_pedido_editar_stock_insuficiente">Stock insuficiente. Solo quedan %1$d</string>
+    <string name="detalle_pedido_editar_error_stock">Error al actualizar stock</string>
+    <string name="detalle_pedido_editar_ok">Detalle actualizado correctamente</string>
+    <string name="detalle_pedido_editar_error_detalle">Error al actualizar el detalle</string>
+    <string name="detalle_pedido_editar_monto_inicial">$ 0.00</string>
+
+    <!-- XML UI -->
+    <string name="detalle_pedido_editar_label_pedido">Seleccione Pedido:</string>
+    <string name="detalle_pedido_editar_label_detalle">Seleccione Detalle:</string>
+    <string name="detalle_pedido_editar_label_producto">Producto:</string>
+    <string name="detalle_pedido_editar_label_cantidad">Cantidad:</string>
+    <string name="detalle_pedido_editar_label_subtotal">Subtotal:</string>
+    <string name="detalle_pedido_editar_btn">Actualizar Detalle</string>
+    <string name="detalle_pedido_editar_hint_cantidad">Ingrese la cantidad</string>
+
+    <!-- DetallePedidoEliminar -->
+    <string name="detalle_pedido_eliminar_label_pedido">Seleccione Pedido:</string>
+    <string name="detalle_pedido_eliminar_label_detalle">Seleccione Detalle:</string>
+    <string name="detalle_pedido_eliminar_confirmar_titulo">Confirmar eliminación</string>
+    <string name="detalle_pedido_eliminar_confirmar_mensaje">¿Estás seguro de que deseas eliminar este detalle del pedido?</string>
+    <string name="detalle_pedido_eliminar_toast_ok">Detalle eliminado correctamente</string>
+    <string name="detalle_pedido_eliminar_toast_error">Error al eliminar el detalle</string>
+    <string name="detalle_pedido_eliminar_toast_error_pedido">Error al obtener el pedido</string>
+
+    <!-- CategoriaProductoConsultarActivity -->
+    <string name="categoria_producto_consultar_titulo">Categorías Disponibles</string>
+    <string name="categoria_producto_item_formato">ID: %1$d\nNombre: %2$s\nDescripción: %3$s\nDisponible ahora: %4$s\nHorario: %5$s - %6$s</string>
+
+    <!-- CategoriaProductoCrearActivity -->
+    <string name="categoria_producto_crear_titulo">Crear Categoría</string>
+    <string name="categoria_producto_hint_nombre">Nombre de la categoría</string>
+    <string name="categoria_producto_hint_descripcion">Descripción</string>
+    <string name="categoria_producto_hint_hora_desde">Hora disponible desde</string>
+    <string name="categoria_producto_hint_hora_hasta">Hora disponible hasta</string>
+    <string name="categoria_producto_disponible_label">Disponible ahora: %1$s</string>
+    <string name="categoria_producto_disponible_default">Disponible ahora: -</string>
+    <string name="categoria_producto_disponible_error">Error al calcular disponibilidad</string>
+    <string name="categoria_producto_btn_guardar">Guardar</string>
+    <string name="categoria_producto_toast_campos_obligatorios">Todos los campos son obligatorios</string>
+    <string name="categoria_producto_toast_guardado_ok">Categoría guardada correctamente</string>
+    <string name="categoria_producto_toast_guardado_error">Error al guardar la categoría</string>
+
+    <!-- CategoriaProductoEditarActivity -->
+    <string name="categoria_producto_editar_titulo">Editar Categoría</string>
+    <string name="categoria_producto_editar_spinner_default">Seleccione</string>
+    <string name="categoria_producto_hint_nombre_editar">Nombre</string>
+    <string name="categoria_producto_hint_descripcion_editar">Descripción</string>
+    <string name="categoria_producto_hint_hora_desde_editar">Hora desde</string>
+    <string name="categoria_producto_hint_hora_hasta_editar">Hora hasta</string>
+    <string name="categoria_producto_switch_activo">Activo</string>
+    <string name="categoria_producto_btn_actualizar">Actualizar</string>
+    <string name="categoria_producto_toast_actualizar_ok">Categoría actualizada correctamente</string>
+    <string name="categoria_producto_toast_actualizar_error">Error al actualizar categoría</string>
+
+    <!-- CategoriaProductoEliminarActivity - Detalles -->
+    <string name="categoria_producto_eliminar_titulo">Eliminar Categoría</string>
+    <string name="categoria_producto_eliminar_spinner_default">Seleccione</string>
+    <string name="categoria_producto_eliminar_btn">Eliminar Categoría</string>
+    <string name="categoria_producto_eliminar_toast_seleccionar">Seleccione una categoría</string>
+    <string name="categoria_producto_eliminar_toast_ok">Categoría eliminada correctamente</string>
+    <string name="categoria_producto_eliminar_toast_error">Error al eliminar la categoría</string>
+
+    <string name="categoria_producto_eliminar_detalle_titulo">Detalles de la categoría:</string>
+    <string name="categoria_producto_eliminar_detalle_formato">
+        ID: %1$d\nNombre: %2$s\nDescripción: %3$s\nHorario: %4$s - %5$s\nDisponible ahora: %6$s
+    </string>
+
+    <!-- PANTALLAS BENITEZ - FIN -->
+
+    <!-- PANTALLAS EMERSON - INICIO -->
+
+    <!-- SucursalConsultarActivity -->
+    <string name="sucursal_consultar_title">Consultar Sucursal</string>
+    <string name="sucursal_consultar_spinner_label">Selecciona una sucursal</string>
+    <string name="sucursal_consultar_btn">Mostrar Detalles</string>
+    <string name="sucursal_consultar_default_msg">Aquí se mostrará la información de la sucursal seleccionada.</string>
+    <string name="sucursal_consultar_toast_seleccionar">Selecciona una sucursal válida</string>
+    <string name="sucursal_consultar_msg_no_encontrada">Sucursal no encontrada o inactiva.</string>
+    <string name="sucursal_consultar_msg_error">Error al consultar: %1$s</string>
+
+    <!-- Formato del detalle -->
+    <string name="sucursal_consultar_detalle_formato">
+    ID Sucursal: %1$d\nDepartamento %2$d - %3$s\nMunicipio %4$d - %5$s\nDistrito %6$d - %7$s\nNombre: %8$s\nDirección: %9$s\nTeléfono: %10$s\nHorario Apertura: %11$s\nHorario Cierre: %12$s\nEstado: %13$s
+    </string>
+
+    <string name="estado_activo">Activo</string>
+    <string name="estado_inactivo">Inactivo</string>
+    <string name="spinner_placeholder">Seleccione...</string>
+
+    <!-- Sucursal Crear -->
+    <string name="sucursal_crear_title">Crear Sucursal</string>
+    <string name="sucursal_crear_hint_nombre">Nombre de la sucursal</string>
+    <string name="sucursal_crear_hint_telefono">Teléfono</string>
+    <string name="sucursal_crear_hint_direccion">Dirección</string>
+    <string name="sucursal_crear_departamento">Departamento</string>
+    <string name="sucursal_crear_municipio">Municipio</string>
+    <string name="sucursal_crear_distrito">Distrito</string>
+    <string name="sucursal_crear_hint_apertura">Hora de apertura</string>
+    <string name="sucursal_crear_hint_cierre">Hora de cierre</string>
+    <string name="sucursal_crear_btn_guardar">Guardar</string>
+    <string name="sucursal_crear_btn_limpiar">Limpiar</string>
+
+    <string name="sucursal_crear_spinner_placeholder">Seleccione...</string>
+    <string name="sucursal_crear_toast_exito">Sucursal guardada con ID %1$d</string>
+    <string name="sucursal_crear_toast_error">Error al guardar la sucursal</string>
+    <string name="sucursal_crear_toast_campos_requeridos">Completa todos los campos</string>
+
+    <!-- SucursalEditarActivity -->
+    <string name="sucursal_editar_titulo">Editar Sucursal</string>
+    <string name="sucursal_editar_label_sucursal">Selecciona la sucursal</string>
+    <string name="sucursal_editar_label_nombre">Nombre de la Sucursal</string>
+    <string name="sucursal_editar_label_telefono">Teléfono</string>
+    <string name="sucursal_editar_label_direccion">Dirección Sucursal</string>
+    <string name="sucursal_editar_label_departamento">Departamento</string>
+    <string name="sucursal_editar_label_municipio">Municipio</string>
+    <string name="sucursal_editar_label_distrito">Distrito</string>
+    <string name="sucursal_editar_label_apertura">Hora Apertura</string>
+    <string name="sucursal_editar_label_cierre">Hora Cierre</string>
+    <string name="sucursal_editar_switch_activo">Sucursal activa</string>
+
+    <!-- Botones -->
+    <string name="btn_buscar">Buscar</string>
+    <string name="btn_actualizar">Actualizar</string>
+
+    <!-- Toasts -->
+    <string name="sucursal_editar_toast_seleccione">Selecciona una sucursal válida</string>
+    <string name="sucursal_editar_toast_no_encontrada">Sucursal no encontrada</string>
+    <string name="sucursal_editar_toast_no_busqueda">Busca primero una sucursal</string>
+    <string name="sucursal_editar_toast_campos">Completa todos los campos</string>
+    <string name="sucursal_editar_toast_actualizado">Sucursal actualizada correctamente</string>
+
+    <!-- SucursalEliminarActivity -->
+    <string name="sucursal_eliminar_titulo">Eliminar Sucursal</string>
+    <string name="sucursal_eliminar_selecciona">Selecciona una sucursal</string>
+    <string name="sucursal_eliminar_spinner_default">Seleccione...</string>
+    <string name="sucursal_eliminar_btn_mostrar">Mostrar Detalles</string>
+    <string name="sucursal_eliminar_btn_eliminar">Eliminar</string>
+    <string name="sucursal_eliminar_btn_limpiar">Limpiar</string>
+
+    <!-- Textos por defecto / resultados -->
+    <string name="sucursal_eliminar_resultado_default">Aquí se mostrará la información de la sucursal seleccionada.</string>
+
+    <!-- Toasts -->
+    <string name="sucursal_eliminar_toast_seleccionar">Selecciona una sucursal válida</string>
+    <string name="sucursal_eliminar_toast_no_seleccionada">Busca primero una sucursal</string>
+    <string name="sucursal_eliminar_toast_exito">Sucursal desactivada correctamente</string>
+    <string name="sucursal_eliminar_toast_error">Error al desactivar sucursal</string>
+
+    <!-- RepartidorConsultarActivity -->
+    <string name="repartidor_consultar_title">Consultar Repartidor</string>
+    <string name="repartidor_consultar_label_spinner">Selecciona un repartidor</string>
+    <string name="repartidor_consultar_btn_mostrar">Mostrar Detalles</string>
+    <string name="repartidor_consultar_msg_default">Aquí se mostrará la información del repartidor seleccionado.</string>
+    <string name="repartidor_consultar_toast_seleccionar">Selecciona un repartidor válido</string>
+    <string name="repartidor_consultar_msg_no_encontrado">Repartidor no encontrado.</string>
+    <string name="repartidor_consultar_detalle_formato">
+    ID Repartidor: %1$d\nDepartamento: %2$d\nMunicipio: %3$d\nDistrito: %4$d\nTipo Vehículo: %5$s\nDisponible: %6$s\nTeléfono: %7$s\nNombre: %8$s\nApellido: %9$s\nEstado: %10$s
+    </string>
+
+    <!-- RepartidorCrearActivity -->
+    <string name="repartidor_crear_titulo">Crear Repartidor</string>
+    <string name="repartidor_crear_hint_nombre">Nombre</string>
+    <string name="repartidor_crear_hint_apellido">Apellido</string>
+    <string name="repartidor_crear_hint_telefono">Teléfono</string>
+    <string name="repartidor_crear_label_tipo_vehiculo">Tipo de Vehículo</string>
+    <string name="repartidor_crear_switch_disponible">Disponible</string>
+    <string name="repartidor_crear_label_departamento">Departamento</string>
+    <string name="repartidor_crear_label_municipio">Municipio</string>
+    <string name="repartidor_crear_label_distrito">Distrito</string>
+    <string name="repartidor_crear_btn_guardar">Guardar</string>
+    <string name="repartidor_crear_btn_limpiar">Limpiar</string>
+    <string name="repartidor_crear_spinner_placeholder">Seleccione...</string>
+    <string name="repartidor_crear_toast_campos_requeridos">Completa todos los campos</string>
+    <string name="repartidor_crear_toast_exito">Repartidor creado con ID %1$d</string>
+    <string name="repartidor_crear_toast_error">Error al crear repartidor</string>
+    <string-array name="repartidor_tipos_vehiculo">
+        <item>Moto</item>
+        <item>Bicicleta</item>
+        <item>Auto</item>
+        <item>Otro</item>
+    </string-array>
+
+    <!-- RepartidorEditarActivity -->
+    <string name="repartidor_editar_titulo">Editar Repartidor</string>
+    <string name="repartidor_editar_label_spinner">Selecciona un repartidor</string>
+    <string name="repartidor_editar_btn_buscar">Buscar</string>
+    <string name="repartidor_editar_hint_nombre">Nombre</string>
+    <string name="repartidor_editar_hint_apellido">Apellido</string>
+    <string name="repartidor_editar_hint_telefono">Teléfono</string>
+    <string name="repartidor_editar_label_tipo_vehiculo">Tipo de Vehículo</string>
+    <string name="repartidor_editar_label_departamento">Departamento</string>
+    <string name="repartidor_editar_label_municipio">Municipio</string>
+    <string name="repartidor_editar_label_distrito">Distrito</string>
+    <string name="repartidor_editar_switch_activo">Repartidor activo</string>
+    <string name="repartidor_editar_btn_actualizar">Actualizar</string>
+    <string name="repartidor_editar_btn_limpiar">Limpiar</string>
+    <string name="repartidor_editar_toast_seleccionar">Selecciona un repartidor válido</string>
+    <string name="repartidor_editar_toast_no_encontrado">Repartidor no encontrado</string>
+    <string name="repartidor_editar_toast_campos">Completa todos los campos</string>
+    <string name="repartidor_editar_toast_exito">Repartidor actualizado correctamente</string>
+    <string name="repartidor_editar_toast_no_busqueda">Busca primero un repartidor</string>
+
+    <!-- RepartidorEliminarActivity -->
+    <string name="repartidor_eliminar_title">Eliminar Repartidor</string>
+    <string name="repartidor_eliminar_spinner_label">Selecciona un repartidor</string>
+    <string name="repartidor_eliminar_btn_buscar">Mostrar Detalles</string>
+    <string name="repartidor_eliminar_btn_eliminar">Eliminar</string>
+    <string name="repartidor_eliminar_btn_limpiar">Limpiar</string>
+    <string name="repartidor_eliminar_resultado_default">Aquí se mostrará la información del repartidor a eliminar.</string>
+    <string name="repartidor_eliminar_toast_exito">Repartidor desactivado correctamente</string>
+    <string name="repartidor_eliminar_toast_error">Error al desactivar repartidor</string>
+
+    <!-- DatosProductoConsultarActivity -->
+    <string name="datos_producto_consultar_title">Consultar Datos Producto</string>
+    <string name="datos_producto_consultar_label_sucursal">Selecciona una sucursal</string>
+    <string name="datos_producto_consultar_label_producto">Selecciona un producto</string>
+    <string name="datos_producto_consultar_btn_mostrar">Mostrar Detalles</string>
+    <string name="datos_producto_consultar_resultado">ID: %1$d\nPrecio: %2$.2f\nStock: %3$d</string>
+    <string name="datos_producto_consultar_no_encontrado">Registro no encontrado o inactivo</string>
+    <string name="datos_producto_consultar_hint_resultado">Aquí se mostrará la información de precios y stock para la sucursal y producto seleccionados.</string>
+    <string name="datos_producto_consultar_toast_seleccion_invalida">Selecciona sucursal y producto</string>
+
+    <!-- DatosProductoCrearActivity -->
+    <string name="datos_producto_crear_title">Crear Datos Producto</string>
+    <string name="datos_producto_crear_label_sucursal">Sucursal:</string>
+    <string name="datos_producto_crear_label_producto">Producto:</string>
+    <string name="datos_producto_crear_btn_crear_producto">Crear Producto</string>
+    <string name="datos_producto_crear_label_precio">Precio (USD):</string>
+    <string name="datos_producto_crear_hint_precio">Ingrese precio</string>
+    <string name="datos_producto_crear_label_stock">Stock:</string>
+    <string name="datos_producto_crear_hint_stock">Ingrese stock</string>
+    <string name="datos_producto_crear_btn_guardar">Guardar</string>
+    <string name="datos_producto_crear_btn_limpiar">Limpiar</string>
+    <string name="datos_producto_crear_toast_guardado">Datos guardados (Sucursal: %1$d, Producto: %2$d)</string>
+    <string name="datos_producto_crear_toast_error_guardar">Error al guardar datos</string>
+    <string name="datos_producto_crear_toast_seleccion">Selecciona sucursal y producto</string>
+    <string name="datos_producto_crear_toast_invalido">Precio o stock inválido</string>
+
+    <!-- DatosProductoEditarActivity -->
+    <string name="datos_producto_editar_title">Editar Datos Producto</string>
+    <string name="datos_producto_editar_label_sucursal">Sucursal:</string>
+    <string name="datos_producto_editar_label_producto">Producto:</string>
+    <string name="datos_producto_editar_btn_buscar">Buscar</string>
+    <string name="datos_producto_editar_label_precio">Precio (USD):</string>
+    <string name="datos_producto_editar_label_stock">Stock:</string>
+    <string name="datos_producto_editar_label_disponible">Disponible:</string>
+    <string name="datos_producto_editar_btn_actualizar">Guardar cambios</string>
+    <string name="datos_producto_editar_btn_limpiar">Limpiar</string>
+    <string name="datos_producto_editar_toast_buscar_invalido">Selecciona sucursal y producto</string>
+    <string name="datos_producto_editar_toast_no_datos">No se encontraron datos existentes</string>
+    <string name="datos_producto_editar_toast_precio_stock_invalido">Precio o stock inválido</string>
+    <string name="datos_producto_editar_toast_guardado">Registro actualizado</string>
+    <string name="datos_producto_editar_toast_error_guardar">Error al actualizar</string>
+    <string name="datos_producto_editar_toast_busca_primero">Primero busca un registro</string>
+    <string name="datos_producto_editar_hint_precio">Ingrese el precio</string>
+    <string name="datos_producto_editar_hint_stock">Ingrese el stock</string>
+
+    <!-- DatosProductoEliminarActivity -->
+    <string name="datos_producto_eliminar_title">Eliminar Datos Producto</string>
+    <string name="datos_producto_eliminar_label_selector">Selecciona un registro activo</string>
+    <string name="datos_producto_eliminar_result_placeholder">Aquí se mostrará la información del registro seleccionado.</string>
+    <string name="datos_producto_eliminar_btn_eliminar">Eliminar</string>
+    <string name="datos_producto_eliminar_btn_limpiar">Limpiar</string>
+    <string name="datos_producto_eliminar_toast_eliminado">Registro eliminado</string>
+    <string name="datos_producto_eliminar_toast_error">Error al eliminar registro</string>
+    <string name="datos_producto_eliminar_toast_invalid">Registro no válido o ya inactivo.</string>
+
+
+    <!-- PANTALLAS EMERSON - FIN -->
 </resources>

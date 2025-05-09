@@ -11,27 +11,33 @@
 
         <!-- Spinner Pedido -->
         <TextView
-            android:text="Seleccione Pedido:"
+            android:id="@+id/labelPedido"
+            android:text="@string/detalle_pedido_eliminar_label_pedido"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:labelFor="@id/spinnerPedido" />
 
         <Spinner
             android:id="@+id/spinnerPedido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:minHeight="48dp" />
 
         <!-- Spinner Detalle -->
         <TextView
-            android:text="Seleccione Detalle:"
+            android:id="@+id/labelDetalle"
+            android:text="@string/detalle_pedido_eliminar_label_detalle"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:labelFor="@id/spinnerDetalle" />
 
         <Spinner
             android:id="@+id/spinnerDetalle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:minHeight="48dp" />
 
         <!-- Info Detalle -->
         <TextView
@@ -43,11 +49,12 @@
             android:paddingTop="16dp"
             android:paddingBottom="16dp" />
 
+        <!-- Botón Eliminar -->
         <Button
             android:id="@+id/btnEliminarDetalle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Eliminar Detalle"
+            android:text="@string/detalle_pedido_btn_eliminar"
             android:enabled="false" />
     </LinearLayout>
 </ScrollView>

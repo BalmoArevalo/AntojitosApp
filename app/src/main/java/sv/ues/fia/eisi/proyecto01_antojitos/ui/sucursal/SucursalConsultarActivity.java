@@ -4,16 +4,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
 import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
@@ -26,7 +19,6 @@ public class SucursalConsultarActivity extends AppCompatActivity {
     private DBHelper dbHelper;
     private SucursalDAO dao;
 
-    // Lista de IDs de sucursales activas a mostrar en el spinner
     private List<Integer> sucursalIds = new ArrayList<>();
 
     @Override
@@ -46,16 +38,12 @@ public class SucursalConsultarActivity extends AppCompatActivity {
         btnConsultar.setOnClickListener(v -> mostrarDetalleSucursal());
     }
 
-    /**
-     * Carga solo sucursales activas en el spinner.
-     */
     private void cargarSpinnerSucursales() {
         sucursalIds.clear();
         List<String> nombres = new ArrayList<>();
-        nombres.add("Seleccione...");
+        nombres.add(getString(R.string.spinner_placeholder));
         sucursalIds.add(-1);
 
-        // Obtener solo las activas
         List<Sucursal> listaActivas = dao.obtenerActivos();
         for (Sucursal s : listaActivas) {
             sucursalIds.add(s.getIdSucursal());
@@ -68,15 +56,12 @@ public class SucursalConsultarActivity extends AppCompatActivity {
         spinnerSucursal.setAdapter(adapter);
     }
 
-    /**
-     * Muestra todos los detalles de la sucursal activa seleccionada, incluyendo estado.
-     */
     private void mostrarDetalleSucursal() {
         int pos = spinnerSucursal.getSelectedItemPosition();
         int idSucursal = sucursalIds.get(pos);
 
         if (idSucursal < 0) {
-            Toast.makeText(this, "Selecciona una sucursal válida", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.sucursal_consultar_toast_seleccionar), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -92,27 +77,32 @@ public class SucursalConsultarActivity extends AppCompatActivity {
                     "JOIN MUNICIPIO m ON s.ID_DEPARTAMENTO = m.ID_DEPARTAMENTO AND s.ID_MUNICIPIO = m.ID_MUNICIPIO " +
                     "JOIN DISTRITO dt ON s.ID_DEPARTAMENTO = dt.ID_DEPARTAMENTO " +
                     "AND s.ID_MUNICIPIO = dt.ID_MUNICIPIO AND s.ID_DISTRITO = dt.ID_DISTRITO " +
-                    "WHERE s.ID_SUCURSAL = ? AND s.ACTIVO_SUCURSAL = 1";  // validar solo activas
+                    "WHERE s.ID_SUCURSAL = ? AND s.ACTIVO_SUCURSAL = 1";
+
             c = db.rawQuery(query, new String[]{String.valueOf(idSucursal)});
 
             if (c.moveToFirst()) {
                 int activo = c.getInt(12);
-                String detalle = "ID Sucursal: " + c.getInt(0) + "\n" +
-                        "Departamento " + c.getInt(1) + " - " + c.getString(2) + "\n" +
-                        "Municipio " + c.getInt(3) + " - " + c.getString(4) + "\n" +
-                        "Distrito " + c.getInt(5) + " - " + c.getString(6) + "\n" +
-                        "Nombre: " + c.getString(7) + "\n" +
-                        "Dirección: " + c.getString(8) + "\n" +
-                        "Teléfono: " + c.getString(9) + "\n" +
-                        "Horario Apertura: " + c.getString(10) + "\n" +
-                        "Horario Cierre: " + c.getString(11) + "\n" +
-                        "Estado: " + (activo == 1 ? "Activo" : "Inactivo");
+                String estadoStr = (activo == 1) ? getString(R.string.estado_activo) : getString(R.string.estado_inactivo);
+
+                String detalle = getString(R.string.sucursal_consultar_detalle_formato,
+                        c.getInt(0),  // ID
+                        c.getInt(1), c.getString(2), // Departamento
+                        c.getInt(3), c.getString(4), // Municipio
+                        c.getInt(5), c.getString(6), // Distrito
+                        c.getString(7), // Nombre
+                        c.getString(8), // Dirección
+                        c.getString(9), // Teléfono
+                        c.getString(10), // Horario apertura
+                        c.getString(11), // Horario cierre
+                        estadoStr);
+
                 tvResultado.setText(detalle);
             } else {
-                tvResultado.setText("Sucursal no encontrada o inactiva.");
+                tvResultado.setText(getString(R.string.sucursal_consultar_msg_no_encontrada));
             }
         } catch (Exception ex) {
-            tvResultado.setText("Error al consultar: " + ex.getMessage());
+            tvResultado.setText(getString(R.string.sucursal_consultar_msg_error, ex.getMessage()));
         } finally {
             if (c != null) c.close();
             db.close();

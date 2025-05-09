@@ -65,11 +65,17 @@ public class CategoriaProductoConsultarActivity extends AppCompatActivity {
         List<String> datos = new ArrayList<>();
         for (CategoriaProducto c : lista) {
             if (c.getActivoCategoriaProducto() == 1) { // solo mostrar activas
-                String item = "ID: " + c.getIdCategoriaProducto() + "\n"
-                        + "Nombre: " + c.getNombreCategoria() + "\n"
-                        + "Descripción: " + c.getDescripcionCategoria() + "\n"
-                        + "Disponible ahora: " + (c.getDisponibleCategoria() == 1 ? "Sí" : "No") + "\n"
-                        + "Horario: " + c.getHoraDisponibleDesde() + " - " + c.getHoraDisponibleHasta();
+                String disponibleStr = (c.getDisponibleCategoria() == 1) ?
+                        getString(R.string.respuesta_si) : getString(R.string.respuesta_no);
+
+                String item = getString(R.string.categoria_producto_item_formato,
+                        c.getIdCategoriaProducto(),
+                        c.getNombreCategoria(),
+                        c.getDescripcionCategoria(),
+                        disponibleStr,
+                        c.getHoraDisponibleDesde(),
+                        c.getHoraDisponibleHasta());
+
                 datos.add(item);
             }
         }

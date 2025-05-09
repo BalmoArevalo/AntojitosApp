@@ -11,7 +11,7 @@
 
         <!-- Pedido -->
         <TextView
-            android:text="Seleccione Pedido:"
+            android:text="@string/detalle_pedido_consultar_label_spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -19,7 +19,8 @@
             android:id="@+id/spinnerPedido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="16dp"
+            android:minHeight="48dp" />
 
         <!-- Resultados -->
         <TextView

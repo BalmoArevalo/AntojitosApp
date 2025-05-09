@@ -62,7 +62,7 @@ public class CategoriaProductoCrearActivity extends AppCompatActivity {
         String hasta = editTextHasta.getText().toString().trim();
 
         if (desde.isEmpty() || hasta.isEmpty()) {
-            textViewDisponible.setText("Disponible ahora: -");
+            textViewDisponible.setText(getString(R.string.categoria_producto_disponible_default));
             return;
         }
 
@@ -75,10 +75,11 @@ public class CategoriaProductoCrearActivity extends AppCompatActivity {
             boolean disponible = ahora.equals(horaDesde) || ahora.equals(horaHasta)
                     || (ahora.after(horaDesde) && ahora.before(horaHasta));
 
-            textViewDisponible.setText("Disponible ahora: " + (disponible ? "Sí" : "No"));
+            String disponibleStr = disponible ? getString(R.string.respuesta_si) : getString(R.string.respuesta_no);
+            textViewDisponible.setText(getString(R.string.categoria_producto_disponible_label, disponibleStr));
 
         } catch (ParseException e) {
-            textViewDisponible.setText("Error al calcular disponibilidad");
+            textViewDisponible.setText(getString(R.string.categoria_producto_disponible_error));
         }
     }
 
@@ -89,7 +90,7 @@ public class CategoriaProductoCrearActivity extends AppCompatActivity {
         String hasta = editTextHasta.getText().toString().trim();
 
         if (nombre.isEmpty() || descripcion.isEmpty() || desde.isEmpty() || hasta.isEmpty()) {
-            Toast.makeText(this, "Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.categoria_producto_toast_campos_obligatorios), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -104,10 +105,10 @@ public class CategoriaProductoCrearActivity extends AppCompatActivity {
 
         boolean ok = categoriaDAO.insertar(categoria);
         if (ok) {
-            Toast.makeText(this, "Categoría guardada correctamente", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.categoria_producto_toast_guardado_ok), Toast.LENGTH_LONG).show();
             limpiarCampos();
         } else {
-            Toast.makeText(this, "Error al guardar la categoría", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.categoria_producto_toast_guardado_error), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -116,7 +117,7 @@ public class CategoriaProductoCrearActivity extends AppCompatActivity {
         editTextDescripcion.setText("");
         editTextDesde.setText("");
         editTextHasta.setText("");
-        textViewDisponible.setText("Disponible ahora: -");
+        textViewDisponible.setText(getString(R.string.categoria_producto_disponible_default));
     }
 
     @Override

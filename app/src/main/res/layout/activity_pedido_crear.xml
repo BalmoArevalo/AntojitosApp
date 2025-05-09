@@ -11,7 +11,7 @@
 
         <!-- Cliente -->
         <TextView
-            android:text="Cliente:"
+            android:text="@string/pedido_crear_cliente_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp" />
@@ -24,7 +24,7 @@
 
         <!-- Repartidor -->
         <TextView
-            android:text="Repartidor:"
+            android:text="@string/pedido_crear_repartidor_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -38,7 +38,7 @@
 
         <!-- Tipo de Evento -->
         <TextView
-            android:text="Tipo de Evento:"
+            android:text="@string/pedido_crear_tipo_evento_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -52,7 +52,7 @@
 
         <!-- Fecha y Hora -->
         <TextView
-            android:text="Fecha y Hora:"
+            android:text="@string/pedido_crear_fecha_hora_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -64,12 +64,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:focusable="false"
-            android:hint="dd/MM/yyyy HH:mm"
+            android:hint="@string/pedido_crear_hint_fecha"
             android:minHeight="48dp" />
 
         <!-- Estado -->
         <TextView
-            android:text="Estado:"
+            android:text="@string/pedido_crear_estado_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -83,7 +83,7 @@
 
         <!-- Sucursal -->
         <TextView
-            android:text="Sucursal:"
+            android:text="@string/pedido_crear_sucursal_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -100,7 +100,7 @@
             android:id="@+id/btnGuardarPedido"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar Pedido"
+            android:text="@string/pedido_crear_btn_guardar"
             android:layout_marginTop="24dp" />
 
     </LinearLayout>

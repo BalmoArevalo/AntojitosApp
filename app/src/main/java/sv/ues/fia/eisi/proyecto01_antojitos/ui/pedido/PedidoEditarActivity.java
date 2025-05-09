@@ -47,7 +47,6 @@ public class PedidoEditarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pedido_editar);
 
-        // UI
         spinnerPedidoBuscar = findViewById(R.id.spinnerPedidoBuscar);
         spinnerCliente = findViewById(R.id.spinnerCliente);
         spinnerRepartidor = findViewById(R.id.spinnerRepartidor);
@@ -60,7 +59,6 @@ public class PedidoEditarActivity extends AppCompatActivity {
 
         calendar = Calendar.getInstance();
 
-        // DB
         DBHelper dbHelper = new DBHelper(this);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         pedidoDAO = new PedidoDAO(db);
@@ -89,8 +87,7 @@ public class PedidoEditarActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         editTextFecha.setOnClickListener(v -> mostrarDateTimePicker());
@@ -104,27 +101,32 @@ public class PedidoEditarActivity extends AppCompatActivity {
         sucursales = sucursalDAO.obtenerTodos();
 
         List<String> clienteItems = new ArrayList<>();
-        clienteItems.add("Seleccione");
+        clienteItems.add(getString(R.string.pedido_spinner_seleccione));
         for (Cliente c : clientes) {
             clienteItems.add(c.getIdCliente() + " - " + c.getNombreCliente());
         }
 
         List<String> repartidorItems = new ArrayList<>();
-        repartidorItems.add("Seleccione");
+        repartidorItems.add(getString(R.string.pedido_spinner_seleccione));
         for (Repartidor r : repartidores) {
             repartidorItems.add(r.getIdRepartidor() + " - " + r.getNombreRepartidor());
         }
 
         List<String> eventoItems = new ArrayList<>();
-        eventoItems.add("Ninguno");
+        eventoItems.add(getString(R.string.pedido_spinner_ninguno));
         for (TipoEvento e : eventos) {
             eventoItems.add(e.getIdTipoEvento() + " - " + e.getNombreTipoEvento());
         }
 
-        List<String> estados = Arrays.asList("Pendiente", "Despachado", "Entregado", "Cancelado");
+        List<String> estados = Arrays.asList(
+                getString(R.string.pedido_estado_pendiente),
+                getString(R.string.pedido_estado_despachado),
+                getString(R.string.pedido_estado_entregado),
+                getString(R.string.pedido_estado_cancelado)
+        );
 
         List<String> sucursalItems = new ArrayList<>();
-        sucursalItems.add("Seleccione");
+        sucursalItems.add(getString(R.string.pedido_spinner_seleccione));
         for (Sucursal s : sucursales) {
             sucursalItems.add(s.getIdSucursal() + " - " + s.getNombreSucursal());
         }
@@ -137,14 +139,14 @@ public class PedidoEditarActivity extends AppCompatActivity {
     }
 
     private void cargarPedidosEnSpinner() {
-        pedidos = pedidoDAO.obtenerTodosIncluyendoInactivos(); // usar metodo que obtenga todos
+        pedidos = pedidoDAO.obtenerTodosIncluyendoInactivos();
         List<String> items = new ArrayList<>();
-        items.add("Seleccione");
+        items.add(getString(R.string.pedido_spinner_seleccione));
 
         for (Pedido p : pedidos) {
-            String label = "Pedido " + p.getIdPedido();
+            String label = getString(R.string.pedido_editar_prefix) + " " + p.getIdPedido();
             if (p.getActivoPedido() == 0) {
-                label += " (inactivo)";
+                label += " " + getString(R.string.pedido_editar_sufijo_inactivo);
             }
             items.add(label);
             pedidosMap.put(label, p);
@@ -189,13 +191,13 @@ public class PedidoEditarActivity extends AppCompatActivity {
 
         int filas = pedidoDAO.actualizar(pedidoActual);
         if (filas > 0) {
-            Toast.makeText(this, "Pedido actualizado correctamente", Toast.LENGTH_SHORT).show();
-            cargarPedidosEnSpinner(); // refrescar spinner
-            spinnerPedidoBuscar.setSelection(0); // opcional: volver a "Seleccione"
+            Toast.makeText(this, getString(R.string.pedido_editar_toast_actualizado), Toast.LENGTH_SHORT).show();
+            cargarPedidosEnSpinner();
+            spinnerPedidoBuscar.setSelection(0);
             btnActualizar.setEnabled(false);
-            limpiarCampos(); // si quieres limpiar los campos
+            limpiarCampos();
         } else {
-            Toast.makeText(this, "Error al actualizar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.pedido_editar_toast_error), Toast.LENGTH_SHORT).show();
         }
     }
 

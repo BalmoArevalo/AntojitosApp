@@ -12,7 +12,7 @@
 
         <!-- ID para buscar -->
         <TextView
-            android:text="ID del Pedido a Editar:"
+            android:text="@string/pedido_editar_label_buscar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="8dp"/>
@@ -21,11 +21,12 @@
             android:id="@+id/spinnerPedidoBuscar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="12dp"
+            android:minHeight="48dp" />
 
         <!-- Cliente -->
         <TextView
-            android:text="Cliente:"
+            android:text="@string/pedido_editar_label_cliente"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -39,7 +40,7 @@
 
         <!-- Repartidor -->
         <TextView
-            android:text="Repartidor:"
+            android:text="@string/pedido_editar_label_repartidor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -53,7 +54,7 @@
 
         <!-- Tipo Evento -->
         <TextView
-            android:text="Tipo de Evento:"
+            android:text="@string/pedido_editar_label_evento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -67,7 +68,7 @@
 
         <!-- Fecha y hora -->
         <TextView
-            android:text="Fecha y Hora:"
+            android:text="@string/pedido_editar_label_fecha"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -79,12 +80,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:focusable="false"
-            android:hint="dd/MM/yyyy HH:mm"
+            android:hint="@string/pedido_editar_hint_fecha"
             android:minHeight="48dp" />
 
         <!-- Estado -->
         <TextView
-            android:text="Estado:"
+            android:text="@string/pedido_editar_label_estado"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -98,7 +99,7 @@
 
         <!-- Sucursal -->
         <TextView
-            android:text="Sucursal:"
+            android:text="@string/pedido_editar_label_sucursal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="16dp"
@@ -115,15 +116,16 @@
             android:id="@+id/switchActivo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="¿Pedido Activo?"
-            android:layout_marginTop="16dp" />
+            android:layout_marginTop="16dp"
+            android:minHeight="48dp"
+            android:text="@string/pedido_editar_switch_activo" />
 
         <!-- Botón guardar -->
         <Button
             android:id="@+id/btnActualizar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar Cambios"
+            android:text="@string/pedido_editar_btn_guardar"
             android:layout_marginTop="24dp"
             android:enabled="false" />
     </LinearLayout>
