@@ -1,7 +1,6 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.repartidor;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
@@ -30,9 +29,9 @@ public class RepartidorConsultarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repartidor_consultar);
 
-        spinnerRepartidor       = findViewById(R.id.spinnerRepartidor);
-        btnConsultarRepartidor  = findViewById(R.id.btnConsultarRepartidor);
-        tvResultado             = findViewById(R.id.tvResultado);
+        spinnerRepartidor      = findViewById(R.id.spinnerRepartidor);
+        btnConsultarRepartidor = findViewById(R.id.btnConsultarRepartidor);
+        tvResultado            = findViewById(R.id.tvResultado);
 
         dbHelper = new DBHelper(this);
         dao      = new RepartidorDAO(dbHelper.getReadableDatabase());
@@ -42,13 +41,10 @@ public class RepartidorConsultarActivity extends AppCompatActivity {
         btnConsultarRepartidor.setOnClickListener(v -> mostrarDetalleRepartidor());
     }
 
-    /**
-     * Carga solo repartidores activos en el spinner.
-     */
     private void cargarSpinnerRepartidores() {
         repartidorIds.clear();
         List<String> items = new ArrayList<>();
-        items.add("Seleccione...");
+        items.add(getString(R.string.spinner_placeholder));
         repartidorIds.add(-1);
 
         List<Repartidor> activos = dao.obtenerActivos();
@@ -64,33 +60,34 @@ public class RepartidorConsultarActivity extends AppCompatActivity {
         spinnerRepartidor.setAdapter(adapter);
     }
 
-    /**
-     * Muestra todos los detalles del repartidor seleccionado.
-     */
     private void mostrarDetalleRepartidor() {
         int pos = spinnerRepartidor.getSelectedItemPosition();
         int id  = repartidorIds.get(pos);
         if (id < 0) {
-            Toast.makeText(this, "Selecciona un repartidor válido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.repartidor_consultar_toast_seleccionar), Toast.LENGTH_SHORT).show();
             return;
         }
 
         Repartidor r = dao.obtenerPorId(id);
         if (r == null) {
-            tvResultado.setText("Repartidor no encontrado.");
+            tvResultado.setText(getString(R.string.repartidor_consultar_msg_no_encontrado));
         } else {
-            StringBuilder sb = new StringBuilder();
-            sb.append("ID Repartidor: ").append(r.getIdRepartidor()).append("\n")
-                    .append("Departamento: ").append(r.getIdDepartamento()).append("\n")
-                    .append("Municipio: ").append(r.getIdMunicipio()).append("\n")
-                    .append("Distrito: ").append(r.getIdDistrito()).append("\n")
-                    .append("Tipo Vehículo: ").append(r.getTipoVehiculo()).append("\n")
-                    .append("Disponible: ").append(r.getDisponible() == 1 ? "Sí" : "No").append("\n")
-                    .append("Teléfono: ").append(r.getTelefonoRepartidor()).append("\n")
-                    .append("Nombre: ").append(r.getNombreRepartidor()).append("\n")
-                    .append("Apellido: ").append(r.getApellidoRepartidor()).append("\n")
-                    .append("Estado: ").append(r.getActivoRepartidor() == 1 ? "Activo" : "Inactivo");
-            tvResultado.setText(sb.toString());
+            String disponible = r.getDisponible() == 1 ? getString(R.string.respuesta_si) : getString(R.string.respuesta_no);
+            String estado     = r.getActivoRepartidor() == 1 ? getString(R.string.estado_activo) : getString(R.string.estado_inactivo);
+            String detalle    = getString(
+                    R.string.repartidor_consultar_detalle_formato,
+                    r.getIdRepartidor(),
+                    r.getIdDepartamento(),
+                    r.getIdMunicipio(),
+                    r.getIdDistrito(),
+                    r.getTipoVehiculo(),
+                    disponible,
+                    r.getTelefonoRepartidor(),
+                    r.getNombreRepartidor(),
+                    r.getApellidoRepartidor(),
+                    estado
+            );
+            tvResultado.setText(detalle);
         }
     }
 

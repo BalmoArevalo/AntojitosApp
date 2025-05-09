@@ -718,5 +718,69 @@
     <string name="sucursal_eliminar_toast_exito">Sucursal desactivada correctamente</string>
     <string name="sucursal_eliminar_toast_error">Error al desactivar sucursal</string>
 
+    <!-- RepartidorConsultarActivity -->
+    <string name="repartidor_consultar_title">Consultar Repartidor</string>
+    <string name="repartidor_consultar_label_spinner">Selecciona un repartidor</string>
+    <string name="repartidor_consultar_btn_mostrar">Mostrar Detalles</string>
+    <string name="repartidor_consultar_msg_default">Aquí se mostrará la información del repartidor seleccionado.</string>
+    <string name="repartidor_consultar_toast_seleccionar">Selecciona un repartidor válido</string>
+    <string name="repartidor_consultar_msg_no_encontrado">Repartidor no encontrado.</string>
+    <string name="repartidor_consultar_detalle_formato">
+    ID Repartidor: %1$d\nDepartamento: %2$d\nMunicipio: %3$d\nDistrito: %4$d\nTipo Vehículo: %5$s\nDisponible: %6$s\nTeléfono: %7$s\nNombre: %8$s\nApellido: %9$s\nEstado: %10$s
+    </string>
+
+    <!-- RepartidorCrearActivity -->
+    <string name="repartidor_crear_titulo">Crear Repartidor</string>
+    <string name="repartidor_crear_hint_nombre">Nombre</string>
+    <string name="repartidor_crear_hint_apellido">Apellido</string>
+    <string name="repartidor_crear_hint_telefono">Teléfono</string>
+    <string name="repartidor_crear_label_tipo_vehiculo">Tipo de Vehículo</string>
+    <string name="repartidor_crear_switch_disponible">Disponible</string>
+    <string name="repartidor_crear_label_departamento">Departamento</string>
+    <string name="repartidor_crear_label_municipio">Municipio</string>
+    <string name="repartidor_crear_label_distrito">Distrito</string>
+    <string name="repartidor_crear_btn_guardar">Guardar</string>
+    <string name="repartidor_crear_btn_limpiar">Limpiar</string>
+    <string name="repartidor_crear_spinner_placeholder">Seleccione...</string>
+    <string name="repartidor_crear_toast_campos_requeridos">Completa todos los campos</string>
+    <string name="repartidor_crear_toast_exito">Repartidor creado con ID %1$d</string>
+    <string name="repartidor_crear_toast_error">Error al crear repartidor</string>
+    <string-array name="repartidor_tipos_vehiculo">
+        <item>Moto</item>
+        <item>Bicicleta</item>
+        <item>Auto</item>
+        <item>Otro</item>
+    </string-array>
+
+    <!-- RepartidorEditarActivity -->
+    <string name="repartidor_editar_titulo">Editar Repartidor</string>
+    <string name="repartidor_editar_label_spinner">Selecciona un repartidor</string>
+    <string name="repartidor_editar_btn_buscar">Buscar</string>
+    <string name="repartidor_editar_hint_nombre">Nombre</string>
+    <string name="repartidor_editar_hint_apellido">Apellido</string>
+    <string name="repartidor_editar_hint_telefono">Teléfono</string>
+    <string name="repartidor_editar_label_tipo_vehiculo">Tipo de Vehículo</string>
+    <string name="repartidor_editar_label_departamento">Departamento</string>
+    <string name="repartidor_editar_label_municipio">Municipio</string>
+    <string name="repartidor_editar_label_distrito">Distrito</string>
+    <string name="repartidor_editar_switch_activo">Repartidor activo</string>
+    <string name="repartidor_editar_btn_actualizar">Actualizar</string>
+    <string name="repartidor_editar_btn_limpiar">Limpiar</string>
+    <string name="repartidor_editar_toast_seleccionar">Selecciona un repartidor válido</string>
+    <string name="repartidor_editar_toast_no_encontrado">Repartidor no encontrado</string>
+    <string name="repartidor_editar_toast_campos">Completa todos los campos</string>
+    <string name="repartidor_editar_toast_exito">Repartidor actualizado correctamente</string>
+    <string name="repartidor_editar_toast_no_busqueda">Busca primero un repartidor</string>
+
+    <!-- RepartidorEliminarActivity -->
+    <string name="repartidor_eliminar_title">Eliminar Repartidor</string>
+    <string name="repartidor_eliminar_spinner_label">Selecciona un repartidor</string>
+    <string name="repartidor_eliminar_btn_buscar">Mostrar Detalles</string>
+    <string name="repartidor_eliminar_btn_eliminar">Eliminar</string>
+    <string name="repartidor_eliminar_btn_limpiar">Limpiar</string>
+    <string name="repartidor_eliminar_resultado_default">Aquí se mostrará la información del repartidor a eliminar.</string>
+    <string name="repartidor_eliminar_toast_exito">Repartidor desactivado correctamente</string>
+    <string name="repartidor_eliminar_toast_error">Error al desactivar repartidor</string>
+
     <!-- PANTALLAS EMERSON - FIN -->
 </resources>
