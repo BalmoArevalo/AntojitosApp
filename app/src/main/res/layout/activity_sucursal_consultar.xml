@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,21 +9,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- Título -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Consultar Sucursal"
+            android:text="@string/sucursal_consultar_title"
             android:textStyle="bold"
             android:textSize="20sp"
             android:gravity="center"
             android:layout_marginBottom="16dp" />
 
-        <!-- Spinner de sucursales -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Selecciona una sucursal"
+            android:text="@string/sucursal_consultar_spinner_label"
             android:textStyle="bold"/>
 
         <Spinner
@@ -32,17 +31,14 @@
             android:layout_marginBottom="12dp"
             android:minHeight="48dp" />
 
-        <!-- Botón para cargar información -->
         <Button
             android:id="@+id/btnConsultarSucursal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mostrar Detalles"
+            android:text="@string/sucursal_consultar_btn"
             android:layout_marginTop="12dp"
             android:layout_gravity="center_horizontal" />
 
-
-        <!-- Resultado -->
         <TextView
             android:id="@+id/tvResultado"
             android:layout_width="match_parent"
@@ -50,7 +46,7 @@
             android:layout_marginTop="16dp"
             android:background="#EEEEEE"
             android:padding="12dp"
-            android:text="Aquí se mostrará la información de la sucursal seleccionada."
+            android:text="@string/sucursal_consultar_default_msg"
             android:textColor="#000000"
             android:textIsSelectable="true" />
     </LinearLayout>

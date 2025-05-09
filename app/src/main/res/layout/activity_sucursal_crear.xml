@@ -10,21 +10,22 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Nombre Sucursal -->
+        <!-- Título -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="8dp"
-            android:text="Crear Sucursal"
+            android:text="@string/sucursal_crear_title"
             android:textSize="18sp"
             android:textStyle="bold" />
 
+        <!-- Nombre -->
         <EditText
             android:id="@+id/editNombreSucursal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre de la sucursal"
+            android:hint="@string/sucursal_crear_hint_nombre"
             android:minHeight="48dp" />
 
         <!-- Teléfono -->
@@ -32,7 +33,7 @@
             android:id="@+id/editTelefonoSucursal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Teléfono"
+            android:hint="@string/sucursal_crear_hint_telefono"
             android:inputType="phone"
             android:minHeight="48dp" />
 
@@ -41,27 +42,25 @@
             android:id="@+id/editDireccionSucursal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Dirección"
+            android:hint="@string/sucursal_crear_hint_direccion"
             android:minHeight="48dp" />
 
-        <!-- Spinner Departamento -->
+        <!-- Departamento -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Departamento" />
-
+            android:text="@string/sucursal_crear_departamento" />
         <Spinner
             android:id="@+id/spinnerDepartamento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="48dp" />
 
-        <!-- Spinner Municipio -->
+        <!-- Municipio -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Municipio" />
-
+            android:text="@string/sucursal_crear_municipio" />
         <Spinner
             android:id="@+id/spinnerMunicipio"
             android:layout_width="match_parent"
@@ -69,12 +68,11 @@
             android:enabled="false"
             android:minHeight="48dp" />
 
-        <!-- Spinner Distrito -->
+        <!-- Distrito -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Distrito" />
-
+            android:text="@string/sucursal_crear_distrito" />
         <Spinner
             android:id="@+id/spinnerDistrito"
             android:layout_width="match_parent"
@@ -82,24 +80,24 @@
             android:enabled="false"
             android:minHeight="48dp" />
 
-        <!-- Hora Apertura -->
+        <!-- Horario apertura -->
         <EditText
             android:id="@+id/editHorarioApertura"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="false"
-            android:hint="Hora de apertura"
+            android:hint="@string/sucursal_crear_hint_apertura"
             android:minHeight="48dp" />
 
-        <!-- Hora Cierre -->
+        <!-- Horario cierre -->
         <EditText
             android:id="@+id/editHorarioCierre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
             android:focusable="false"
-            android:hint="Hora de cierre"
+            android:hint="@string/sucursal_crear_hint_cierre"
             android:minHeight="48dp" />
 
         <!-- Botones -->
@@ -107,14 +105,14 @@
             android:id="@+id/btnGuardarSucursal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar"
+            android:text="@string/sucursal_crear_btn_guardar"
             android:layout_marginTop="16dp" />
 
         <Button
             android:id="@+id/btnLimpiarCampos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Limpiar"
+            android:text="@string/sucursal_crear_btn_limpiar"
             android:layout_marginTop="8dp" />
 
     </LinearLayout>

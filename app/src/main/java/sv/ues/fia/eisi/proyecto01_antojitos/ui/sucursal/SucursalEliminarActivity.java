@@ -43,36 +43,17 @@ public class SucursalEliminarActivity extends AppCompatActivity {
 
         cargarSpinnerSucursales();
 
-        btnBuscar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mostrarDetalles();
-            }
-        });
-        btnEliminar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                eliminarSucursal();
-            }
-        });
-        btnLimpiar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                limpiarCampos();
-            }
-        });
+        btnBuscar.setOnClickListener(v -> mostrarDetalles());
+        btnEliminar.setOnClickListener(v -> eliminarSucursal());
+        btnLimpiar.setOnClickListener(v -> limpiarCampos());
     }
 
-    /**
-     * Carga solo sucursales activas en el spinner para posibilitar soft delete.
-     */
     private void cargarSpinnerSucursales() {
         sucursales.clear();
         List<String> items = new ArrayList<>();
-        items.add("Seleccione...");
+        items.add(getString(R.string.sucursal_eliminar_spinner_default));
         sucursales.add(null);
 
-        // Obtener solo activas
         List<Sucursal> listaActivas = dao.obtenerActivos();
         for (Sucursal s : listaActivas) {
             sucursales.add(s);
@@ -85,15 +66,13 @@ public class SucursalEliminarActivity extends AppCompatActivity {
         spinnerSucursal.setAdapter(adapter);
     }
 
-    /**
-     * Muestra detalles de la sucursal seleccionada.
-     */
     private void mostrarDetalles() {
         int pos = spinnerSucursal.getSelectedItemPosition();
         if (pos <= 0 || sucursales.get(pos) == null) {
-            Toast.makeText(this, "Selecciona una sucursal válida", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.sucursal_eliminar_toast_seleccionar), Toast.LENGTH_SHORT).show();
             return;
         }
+
         Sucursal s = sucursales.get(pos);
         idSucursalSeleccionada = s.getIdSucursal();
 
@@ -112,31 +91,25 @@ public class SucursalEliminarActivity extends AppCompatActivity {
         tvResultado.setText(sb.toString());
     }
 
-    /**
-     * Realiza soft delete marcando la sucursal como inactiva.
-     */
     private void eliminarSucursal() {
         if (idSucursalSeleccionada == -1) {
-            Toast.makeText(this, "Busca primero una sucursal", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.sucursal_eliminar_toast_no_seleccionada), Toast.LENGTH_SHORT).show();
             return;
         }
 
         int filas = dao.eliminar(idSucursalSeleccionada);
         if (filas > 0) {
-            Toast.makeText(this, "Sucursal desactivada correctamente", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.sucursal_eliminar_toast_exito), Toast.LENGTH_LONG).show();
             cargarSpinnerSucursales();
             limpiarCampos();
         } else {
-            Toast.makeText(this, "Error al desactivar sucursal", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.sucursal_eliminar_toast_error), Toast.LENGTH_LONG).show();
         }
     }
 
-    /**
-     * Limpia el formulario.
-     */
     private void limpiarCampos() {
         spinnerSucursal.setSelection(0);
-        tvResultado.setText("Aquí se mostrará la información de la sucursal seleccionada.");
+        tvResultado.setText(getString(R.string.sucursal_eliminar_resultado_default));
         idSucursalSeleccionada = -1;
     }
 

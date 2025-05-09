@@ -5,14 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Switch;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -62,14 +55,11 @@ public class SucursalEditarActivity extends AppCompatActivity {
         dbHelper = new DBHelper(this);
         dao = new SucursalDAO(dbHelper.getWritableDatabase());
 
-        // Cargar datos iniciales
         cargarSpinnerSucursales();
         cargarSpinnerDepartamento();
 
-        // Deshabilitar edición hasta cargar una sucursal
         setFormularioEnabled(false);
 
-        // Listeners de cascada ubicación
         spDepartamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 if (pos > 0) {
@@ -79,6 +69,7 @@ public class SucursalEditarActivity extends AppCompatActivity {
             }
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
+
         spMunicipio.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 if (pos > 0) {
@@ -90,11 +81,9 @@ public class SucursalEditarActivity extends AppCompatActivity {
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        // Pickers de hora
         etHoraApertura.setOnClickListener(v -> mostrarTimePicker(etHoraApertura));
         etHoraCierre.setOnClickListener(v -> mostrarTimePicker(etHoraCierre));
 
-        // Botones
         btnBuscar.setOnClickListener(v -> buscarSucursal());
         btnActualizar.setOnClickListener(v -> actualizarSucursal());
         btnLimpiar.setOnClickListener(v -> limpiarCampos());
@@ -114,24 +103,23 @@ public class SucursalEditarActivity extends AppCompatActivity {
         btnLimpiar.setEnabled(enabled);
     }
 
-    /**
-     * Carga todas las sucursales (activas e inactivas) en el spinner con etiqueta de estado.
-     */
     private void cargarSpinnerSucursales() {
         sucursalIds.clear();
         List<String> nombres = new ArrayList<>();
-        nombres.add("Seleccione...");
+        nombres.add(getString(R.string.spinner_placeholder));
         sucursalIds.add(-1);
 
         List<Sucursal> lista = dao.obtenerTodos();
         for (Sucursal s : lista) {
             sucursalIds.add(s.getIdSucursal());
-            String estado = s.getActivoSucursal() == 1 ? "(Activo)" : "(Inactivo)";
+            String estado = s.getActivoSucursal() == 1
+                    ? getString(R.string.estado_activo)
+                    : getString(R.string.estado_inactivo);
             nombres.add(s.getIdSucursal() + " - " + s.getNombreSucursal() + " " + estado);
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, nombres);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, nombres);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spSucursal.setAdapter(adapter);
     }
@@ -139,7 +127,7 @@ public class SucursalEditarActivity extends AppCompatActivity {
     private void cargarSpinnerDepartamento() {
         departamentoIds.clear();
         List<String> nombres = new ArrayList<>();
-        nombres.add("Seleccione...");
+        nombres.add(getString(R.string.spinner_placeholder));
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT ID_DEPARTAMENTO, NOMBRE_DEPARTAMENTO FROM DEPARTAMENTO", null);
@@ -149,8 +137,8 @@ public class SucursalEditarActivity extends AppCompatActivity {
         }
         c.close();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, nombres);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, nombres);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spDepartamento.setAdapter(adapter);
     }
@@ -158,7 +146,7 @@ public class SucursalEditarActivity extends AppCompatActivity {
     private void cargarSpinnerMunicipio(int idDepartamento) {
         municipioIds.clear();
         List<String> nombres = new ArrayList<>();
-        nombres.add("Seleccione...");
+        nombres.add(getString(R.string.spinner_placeholder));
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery(
@@ -170,8 +158,8 @@ public class SucursalEditarActivity extends AppCompatActivity {
         }
         c.close();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, nombres);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, nombres);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spMunicipio.setAdapter(adapter);
     }
@@ -179,7 +167,7 @@ public class SucursalEditarActivity extends AppCompatActivity {
     private void cargarSpinnerDistrito(int idDepartamento, int idMunicipio) {
         distritoIds.clear();
         List<String> nombres = new ArrayList<>();
-        nombres.add("Seleccione...");
+        nombres.add(getString(R.string.spinner_placeholder));
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery(
@@ -191,21 +179,19 @@ public class SucursalEditarActivity extends AppCompatActivity {
         }
         c.close();
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, nombres);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, nombres);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spDistrito.setAdapter(adapter);
     }
 
-    /**
-     * Carga los datos de la sucursal seleccionada desde DAO y habilita el formulario.
-     */
     private void buscarSucursal() {
         int pos = spSucursal.getSelectedItemPosition();
         if (pos <= 0) {
-            Toast.makeText(this, "Selecciona una sucursal válida", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.sucursal_editar_toast_seleccione), Toast.LENGTH_SHORT).show();
             return;
         }
+
         idSucursalSeleccionada = sucursalIds.get(pos);
         Sucursal s = dao.obtenerPorId(idSucursalSeleccionada);
         if (s != null) {
@@ -221,39 +207,42 @@ public class SucursalEditarActivity extends AppCompatActivity {
                 spDepartamento.setSelection(posDep + 1);
                 cargarSpinnerMunicipio(s.getIdDepartamento());
             }
+
             int posMun = municipioIds.indexOf(s.getIdMunicipio());
             if (posMun >= 0) spMunicipio.setSelection(posMun + 1);
+
             cargarSpinnerDistrito(s.getIdDepartamento(), s.getIdMunicipio());
+
             int posDist = distritoIds.indexOf(s.getIdDistrito());
             if (posDist >= 0) spDistrito.setSelection(posDist + 1);
 
             setFormularioEnabled(true);
         } else {
-            Toast.makeText(this, "Sucursal no encontrada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.sucursal_editar_toast_no_encontrada), Toast.LENGTH_SHORT).show();
         }
     }
 
-    /**
-     * Actualiza la sucursal con nuevos valores.
-     */
     private void actualizarSucursal() {
         if (idSucursalSeleccionada == -1) {
-            Toast.makeText(this, "Busca primero una sucursal", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.sucursal_editar_toast_no_busqueda), Toast.LENGTH_SHORT).show();
             return;
         }
+
         String nombre = etNombre.getText().toString().trim();
         String telefono = etTelefono.getText().toString().trim();
         String direccion = etDireccion.getText().toString().trim();
         String horaA = etHoraApertura.getText().toString();
         String horaC = etHoraCierre.getText().toString();
+
         if (nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty() ||
                 spDepartamento.getSelectedItemPosition() == 0 ||
                 spMunicipio.getSelectedItemPosition() == 0 ||
                 spDistrito.getSelectedItemPosition() == 0 ||
                 horaA.isEmpty() || horaC.isEmpty()) {
-            Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.sucursal_editar_toast_campos), Toast.LENGTH_SHORT).show();
             return;
         }
+
         int activo = switchActivo.isChecked() ? 1 : 0;
         Sucursal s = new Sucursal(
                 idSucursalSeleccionada,
@@ -262,8 +251,9 @@ public class SucursalEditarActivity extends AppCompatActivity {
                 distritoIds.get(spDistrito.getSelectedItemPosition() - 1),
                 nombre, direccion, telefono, horaA, horaC, activo
         );
+
         dao.actualizar(s);
-        Toast.makeText(this, "Sucursal actualizada correctamente", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.sucursal_editar_toast_actualizado), Toast.LENGTH_LONG).show();
         finish();
     }
 

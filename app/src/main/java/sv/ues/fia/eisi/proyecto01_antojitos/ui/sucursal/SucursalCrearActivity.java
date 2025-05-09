@@ -5,13 +5,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -57,18 +51,17 @@ public class SucursalCrearActivity extends AppCompatActivity {
         dao = new SucursalDAO(dbHelper.getWritableDatabase());
         viewModel = new ViewModelProvider(this).get(SucursalViewModel.class);
 
-        // Observa resultado de inserción
         viewModel.getIdInsertado().observe(this, new Observer<Long>() {
             @Override
             public void onChanged(Long newId) {
                 if (newId != null && newId > 0) {
                     Toast.makeText(SucursalCrearActivity.this,
-                            "Sucursal guardada con ID " + newId,
+                            getString(R.string.sucursal_crear_toast_exito, newId),
                             Toast.LENGTH_LONG).show();
                     finish();
                 } else if (newId != null && newId == -1) {
                     Toast.makeText(SucursalCrearActivity.this,
-                            "Error al guardar la sucursal",
+                            getString(R.string.sucursal_crear_toast_error),
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -114,13 +107,10 @@ public class SucursalCrearActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Carga departamentos desde la base de datos.
-     */
     private void cargarSpinnerDepartamento() {
         departamentoIds.clear();
         List<String> nombres = new ArrayList<>();
-        nombres.add("Seleccione...");
+        nombres.add(getString(R.string.sucursal_crear_spinner_placeholder));
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT ID_DEPARTAMENTO, NOMBRE_DEPARTAMENTO FROM DEPARTAMENTO", null);
@@ -136,13 +126,10 @@ public class SucursalCrearActivity extends AppCompatActivity {
         spDepartamento.setAdapter(adapter);
     }
 
-    /**
-     * Carga municipios según departamento seleccionado.
-     */
     private void cargarSpinnerMunicipio(int idDepartamento) {
         municipioIds.clear();
         List<String> nombres = new ArrayList<>();
-        nombres.add("Seleccione...");
+        nombres.add(getString(R.string.sucursal_crear_spinner_placeholder));
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery(
@@ -160,13 +147,10 @@ public class SucursalCrearActivity extends AppCompatActivity {
         spMunicipio.setAdapter(adapter);
     }
 
-    /**
-     * Carga distritos según departamento y municipio.
-     */
     private void cargarSpinnerDistrito(int idDepartamento, int idMunicipio) {
         distritoIds.clear();
         List<String> nombres = new ArrayList<>();
-        nombres.add("Seleccione...");
+        nombres.add(getString(R.string.sucursal_crear_spinner_placeholder));
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery(
@@ -184,9 +168,6 @@ public class SucursalCrearActivity extends AppCompatActivity {
         spDistrito.setAdapter(adapter);
     }
 
-    /**
-     * TimePicker para seleccionar hora.
-     */
     private void mostrarTimePicker(EditText campoHora) {
         Calendar c = Calendar.getInstance();
         int h = c.get(Calendar.HOUR_OF_DAY);
@@ -196,9 +177,6 @@ public class SucursalCrearActivity extends AppCompatActivity {
                 h, m, true).show();
     }
 
-    /**
-     * Valida y guarda la sucursal.
-     */
     private void guardarSucursal() {
         String nombre = etNombre.getText().toString().trim();
         String telefono = etTelefono.getText().toString().trim();
@@ -211,7 +189,7 @@ public class SucursalCrearActivity extends AppCompatActivity {
                 || spMunicipio.getSelectedItemPosition() == 0
                 || spDistrito.getSelectedItemPosition() == 0
                 || horaA.isEmpty() || horaC.isEmpty()) {
-            Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.sucursal_crear_toast_campos_requeridos), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -224,9 +202,6 @@ public class SucursalCrearActivity extends AppCompatActivity {
         viewModel.insertarSucursal(s);
     }
 
-    /**
-     * Limpia el formulario.
-     */
     private void limpiarCampos() {
         etNombre.setText("");
         etTelefono.setText("");

@@ -638,4 +638,85 @@
     </string>
 
     <!-- PANTALLAS BENITEZ - FIN -->
+
+    <!-- PANTALLAS EMERSON - INICIO -->
+
+    <!-- SucursalConsultarActivity -->
+    <string name="sucursal_consultar_title">Consultar Sucursal</string>
+    <string name="sucursal_consultar_spinner_label">Selecciona una sucursal</string>
+    <string name="sucursal_consultar_btn">Mostrar Detalles</string>
+    <string name="sucursal_consultar_default_msg">Aquí se mostrará la información de la sucursal seleccionada.</string>
+    <string name="sucursal_consultar_toast_seleccionar">Selecciona una sucursal válida</string>
+    <string name="sucursal_consultar_msg_no_encontrada">Sucursal no encontrada o inactiva.</string>
+    <string name="sucursal_consultar_msg_error">Error al consultar: %1$s</string>
+
+    <!-- Formato del detalle -->
+    <string name="sucursal_consultar_detalle_formato">
+    ID Sucursal: %1$d\nDepartamento %2$d - %3$s\nMunicipio %4$d - %5$s\nDistrito %6$d - %7$s\nNombre: %8$s\nDirección: %9$s\nTeléfono: %10$s\nHorario Apertura: %11$s\nHorario Cierre: %12$s\nEstado: %13$s
+    </string>
+
+    <string name="estado_activo">Activo</string>
+    <string name="estado_inactivo">Inactivo</string>
+    <string name="spinner_placeholder">Seleccione...</string>
+
+    <!-- Sucursal Crear -->
+    <string name="sucursal_crear_title">Crear Sucursal</string>
+    <string name="sucursal_crear_hint_nombre">Nombre de la sucursal</string>
+    <string name="sucursal_crear_hint_telefono">Teléfono</string>
+    <string name="sucursal_crear_hint_direccion">Dirección</string>
+    <string name="sucursal_crear_departamento">Departamento</string>
+    <string name="sucursal_crear_municipio">Municipio</string>
+    <string name="sucursal_crear_distrito">Distrito</string>
+    <string name="sucursal_crear_hint_apertura">Hora de apertura</string>
+    <string name="sucursal_crear_hint_cierre">Hora de cierre</string>
+    <string name="sucursal_crear_btn_guardar">Guardar</string>
+    <string name="sucursal_crear_btn_limpiar">Limpiar</string>
+
+    <string name="sucursal_crear_spinner_placeholder">Seleccione...</string>
+    <string name="sucursal_crear_toast_exito">Sucursal guardada con ID %1$d</string>
+    <string name="sucursal_crear_toast_error">Error al guardar la sucursal</string>
+    <string name="sucursal_crear_toast_campos_requeridos">Completa todos los campos</string>
+
+    <!-- SucursalEditarActivity -->
+    <string name="sucursal_editar_titulo">Editar Sucursal</string>
+    <string name="sucursal_editar_label_sucursal">Selecciona la sucursal</string>
+    <string name="sucursal_editar_label_nombre">Nombre de la Sucursal</string>
+    <string name="sucursal_editar_label_telefono">Teléfono</string>
+    <string name="sucursal_editar_label_direccion">Dirección Sucursal</string>
+    <string name="sucursal_editar_label_departamento">Departamento</string>
+    <string name="sucursal_editar_label_municipio">Municipio</string>
+    <string name="sucursal_editar_label_distrito">Distrito</string>
+    <string name="sucursal_editar_label_apertura">Hora Apertura</string>
+    <string name="sucursal_editar_label_cierre">Hora Cierre</string>
+    <string name="sucursal_editar_switch_activo">Sucursal activa</string>
+
+    <!-- Botones -->
+    <string name="btn_buscar">Buscar</string>
+    <string name="btn_actualizar">Actualizar</string>
+
+    <!-- Toasts -->
+    <string name="sucursal_editar_toast_seleccione">Selecciona una sucursal válida</string>
+    <string name="sucursal_editar_toast_no_encontrada">Sucursal no encontrada</string>
+    <string name="sucursal_editar_toast_no_busqueda">Busca primero una sucursal</string>
+    <string name="sucursal_editar_toast_campos">Completa todos los campos</string>
+    <string name="sucursal_editar_toast_actualizado">Sucursal actualizada correctamente</string>
+
+    <!-- SucursalEliminarActivity -->
+    <string name="sucursal_eliminar_titulo">Eliminar Sucursal</string>
+    <string name="sucursal_eliminar_selecciona">Selecciona una sucursal</string>
+    <string name="sucursal_eliminar_spinner_default">Seleccione...</string>
+    <string name="sucursal_eliminar_btn_mostrar">Mostrar Detalles</string>
+    <string name="sucursal_eliminar_btn_eliminar">Eliminar</string>
+    <string name="sucursal_eliminar_btn_limpiar">Limpiar</string>
+
+    <!-- Textos por defecto / resultados -->
+    <string name="sucursal_eliminar_resultado_default">Aquí se mostrará la información de la sucursal seleccionada.</string>
+
+    <!-- Toasts -->
+    <string name="sucursal_eliminar_toast_seleccionar">Selecciona una sucursal válida</string>
+    <string name="sucursal_eliminar_toast_no_seleccionada">Busca primero una sucursal</string>
+    <string name="sucursal_eliminar_toast_exito">Sucursal desactivada correctamente</string>
+    <string name="sucursal_eliminar_toast_error">Error al desactivar sucursal</string>
+
+    <!-- PANTALLAS EMERSON - FIN -->
 </resources>
