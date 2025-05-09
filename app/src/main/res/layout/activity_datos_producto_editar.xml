@@ -15,7 +15,7 @@
             android:id="@+id/text_editar_datos_producto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Editar Datos Producto"
+            android:text="@string/datos_producto_editar_title"
             android:textSize="18sp"
             android:textStyle="bold"
             android:gravity="center"
@@ -25,7 +25,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sucursal:"
+            android:text="@string/datos_producto_editar_label_sucursal"
             android:layout_marginTop="12dp"
             android:textStyle="bold"
             android:minHeight="48dp" />
@@ -40,7 +40,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Producto:"
+            android:text="@string/datos_producto_editar_label_producto"
             android:layout_marginTop="12dp"
             android:textStyle="bold" />
 
@@ -55,14 +55,14 @@
             android:id="@+id/btnBuscar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Buscar"
+            android:text="@string/datos_producto_editar_btn_buscar"
             android:layout_marginTop="16dp" />
 
         <!-- Precio -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Precio (USD):"
+            android:text="@string/datos_producto_editar_label_precio"
             android:layout_marginTop="16dp"
             android:textStyle="bold" />
 
@@ -71,13 +71,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="numberDecimal"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:hint="@string/datos_producto_editar_hint_precio" />
 
         <!-- Stock -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Stock:"
+            android:text="@string/datos_producto_editar_label_stock"
             android:layout_marginTop="12dp"
             android:textStyle="bold" />
 
@@ -86,13 +87,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:minHeight="48dp" />
+            android:minHeight="48dp"
+            android:hint="@string/datos_producto_editar_hint_stock" />
 
         <!-- Disponible -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Disponible:"
+            android:text="@string/datos_producto_editar_label_disponible"
             android:layout_marginTop="12dp"
             android:textStyle="bold" />
 
@@ -108,14 +110,14 @@
             android:id="@+id/btnActualizar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar cambios"
+            android:text="@string/datos_producto_editar_btn_actualizar"
             android:layout_marginTop="20dp" />
 
         <Button
             android:id="@+id/btnLimpiar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Limpiar"
+            android:text="@string/datos_producto_editar_btn_limpiar"
             android:layout_marginTop="8dp" />
 
     </LinearLayout>

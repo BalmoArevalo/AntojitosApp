@@ -23,12 +23,12 @@ import sv.ues.fia.eisi.proyecto01_antojitos.R;
 import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
 
 public class DatosProductoEliminarActivity extends AppCompatActivity {
+
     private Spinner spinnerDatosProducto;
     private TextView tvResultadoDatosProducto;
     private Button btnEliminar;
     private Button btnLimpiar;
     private DBHelper dbHelper;
-    // Lista de claves compuestas: [idSucursal, idProducto]
     private List<int[]> listaClaves;
 
     @Override
@@ -57,15 +57,14 @@ public class DatosProductoEliminarActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (position == 0) {
-                    // Placeholder seleccionado: no mostrar nada
                     tvResultadoDatosProducto.setText("");
                     btnEliminar.setEnabled(false);
                 } else {
-                    // Mostrar detalles del registro seleccionado
                     showDetalles(position - 1);
                     btnEliminar.setEnabled(true);
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 tvResultadoDatosProducto.setText("");
@@ -81,20 +80,17 @@ public class DatosProductoEliminarActivity extends AppCompatActivity {
         });
     }
 
-    /**
-     * Carga el spinner con un placeholder y los registros activos de DATOSPRODUCTO.
-     */
     private void loadRegistros() {
         listaClaves = new ArrayList<>();
         List<String> labels = new ArrayList<>();
-        // Placeholder inicial
         labels.add("Selecciona un registro activo");
-        // Consulta registros activos
+
         String sql = "SELECT dp.ID_SUCURSAL, dp.ID_PRODUCTO, s.NOMBRE_SUCURSAL, p.NOMBRE_PRODUCTO " +
                 "FROM DATOSPRODUCTO dp " +
                 "JOIN SUCURSAL s ON dp.ID_SUCURSAL = s.ID_SUCURSAL " +
                 "JOIN PRODUCTO p ON dp.ID_PRODUCTO = p.ID_PRODUCTO " +
                 "WHERE dp.ACTIVO_DATOSPRODUCTO = 1";
+
         Cursor cursor = dbHelper.getReadableDatabase().rawQuery(sql, null);
         while (cursor.moveToNext()) {
             int idSuc = cursor.getInt(0);
@@ -114,9 +110,6 @@ public class DatosProductoEliminarActivity extends AppCompatActivity {
         btnEliminar.setEnabled(false);
     }
 
-    /**
-     * Muestra en el TextView los detalles de precio y stock para la clave seleccionada.
-     */
     private void showDetalles(int index) {
         int[] clave = listaClaves.get(index);
         int idSuc = clave[0];
@@ -137,7 +130,7 @@ public class DatosProductoEliminarActivity extends AppCompatActivity {
     private String getSucursalName(int idSucursal) {
         Cursor c = dbHelper.getReadableDatabase().rawQuery(
                 "SELECT NOMBRE_SUCURSAL FROM SUCURSAL WHERE ID_SUCURSAL = ?",
-                new String[]{ String.valueOf(idSucursal) });
+                new String[]{String.valueOf(idSucursal)});
         String name = "";
         if (c.moveToFirst()) name = c.getString(0);
         c.close();
@@ -147,16 +140,13 @@ public class DatosProductoEliminarActivity extends AppCompatActivity {
     private String getProductoName(int idProducto) {
         Cursor c = dbHelper.getReadableDatabase().rawQuery(
                 "SELECT NOMBRE_PRODUCTO FROM PRODUCTO WHERE ID_PRODUCTO = ?",
-                new String[]{ String.valueOf(idProducto) });
+                new String[]{String.valueOf(idProducto)});
         String name = "";
         if (c.moveToFirst()) name = c.getString(0);
         c.close();
         return name;
     }
 
-    /**
-     * Realiza soft-delete del registro seleccionado y recarga el spinner.
-     */
     private void eliminarRegistro() {
         int position = spinnerDatosProducto.getSelectedItemPosition();
         if (position <= 0) return;

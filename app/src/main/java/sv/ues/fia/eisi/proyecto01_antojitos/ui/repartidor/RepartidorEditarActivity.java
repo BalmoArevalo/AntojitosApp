@@ -45,39 +45,34 @@ public class RepartidorEditarActivity extends AppCompatActivity {
     private List<Integer> distritoIds = new ArrayList<>();
 
     private int idRepartidorSeleccionado = -1;
-    private int disponibleActual = 1;  // almacenará el valor original de 'disponible'
+    private int disponibleActual = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_repartidor_editar);
 
-        // Inicializar vistas
-        spinnerRepartidor       = findViewById(R.id.spinnerRepartidor);
-        btnBuscar               = findViewById(R.id.btnBuscar);
-        etNombreRepartidor      = findViewById(R.id.editNombreRepartidor);
-        etApellidoRepartidor    = findViewById(R.id.editApellidoRepartidor);
-        etTelefonoRepartidor    = findViewById(R.id.editTelefonoRepartidor);
-        spTipoVehiculo          = findViewById(R.id.spinnerTipoVehiculo);
-        spDepartamento          = findViewById(R.id.spinnerDepartamento);
-        spMunicipio             = findViewById(R.id.spinnerMunicipio);
-        spDistrito              = findViewById(R.id.spinnerDistrito);
-        switchActivoRepartidor  = findViewById(R.id.switchActivoRepartidor);
+        spinnerRepartidor = findViewById(R.id.spinnerRepartidor);
+        btnBuscar = findViewById(R.id.btnBuscar);
+        etNombreRepartidor = findViewById(R.id.editNombreRepartidor);
+        etApellidoRepartidor = findViewById(R.id.editApellidoRepartidor);
+        etTelefonoRepartidor = findViewById(R.id.editTelefonoRepartidor);
+        spTipoVehiculo = findViewById(R.id.spinnerTipoVehiculo);
+        spDepartamento = findViewById(R.id.spinnerDepartamento);
+        spMunicipio = findViewById(R.id.spinnerMunicipio);
+        spDistrito = findViewById(R.id.spinnerDistrito);
+        switchActivoRepartidor = findViewById(R.id.switchActivoRepartidor);
         btnActualizarRepartidor = findViewById(R.id.btnActualizarRepartidor);
-        btnLimpiarCampos        = findViewById(R.id.btnLimpiarCampos);
+        btnLimpiarCampos = findViewById(R.id.btnLimpiarCampos);
 
         dbHelper = new DBHelper(this);
         dao = new RepartidorDAO(dbHelper.getWritableDatabase());
 
-        // Spinner repartidores (activos e inactivos)
         cargarSpinnerRepartidor();
 
-        // Spinner tipo de vehículo
-        String[] tipos = {"Moto", "Bicicleta", "Auto", "Otro"};
-        spTipoVehiculo.setAdapter(new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, tipos));
+        String[] tipos = getResources().getStringArray(R.array.repartidor_tipos_vehiculo);
+        spTipoVehiculo.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, tipos));
 
-        // Spinner departamentos
         cargarSpinnerDepartamento();
         spDepartamento.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -106,7 +101,6 @@ public class RepartidorEditarActivity extends AppCompatActivity {
             @Override public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        // Listeners
         btnBuscar.setOnClickListener(v -> buscarRepartidor());
         btnActualizarRepartidor.setOnClickListener(v -> actualizarRepartidor());
         btnLimpiarCampos.setOnClickListener(v -> limpiarCampos());
@@ -130,24 +124,24 @@ public class RepartidorEditarActivity extends AppCompatActivity {
     private void cargarSpinnerRepartidor() {
         repartidorIds.clear();
         List<String> items = new ArrayList<>();
-        items.add("Seleccione...");
+        items.add(getString(R.string.repartidor_crear_spinner_placeholder));
         repartidorIds.add(-1);
 
         List<Repartidor> list = dao.obtenerTodos();
         for (Repartidor r : list) {
             repartidorIds.add(r.getIdRepartidor());
-            String estado = r.getActivoRepartidor() == 1 ? "(Activo)" : "(Inactivo)";
-            items.add(r.getIdRepartidor() + " - " + r.getNombreRepartidor() + " " + r.getApellidoRepartidor() + " " + estado);
+            String estado = r.getActivoRepartidor() == 1 ? getString(R.string.estado_activo) : getString(R.string.estado_inactivo);
+            items.add(r.getIdRepartidor() + " - " + r.getNombreRepartidor() + " " + r.getApellidoRepartidor() + " (" + estado + ")");
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, items);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, items);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerRepartidor.setAdapter(adapter);
     }
 
     private void cargarSpinnerDepartamento() {
         departamentoIds.clear();
-        List<String> names = new ArrayList<>(); names.add("Seleccione...");
+        List<String> names = new ArrayList<>();
+        names.add(getString(R.string.repartidor_crear_spinner_placeholder));
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery("SELECT ID_DEPARTAMENTO, NOMBRE_DEPARTAMENTO FROM DEPARTAMENTO", null);
         while (c.moveToNext()) {
@@ -160,10 +154,10 @@ public class RepartidorEditarActivity extends AppCompatActivity {
 
     private void cargarSpinnerMunicipio(int idDep) {
         municipioIds.clear();
-        List<String> names = new ArrayList<>(); names.add("Seleccione...");
+        List<String> names = new ArrayList<>();
+        names.add(getString(R.string.repartidor_crear_spinner_placeholder));
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery(
-                "SELECT ID_MUNICIPIO, NOMBRE_MUNICIPIO FROM MUNICIPIO WHERE ID_DEPARTAMENTO = ?",
+        Cursor c = db.rawQuery("SELECT ID_MUNICIPIO, NOMBRE_MUNICIPIO FROM MUNICIPIO WHERE ID_DEPARTAMENTO = ?",
                 new String[]{String.valueOf(idDep)});
         while (c.moveToNext()) {
             municipioIds.add(c.getInt(0));
@@ -175,10 +169,10 @@ public class RepartidorEditarActivity extends AppCompatActivity {
 
     private void cargarSpinnerDistrito(int idDep, int idMun) {
         distritoIds.clear();
-        List<String> names = new ArrayList<>(); names.add("Seleccione...");
+        List<String> names = new ArrayList<>();
+        names.add(getString(R.string.repartidor_crear_spinner_placeholder));
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor c = db.rawQuery(
-                "SELECT ID_DISTRITO, NOMBRE_DISTRITO FROM DISTRITO WHERE ID_DEPARTAMENTO = ? AND ID_MUNICIPIO = ?",
+        Cursor c = db.rawQuery("SELECT ID_DISTRITO, NOMBRE_DISTRITO FROM DISTRITO WHERE ID_DEPARTAMENTO = ? AND ID_MUNICIPIO = ?",
                 new String[]{String.valueOf(idDep), String.valueOf(idMun)});
         while (c.moveToNext()) {
             distritoIds.add(c.getInt(0));
@@ -191,7 +185,7 @@ public class RepartidorEditarActivity extends AppCompatActivity {
     private void buscarRepartidor() {
         int pos = spinnerRepartidor.getSelectedItemPosition();
         if (pos <= 0) {
-            Toast.makeText(this, "Selecciona un repartidor válido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.repartidor_editar_toast_seleccionar), Toast.LENGTH_SHORT).show();
             return;
         }
         idRepartidorSeleccionado = repartidorIds.get(pos);
@@ -201,34 +195,29 @@ public class RepartidorEditarActivity extends AppCompatActivity {
             etApellidoRepartidor.setText(r.getApellidoRepartidor());
             etTelefonoRepartidor.setText(r.getTelefonoRepartidor());
             disponibleActual = r.getDisponible();
-            // Tipo vehículo
             ArrayAdapter adapter = (ArrayAdapter) spTipoVehiculo.getAdapter();
             int tipoPos = adapter.getPosition(r.getTipoVehiculo());
             if (tipoPos >= 0) spTipoVehiculo.setSelection(tipoPos);
-            // Departamento
             int depPos = departamentoIds.indexOf(r.getIdDepartamento());
             if (depPos >= 0) {
                 spDepartamento.setSelection(depPos + 1);
                 cargarSpinnerMunicipio(r.getIdDepartamento());
             }
-            // Municipio
             int munPos = municipioIds.indexOf(r.getIdMunicipio());
             if (munPos >= 0) spMunicipio.setSelection(munPos + 1);
-            // Distrito
             cargarSpinnerDistrito(r.getIdDepartamento(), r.getIdMunicipio());
             int distPos = distritoIds.indexOf(r.getIdDistrito());
             if (distPos >= 0) spDistrito.setSelection(distPos + 1);
-            // Activo
             switchActivoRepartidor.setChecked(r.getActivoRepartidor() == 1);
             setFormularioEnabled(true);
         } else {
-            Toast.makeText(this, "Repartidor no encontrado", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.repartidor_editar_toast_no_encontrado), Toast.LENGTH_SHORT).show();
         }
     }
 
     private void actualizarRepartidor() {
         if (idRepartidorSeleccionado < 0) {
-            Toast.makeText(this, "Busca primero un repartidor", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.repartidor_editar_toast_no_busqueda), Toast.LENGTH_SHORT).show();
             return;
         }
         String nombre = etNombreRepartidor.getText().toString().trim();
@@ -240,7 +229,7 @@ public class RepartidorEditarActivity extends AppCompatActivity {
         int distPos = spDistrito.getSelectedItemPosition();
         if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty()
                 || tipoPos < 0 || depPos == 0 || munPos == 0 || distPos == 0) {
-            Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.repartidor_editar_toast_campos), Toast.LENGTH_SHORT).show();
             return;
         }
         Repartidor r = new Repartidor(
@@ -256,7 +245,7 @@ public class RepartidorEditarActivity extends AppCompatActivity {
                 switchActivoRepartidor.isChecked() ? 1 : 0
         );
         dao.actualizar(r);
-        Toast.makeText(this, "Repartidor actualizado correctamente", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, getString(R.string.repartidor_editar_toast_exito), Toast.LENGTH_LONG).show();
         finish();
     }
 

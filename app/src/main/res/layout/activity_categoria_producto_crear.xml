@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Crear Categoría"
+        android:text="@string/categoria_producto_crear_titulo"
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginBottom="16dp"/>
@@ -17,37 +17,41 @@
         android:id="@+id/editTextNombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre de la categoría"
-        android:inputType="textPersonName" />
+        android:hint="@string/categoria_producto_hint_nombre"
+        android:inputType="textPersonName"
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/editTextDescripcion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Descripción"
-        android:layout_marginTop="8dp" />
+        android:layout_marginTop="8dp"
+        android:hint="@string/categoria_producto_hint_descripcion"
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/editTextDesde"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Hora disponible desde"
+        android:layout_marginTop="8dp"
         android:focusable="false"
-        android:layout_marginTop="8dp" />
+        android:hint="@string/categoria_producto_hint_hora_desde"
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/editTextHasta"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Hora disponible hasta"
+        android:layout_marginTop="8dp"
         android:focusable="false"
-        android:layout_marginTop="8dp" />
+        android:hint="@string/categoria_producto_hint_hora_hasta"
+        android:minHeight="48dp" />
 
     <TextView
         android:id="@+id/textViewDisponible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Disponible ahora: -"
+        android:text="@string/categoria_producto_disponible_default"
         android:textStyle="italic"
         android:layout_marginTop="12dp"/>
 
@@ -55,7 +59,7 @@
         android:id="@+id/btnGuardarCategoria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar"
+        android:text="@string/categoria_producto_btn_guardar"
         android:layout_marginTop="24dp" />
 
 </LinearLayout>

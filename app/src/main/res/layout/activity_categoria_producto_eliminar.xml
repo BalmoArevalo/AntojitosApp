@@ -9,7 +9,7 @@
         android:id="@+id/textTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eliminar Categoría"
+        android:text="@string/categoria_producto_eliminar_titulo"
         android:textSize="20sp"
         android:textStyle="bold" />
 
@@ -17,12 +17,21 @@
         android:id="@+id/spinnerCategoriaEliminar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:minHeight="48dp" />
+
+    <TextView
+        android:id="@+id/textDetalleCategoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_marginTop="16dp"
+        android:textStyle="italic" />
 
     <Button
         android:id="@+id/btnEliminarCategoria"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Eliminar Categoría"
+        android:text="@string/categoria_producto_eliminar_btn"
         android:layout_marginTop="24dp" />
 </LinearLayout>

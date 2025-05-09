@@ -52,13 +52,10 @@ public class RepartidorEliminarActivity extends AppCompatActivity {
         btnLimpiarCampos.setOnClickListener(v -> limpiarCampos());
     }
 
-    /**
-     * Carga solo repartidores activos en el spinner.
-     */
     private void cargarSpinnerActivos() {
         repartidorIds.clear();
         List<String> items = new ArrayList<>();
-        items.add("Seleccione...");
+        items.add(getString(R.string.repartidor_crear_spinner_placeholder));
         repartidorIds.add(-1);
 
         List<Repartidor> activos = dao.obtenerActivos();
@@ -73,14 +70,11 @@ public class RepartidorEliminarActivity extends AppCompatActivity {
         spinnerRepartidor.setAdapter(adapter);
     }
 
-    /**
-     * Muestra detalles del repartidor seleccionado.
-     */
     private void mostrarDetalles() {
         int pos = spinnerRepartidor.getSelectedItemPosition();
         int id  = repartidorIds.get(pos);
         if (id < 0) {
-            Toast.makeText(this, "Selecciona un repartidor válido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.repartidor_editar_toast_seleccionar), Toast.LENGTH_SHORT).show();
             return;
         }
         idRepartidorSeleccionado = id;
@@ -91,45 +85,39 @@ public class RepartidorEliminarActivity extends AppCompatActivity {
             sb.append("ID Repartidor: ").append(r.getIdRepartidor()).append("\n")
                     .append("Nombre: ").append(r.getNombreRepartidor()).append("\n")
                     .append("Apellido: ").append(r.getApellidoRepartidor()).append("\n")
-                    .append("Teléfono: ").append(r.getTelefonoRepartidor()).append("\n")
-                    .append("Tipo Vehículo: ").append(r.getTipoVehiculo()).append("\n")
-                    .append("Disponible: ").append(r.getDisponible() == 1 ? "Sí" : "No").append("\n")
+                    .append("Tel\u00e9fono: ").append(r.getTelefonoRepartidor()).append("\n")
+                    .append("Tipo Veh\u00edculo: ").append(r.getTipoVehiculo()).append("\n")
+                    .append("Disponible: ").append(r.getDisponible() == 1 ? getString(R.string.respuesta_si) : getString(R.string.respuesta_no)).append("\n")
                     .append("Departamento ID: ").append(r.getIdDepartamento()).append("\n")
                     .append("Municipio ID: ").append(r.getIdMunicipio()).append("\n")
                     .append("Distrito ID: ").append(r.getIdDistrito()).append("\n")
-                    .append("Estado: ").append(r.getActivoRepartidor() == 1 ? "Activo" : "Inactivo");
+                    .append("Estado: ").append(r.getActivoRepartidor() == 1 ? getString(R.string.estado_activo) : getString(R.string.estado_inactivo));
             tvResultado.setText(sb.toString());
             btnEliminarRepartidor.setEnabled(true);
         } else {
-            tvResultado.setText("Repartidor no encontrado.");
+            tvResultado.setText(getString(R.string.repartidor_editar_toast_no_encontrado));
             btnEliminarRepartidor.setEnabled(false);
         }
     }
 
-    /**
-     * Realiza soft delete marcando como inactivo.
-     */
     private void eliminarRepartidor() {
         if (idRepartidorSeleccionado < 0) {
-            Toast.makeText(this, "Busca primero un repartidor", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.repartidor_editar_toast_no_busqueda), Toast.LENGTH_SHORT).show();
             return;
         }
         int filas = dao.eliminar(idRepartidorSeleccionado);
         if (filas > 0) {
-            Toast.makeText(this, "Repartidor desactivado correctamente", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.repartidor_eliminar_toast_exito), Toast.LENGTH_LONG).show();
             cargarSpinnerActivos();
             limpiarCampos();
         } else {
-            Toast.makeText(this, "Error al desactivar repartidor", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.repartidor_eliminar_toast_error), Toast.LENGTH_LONG).show();
         }
     }
 
-    /**
-     * Limpia la selección y el texto mostrado.
-     */
     private void limpiarCampos() {
         spinnerRepartidor.setSelection(0);
-        tvResultado.setText("Aquí se mostrará la información del repartidor a eliminar.");
+        tvResultado.setText(getString(R.string.repartidor_eliminar_resultado_default));
         btnEliminarRepartidor.setEnabled(false);
         idRepartidorSeleccionado = -1;
     }

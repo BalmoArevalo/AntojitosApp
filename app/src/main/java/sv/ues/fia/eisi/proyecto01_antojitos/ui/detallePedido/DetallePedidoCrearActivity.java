@@ -45,7 +45,6 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalle_pedido_crear);
 
-        // UI
         spinnerPedido = findViewById(R.id.spinnerPedido);
         spinnerProducto = findViewById(R.id.spinnerProducto);
         editTextCantidad = findViewById(R.id.editTextCantidad);
@@ -53,7 +52,6 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
         textViewSubtotal = findViewById(R.id.textViewSubtotal);
         btnGuardar = findViewById(R.id.btnGuardarDetalle);
 
-        // BD y DAOs
         DBHelper dbHelper = new DBHelper(this);
         db = dbHelper.getWritableDatabase();
         detallePedidoDAO = new DetallePedidoDAO(db);
@@ -61,7 +59,6 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
         productoDAO = new ProductoDAO(db);
         categoriaDAO = new CategoriaProductoDAO(db);
 
-        // Actualizar disponibilidad de categorías antes de usarlas
         listaCategorias = categoriaDAO.obtenerTodos(false);
         actualizarDisponibilidadSegunHora(listaCategorias);
 
@@ -86,7 +83,7 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
         spinnerProducto.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
                 if (pos == 0) {
-                    textViewPrecioUnitario.setText("--");
+                    textViewPrecioUnitario.setText(getString(R.string.detalle_pedido_vacio));
                     precioActual = 0;
                     actualizarSubtotal();
                     return;
@@ -115,9 +112,9 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
     private void cargarPedidos() {
         List<Pedido> pedidos = pedidoDAO.obtenerTodos();
         List<String> items = new ArrayList<>();
-        items.add("Seleccione");
+        items.add(getString(R.string.detalle_pedido_seleccione));
         for (Pedido p : pedidos) {
-            String label = "Pedido " + p.getIdPedido();
+            String label = getString(R.string.detalle_pedido_prefijo_pedido) + " " + p.getIdPedido();
             items.add(label);
             pedidosMap.put(label, p);
         }
@@ -139,16 +136,15 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
         }
 
         if (items.isEmpty()) {
-            items.add("No hay productos disponibles en este momento");
+            items.add(getString(R.string.detalle_pedido_no_productos));
             spinnerProducto.setEnabled(false);
         } else {
-            items.add(0, "Seleccione");
+            items.add(0, getString(R.string.detalle_pedido_seleccione));
             spinnerProducto.setEnabled(true);
         }
 
         spinnerProducto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items));
     }
-
 
     private void actualizarDisponibilidadSegunHora(List<CategoriaProducto> lista) {
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
@@ -178,9 +174,10 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
 
     private void limpiarProductos() {
         productosMap.clear();
-        spinnerProducto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, Collections.singletonList("Seleccione")));
-        textViewPrecioUnitario.setText("--");
-        textViewSubtotal.setText("--");
+        spinnerProducto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
+                Collections.singletonList(getString(R.string.detalle_pedido_seleccione))));
+        textViewPrecioUnitario.setText(getString(R.string.detalle_pedido_vacio));
+        textViewSubtotal.setText(getString(R.string.detalle_pedido_vacio));
         precioActual = 0;
     }
 
@@ -206,59 +203,55 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
         Producto productoSeleccionado = productosMap.get(productoKey);
 
         if (pedidoSeleccionado == null || productoSeleccionado == null) {
-            Toast.makeText(this, "Seleccione un pedido y un producto válidos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.detalle_pedido_toast_seleccion_invalida), Toast.LENGTH_SHORT).show();
             return;
         }
 
         String cantidadStr = editTextCantidad.getText().toString().trim();
         if (cantidadStr.isEmpty()) {
-            Toast.makeText(this, "Ingrese una cantidad válida", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.detalle_pedido_toast_cantidad_invalida), Toast.LENGTH_SHORT).show();
             return;
         }
 
         int cantidad = Integer.parseInt(cantidadStr);
         int idSucursal = pedidoSeleccionado.getIdSucursal();
 
-        // Validar stock
         DatosProductoDAO datosProductoDAO = new DatosProductoDAO(db);
         DatosProducto dp = datosProductoDAO.find(idSucursal, productoSeleccionado.getIdProducto());
 
         if (dp == null) {
-            Toast.makeText(this, "No hay datos del producto en esta sucursal", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.detalle_pedido_toast_no_datos_producto), Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (cantidad > dp.getStock()) {
-            Toast.makeText(this, "Stock insuficiente. Solo quedan " + dp.getStock(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.detalle_pedido_toast_stock_insuficiente, dp.getStock()), Toast.LENGTH_LONG).show();
             return;
         }
 
         double subtotal = cantidad * precioActual;
 
-        // Preparar objeto
         DetallePedido detalle = new DetallePedido();
         detalle.setIdPedido(pedidoSeleccionado.getIdPedido());
         detalle.setIdProducto(productoSeleccionado.getIdProducto());
         detalle.setCantidad(cantidad);
         detalle.setSubtotal(subtotal);
 
-        // Actualizar stock
         dp.setStock(dp.getStock() - cantidad);
         int actualizado = datosProductoDAO.update(dp);
         if (actualizado <= 0) {
-            Toast.makeText(this, "Error al actualizar el stock", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.detalle_pedido_toast_error_stock), Toast.LENGTH_SHORT).show();
             return;
         }
 
         long idInsertado = detallePedidoDAO.insertar(detalle);
         if (idInsertado > 0) {
-            Toast.makeText(this, "Detalle insertado (ID: " + idInsertado + ")", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.detalle_pedido_toast_insertado_ok, idInsertado), Toast.LENGTH_LONG).show();
             resetearFormulario();
         } else {
-            // Revertir stock
             dp.setStock(dp.getStock() + cantidad);
             datosProductoDAO.update(dp);
-            Toast.makeText(this, "Error al insertar detalle", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.detalle_pedido_toast_insertado_error), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -266,6 +259,6 @@ public class DetallePedidoCrearActivity extends AppCompatActivity {
         spinnerPedido.setSelection(0);
         limpiarProductos();
         editTextCantidad.setText("");
-        textViewSubtotal.setText("--");
+        textViewSubtotal.setText(getString(R.string.detalle_pedido_vacio));
     }
 }

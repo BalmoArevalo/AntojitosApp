@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Editar Repartidor"
+            android:text="@string/repartidor_editar_titulo"
             android:textStyle="bold"
             android:textSize="20sp"
             android:gravity="center"
@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Selecciona un repartidor"
+            android:text="@string/repartidor_editar_label_spinner"
             android:textStyle="bold" />
 
         <Spinner
@@ -38,7 +38,7 @@
             android:id="@+id/btnBuscar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Buscar"
+            android:text="@string/repartidor_editar_btn_buscar"
             android:layout_marginBottom="16dp" />
 
         <!-- Nombre -->
@@ -46,7 +46,7 @@
             android:id="@+id/editNombreRepartidor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre"
+            android:hint="@string/repartidor_editar_hint_nombre"
             android:inputType="textPersonName"
             android:minHeight="48dp" />
 
@@ -55,7 +55,7 @@
             android:id="@+id/editApellidoRepartidor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Apellido"
+            android:hint="@string/repartidor_editar_hint_apellido"
             android:inputType="textPersonName"
             android:layout_marginTop="8dp"
             android:minHeight="48dp" />
@@ -65,7 +65,7 @@
             android:id="@+id/editTelefonoRepartidor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Teléfono"
+            android:hint="@string/repartidor_editar_hint_telefono"
             android:inputType="phone"
             android:layout_marginTop="8dp"
             android:minHeight="48dp" />
@@ -74,7 +74,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tipo de Vehículo"
+            android:text="@string/repartidor_editar_label_tipo_vehiculo"
             android:textStyle="bold"
             android:layout_marginTop="8dp" />
         <Spinner
@@ -87,7 +87,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Departamento"
+            android:text="@string/repartidor_editar_label_departamento"
             android:textStyle="bold"
             android:layout_marginTop="8dp" />
         <Spinner
@@ -100,7 +100,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Municipio"
+            android:text="@string/repartidor_editar_label_municipio"
             android:textStyle="bold"
             android:layout_marginTop="8dp" />
         <Spinner
@@ -114,7 +114,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Distrito"
+            android:text="@string/repartidor_editar_label_distrito"
             android:textStyle="bold"
             android:layout_marginTop="8dp" />
         <Spinner
@@ -132,21 +132,21 @@
             android:layout_marginTop="16dp"
             android:checked="true"
             android:minHeight="48dp"
-            android:text="Repartidor activo" />
+            android:text="@string/repartidor_editar_switch_activo" />
 
         <!-- Botones -->
         <Button
             android:id="@+id/btnActualizarRepartidor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Actualizar"
+            android:text="@string/repartidor_editar_btn_actualizar"
             android:layout_marginTop="16dp" />
 
         <Button
             android:id="@+id/btnLimpiarCampos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Limpiar"
+            android:text="@string/repartidor_editar_btn_limpiar"
             android:layout_marginTop="8dp" />
 
     </LinearLayout>

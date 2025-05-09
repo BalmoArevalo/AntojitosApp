@@ -30,6 +30,7 @@ public class CategoriaProductoEliminarActivity extends AppCompatActivity {
 
         spinnerCategoriaEliminar = findViewById(R.id.spinnerCategoriaEliminar);
         btnEliminarCategoria = findViewById(R.id.btnEliminarCategoria);
+        TextView textDetalleCategoria = findViewById(R.id.textDetalleCategoria);
 
         DBHelper dbHelper = new DBHelper(this);
         db = dbHelper.getWritableDatabase();
@@ -41,9 +42,26 @@ public class CategoriaProductoEliminarActivity extends AppCompatActivity {
             @Override public void onItemSelected(AdapterView<?> parent, android.view.View view, int position, long id) {
                 if (position == 0) {
                     seleccionada = null;
+                    textDetalleCategoria.setText("");
                 } else {
                     String label = parent.getItemAtPosition(position).toString();
                     seleccionada = mapCategorias.get(label);
+
+                    if (seleccionada != null) {
+                        String disponibleStr = (seleccionada.getDisponibleCategoria() == 1) ?
+                                getString(R.string.respuesta_si) : getString(R.string.respuesta_no);
+
+                        String detalle = getString(R.string.categoria_producto_eliminar_detalle_formato,
+                                seleccionada.getIdCategoriaProducto(),
+                                seleccionada.getNombreCategoria(),
+                                seleccionada.getDescripcionCategoria(),
+                                seleccionada.getHoraDisponibleDesde(),
+                                seleccionada.getHoraDisponibleHasta(),
+                                disponibleStr
+                        );
+
+                        textDetalleCategoria.setText(getString(R.string.categoria_producto_eliminar_detalle_titulo) + "\n\n" + detalle);
+                    }
                 }
             }
 
@@ -59,7 +77,7 @@ public class CategoriaProductoEliminarActivity extends AppCompatActivity {
 
         mapCategorias = new HashMap<>();
         List<String> items = new ArrayList<>();
-        items.add("Seleccione");
+        items.add(getString(R.string.categoria_producto_eliminar_spinner_default));
 
         for (CategoriaProducto c : listaCategorias) {
             String label = c.getIdCategoriaProducto() + " - " + c.getNombreCategoria();
@@ -72,17 +90,17 @@ public class CategoriaProductoEliminarActivity extends AppCompatActivity {
 
     private void eliminarCategoria() {
         if (seleccionada == null) {
-            Toast.makeText(this, "Seleccione una categoría", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.categoria_producto_eliminar_toast_seleccionar), Toast.LENGTH_SHORT).show();
             return;
         }
 
         boolean ok = dao.eliminar(seleccionada.getIdCategoriaProducto());
         if (ok) {
-            Toast.makeText(this, "Categoría eliminada correctamente", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.categoria_producto_eliminar_toast_ok), Toast.LENGTH_SHORT).show();
             cargarSpinner(); // refrescar
             spinnerCategoriaEliminar.setSelection(0);
         } else {
-            Toast.makeText(this, "Error al eliminar la categoría", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.categoria_producto_eliminar_toast_error), Toast.LENGTH_SHORT).show();
         }
     }
 

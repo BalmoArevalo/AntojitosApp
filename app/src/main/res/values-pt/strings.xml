@@ -1,4 +1,843 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <resources>
     <string name="app_name">Proyecto01_Antojitos</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+
+    <string name="menu_cliente">Cliente</string>
+    <string name="menu_sucursal">Filial</string>
+    <string name="menu_repartidor">Entregador</string>
+    <string name="menu_producto">Produto</string>
+    <string name="menu_categoria_producto">Categoria Produto</string>
+    <string name="menu_pedido">Pedido</string>
+    <string name="menu_factura">Fatura</string>
+    <string name="menu_credito">Credito</string>
+    <string name="menu_detalle_pedido">Detalhe Pedido</string>
+    <string name="menu_tipo_evento">Tipo Evento</string>
+    <string name="menu_direccion">Direccion</string>
+    <string name="menu_departamento">Departamento</string>
+    <string name="menu_municipio">Município</string>
+    <string name="menu_distrito">Distrito</string>
+    <string name="menu_datos_producto">Dados Produto</string>
+
+
+    <string name="sucursal_title">Gestion de Filiales</string>
+    <string name="sucursal_btn_crear">Criar Filial</string>
+    <string name="sucursal_btn_consultar">Consultar Filial</string>
+    <string name="sucursal_btn_editar">Editar Filial</string>
+    <string name="sucursal_btn_eliminar">Excluir Filial</string>
+
+
+    <string name="cliente_title">Gestion de Clientes</string>
+    <string name="cliente_btn_crear">Criar Cliente</string>
+    <string name="cliente_btn_consultar">Consultar Cliente</string>
+    <string name="cliente_btn_editar">Editar Cliente</string>
+    <string name="cliente_btn_eliminar">Excluir Cliente</string>
+
+    <string name="title_consultar_cliente">Consultar Cliente</string>
+    <string name="title_informacion_cliente">Informacion del Cliente</string>
+    <string name="hint_seleccionar_cliente">Selecionar Cliente</string>
+    <string name="label_id">ID cliente: </string>
+    <string name="label_nombre">Nome: </string>
+    <string name="label_apellido">Sobrenome: </string>
+    <string name="label_telefono">Telefono: </string>
+    <string name="title_nuevo_cliente">Novo Cliente</string>
+    <string name="btn_guardar">Salvar</string>
+    <string name="btn_limpiar">Limpar</string>
+    <string name="title_editar_cliente">Editar Cliente</string>
+    <string name="switch_cliente_activo">Cliente Ativo</string>
+    <string name="btn_guardar_cambios">Salvar Alterações</string>
+    <string name="title_eliminar_cliente">Excluir Cliente</string>
+    <string name="btn_eliminar">Excluir</string>
+    <string name="btn_cancelar">Cancelar</string>
+
+
+
+
+    <string name="repartidor_title">Gestion de Entregadores</string>
+    <string name="repartidor_btn_crear">Criar Entregador</string>
+    <string name="repartidor_btn_consultar">Consultar Entregador</string>
+    <string name="repartidor_btn_editar">Editar Entregador</string>
+    <string name="repartidor_btn_eliminar">Excluir Entregador</string>
+
+
+    <string name="producto_title">Gestion de Produtos</string>
+    <string name="producto_btn_crear">Criar Produto</string>
+    <string name="producto_btn_consultar">Consultar Produto</string>
+    <string name="producto_btn_editar">Editar Produto</string>
+    <string name="producto_btn_eliminar">Excluir Produto</string>
+    <string name="title_consultar_producto">Consultar Produto</string>
+    <string name="title_informacion_producto">Informacion del Produto</string>
+    <string name="hint_seleccionar_producto">Selecionar Produto</string>
+    <string name="label_id_producto">ID Produto: </string>
+    <string name="label_id_categoria">ID Categoria: </string>
+    <string name="label_descripcion">Descripcion: </string>
+    <string name="title_crear_producto">Criar Novo Produto</string>
+    <string name="hint_categoria">Categoria</string>
+    <string name="btn_guardar_producto">Salvar Produto</string>
+    <string name="title_editar_producto">Editar Produto</string>
+    <string name="btn_producto_activo">Produto Ativo</string>"&gt;
+    <string name="title_eliminar_producto">Excluir Produto</string>
+    <string name="label_pregunta_eliminar">Esta seguro de eliminar este producto?</string>
+
+
+    <string name="categoria_producto_title">Gestion de Categorias de Produto</string>
+    <string name="categoria_producto_btn_crear">Criar Categoria</string>
+    <string name="categoria_producto_btn_consultar">Consultar Categoria</string>
+    <string name="categoria_producto_btn_editar">Editar Categoria</string>
+    <string name="categoria_producto_btn_eliminar">Excluir Categoria</string>
+
+
+    <string name="pedido_title">Gestion de Pedidos</string>
+    <string name="pedido_btn_crear">Criar Pedido</string>
+    <string name="pedido_btn_consultar">Consultar Pedido</string>
+    <string name="pedido_btn_editar">Editar Pedido</string>
+    <string name="pedido_btn_eliminar">Excluir Pedido</string>
+
+
+    <string name="factura_title">Gestion de Faturas</string>
+    <string name="factura_btn_crear">Criar Fatura</string>
+    <string name="factura_btn_consultar">Consultar Fatura</string>
+    <string name="factura_btn_editar">Editar Fatura</string>
+    <string name="factura_btn_eliminar">Excluir Fatura</string>
+
+
+    <string name="credito_title">Gestion de Creditos</string>
+    <string name="credito_btn_crear">Criar Credito</string>
+    <string name="credito_btn_consultar">Consultar Credito</string>
+    <string name="credito_btn_editar">Editar Credito</string>
+    <string name="credito_btn_eliminar">Excluir Credito</string>
+
+
+    <string name="detalle_pedido_title">Gestion de Detalhes de Pedido</string>
+    <string name="detalle_pedido_btn_crear">Criar Detalhe</string>
+    <string name="detalle_pedido_btn_consultar">Consultar Detalhe</string>
+    <string name="detalle_pedido_btn_editar">Editar Detalhe</string>
+    <string name="detalle_pedido_btn_eliminar">Excluir Detalhe</string>
+
+
+    <string name="tipo_evento_title">Gestion de Tipos de Evento</string>
+    <string name="tipo_evento_btn_crear">Criar Tipo Evento</string>
+    <string name="tipo_evento_btn_consultar">Consultar Tipo Evento</string>
+    <string name="tipo_evento_btn_editar">Editar Tipo Evento</string>
+    <string name="tipo_evento_btn_eliminar">Excluir Tipo Evento</string>
+
+
+    <string name="direccion_title">Gestion de Direcciones</string>
+    <string name="direccion_btn_crear">Criar Direccion</string>
+    <string name="direccion_btn_consultar">Consultar Direccion</string>
+    <string name="direccion_btn_editar">Editar Direccion</string>
+    <string name="direccion_btn_eliminar">Excluir Direccion</string>
+
+
+    <string name="departamento_title">Gestion de Departamentos</string>
+    <string name="departamento_btn_crear">Criar Departamento</string>
+    <string name="departamento_btn_consultar">Consultar Departamento</string>
+    <string name="departamento_btn_editar">Editar Departamento</string>
+    <string name="departamento_btn_eliminar">Excluir Departamento</string>
+
+
+    <string name="municipio_title">Gestion de Municípios</string>
+    <string name="municipio_btn_crear">Criar Município</string>
+    <string name="municipio_btn_consultar">Consultar Município</string>
+    <string name="municipio_btn_editar">Editar Município</string>
+    <string name="municipio_btn_eliminar">Excluir Município</string>
+
+
+    <string name="distrito_title">Gestion de Distritos</string>
+    <string name="distrito_btn_crear">Criar Distrito</string>
+    <string name="distrito_btn_consultar">Consultar Distrito</string>
+    <string name="distrito_btn_editar">Editar Distrito</string>
+    <string name="distrito_btn_eliminar">Excluir Distrito</string>
+
+    <string name="title_crear_distrito">Criar Distrito</string>
+    <string name="title_consultar_distrito">Consultar Distrito</string>
+    <string name="title_editar_distrito">Editar Distrito</string>
+    <string name="title_eliminar_distrito">Excluir Distrito</string>
+
+    <string name="hint_departamento">Departamento</string>
+    <string name="hint_municipio">Município</string>
+    <string name="hint_nombre_distrito">Nome del Distrito</string>
+    <string name="hint_codigo_postal">Codigo Postal</string>
+
+    <string name="hint_seleccionar_distrito">Selecionar Distrito</string>
+
+    <string name="switch_distrito_activo">Distrito Ativo</string>
+    <string name="label_detalle_distrito">Detalhes del distrito</string>
+    <string name="label_detalle_ubicacion">Detalhes del ubicacion</string>
+
+
+    <string name="datos_producto_title">Gestion de Dados de Produto</string>
+    <string name="datos_producto_btn_crear">Criar Dados Produto</string>
+    <string name="datos_producto_btn_consultar">Consultar Dados Produto</string>
+    <string name="datos_producto_btn_editar">Editar Dados Produto</string>
+    <string name="datos_producto_btn_eliminar">Excluir Dados Produto</string>
+
+
+
+
+
+    <string name="direccion_crear_title">Criar Nueva Direccion</string>
+    <string name="direccion_crear_label_cliente">Cliente Asociado:</string>
+    <string name="direccion_crear_label_departamento">Departamento:</string>
+    <string name="direccion_crear_label_municipio">Município:</string>
+    <string name="direccion_crear_label_distrito">Distrito:</string>
+    <string name="direccion_crear_label_especifica">Direccion Especifica:</string>
+    <string name="direccion_crear_hint_especifica">Ej: Col. San Benito, Pol. H, #12</string>
+    <string name="direccion_crear_label_descripcion">Descripcion Adicional (Opcional):</string>
+    <string name="direccion_crear_hint_descripcion">Ej: Casa de esquina, porton negro</string>
+    <string name="direccion_crear_btn_guardar">Salvar Direccion</string>
+    <string name="placeholder_seleccione">Selecione...</string> <string name="direccion_crear_toast_exito">Direccion guardada con ID %1$d</string> <string name="direccion_crear_toast_error_guardar">Erro al guardar en la base de datos</string>
+    <string name="direccion_crear_toast_error_especifica">La direccion especifica es obligatoria</string>
+    <string name="direccion_crear_toast_error_cliente">Selecione un cliente</string>
+    <string name="direccion_crear_toast_error_departamento">Selecione un departamento</string>
+    <string name="direccion_crear_toast_error_municipio">Selecione un municipio valido</string>
+    <string name="direccion_crear_toast_error_distrito">Selecione un distrito valido</string>
+    <string name="direccion_crear_toast_error_carga">Erro cargando datos para %1$s</string>
+
+
+    <string name="direccion_consultar_title">Consultar Direcciones por Cliente</string>
+    <string name="direccion_consultar_label_cliente">Selecione Cliente:</string>
+    <string name="direccion_consultar_btn_cargar">Cargar Direcciones del Cliente</string>
+    <string name="direccion_consultar_resultado_vacio">Este cliente no tiene direcciones registradas.</string>
+    <string name="direccion_consultar_seleccione_cliente">Selecione un cliente valido</string>
+    <string name="direccion_consultar_estado_activa">[Activa]</string>
+    <string name="direccion_consultar_estado_inactiva">[Inactiva]</string>
+    <string name="direccion_consultar_formato_direccion">ID_Dir: %1$d %2$s\n%3$s\n%4$s, %5$s, %6$s\n(%7$s)\n</string>
+    <string name="direccion_consultar_formato_direccion_sin_desc">ID_Dir: %1$d %2$s\n%3$s\n%4$s, %5$s, %6$s\n</string>
+
+
+    <string name="direccion_editar_title">Editar Direccion</string>
+    <string name="direccion_editar_label_cliente">Cliente:</string>
+    <string name="direccion_editar_label_direccion">Selecione Direccion a Editar:</string>
+    <string name="direccion_editar_label_departamento">Departamento:</string>
+    <string name="direccion_editar_label_municipio">Município:</string>
+    <string name="direccion_editar_label_distrito">Distrito:</string>
+    <string name="direccion_editar_label_especifica">Direccion Especifica:</string>
+    <string name="direccion_editar_hint_especifica">Ej: Col. San Benito, Pol. H, #12</string>
+    <string name="direccion_editar_label_descripcion">Descripcion Adicional (Opcional):</string>
+    <string name="direccion_editar_hint_descripcion">Ej: Casa de esquina, porton negro</string>
+    <string name="direccion_editar_label_activo">Estado:</string>
+    <string name="direccion_editar_checkbox_activo">Activa</string>
+    <string name="direccion_editar_btn_actualizar">Actualizar Direccion</string>
+    <string name="direccion_editar_toast_exito">Direccion atualizada corretamente</string>
+    <string name="direccion_editar_toast_error">Erro al actualizar la direccion</string>
+    <string name="direccion_editar_toast_error_carga">Erro cargando datos de la direccion</string>
+    <string name="direccion_editar_toast_completar_campos">Complete todos los campos corretamente</string>
+    <string name="direccion_editar_toast_especifica_requerida">La direccion especifica es obligatoria</string>
+    <string name="direccion_editar_toast_no_seleccion">Erro: No hay direccion seleccionada para actualizar.</string>
+
+
+    <string name="direccion_eliminar_title">Desactivar Direccion</string> <string name="direccion_eliminar_label_cliente">Cliente:</string>
+    <string name="direccion_eliminar_label_direccion">Selecione Direccion a Desactivar:</string>
+    <string name="direccion_eliminar_label_detalles">Detalhes de la Direccion Seleccionada:</string>
+    <string name="direccion_eliminar_label_dir_especifica">Direccion:</string>
+    <string name="direccion_eliminar_label_descripcion">Descripcion:</string>
+    <string name="direccion_eliminar_label_ubicacion">Ubicacion:</string>
+    <string name="direccion_eliminar_label_estado">Estado Actual:</string>
+    <string name="direccion_eliminar_btn_desactivar">Desactivar Direccion</string> <string name="direccion_eliminar_toast_exito">Direccion desactivada corretamente</string>
+    <string name="direccion_eliminar_toast_error">Erro al desactivar la direccion</string>
+    <string name="direccion_eliminar_toast_no_seleccion">Selecione cliente y direccion validos</string>
+    <string name="direccion_eliminar_estado_actual_activa">Activa</string>
+    <string name="direccion_eliminar_estado_actual_inactiva">Inactiva (No se puede desactivar de nuevo)</string>
+
+
+
+    <string name="factura_crear_title">Criar Nueva Fatura</string>
+    <string name="factura_crear_label_pedido">Selecione Pedido a Faturar:</string>
+    <string name="factura_crear_label_monto_calculado">Valor Total Calculado (incl. IVA):</string>
+    <string name="factura_crear_label_fecha">Data de Emision:</string>
+    <string name="factura_crear_hint_fecha">Toque para selecionar data</string>
+    <string name="factura_crear_label_tipo_pago">Tipo de Pago:</string>
+    <string name="factura_crear_label_estado_inicial">Estado Inicial:</string>
+    <string name="factura_crear_estado_default">Pendiente</string>
+    <string name="factura_crear_btn_guardar">Salvar Fatura</string>
+    <string name="factura_crear_monto_placeholder">--.--</string>
+    <string name="factura_crear_toast_exito">Fatura ID %1$d creada para Pedido %2$d</string> <string name="factura_crear_toast_error_guardar">Erro al crear la factura</string>
+    <string name="factura_crear_toast_error_pedido_existente">Erro: El pedido seleccionado ya tiene una factura.</string>
+    <string name="factura_crear_toast_seleccione_pedido">Selecione un pedido</string>
+    <string name="factura_crear_toast_ingrese_fecha">Ingrese la fecha de emision</string>
+    <string name="factura_crear_toast_seleccione_tipo_pago">Selecione un tipo de pago</string>
+    <string name="factura_crear_toast_error_calculo_monto">Erro al calcular monto del pedido</string>
+    <string name="factura_crear_toast_no_pedidos_disponibles">No hay pedidos disponibles para facturar.</string>
+    <string name="factura_crear_toast_pedido_sin_detalle">El pedido seleccionado no tiene detalles, no se puede calcular monto.</string>
+
+
+    <string name="factura_consultar_s_title">Consultar Fatura y Pedido</string>
+    <string name="factura_consultar_s_label_seleccionar_pedido">Pedido con Fatura:</string>
+    <string name="factura_consultar_s_label_seccion_factura">--- Detalhes de la Fatura ---</string>
+    <string name="factura_consultar_s_label_id_factura">ID Fatura:</string>
+    <string name="factura_consultar_s_label_fecha_emision">Data Emision:</string>
+    <string name="factura_consultar_s_label_monto_total">Valor Total (IVA Incl.):</string>
+    <string name="factura_consultar_s_label_tipo_pago">Tipo Pago:</string>
+    <string name="factura_consultar_s_label_estado_factura">Estado Fatura:</string>
+    <string name="factura_consultar_s_label_es_credito">Es Credito:</string>
+    <string name="factura_consultar_s_label_seccion_pedido">--- Detalhes del Pedido Asociado ---</string>
+    <string name="factura_consultar_s_label_id_pedido">ID Pedido:</string>
+    <string name="factura_consultar_s_label_id_cliente">ID Cliente:</string>
+    <string name="factura_consultar_s_label_id_sucursal">ID Filial:</string>
+    <string name="factura_consultar_s_label_id_repartidor">ID Entregador:</string>
+    <string name="factura_consultar_s_label_fecha_hora_pedido">Data/Hora Pedido:</string>
+    <string name="factura_consultar_s_label_estado_pedido">Estado Pedido:</string>
+    <string name="factura_consultar_s_toast_seleccione_pedido">Selecione un pedido</string>
+    <string name="factura_consultar_s_toast_error_carga">Erro al cargar los datos</string>
+    <string name="factura_consultar_s_toast_no_factura">No se encontro factura para este pedido.</string>
+    <string name="factura_consultar_s_toast_no_pedido">No se encontro el pedido asociado.</string>
+    <string name="factura_consultar_s_valor_si">Si</string>
+    <string name="factura_consultar_s_valor_no">No</string>
+    <string name="factura_consultar_s_valor_no_definido">N/A</string>
+
+
+    <string name="factura_editar_title">Editar Fatura</string>
+    <string name="factura_editar_label_seleccionar">Selecione Fatura a Editar:</string>
+    <string name="factura_editar_label_detalles">--- Detalhes de la Fatura ---</string>
+    <string name="factura_editar_label_id_factura">ID Fatura:</string>
+    <string name="factura_editar_label_id_pedido">ID Pedido Asociado:</string>
+    <string name="factura_editar_label_fecha">Data Emision (Editable):</string>
+    <string name="factura_editar_hint_fecha">Toque para selecionar data</string>
+    <string name="factura_editar_label_monto">Valor Total:</string>
+    <string name="factura_editar_label_tipo_pago">Tipo Pago (Editable):</string>
+    <string name="factura_editar_label_estado">Estado Actual:</string>
+    <string name="factura_editar_label_es_credito">Es Credito:</string>
+    <string name="factura_editar_btn_actualizar">Actualizar Fatura</string>
+    <string name="factura_editar_btn_reactivar">Reactivar Fatura</string> <string name="factura_editar_toast_exito">Fatura ID %1$d atualizada</string>
+    <string name="factura_editar_toast_reactivada">Fatura ID %1$d Reactivada (Estado: Pendiente)</string> <string name="factura_editar_toast_error">Erro al actualizar factura</string>
+    <string name="factura_editar_toast_error_reactivar">Erro al reactivar la factura</string> <string name="factura_editar_toast_no_seleccion">Selecione una factura para editar</string>
+    <string name="factura_editar_toast_error_carga">Erro cargando datos de factura</string>
+    <string name="factura_editar_toast_fecha_requerida">Ingrese la fecha de emision</string>
+    <string name="factura_editar_toast_tipo_pago_requerido">Selecione un tipo de pago</string>
+    <string name="factura_editar_estado_destino_reactivada">Pendiente</string>
+    <string name="factura_editar_btn_pagar">Marcar como Pagada (Pago Completo)</string>
+    <string name="factura_editar_toast_pagada_exito">Fatura ID %1$d marcada como Pagada</string>
+    <string name="factura_editar_toast_pagada_error">Erro al marcar factura como Pagada</string>
+    <string name="factura_editar_toast_no_pagable">Esta factura no se puede marcar como pagada directamente (puede ser credito o ya no esta pendiente).</string>
+    <string name="factura_estado_pagada">Pagada</string>
+    <string name="factura_estado_pendiente">Pendiente</string>
+    <string name="respuesta_si">Si</string>
+    <string name="respuesta_no">No</string>
+
+
+    <string name="factura_eliminar_title">Anular Fatura</string> <string name="factura_eliminar_label_seleccionar">Selecione Fatura a Anular:</string>
+    <string name="factura_eliminar_label_detalles">--- Detalhes de la Fatura ---</string>
+    <string name="factura_eliminar_label_id_factura">ID Fatura:</string>
+    <string name="factura_eliminar_label_id_pedido">ID Pedido Asociado:</string>
+    <string name="factura_eliminar_label_fecha">Data Emision:</string>
+    <string name="factura_eliminar_label_monto">Valor Total:</string>
+    <string name="factura_eliminar_label_tipo_pago">Tipo Pago:</string>
+    <string name="factura_eliminar_label_estado">Estado Actual:</string>
+    <string name="factura_eliminar_label_es_credito">Es Credito:</string>
+    <string name="factura_eliminar_btn_anular">Confirmar Anulacion</string> <string name="factura_eliminar_toast_exito">Fatura ID %1$d Anulada</string>
+    <string name="factura_eliminar_toast_error">Erro al anular la factura</string>
+    <string name="factura_eliminar_toast_no_seleccion">Selecione una factura para anular</string>
+    <string name="factura_eliminar_toast_error_carga">Erro cargando datos de factura</string>
+    <string name="factura_eliminar_toast_es_credito">No se pueden anular facturas a credito desde esta opcion.</string>
+    <string name="factura_eliminar_toast_ya_anulada">Esta factura ya esta anulada.</string>
+    <string name="factura_eliminar_no_facturas_disponibles">No hay facturas disponibles para anular.</string>
+
+
+
+    <string name="credito_crear_title">Activar Credito para Fatura</string>
+    <string name="credito_crear_label_seleccionar_factura">Selecione Fatura (Pendiente, Sin Credito):</string>
+    <string name="credito_crear_label_detalles_factura">--- Detalhes de la Fatura Seleccionada ---</string>
+    <string name="credito_crear_label_id_factura">ID Fatura:</string>
+    <string name="credito_crear_label_id_pedido">ID Pedido:</string>
+    <string name="credito_crear_label_monto_autorizar">Valor a Otorgar (Credito):</string>
+    <string name="credito_crear_label_fecha_limite">Data Limite de Pago:</string>
+    <string name="credito_crear_hint_fecha_limite">Toque para selecionar data limite</string>
+    <string name="credito_crear_btn_confirmar">Confirmar y Activar Credito</string>
+    <string name="credito_crear_toast_exito">Credito ID %1$d activado para Fatura ID %2$d</string>
+    <string name="credito_crear_toast_error">Erro al activar el credito</string>
+    <string name="credito_crear_toast_factura_no_valida">La factura seleccionada no es valida para credito.</string>
+    <string name="credito_crear_toast_seleccione_factura">Selecione una factura</string>
+    <string name="credito_crear_toast_ingrese_fecha_limite">Ingrese la fecha limite para el credito</string>
+    <string name="credito_crear_no_facturas_disponibles">No hay facturas elegibles para activar credito.</string>
+    <string name="credito_crear_estado_credito_inicial">Ativo</string> <string name="factura_estado_en_credito">En Credito</string> <string name="factura_tipo_pago_credito">Credito</string>
+
+
+    <string name="credito_consultar_title">Consultar Detalhes de Credito</string>
+    <string name="credito_consultar_label_seleccionar_factura">Selecione Fatura a Credito:</string>
+    <string name="credito_consultar_label_detalles">--- Detalhes del Credito Asociado ---</string>
+    <string name="credito_consultar_label_id_credito">ID Credito:</string>
+    <string name="credito_consultar_label_id_factura">ID Fatura Asociada:</string>
+    <string name="credito_consultar_label_monto_autorizado">Valor Autorizado:</string>
+    <string name="credito_consultar_label_monto_pagado">Valor Pagado:</string>
+    <string name="credito_consultar_label_saldo_pendiente">Saldo Pendiente:</string>
+    <string name="credito_consultar_label_fecha_limite">Data Limite Pago:</string>
+    <string name="credito_consultar_label_estado_credito">Estado Credito:</string>
+    <string name="credito_consultar_toast_seleccione_factura">Selecione una factura</string>
+    <string name="credito_consultar_toast_error_carga">Erro al cargar datos</string>
+    <string name="credito_consultar_toast_no_credito">No se encontro informacion de credito para la factura seleccionada.</string>
+    <string name="credito_consultar_no_facturas_con_credito">No hay facturas marcadas a credito.</string>
+
+
+    <string name="credito_editar_title">Editar Data Limite de Credito</string>
+    <string name="credito_editar_label_seleccionar">Selecione Credito a Editar:</string>
+    <string name="credito_editar_label_detalles">--- Detalhes del Credito ---</string>
+    <string name="credito_editar_label_id_credito">ID Credito:</string>
+    <string name="credito_editar_label_id_factura">ID Fatura Asociada:</string>
+    <string name="credito_editar_label_monto_autorizado">Valor Autorizado:</string>
+    <string name="credito_editar_label_monto_pagado">Valor Pagado:</string>
+    <string name="credito_editar_label_saldo_pendiente">Saldo Pendiente:</string>
+    <string name="credito_editar_label_estado_credito">Estado Actual del Credito:</string>
+    <string name="credito_editar_label_fecha_limite">Nueva Data Limite de Pago (Editable):</string>
+    <string name="credito_editar_hint_fecha_limite">Toque para selecionar data</string>
+    <string name="credito_editar_btn_actualizar_fecha">Actualizar Data Limite</string>
+    <string name="credito_spinner_item_format">Credito #%1$d (Fact: #%2$d) Saldo: $%.2f</string>
+    <string name="credito_estado_activo">Ativo</string>
+    <string name="credito_editar_no_creditos_editables">No hay creditos elegibles para edicion.</string>
+    <string name="credito_editar_no_editable_estado">Este credito no esta activo y no se puede editar.</string>
+    <string name="credito_editar_toast_no_seleccion">Por favor, seleccione un credito.</string>
+    <string name="credito_editar_toast_ingrese_fecha">Por favor, ingrese la nueva fecha limite.</string>
+    <string name="credito_editar_toast_fecha_no_cambiada">La fecha limite no ha cambiado.</string>
+    <string name="credito_editar_toast_exito">Data limite del Credito ID %1$d atualizada corretamente.</string>
+    <string name="credito_editar_toast_error">Erro al actualizar la fecha limite del credito.</string>
+    <string name="credito_editar_label_abonar">Realizar Abono:</string>
+    <string name="credito_editar_hint_monto_abonar">Valor a pagar</string>
+    <string name="credito_editar_btn_realizar_abono">Realizar Abono</string>
+    <string name="credito_editar_toast_abono_exito">Abono realizado corretamente.</string>
+    <string name="credito_editar_toast_abono_error">Erro al procesar el abono.</string>
+    <string name="credito_editar_toast_abono_credito_pagado">Credito saldado! Estado actualizado a Pagado.</string>
+    <string name="credito_editar_toast_monto_invalido">Ingrese un monto valido (mayor que 0).</string>
+    <string name="credito_editar_toast_monto_excede_saldo">El monto a abonar no puede exceder el saldo pendiente.</string>
+    <string name="credito_estado_pagado">Pagado</string>
+
+
+    <string name="credito_cancelar_title">Cancelar Credito</string>
+    <string name="credito_cancelar_label_seleccionar">Selecione Credito a Cancelar:</string>
+    <string name="credito_cancelar_label_detalles">--- Detalhes del Credito a Cancelar ---</string>
+    <string name="credito_cancelar_label_id_credito">ID Credito:</string>
+    <string name="credito_cancelar_label_id_factura">ID Fatura Asociada:</string>
+    <string name="credito_cancelar_label_monto_autorizado">Valor Autorizado:</string>
+    <string name="credito_cancelar_label_monto_pagado">Valor Pagado:</string>
+    <string name="credito_cancelar_label_saldo_pendiente">Saldo Pendiente:</string>
+    <string name="credito_cancelar_label_fecha_limite">Data Limite de Pago:</string>
+    <string name="credito_cancelar_label_estado_credito">Estado Actual del Credito:</string>
+    <string name="credito_cancelar_btn_confirmar">Confirmar Cancelacion de Credito</string>
+    <string name="credito_cancelar_no_creditos_cancelables">No hay creditos elegibles para cancelacion.</string>
+    <string name="credito_cancelar_toast_no_seleccion">Por favor, seleccione un credito para cancelar.</string>
+    <string name="credito_cancelar_toast_no_cancelable">Este credito no se puede cancelar (puede que no este activo, ya este pagado, o tenga pagos realizados).</string>
+    <string name="credito_cancelar_toast_exito">Credito ID %1$d cancelado exitosamente.</string>
+    <string name="credito_cancelar_toast_error">Erro al cancelar el credito.</string>
+    <string name="credito_cancelar_confirmacion_mensaje">Esta seguro de que desea cancelar el Credito #%1$d? Esta accion no se puede deshacer y la factura asociada volvera a ser una factura normal pendiente.</string>
+
+
+
+
+
+
+    <string name="pedido_seleccione_label">Selecione un Pedido:</string>
+    <string name="pedido_btn_mostrar_datos">Mostrar Dados</string>
+    <string name="pedido_toast_seleccion_invalida">Selecione un pedido valido</string>
+    <string name="pedido_nombre_sucursal_desconocida">Desconocida</string>
+    <string name="pedido_estado_activo">Ativo</string>
+    <string name="pedido_estado_inactivo">Inativo</string>
+    <string name="pedido_nombre_cliente_desconocido">Desconocido</string>
+    <string name="pedido_nombre_repartidor_desconocido">Desconocido</string>
+    <string name="pedido_nombre_tipo_evento_ninguno">Ninguno</string>
+    <string name="pedido_resultado_formato">
+    ID Pedido: %1$d\n
+    ID Cliente: %2$d — %3$s\n
+    ID Entregador: %4$d — %5$s\n
+    ID Tipo Evento: %6$d — %7$s\n
+    Data/Hora: %8$s\n
+    Estado: %9$s\n
+    Filial: %10$d — %11$s\n
+    Estado del Pedido: %12$s
+    </string>
+
+
+    <string name="pedido_crear_cliente_label">Cliente:</string>
+    <string name="pedido_crear_repartidor_label">Entregador:</string>
+    <string name="pedido_crear_tipo_evento_label">Tipo de Evento:</string>
+    <string name="pedido_crear_fecha_hora_label">Data y Hora:</string>
+    <string name="pedido_crear_estado_label">Estado:</string>
+    <string name="pedido_crear_sucursal_label">Filial:</string>
+    <string name="pedido_crear_btn_guardar">Salvar Pedido</string>
+    <string name="pedido_crear_hint_fecha">dd/MM/yyyy HH:mm</string>
+
+    <string name="pedido_spinner_seleccione">Selecione</string>
+    <string name="pedido_spinner_ninguno">Ninguno</string>
+    <string name="pedido_estado_pendiente">Pendiente</string>
+    <string name="pedido_estado_despachado">Despachado</string>
+    <string name="pedido_estado_entregado">Entregado</string>
+    <string name="pedido_estado_cancelado">Cancelado</string>
+
+    <string name="pedido_toast_campos_obligatorios">Completa los campos obligatorios</string>
+    <string name="pedido_toast_sucursal_requerida">Selecciona una sucursal</string>
+    <string name="pedido_toast_insertado_ok">Pedido creado (ID: %1$d)</string>
+    <string name="pedido_toast_insertado_error">Erro al insertar pedido</string>
+
+
+    <string name="pedido_editar_label_buscar">ID del Pedido a Editar:</string>
+    <string name="pedido_editar_label_cliente">Cliente:</string>
+    <string name="pedido_editar_label_repartidor">Entregador:</string>
+    <string name="pedido_editar_label_evento">Tipo de Evento:</string>
+    <string name="pedido_editar_label_fecha">Data y Hora:</string>
+    <string name="pedido_editar_hint_fecha">dd/MM/yyyy HH:mm</string>
+    <string name="pedido_editar_label_estado">Estado:</string>
+    <string name="pedido_editar_label_sucursal">Filial:</string>
+    <string name="pedido_editar_switch_activo">Pedido Ativo?</string>
+    <string name="pedido_editar_btn_guardar">Salvar Alterações</string>
+
+    <string name="pedido_editar_prefix">Pedido</string>
+    <string name="pedido_editar_sufijo_inactivo">(inactivo)</string>
+
+    <string name="pedido_editar_toast_actualizado">Pedido actualizado corretamente</string>
+    <string name="pedido_editar_toast_error">Erro al actualizar</string>
+
+
+    <string name="pedido_eliminar_label_titulo">Selecione el Pedido a Excluir:</string>
+    <string name="pedido_eliminar_btn_buscar">Buscar Pedido</string>
+    <string name="pedido_eliminar_btn_eliminar">Excluir Pedido</string>
+    <string name="pedido_eliminar_toast_seleccion_invalida">Selecione un pedido valido</string>
+    <string name="pedido_eliminar_nombre_sucursal_desconocida">Desconocida</string>
+    <string name="pedido_eliminar_nombre_cliente_desconocido">Desconocido</string>
+    <string name="pedido_eliminar_nombre_repartidor_desconocido">Desconocido</string>
+    <string name="pedido_eliminar_nombre_evento_ninguno">Ninguno</string>
+    <string name="pedido_eliminar_estado_activo">Ativo</string>
+    <string name="pedido_eliminar_estado_inactivo">Inativo</string>
+
+    <string name="pedido_eliminar_resultado">
+    Pedido encontrado:\n
+    ID Pedido: %1$d\n
+    ID Cliente: %2$d — %3$s\n
+    ID Entregador: %4$d — %5$s\n
+    ID Tipo Evento: %6$d — %7$s\n
+    ID Filial: %8$d — %9$s\n
+    Data/Hora: %10$s\n
+    Estado: %11$s\n
+    Ativo: %12$s
+    </string>
+
+    <string name="pedido_eliminar_dialog_titulo">Confirmar eliminacion</string>
+    <string name="pedido_eliminar_dialog_mensaje">Estas seguro de que deseas eliminar el pedido ID %1$d? Esta accion no se puede deshacer.</string>
+    <string name="pedido_eliminar_dialog_confirmar">Si, eliminar</string>
+    <string name="pedido_eliminar_dialog_cancelar">Cancelar</string>
+
+    <string name="pedido_eliminar_resultado_ok">✅ Pedido eliminado corretamente</string>
+    <string name="pedido_eliminar_resultado_desactivado">⚠️ Pedido desactivado (asociado a detalle o reparto)</string>
+    <string name="pedido_eliminar_resultado_asociado">❌ No se puede eliminar: esta asociado a una factura</string>
+    <string name="pedido_eliminar_resultado_error">❌ Erro al intentar eliminar el pedido</string>
+
+
+    <string name="detalle_pedido_seleccione">Selecione</string>
+    <string name="detalle_pedido_prefijo_pedido">Pedido</string>
+    <string name="detalle_pedido_no_productos">No hay productos disponibles en este momento</string>
+    <string name="detalle_pedido_vacio">--</string>
+
+    <string name="detalle_pedido_toast_seleccion_invalida">Selecione un pedido y un producto validos</string>
+    <string name="detalle_pedido_toast_cantidad_invalida">Ingrese una cantidad valida</string>
+    <string name="detalle_pedido_toast_no_datos_producto">No hay datos del producto en esta sucursal</string>
+    <string name="detalle_pedido_toast_stock_insuficiente">Stock insuficiente. Solo quedan %1$d</string>
+    <string name="detalle_pedido_toast_error_stock">Erro al actualizar el stock</string>
+    <string name="detalle_pedido_toast_insertado_ok">Detalhe inserido (ID: %1$d)</string>
+    <string name="detalle_pedido_toast_insertado_error">Erro al insertar detalle</string>
+
+
+    <string name="detalle_pedido_label_pedido">Selecionar Pedido:</string>
+    <string name="detalle_pedido_label_producto">Selecionar Produto:</string>
+    <string name="detalle_pedido_label_cantidad">Cantidad:</string>
+    <string name="detalle_pedido_label_precio_unitario">Precio Unitario:</string>
+    <string name="detalle_pedido_label_subtotal">Subtotal:</string>
+    <string name="detalle_pedido_btn_guardar">Salvar Detalhe</string>
+
+
+    <string name="detalle_pedido_consultar_seleccione">Selecione</string>
+    <string name="detalle_pedido_consultar_prefijo_pedido">Pedido</string>
+    <string name="detalle_pedido_consultar_sin_productos">No hay productos asociados a este pedido.</string>
+    <string name="detalle_pedido_consultar_encabezado">Detalhes del pedido %1$d:</string>
+    <string name="detalle_pedido_consultar_item_producto">\n\nProduto: %1$s\n  Cantidad: %2$d\n  Subtotal: $%3$.2f\n</string>
+    <string name="detalle_pedido_consultar_desconocido">Desconocido</string>
+    <string name="detalle_pedido_consultar_label_spinner">Selecione Pedido:</string>
+
+
+    <string name="detalle_pedido_editar_seleccione">Selecione</string>
+    <string name="detalle_pedido_editar_prefijo_pedido">Pedido</string>
+    <string name="detalle_pedido_editar_prefijo_detalle">Detalhe</string>
+    <string name="detalle_pedido_editar_sep_producto"> - Prod </string>
+    <string name="detalle_pedido_editar_no_productos">No hay productos disponibles en este momento</string>
+    <string name="detalle_pedido_editar_producto_invalido">Selecione un producto valido</string>
+    <string name="detalle_pedido_editar_ingrese_cantidad">Ingrese una cantidad</string>
+    <string name="detalle_pedido_editar_no_datos">No hay datos del producto en esta sucursal</string>
+    <string name="detalle_pedido_editar_stock_insuficiente">Stock insuficiente. Solo quedan %1$d</string>
+    <string name="detalle_pedido_editar_error_stock">Erro al actualizar stock</string>
+    <string name="detalle_pedido_editar_ok">Detalhe actualizado corretamente</string>
+    <string name="detalle_pedido_editar_error_detalle">Erro al actualizar el detalle</string>
+    <string name="detalle_pedido_editar_monto_inicial">$ 0.00</string>
+
+
+    <string name="detalle_pedido_editar_label_pedido">Selecione Pedido:</string>
+    <string name="detalle_pedido_editar_label_detalle">Selecione Detalhe:</string>
+    <string name="detalle_pedido_editar_label_producto">Produto:</string>
+    <string name="detalle_pedido_editar_label_cantidad">Cantidad:</string>
+    <string name="detalle_pedido_editar_label_subtotal">Subtotal:</string>
+    <string name="detalle_pedido_editar_btn">Actualizar Detalhe</string>
+    <string name="detalle_pedido_editar_hint_cantidad">Ingrese la cantidad</string>
+
+
+    <string name="detalle_pedido_eliminar_label_pedido">Selecione Pedido:</string>
+    <string name="detalle_pedido_eliminar_label_detalle">Selecione Detalhe:</string>
+    <string name="detalle_pedido_eliminar_confirmar_titulo">Confirmar eliminacion</string>
+    <string name="detalle_pedido_eliminar_confirmar_mensaje">Estas seguro de que deseas eliminar este detalle del pedido?</string>
+    <string name="detalle_pedido_eliminar_toast_ok">Detalhe eliminado corretamente</string>
+    <string name="detalle_pedido_eliminar_toast_error">Erro al eliminar el detalle</string>
+    <string name="detalle_pedido_eliminar_toast_error_pedido">Erro al obtener el pedido</string>
+
+
+    <string name="categoria_producto_consultar_titulo">Categorias Disponívels</string>
+    <string name="categoria_producto_item_formato">ID: %1$d\nNome: %2$s\nDescripcion: %3$s\nDisponível ahora: %4$s\nHorario: %5$s - %6$s</string>
+
+
+    <string name="categoria_producto_crear_titulo">Criar Categoria</string>
+    <string name="categoria_producto_hint_nombre">Nome de la categoria</string>
+    <string name="categoria_producto_hint_descripcion">Descripcion</string>
+    <string name="categoria_producto_hint_hora_desde">Hora disponible desde</string>
+    <string name="categoria_producto_hint_hora_hasta">Hora disponible hasta</string>
+    <string name="categoria_producto_disponible_label">Disponível ahora: %1$s</string>
+    <string name="categoria_producto_disponible_default">Disponível ahora: -</string>
+    <string name="categoria_producto_disponible_error">Erro al calcular disponibilidad</string>
+    <string name="categoria_producto_btn_guardar">Salvar</string>
+    <string name="categoria_producto_toast_campos_obligatorios">Todos los campos son obligatorios</string>
+    <string name="categoria_producto_toast_guardado_ok">Categoria guardada corretamente</string>
+    <string name="categoria_producto_toast_guardado_error">Erro al guardar la categoria</string>
+
+
+    <string name="categoria_producto_editar_titulo">Editar Categoria</string>
+    <string name="categoria_producto_editar_spinner_default">Selecione</string>
+    <string name="categoria_producto_hint_nombre_editar">Nome</string>
+    <string name="categoria_producto_hint_descripcion_editar">Descripcion</string>
+    <string name="categoria_producto_hint_hora_desde_editar">Hora desde</string>
+    <string name="categoria_producto_hint_hora_hasta_editar">Hora hasta</string>
+    <string name="categoria_producto_switch_activo">Ativo</string>
+    <string name="categoria_producto_btn_actualizar">Actualizar</string>
+    <string name="categoria_producto_toast_actualizar_ok">Categoria atualizada corretamente</string>
+    <string name="categoria_producto_toast_actualizar_error">Erro al actualizar categoria</string>
+
+
+    <string name="categoria_producto_eliminar_titulo">Excluir Categoria</string>
+    <string name="categoria_producto_eliminar_spinner_default">Selecione</string>
+    <string name="categoria_producto_eliminar_btn">Excluir Categoria</string>
+    <string name="categoria_producto_eliminar_toast_seleccionar">Selecione una categoria</string>
+    <string name="categoria_producto_eliminar_toast_ok">Categoria eliminada corretamente</string>
+    <string name="categoria_producto_eliminar_toast_error">Erro al eliminar la categoria</string>
+
+    <string name="categoria_producto_eliminar_detalle_titulo">Detalhes de la categoria:</string>
+    <string name="categoria_producto_eliminar_detalle_formato">
+        ID: %1$d\nNome: %2$s\nDescripcion: %3$s\nHorario: %4$s - %5$s\nDisponível ahora: %6$s
+    </string>
+
+
+
+
+
+
+    <string name="sucursal_consultar_title">Consultar Filial</string>
+    <string name="sucursal_consultar_spinner_label">Selecciona una sucursal</string>
+    <string name="sucursal_consultar_btn">Mostrar Detalhes</string>
+    <string name="sucursal_consultar_default_msg">Aqui se mostrara la informacion de la sucursal seleccionada.</string>
+    <string name="sucursal_consultar_toast_seleccionar">Selecciona una sucursal valida</string>
+    <string name="sucursal_consultar_msg_no_encontrada">Filial no encontrada o inactiva.</string>
+    <string name="sucursal_consultar_msg_error">Erro al consultar: %1$s</string>
+
+
+    <string name="sucursal_consultar_detalle_formato">
+    ID Filial: %1$d\nDepartamento %2$d - %3$s\nMunicípio %4$d - %5$s\nDistrito %6$d - %7$s\nNome: %8$s\nDireccion: %9$s\nTelefono: %10$s\nHorario Apertura: %11$s\nHorario Cierre: %12$s\nEstado: %13$s
+    </string>
+
+    <string name="estado_activo">Ativo</string>
+    <string name="estado_inactivo">Inativo</string>
+    <string name="spinner_placeholder">Selecione...</string>
+
+
+    <string name="sucursal_crear_title">Criar Filial</string>
+    <string name="sucursal_crear_hint_nombre">Nome de la sucursal</string>
+    <string name="sucursal_crear_hint_telefono">Telefono</string>
+    <string name="sucursal_crear_hint_direccion">Direccion</string>
+    <string name="sucursal_crear_departamento">Departamento</string>
+    <string name="sucursal_crear_municipio">Município</string>
+    <string name="sucursal_crear_distrito">Distrito</string>
+    <string name="sucursal_crear_hint_apertura">Hora de apertura</string>
+    <string name="sucursal_crear_hint_cierre">Hora de cierre</string>
+    <string name="sucursal_crear_btn_guardar">Salvar</string>
+    <string name="sucursal_crear_btn_limpiar">Limpar</string>
+
+    <string name="sucursal_crear_spinner_placeholder">Selecione...</string>
+    <string name="sucursal_crear_toast_exito">Filial guardada con ID %1$d</string>
+    <string name="sucursal_crear_toast_error">Erro al guardar la sucursal</string>
+    <string name="sucursal_crear_toast_campos_requeridos">Completa todos los campos</string>
+
+
+    <string name="sucursal_editar_titulo">Editar Filial</string>
+    <string name="sucursal_editar_label_sucursal">Selecciona la sucursal</string>
+    <string name="sucursal_editar_label_nombre">Nome de la Filial</string>
+    <string name="sucursal_editar_label_telefono">Telefono</string>
+    <string name="sucursal_editar_label_direccion">Direccion Filial</string>
+    <string name="sucursal_editar_label_departamento">Departamento</string>
+    <string name="sucursal_editar_label_municipio">Município</string>
+    <string name="sucursal_editar_label_distrito">Distrito</string>
+    <string name="sucursal_editar_label_apertura">Hora Apertura</string>
+    <string name="sucursal_editar_label_cierre">Hora Cierre</string>
+    <string name="sucursal_editar_switch_activo">Filial activa</string>
+
+
+    <string name="btn_buscar">Buscar</string>
+    <string name="btn_actualizar">Actualizar</string>
+
+
+    <string name="sucursal_editar_toast_seleccione">Selecciona una sucursal valida</string>
+    <string name="sucursal_editar_toast_no_encontrada">Filial no encontrada</string>
+    <string name="sucursal_editar_toast_no_busqueda">Busca primero una sucursal</string>
+    <string name="sucursal_editar_toast_campos">Completa todos los campos</string>
+    <string name="sucursal_editar_toast_actualizado">Filial atualizada corretamente</string>
+
+
+    <string name="sucursal_eliminar_titulo">Excluir Filial</string>
+    <string name="sucursal_eliminar_selecciona">Selecciona una sucursal</string>
+    <string name="sucursal_eliminar_spinner_default">Selecione...</string>
+    <string name="sucursal_eliminar_btn_mostrar">Mostrar Detalhes</string>
+    <string name="sucursal_eliminar_btn_eliminar">Excluir</string>
+    <string name="sucursal_eliminar_btn_limpiar">Limpar</string>
+
+
+    <string name="sucursal_eliminar_resultado_default">Aqui se mostrara la informacion de la sucursal seleccionada.</string>
+
+
+    <string name="sucursal_eliminar_toast_seleccionar">Selecciona una sucursal valida</string>
+    <string name="sucursal_eliminar_toast_no_seleccionada">Busca primero una sucursal</string>
+    <string name="sucursal_eliminar_toast_exito">Filial desactivada corretamente</string>
+    <string name="sucursal_eliminar_toast_error">Erro al desactivar sucursal</string>
+
+
+    <string name="repartidor_consultar_title">Consultar Entregador</string>
+    <string name="repartidor_consultar_label_spinner">Selecciona un repartidor</string>
+    <string name="repartidor_consultar_btn_mostrar">Mostrar Detalhes</string>
+    <string name="repartidor_consultar_msg_default">Aqui se mostrara la informacion del repartidor seleccionado.</string>
+    <string name="repartidor_consultar_toast_seleccionar">Selecciona un repartidor valido</string>
+    <string name="repartidor_consultar_msg_no_encontrado">Entregador no encontrado.</string>
+    <string name="repartidor_consultar_detalle_formato">
+    ID Entregador: %1$d\nDepartamento: %2$d\nMunicípio: %3$d\nDistrito: %4$d\nTipo Vehiculo: %5$s\nDisponível: %6$s\nTelefono: %7$s\nNome: %8$s\nSobrenome: %9$s\nEstado: %10$s
+    </string>
+
+
+    <string name="repartidor_crear_titulo">Criar Entregador</string>
+    <string name="repartidor_crear_hint_nombre">Nome</string>
+    <string name="repartidor_crear_hint_apellido">Sobrenome</string>
+    <string name="repartidor_crear_hint_telefono">Telefono</string>
+    <string name="repartidor_crear_label_tipo_vehiculo">Tipo de Vehiculo</string>
+    <string name="repartidor_crear_switch_disponible">Disponível</string>
+    <string name="repartidor_crear_label_departamento">Departamento</string>
+    <string name="repartidor_crear_label_municipio">Município</string>
+    <string name="repartidor_crear_label_distrito">Distrito</string>
+    <string name="repartidor_crear_btn_guardar">Salvar</string>
+    <string name="repartidor_crear_btn_limpiar">Limpar</string>
+    <string name="repartidor_crear_spinner_placeholder">Selecione...</string>
+    <string name="repartidor_crear_toast_campos_requeridos">Completa todos los campos</string>
+    <string name="repartidor_crear_toast_exito">Entregador creado con ID %1$d</string>
+    <string name="repartidor_crear_toast_error">Erro al crear repartidor</string>
+    <string-array name="repartidor_tipos_vehiculo">
+        <item>Moto</item>
+        <item>Bicicleta</item>
+        <item>Auto</item>
+        <item>Otro</item>
+    </string-array>
+
+
+    <string name="repartidor_editar_titulo">Editar Entregador</string>
+    <string name="repartidor_editar_label_spinner">Selecciona un repartidor</string>
+    <string name="repartidor_editar_btn_buscar">Buscar</string>
+    <string name="repartidor_editar_hint_nombre">Nome</string>
+    <string name="repartidor_editar_hint_apellido">Sobrenome</string>
+    <string name="repartidor_editar_hint_telefono">Telefono</string>
+    <string name="repartidor_editar_label_tipo_vehiculo">Tipo de Vehiculo</string>
+    <string name="repartidor_editar_label_departamento">Departamento</string>
+    <string name="repartidor_editar_label_municipio">Município</string>
+    <string name="repartidor_editar_label_distrito">Distrito</string>
+    <string name="repartidor_editar_switch_activo">Entregador activo</string>
+    <string name="repartidor_editar_btn_actualizar">Actualizar</string>
+    <string name="repartidor_editar_btn_limpiar">Limpar</string>
+    <string name="repartidor_editar_toast_seleccionar">Selecciona un repartidor valido</string>
+    <string name="repartidor_editar_toast_no_encontrado">Entregador no encontrado</string>
+    <string name="repartidor_editar_toast_campos">Completa todos los campos</string>
+    <string name="repartidor_editar_toast_exito">Entregador actualizado corretamente</string>
+    <string name="repartidor_editar_toast_no_busqueda">Busca primero un repartidor</string>
+
+
+    <string name="repartidor_eliminar_title">Excluir Entregador</string>
+    <string name="repartidor_eliminar_spinner_label">Selecciona un repartidor</string>
+    <string name="repartidor_eliminar_btn_buscar">Mostrar Detalhes</string>
+    <string name="repartidor_eliminar_btn_eliminar">Excluir</string>
+    <string name="repartidor_eliminar_btn_limpiar">Limpar</string>
+    <string name="repartidor_eliminar_resultado_default">Aqui se mostrara la informacion del repartidor a eliminar.</string>
+    <string name="repartidor_eliminar_toast_exito">Entregador desactivado corretamente</string>
+    <string name="repartidor_eliminar_toast_error">Erro al desactivar repartidor</string>
+
+
+    <string name="datos_producto_consultar_title">Consultar Dados Produto</string>
+    <string name="datos_producto_consultar_label_sucursal">Selecciona una sucursal</string>
+    <string name="datos_producto_consultar_label_producto">Selecciona un producto</string>
+    <string name="datos_producto_consultar_btn_mostrar">Mostrar Detalhes</string>
+    <string name="datos_producto_consultar_resultado">ID: %1$d\nPrecio: %2$.2f\nStock: %3$d</string>
+    <string name="datos_producto_consultar_no_encontrado">Registro no encontrado o inactivo</string>
+    <string name="datos_producto_consultar_hint_resultado">Aqui se mostrara la informacion de precios y stock para la sucursal y producto seleccionados.</string>
+    <string name="datos_producto_consultar_toast_seleccion_invalida">Selecciona sucursal y producto</string>
+
+
+    <string name="datos_producto_crear_title">Criar Dados Produto</string>
+    <string name="datos_producto_crear_label_sucursal">Filial:</string>
+    <string name="datos_producto_crear_label_producto">Produto:</string>
+    <string name="datos_producto_crear_btn_crear_producto">Criar Produto</string>
+    <string name="datos_producto_crear_label_precio">Precio (USD):</string>
+    <string name="datos_producto_crear_hint_precio">Ingrese precio</string>
+    <string name="datos_producto_crear_label_stock">Stock:</string>
+    <string name="datos_producto_crear_hint_stock">Ingrese stock</string>
+    <string name="datos_producto_crear_btn_guardar">Salvar</string>
+    <string name="datos_producto_crear_btn_limpiar">Limpar</string>
+    <string name="datos_producto_crear_toast_guardado">Dados guardados (Filial: %1$d, Produto: %2$d)</string>
+    <string name="datos_producto_crear_toast_error_guardar">Erro al guardar datos</string>
+    <string name="datos_producto_crear_toast_seleccion">Selecciona sucursal y producto</string>
+    <string name="datos_producto_crear_toast_invalido">Precio o stock invalido</string>
+
+
+    <string name="datos_producto_editar_title">Editar Dados Produto</string>
+    <string name="datos_producto_editar_label_sucursal">Filial:</string>
+    <string name="datos_producto_editar_label_producto">Produto:</string>
+    <string name="datos_producto_editar_btn_buscar">Buscar</string>
+    <string name="datos_producto_editar_label_precio">Precio (USD):</string>
+    <string name="datos_producto_editar_label_stock">Stock:</string>
+    <string name="datos_producto_editar_label_disponible">Disponível:</string>
+    <string name="datos_producto_editar_btn_actualizar">Salvar cambios</string>
+    <string name="datos_producto_editar_btn_limpiar">Limpar</string>
+    <string name="datos_producto_editar_toast_buscar_invalido">Selecciona sucursal y producto</string>
+    <string name="datos_producto_editar_toast_no_datos">No se encontraron datos existentes</string>
+    <string name="datos_producto_editar_toast_precio_stock_invalido">Precio o stock invalido</string>
+    <string name="datos_producto_editar_toast_guardado">Registro actualizado</string>
+    <string name="datos_producto_editar_toast_error_guardar">Erro al actualizar</string>
+    <string name="datos_producto_editar_toast_busca_primero">Primero busca un registro</string>
+    <string name="datos_producto_editar_hint_precio">Ingrese el precio</string>
+    <string name="datos_producto_editar_hint_stock">Ingrese el stock</string>
+
+
+    <string name="datos_producto_eliminar_title">Excluir Dados Produto</string>
+    <string name="datos_producto_eliminar_label_selector">Selecciona un registro activo</string>
+    <string name="datos_producto_eliminar_result_placeholder">Aqui se mostrara la informacion del registro seleccionado.</string>
+    <string name="datos_producto_eliminar_btn_eliminar">Excluir</string>
+    <string name="datos_producto_eliminar_btn_limpiar">Limpar</string>
+    <string name="datos_producto_eliminar_toast_eliminado">Registro eliminado</string>
+    <string name="datos_producto_eliminar_toast_error">Erro al eliminar registro</string>
+    <string name="datos_producto_eliminar_toast_invalid">Registro no valido o ya inactivo.</string>
+
+
+
 </resources>

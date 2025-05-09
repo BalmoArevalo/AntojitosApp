@@ -61,9 +61,9 @@ public class DetallePedidoConsultarActivity extends AppCompatActivity {
     private void cargarPedidos() {
         List<Pedido> pedidos = pedidoDAO.obtenerTodos();
         List<String> items = new ArrayList<>();
-        items.add("Seleccione");
+        items.add(getString(R.string.detalle_pedido_consultar_seleccione));
         for (Pedido p : pedidos) {
-            String label = "Pedido " + p.getIdPedido();
+            String label = getString(R.string.detalle_pedido_consultar_prefijo_pedido) + " " + p.getIdPedido();
             items.add(label);
             pedidosMap.put(label, p);
         }
@@ -74,19 +74,21 @@ public class DetallePedidoConsultarActivity extends AppCompatActivity {
         List<DetallePedido> lista = detallePedidoDAO.obtenerPorPedido(idPedido);
 
         if (lista.isEmpty()) {
-            textViewResultado.setText("No hay productos asociados a este pedido.");
+            textViewResultado.setText(getString(R.string.detalle_pedido_consultar_sin_productos));
             return;
         }
 
-        StringBuilder resultado = new StringBuilder("Detalles del pedido " + idPedido + ":\n");
+        StringBuilder resultado = new StringBuilder(getString(R.string.detalle_pedido_consultar_encabezado, idPedido));
         for (DetallePedido d : lista) {
             Producto producto = productoDAO.obtenerProductoPorId(d.getIdProducto());
-            String nombreProducto = (producto != null) ? producto.getNombreProducto() : "Desconocido";
+            String nombreProducto = (producto != null) ? producto.getNombreProducto() : getString(R.string.detalle_pedido_consultar_desconocido);
 
-            resultado.append("\n• Producto: ").append(nombreProducto)
-                    .append("\n  Cantidad: ").append(d.getCantidad())
-                    .append("\n  Subtotal: $").append(String.format(Locale.getDefault(), "%.2f", d.getSubtotal()))
-                    .append("\n");
+            resultado.append(getString(
+                    R.string.detalle_pedido_consultar_item_producto,
+                    nombreProducto,
+                    d.getCantidad(),
+                    d.getSubtotal()
+            ));
         }
 
         textViewResultado.setText(resultado.toString());

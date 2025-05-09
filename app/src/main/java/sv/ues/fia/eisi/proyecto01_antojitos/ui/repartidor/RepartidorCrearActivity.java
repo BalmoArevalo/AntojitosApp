@@ -56,7 +56,7 @@ public class RepartidorCrearActivity extends AppCompatActivity {
         dao      = new RepartidorDAO(dbHelper.getWritableDatabase());
 
         // Spinner Tipo de Vehículo
-        String[] tipos = {"Moto", "Bicicleta", "Auto", "Otro"};
+        String[] tipos = getResources().getStringArray(R.array.repartidor_tipos_vehiculo);
         ArrayAdapter<String> tipoAdapter = new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, tipos);
         tipoAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -106,7 +106,7 @@ public class RepartidorCrearActivity extends AppCompatActivity {
     private void cargarSpinnerDepartamento() {
         departamentoIds.clear();
         List<String> nombres = new ArrayList<>();
-        nombres.add("Seleccione...");
+        nombres.add(getString(R.string.repartidor_crear_spinner_placeholder));
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery(
                 "SELECT ID_DEPARTAMENTO, NOMBRE_DEPARTAMENTO FROM DEPARTAMENTO ORDER BY NOMBRE_DEPARTAMENTO",
@@ -125,7 +125,7 @@ public class RepartidorCrearActivity extends AppCompatActivity {
     private void cargarSpinnerMunicipio(int idDepartamento) {
         municipioIds.clear();
         List<String> nombres = new ArrayList<>();
-        nombres.add("Seleccione...");
+        nombres.add(getString(R.string.repartidor_crear_spinner_placeholder));
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery(
                 "SELECT ID_MUNICIPIO, NOMBRE_MUNICIPIO FROM MUNICIPIO WHERE ID_DEPARTAMENTO = ? ORDER BY NOMBRE_MUNICIPIO",
@@ -144,7 +144,7 @@ public class RepartidorCrearActivity extends AppCompatActivity {
     private void cargarSpinnerDistrito(int idDepartamento, int idMunicipio) {
         distritoIds.clear();
         List<String> nombres = new ArrayList<>();
-        nombres.add("Seleccione...");
+        nombres.add(getString(R.string.repartidor_crear_spinner_placeholder));
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor c = db.rawQuery(
                 "SELECT ID_DISTRITO, NOMBRE_DISTRITO FROM DISTRITO " +
@@ -172,7 +172,7 @@ public class RepartidorCrearActivity extends AppCompatActivity {
 
         if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty()
                 || posDept == 0 || posMun == 0 || posDist == 0) {
-            Toast.makeText(this, "Completa todos los campos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.repartidor_crear_toast_campos_requeridos), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -188,10 +188,10 @@ public class RepartidorCrearActivity extends AppCompatActivity {
         );
         long id = dao.insertar(r);
         if (id > 0) {
-            Toast.makeText(this, "Repartidor creado con ID " + id, Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.repartidor_crear_toast_exito, id), Toast.LENGTH_LONG).show();
             finish();
         } else {
-            Toast.makeText(this, "Error al crear repartidor", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.repartidor_crear_toast_error), Toast.LENGTH_LONG).show();
         }
     }
 
