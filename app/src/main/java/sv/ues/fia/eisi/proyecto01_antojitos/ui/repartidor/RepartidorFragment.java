@@ -11,13 +11,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Map;
+
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
+import sv.ues.fia.eisi.proyecto01_antojitos.data.AuthRepository;
 import sv.ues.fia.eisi.proyecto01_antojitos.databinding.FragmentRepartidorBinding;
+import sv.ues.fia.eisi.proyecto01_antojitos.util.PermUIUtils;
 
 public class RepartidorFragment extends Fragment {
 
     private FragmentRepartidorBinding binding;
     private RepartidorViewModel repartidorViewModel;
+
+    private static final Map<Integer, String> BTN_TO_PERM = Map.of(
+            R.id.btnCrear,     "repartidor_crear",
+            R.id.btnConsultar, "repartidor_consultar",
+            R.id.btnEditar,    "repartidor_editar",
+            R.id.btnEliminar,  "repartidor_eliminar"
+    );
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -27,6 +38,11 @@ public class RepartidorFragment extends Fragment {
         View root = binding.getRoot();
 
         binding.textRepartidor.setText(getString(R.string.repartidor_title));
+
+        /* 1) Aplicar permisos → esconde los botones no autorizados */
+        /* ─── Permisos: oculta/mostrar botones ─── */
+        AuthRepository auth = new AuthRepository(requireContext());
+        PermUIUtils.aplicarPermisosBotones(root, BTN_TO_PERM, auth);
 
         binding.btnCrear.setOnClickListener(v ->
                 startActivity(new Intent(getActivity(), RepartidorCrearActivity.class)));

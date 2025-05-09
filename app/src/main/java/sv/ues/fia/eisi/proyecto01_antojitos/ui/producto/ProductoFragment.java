@@ -8,66 +8,47 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.button.MaterialButton;
+import java.util.Map;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
+import sv.ues.fia.eisi.proyecto01_antojitos.data.AuthRepository;
+import sv.ues.fia.eisi.proyecto01_antojitos.util.PermUIUtils;
 
 public class ProductoFragment extends Fragment {
 
-    private ProductoViewModel productoViewModel;
-    private MaterialButton btnCrearProducto;
-    private MaterialButton btnConsultarProducto;
-    private MaterialButton btnEditarProducto;
-    private MaterialButton btnEliminarProducto;
-
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_producto, container, false);
-
-        productoViewModel = new ViewModelProvider(this).get(ProductoViewModel.class);
-
-        // Inicializar vistas
-        inicializarVistas(root);
-
-        // Configurar listeners
-        configurarListeners();
-
-        return root;
-    }
-
-    private void inicializarVistas(View view) {
-        btnCrearProducto = view.findViewById(R.id.btnCrearProducto);
-        btnConsultarProducto = view.findViewById(R.id.btnConsultarProducto);
-        btnEditarProducto = view.findViewById(R.id.btnEditarProducto);
-        btnEliminarProducto = view.findViewById(R.id.btnEliminarProducto);
-    }
-
-    private void configurarListeners() {
-        btnCrearProducto.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ProductoCrearActivity.class);
-            startActivity(intent);
-        });
-
-        btnConsultarProducto.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ProductoConsultarActivity.class);
-            startActivity(intent);
-        });
-
-        btnEditarProducto.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ProductoEditarActivity.class);
-            startActivity(intent);
-        });
-
-        btnEliminarProducto.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ProductoEliminarActivity.class);
-            startActivity(intent);
-        });
-    }
+    /** id-botón → id-permiso */
+    private static final Map<Integer, String> BTN_TO_PERM = Map.of(
+            R.id.btnCrearProducto,     "producto_crear",
+            R.id.btnConsultarProducto, "producto_consultar",
+            R.id.btnEditarProducto,    "producto_editar",
+            R.id.btnEliminarProducto,  "producto_eliminar"
+    );
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View root = inflater.inflate(R.layout.fragment_producto, container, false);
+
+        /* ---------- aplicar permisos ---------- */
+        AuthRepository auth = new AuthRepository(requireContext());
+        PermUIUtils.aplicarPermisosBotones(root, BTN_TO_PERM, auth);
+
+        /* ---------- listeners ---------- */
+        root.findViewById(R.id.btnCrearProducto).setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), ProductoCrearActivity.class)));
+
+        root.findViewById(R.id.btnConsultarProducto).setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), ProductoConsultarActivity.class)));
+
+        root.findViewById(R.id.btnEditarProducto).setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), ProductoEditarActivity.class)));
+
+        root.findViewById(R.id.btnEliminarProducto).setOnClickListener(v ->
+                startActivity(new Intent(getActivity(), ProductoEliminarActivity.class)));
+
+        return root;
     }
 }

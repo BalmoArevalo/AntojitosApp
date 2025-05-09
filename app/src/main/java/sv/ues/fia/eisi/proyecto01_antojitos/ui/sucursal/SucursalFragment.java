@@ -12,14 +12,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import java.util.Map;
+
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
+import sv.ues.fia.eisi.proyecto01_antojitos.data.AuthRepository;
 import sv.ues.fia.eisi.proyecto01_antojitos.databinding.FragmentSucursalBinding;
+import sv.ues.fia.eisi.proyecto01_antojitos.util.PermUIUtils;
 
 
 public class SucursalFragment extends Fragment {
 
     private FragmentSucursalBinding binding;
     private SucursalViewModel sucursalViewModel;
+
+    private static final Map<Integer, String> BTN_TO_PERM = Map.of(
+            R.id.btnCrear,     "sucursal_crear",
+            R.id.btnConsultar, "sucursal_consultar",
+            R.id.btnEditar,    "sucursal_editar",
+            R.id.btnEliminar,  "sucursal_eliminar"
+    );
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -29,6 +40,11 @@ public class SucursalFragment extends Fragment {
         View root = binding.getRoot();
 
         binding.textSucursal.setText(getString(R.string.sucursal_title));
+
+        /* 1) Aplicar permisos → esconde los botones no autorizados */
+        /* ─── Permisos: oculta/mostrar botones ─── */
+        AuthRepository auth = new AuthRepository(requireContext());
+        PermUIUtils.aplicarPermisosBotones(root, BTN_TO_PERM, auth);
 
         binding.btnCrear.setOnClickListener(v -> {
                     Intent intent = new Intent(getActivity(), SucursalCrearActivity.class);

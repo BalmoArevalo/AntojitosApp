@@ -5,55 +5,60 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.Map;
+
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
+import sv.ues.fia.eisi.proyecto01_antojitos.data.AuthRepository;
 import sv.ues.fia.eisi.proyecto01_antojitos.databinding.FragmentClienteBinding;
+import sv.ues.fia.eisi.proyecto01_antojitos.util.PermUIUtils;
 
 public class ClienteFragment extends Fragment {
 
     private FragmentClienteBinding binding;
-    private Button btnCrearCliente, btnConsultarCliente,
-            btnEditarCliente, btnEliminarCliente;
 
+    /** idBotón → idPermiso  */
+    private static final Map<Integer, String> BTN_TO_PERM = Map.of(
+            R.id.btnCrearCliente,     "cliente_crear",
+            R.id.btnConsultarCliente, "cliente_consultar",
+            R.id.btnEditarCliente,    "cliente_editar",
+            R.id.btnEliminarCliente,  "cliente_eliminar"
+    );
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        ClienteViewModel clienteViewModel =
+
+        ClienteViewModel vm =
                 new ViewModelProvider(this).get(ClienteViewModel.class);
 
         binding = FragmentClienteBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        // Inicializar los botones
-        btnCrearCliente = root.findViewById(R.id.btnCrearCliente);
-        btnConsultarCliente = root.findViewById(R.id.btnConsultarCliente);
-        btnEditarCliente = root.findViewById(R.id.btnEditarCliente);
-        btnEliminarCliente = root.findViewById(R.id.btnEliminarCliente);
+        /* ─── Permisos: oculta/mostrar botones ─── */
+        AuthRepository auth = new AuthRepository(requireContext());
+        PermUIUtils.aplicarPermisosBotones(root, BTN_TO_PERM, auth);
 
-        // Configurar listeners para los botones
-        btnCrearCliente.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ClienteCrearActivity.class);
-            startActivity(intent);
-        });
+        /* ─── Listeners  (usa binding.*) ─── */
+        binding.btnCrearCliente.setOnClickListener(v ->
+                startActivity(new Intent(requireContext(),
+                        ClienteCrearActivity.class)));
 
-        btnConsultarCliente.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ClienteConsultarActivity.class);
-            startActivity(intent);
-        });
+        binding.btnConsultarCliente.setOnClickListener(v ->
+                startActivity(new Intent(requireContext(),
+                        ClienteConsultarActivity.class)));
 
-        btnEditarCliente.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ClienteEditarActivity.class);
-            startActivity(intent);
-        });
+        binding.btnEditarCliente.setOnClickListener(v ->
+                startActivity(new Intent(requireContext(),
+                        ClienteEditarActivity.class)));
 
-        btnEliminarCliente.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), ClienteEliminarActivity.class);
-            startActivity(intent);
-        });
+        binding.btnEliminarCliente.setOnClickListener(v ->
+                startActivity(new Intent(requireContext(),
+                        ClienteEliminarActivity.class)));
 
         return root;
     }

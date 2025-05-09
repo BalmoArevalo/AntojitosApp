@@ -1,4 +1,6 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.db;
+import sv.ues.fia.eisi.proyecto01_antojitos.db.seeders.SeguridadSeeder;
+import sv.ues.fia.eisi.proyecto01_antojitos.db.seeders.DatosInicialesSeeder;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,7 +11,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "antojitos.db";
     // Incrementar la versión si se añaden/modifican triggers o tablas
-    public static final int DB_VERSION = 5;
+    public static final int DB_VERSION = 7;
 
     public DBHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -25,6 +27,53 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.i("DBHelper", "onCreate: Creando tablas y triggers para la versión " + DB_VERSION);
 
+        /* 2. Negocio */
+        crearTablasSeguridad(db);
+        crearTablasNegocio(db);
+
+        Log.i("DBHelper", "Estructura y datos iniciales creados.");
+    }
+
+    @Override
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.w("DBHelper", "Actualizando base de datos de la versión " + oldVersion + " a " + newVersion + ", se eliminarán los datos antiguos.");
+        // eliminar tablas en orden inverso para evitar problemas de FK
+        dropTablasNegocio(db);
+        dropTablasSeguridad(db);
+        onCreate(db);
+    }
+
+    private void crearTablasSeguridad(SQLiteDatabase db) {
+        /* ======================  TABLAS DE SEGURIDAD  ====================== */
+
+        // tabla USUARIO
+        db.execSQL("CREATE TABLE USUARIO ("
+                + "ID_USUARIO TEXT PRIMARY KEY,"
+                + "NOM_USUARIO TEXT NOT NULL,"
+                + "CLAVE TEXT NOT NULL"
+                + ");");
+
+        //tabla OPCIONCRUD
+        db.execSQL("CREATE TABLE OPCIONCRUD ("
+                + "ID_OPCION TEXT PRIMARY KEY,"
+                + "DES_OPCION TEXT NOT NULL,"
+                + "NUM_CRUD INTEGER NOT NULL"       // 1-Crear, 2-Consultar, 3-Editar, 4-Eliminar
+                + ");");
+
+        //tabla ACCESOUSUARIO (FK a las dos anteriores)
+        db.execSQL("CREATE TABLE ACCESOUSUARIO ("
+                + "ID_OPCION TEXT NOT NULL,"
+                + "ID_USUARIO TEXT NOT NULL,"
+                + "PRIMARY KEY (ID_OPCION, ID_USUARIO),"
+                + "FOREIGN KEY (ID_OPCION) REFERENCES OPCIONCRUD(ID_OPCION),"
+                + "FOREIGN KEY (ID_USUARIO) REFERENCES USUARIO(ID_USUARIO)"
+                + ");");
+
+        SeguridadSeeder.poblar(db);   // ← inserta roles, permisos, accesos
+    }
+
+    private void crearTablasNegocio(SQLiteDatabase db) {
+        /* -------- TABLAS DE NEGOCIO -------- */
         // 1 - tabla de DEPARTAMENTO
         db.execSQL("CREATE TABLE DEPARTAMENTO ("
                 + "ID_DEPARTAMENTO INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -213,23 +262,9 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "FOREIGN KEY (ID_CLIENTE) REFERENCES CLIENTE(ID_CLIENTE),"
                 + "FOREIGN KEY (ID_DEPARTAMENTO, ID_MUNICIPIO, ID_DISTRITO) REFERENCES DISTRITO(ID_DEPARTAMENTO, ID_MUNICIPIO, ID_DISTRITO)"
                 + ");");
-
-        Log.i("DBHelper", "Tablas creadas.");
-
-        // LLAMADA AL SEEDER (Después de crear tablas y triggers)
-        try {
-            Log.i("DBHelper_OnCreate", "Llamando a BaseDatosSeeder.insertarDatosIniciales...");
-            BaseDatosSeeder.insertarDatosIniciales(db);
-            Log.i("DBHelper_OnCreate", "BaseDatosSeeder.insertarDatosIniciales completado.");
-        } catch (Exception e) {
-            Log.e("DBHelper_OnCreate", "Error al insertar datos iniciales", e);
-        }
     }
 
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.w("DBHelper", "Actualizando base de datos de la versión " + oldVersion + " a " + newVersion + ", se eliminarán los datos antiguos.");
-        // eliminar tablas en orden inverso para evitar problemas de FK
+    private void dropTablasNegocio(SQLiteDatabase db) {
         db.execSQL("DROP TABLE IF EXISTS DETALLEPEDIDO;");
         db.execSQL("DROP TABLE IF EXISTS REPARTOPEDIDO;");
         db.execSQL("DROP TABLE IF EXISTS DIRECCION;");
@@ -246,8 +281,11 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS DISTRITO;");
         db.execSQL("DROP TABLE IF EXISTS MUNICIPIO;");
         db.execSQL("DROP TABLE IF EXISTS DEPARTAMENTO;");
+    }
 
-        // Volver a crear la estructura
-        onCreate(db);
+    private void dropTablasSeguridad(SQLiteDatabase db) {
+        db.execSQL("DROP TABLE IF EXISTS ACCESOUSUARIO;");
+        db.execSQL("DROP TABLE IF EXISTS OPCIONCRUD;");
+        db.execSQL("DROP TABLE IF EXISTS USUARIO;");
     }
 }
