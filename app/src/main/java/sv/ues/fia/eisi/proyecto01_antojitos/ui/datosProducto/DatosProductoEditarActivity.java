@@ -24,18 +24,14 @@ import sv.ues.fia.eisi.proyecto01_antojitos.R;
 import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
 
 public class DatosProductoEditarActivity extends AppCompatActivity {
-    private Spinner spinnerSucursal;
-    private Spinner spinnerProducto;
-    private Button btnBuscar;
-    private EditText editPrecio;
-    private EditText editStock;
+
+    private Spinner spinnerSucursal, spinnerProducto;
+    private Button btnBuscar, btnActualizar, btnLimpiar;
+    private EditText editPrecio, editStock;
     private Switch switchDisponible;
-    private Button btnActualizar;
-    private Button btnLimpiar;
 
     private DBHelper dbHelper;
-    private List<Integer> listaIdsSucursal;
-    private List<Integer> listaIdsProducto;
+    private List<Integer> listaIdsSucursal, listaIdsProducto;
     private DatosProducto datosActual;
 
     @Override
@@ -49,31 +45,25 @@ public class DatosProductoEditarActivity extends AppCompatActivity {
                     Insets sb = insets.getInsets(WindowInsetsCompat.Type.systemBars());
                     v.setPadding(sb.left, sb.top, sb.right, sb.bottom);
                     return insets;
-                }
-        );
+                });
 
+        // Inicialización
         dbHelper = new DBHelper(this);
-        spinnerSucursal = findViewById(R.id.spinnerSucursal);
-        spinnerProducto = findViewById(R.id.spinnerProducto);
-        editPrecio = findViewById(R.id.editPrecio);
-        editStock = findViewById(R.id.editStock);
-        switchDisponible = findViewById(R.id.switchDisponible);
-        btnBuscar = findViewById(R.id.btnBuscar);
-        btnActualizar = findViewById(R.id.btnActualizar);
-        btnLimpiar = findViewById(R.id.btnLimpiar);
+        spinnerSucursal    = findViewById(R.id.spinnerSucursal);
+        spinnerProducto    = findViewById(R.id.spinnerProducto);
+        editPrecio         = findViewById(R.id.editPrecio);
+        editStock          = findViewById(R.id.editStock);
+        switchDisponible   = findViewById(R.id.switchDisponible);
+        btnBuscar          = findViewById(R.id.btnBuscar);
+        btnActualizar      = findViewById(R.id.btnActualizar);
+        btnLimpiar         = findViewById(R.id.btnLimpiar);
 
-        // Deshabilitar campos y acciones hasta cargar datos
-        editPrecio.setEnabled(false);
-        editStock.setEnabled(false);
-        switchDisponible.setEnabled(false);
-        btnActualizar.setEnabled(false);
+        disableForm();
 
         loadSucursales();
         spinnerSucursal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                int idSuc = listaIdsSucursal.get(position);
-                loadProductosConDatos(idSuc);
+            @Override public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                loadProductosConDatos(listaIdsSucursal.get(position));
                 clearFields();
             }
             @Override public void onNothingSelected(AdapterView<?> parent) {}
@@ -94,17 +84,15 @@ public class DatosProductoEditarActivity extends AppCompatActivity {
             labels.add(c.getInt(0) + " - " + c.getString(1));
         }
         c.close();
-        spinnerSucursal.setAdapter(new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, labels));
+        spinnerSucursal.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, labels));
     }
 
     private void loadProductosConDatos(int idSucursal) {
         listaIdsProducto = new ArrayList<>();
         List<String> labels = new ArrayList<>();
         Cursor c = dbHelper.getReadableDatabase().rawQuery(
-                "SELECT DP.ID_PRODUCTO, P.NOMBRE_PRODUCTO " +
-                        "FROM DATOSPRODUCTO DP JOIN PRODUCTO P " +
-                        "ON DP.ID_PRODUCTO=P.ID_PRODUCTO " +
+                "SELECT DP.ID_PRODUCTO, P.NOMBRE_PRODUCTO FROM DATOSPRODUCTO DP " +
+                        "JOIN PRODUCTO P ON DP.ID_PRODUCTO=P.ID_PRODUCTO " +
                         "WHERE DP.ID_SUCURSAL=? AND DP.ACTIVO_DATOSPRODUCTO=1",
                 new String[]{ String.valueOf(idSucursal) });
         while (c.moveToNext()) {
@@ -112,8 +100,7 @@ public class DatosProductoEditarActivity extends AppCompatActivity {
             labels.add(c.getInt(0) + " - " + c.getString(1));
         }
         c.close();
-        spinnerProducto.setAdapter(new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, labels));
+        spinnerProducto.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, labels));
     }
 
     private void buscarDatos() {
@@ -123,23 +110,21 @@ public class DatosProductoEditarActivity extends AppCompatActivity {
             Toast.makeText(this, "Selecciona sucursal y producto", Toast.LENGTH_SHORT).show();
             return;
         }
+
         int idSuc = listaIdsSucursal.get(posSuc);
         int idProd = listaIdsProducto.get(posProd);
-        datosActual = new DatosProductoDAO(
-                dbHelper.getReadableDatabase()).find(idSuc, idProd);
+        datosActual = new DatosProductoDAO(dbHelper.getReadableDatabase()).find(idSuc, idProd);
+
         if (datosActual == null) {
             Toast.makeText(this, "No se encontraron datos existentes", Toast.LENGTH_SHORT).show();
             return;
         }
-        // Mostrar datos y habilitar edición
+
         editPrecio.setText(String.valueOf(datosActual.getPrecioSucursalProducto()));
         editStock.setText(String.valueOf(datosActual.getStock()));
         switchDisponible.setChecked(datosActual.isActivo());
 
-        editPrecio.setEnabled(true);
-        editStock.setEnabled(true);
-        switchDisponible.setEnabled(true);
-        btnActualizar.setEnabled(true);
+        enableForm();
     }
 
     private void actualizarDatos() {
@@ -147,26 +132,25 @@ public class DatosProductoEditarActivity extends AppCompatActivity {
             Toast.makeText(this, "Primero busca un registro", Toast.LENGTH_SHORT).show();
             return;
         }
-        double precio;
-        int stock;
+
         try {
-            precio = Double.parseDouble(editPrecio.getText().toString().trim());
-            stock = Integer.parseInt(editStock.getText().toString().trim());
+            double precio = Double.parseDouble(editPrecio.getText().toString().trim());
+            int stock = Integer.parseInt(editStock.getText().toString().trim());
+            boolean activo = switchDisponible.isChecked();
+
+            datosActual.setPrecioSucursalProducto(precio);
+            datosActual.setStock(stock);
+            datosActual.setActivo(activo);
+
+            int rows = new DatosProductoDAO(dbHelper.getWritableDatabase()).update(datosActual);
+            if (rows > 0) {
+                Toast.makeText(this, "Registro actualizado", Toast.LENGTH_SHORT).show();
+                clearFields();
+            } else {
+                Toast.makeText(this, "Error al actualizar", Toast.LENGTH_SHORT).show();
+            }
         } catch (NumberFormatException e) {
             Toast.makeText(this, "Precio o stock inválido", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        boolean activo = switchDisponible.isChecked();
-        datosActual.setPrecioSucursalProducto(precio);
-        datosActual.setStock(stock);
-        datosActual.setActivo(activo);
-        int rows = new DatosProductoDAO(
-                dbHelper.getWritableDatabase()).update(datosActual);
-        if (rows > 0) {
-            Toast.makeText(this, "Registro actualizado", Toast.LENGTH_SHORT).show();
-            clearFields();
-        } else {
-            Toast.makeText(this, "Error al actualizar", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -174,13 +158,22 @@ public class DatosProductoEditarActivity extends AppCompatActivity {
         editPrecio.setText("");
         editStock.setText("");
         switchDisponible.setChecked(true);
+        disableForm();
+        datosActual = null;
+    }
 
+    private void disableForm() {
         editPrecio.setEnabled(false);
         editStock.setEnabled(false);
         switchDisponible.setEnabled(false);
         btnActualizar.setEnabled(false);
+    }
 
-        datosActual = null;
+    private void enableForm() {
+        editPrecio.setEnabled(true);
+        editStock.setEnabled(true);
+        switchDisponible.setEnabled(true);
+        btnActualizar.setEnabled(true);
     }
 
     @Override

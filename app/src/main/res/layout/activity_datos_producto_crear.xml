@@ -14,17 +14,16 @@
             android:id="@+id/text_crear_datos_producto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Crear Datos Producto"
+            android:text="@string/datos_producto_crear_title"
             android:textSize="18sp"
             android:textStyle="bold"
             android:gravity="center"
             android:padding="8dp" />
 
-        <!-- Selección de Sucursal -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sucursal:"
+            android:text="@string/datos_producto_crear_label_sucursal"
             android:layout_marginTop="12dp"/>
 
         <Spinner
@@ -33,11 +32,10 @@
             android:layout_height="wrap_content"
             android:minHeight="48dp" />
 
-        <!-- Selección de Producto -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Producto:"
+            android:text="@string/datos_producto_crear_label_producto"
             android:layout_marginTop="12dp"/>
 
         <Spinner
@@ -50,52 +48,49 @@
             android:id="@+id/btnCrearProducto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Crear Producto"
+            android:text="@string/datos_producto_crear_btn_crear_producto"
             android:layout_marginTop="8dp"/>
 
-        <!-- Precio -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Precio (USD):"
+            android:text="@string/datos_producto_crear_label_precio"
             android:layout_marginTop="12dp"/>
 
         <EditText
             android:id="@+id/editPrecio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ingrese precio"
+            android:hint="@string/datos_producto_crear_hint_precio"
             android:inputType="numberDecimal"
             android:minHeight="48dp" />
 
-        <!-- Stock -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Stock:"
+            android:text="@string/datos_producto_crear_label_stock"
             android:layout_marginTop="12dp"/>
 
         <EditText
             android:id="@+id/editStock"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Ingrese stock"
+            android:hint="@string/datos_producto_crear_hint_stock"
             android:inputType="number"
             android:minHeight="48dp" />
 
-        <!-- Botones de acción -->
         <Button
             android:id="@+id/btnGuardar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar"
+            android:text="@string/datos_producto_crear_btn_guardar"
             android:layout_marginTop="20dp" />
 
         <Button
             android:id="@+id/btnLimpiar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Limpiar"
+            android:text="@string/datos_producto_crear_btn_limpiar"
             android:layout_marginTop="8dp" />
 
     </LinearLayout>

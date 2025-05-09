@@ -59,16 +59,13 @@ public class DatosProductoCrearActivity extends AppCompatActivity {
         btnLimpiar = findViewById(R.id.btnLimpiar);
         btnCrearProducto = findViewById(R.id.btnCrearProducto);
 
-        // Lanzar Activity para crear Producto
         btnCrearProducto.setOnClickListener(v -> {
             Intent intent = new Intent(this, ProductoCrearActivity.class);
             startActivity(intent);
         });
 
-        // Cargar sucursales activas
         loadSucursales();
 
-        // Al seleccionar sucursal, cargar productos faltantes
         spinnerSucursal.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -159,13 +156,11 @@ public class DatosProductoCrearActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Refrescar el spinner de productos al volver de crear un producto
         int posSuc = spinnerSucursal.getSelectedItemPosition();
         if (posSuc >= 0 && listaIdsSucursal != null) {
             loadProductosSinDatos(listaIdsSucursal.get(posSuc));
         }
     }
-
 
     private void resetForm() {
         spinnerSucursal.setSelection(0);
