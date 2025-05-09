@@ -31,6 +31,18 @@
             android:theme="@style/Theme.Proyecto01_Antojitos.NoActionBar" />
 
         <activity
+            android:name=".ui.repartoPedido.RepartoPedidoEliminarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.repartoPedido.RepartoPedidoEditarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.repartoPedido.RepartoPedidoConsultarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.repartoPedido.RepartoPedidoCrearActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.tipoEvento.TipoEventoEliminarActivity"
             android:exported="false" />
         <activity

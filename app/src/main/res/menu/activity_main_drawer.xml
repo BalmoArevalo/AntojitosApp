@@ -26,6 +26,11 @@
             android:visible="false"/>
 
         <item
+            android:id="@+id/nav_reparto_pedido"
+            android:icon="@drawable/ic_repartidor"
+            android:title="@string/menu_reparto_pedido" />
+
+        <item
             android:id="@+id/nav_producto"
             android:icon="@drawable/ic_producto"
             android:title="@string/menu_producto"
