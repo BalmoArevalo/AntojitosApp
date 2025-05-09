@@ -60,7 +60,7 @@ public class PedidoEliminarActivity extends AppCompatActivity {
     }
 
     private void cargarPedidosEnSpinner() {
-        listaPedidos = pedidoDAO.obtenerTodos(); // Solo activos si ya aplicaste el filtro
+        listaPedidos = pedidoDAO.obtenerTodos();
 
         List<String> opciones = new ArrayList<>();
         for (Pedido p : listaPedidos) {
@@ -75,7 +75,7 @@ public class PedidoEliminarActivity extends AppCompatActivity {
     private void buscarPedido() {
         int posicion = spinnerEliminarPedidos.getSelectedItemPosition();
         if (posicion == AdapterView.INVALID_POSITION || listaPedidos.isEmpty()) {
-            Toast.makeText(this, "Seleccione un pedido válido", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.pedido_eliminar_toast_seleccion_invalida), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -86,21 +86,22 @@ public class PedidoEliminarActivity extends AppCompatActivity {
         TipoEvento tipoEvento = tipoEventoDAO.consultarPorId(pedidoSeleccionado.getIdTipoEvento());
         Sucursal sucursal = sucursalDAO.obtenerPorId(pedidoSeleccionado.getIdSucursal());
 
-        String nombreSucursal = (sucursal != null) ? sucursal.getNombreSucursal() : "Desconocida";
-        String estadoActivo = (pedidoSeleccionado.getActivoPedido() == 1) ? "Activo" : "Inactivo";
-        String nombreCliente = (cliente != null) ? cliente.getNombreCliente() : "Desconocido";
-        String nombreRepartidor = (repartidor != null) ? repartidor.getNombreRepartidor() : "Desconocido";
-        String nombreTipoEvento = (tipoEvento != null) ? tipoEvento.getNombreTipoEvento() : "Ninguno";
+        String nombreSucursal = (sucursal != null) ? sucursal.getNombreSucursal() : getString(R.string.pedido_eliminar_nombre_sucursal_desconocida);
+        String estadoActivo = (pedidoSeleccionado.getActivoPedido() == 1) ? getString(R.string.pedido_eliminar_estado_activo) : getString(R.string.pedido_eliminar_estado_inactivo);
+        String nombreCliente = (cliente != null) ? cliente.getNombreCliente() : getString(R.string.pedido_eliminar_nombre_cliente_desconocido);
+        String nombreRepartidor = (repartidor != null) ? repartidor.getNombreRepartidor() : getString(R.string.pedido_eliminar_nombre_repartidor_desconocido);
+        String nombreTipoEvento = (tipoEvento != null) ? tipoEvento.getNombreTipoEvento() : getString(R.string.pedido_eliminar_nombre_evento_ninguno);
 
-        String info = "Pedido encontrado:\n" +
-                "ID Pedido: " + pedidoSeleccionado.getIdPedido() + "\n" +
-                "ID Cliente: " + pedidoSeleccionado.getIdCliente() + " — " + nombreCliente + "\n" +
-                "ID Repartidor: " + pedidoSeleccionado.getIdRepartidor() + " — " + nombreRepartidor + "\n" +
-                "ID Tipo Evento: " + pedidoSeleccionado.getIdTipoEvento() + " — " + nombreTipoEvento + "\n" +
-                "ID Sucursal: " + pedidoSeleccionado.getIdSucursal() + " — " + nombreSucursal + "\n" +
-                "Fecha/Hora: " + pedidoSeleccionado.getFechaHoraPedido() + "\n" +
-                "Estado: " + pedidoSeleccionado.getEstadoPedido() + "\n" +
-                "Activo: " + estadoActivo;
+        String info = getString(R.string.pedido_eliminar_resultado,
+                pedidoSeleccionado.getIdPedido(),
+                pedidoSeleccionado.getIdCliente(), nombreCliente,
+                pedidoSeleccionado.getIdRepartidor(), nombreRepartidor,
+                pedidoSeleccionado.getIdTipoEvento(), nombreTipoEvento,
+                pedidoSeleccionado.getIdSucursal(), nombreSucursal,
+                pedidoSeleccionado.getFechaHoraPedido(),
+                pedidoSeleccionado.getEstadoPedido(),
+                estadoActivo
+        );
 
         textViewResultado.setText(info);
         btnEliminar.setEnabled(true);
@@ -109,34 +110,32 @@ public class PedidoEliminarActivity extends AppCompatActivity {
     private void eliminarPedido() {
         if (pedidoSeleccionado != null) {
             new AlertDialog.Builder(this)
-                    .setTitle("Confirmar eliminación")
-                    .setMessage("¿Estás seguro de que deseas eliminar el pedido ID " + pedidoSeleccionado.getIdPedido() + "? Esta acción no se puede deshacer.")
-                    .setPositiveButton("Sí, eliminar", (dialog, which) -> {
+                    .setTitle(getString(R.string.pedido_eliminar_dialog_titulo))
+                    .setMessage(getString(R.string.pedido_eliminar_dialog_mensaje, pedidoSeleccionado.getIdPedido()))
+                    .setPositiveButton(getString(R.string.pedido_eliminar_dialog_confirmar), (dialog, which) -> {
                         int resultado = pedidoDAO.eliminar(pedidoSeleccionado.getIdPedido());
 
                         switch (resultado) {
                             case 2:
-                                Toast.makeText(this, "✅ Pedido eliminado correctamente", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, getString(R.string.pedido_eliminar_resultado_ok), Toast.LENGTH_SHORT).show();
                                 break;
                             case 1:
-                                Toast.makeText(this, "⚠️ Pedido desactivado (asociado a detalle o reparto)", Toast.LENGTH_LONG).show();
+                                Toast.makeText(this, getString(R.string.pedido_eliminar_resultado_desactivado), Toast.LENGTH_LONG).show();
                                 break;
                             case 0:
-                                Toast.makeText(this, "❌ No se puede eliminar: está asociado a una factura", Toast.LENGTH_LONG).show();
+                                Toast.makeText(this, getString(R.string.pedido_eliminar_resultado_asociado), Toast.LENGTH_LONG).show();
                                 break;
                             default:
-                                Toast.makeText(this, "❌ Error al intentar eliminar el pedido", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, getString(R.string.pedido_eliminar_resultado_error), Toast.LENGTH_SHORT).show();
                         }
 
-                        // Limpiar y actualizar
                         textViewResultado.setText("");
                         btnEliminar.setEnabled(false);
                         cargarPedidosEnSpinner();
                         pedidoSeleccionado = null;
                     })
-                    .setNegativeButton("Cancelar", null)
+                    .setNegativeButton(getString(R.string.pedido_eliminar_dialog_cancelar), null)
                     .show();
         }
     }
 }
-

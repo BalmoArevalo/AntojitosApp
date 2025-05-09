@@ -94,7 +94,7 @@ public class CategoriaProductoEditarActivity extends AppCompatActivity {
         String hasta = editTextHoraHasta.getText().toString().trim();
 
         if (desde.isEmpty() || hasta.isEmpty()) {
-            textViewDisponible.setText("Disponible ahora: -");
+            textViewDisponible.setText(getString(R.string.categoria_producto_disponible_default));
             return;
         }
 
@@ -107,10 +107,11 @@ public class CategoriaProductoEditarActivity extends AppCompatActivity {
             boolean disponible = ahora.equals(horaDesde) || ahora.equals(horaHasta)
                     || (ahora.after(horaDesde) && ahora.before(horaHasta));
 
-            textViewDisponible.setText("Disponible ahora: " + (disponible ? "Sí" : "No"));
+            String disponibleStr = disponible ? getString(R.string.respuesta_si) : getString(R.string.respuesta_no);
+            textViewDisponible.setText(getString(R.string.categoria_producto_disponible_label, disponibleStr));
 
         } catch (ParseException e) {
-            textViewDisponible.setText("Error al calcular disponibilidad");
+            textViewDisponible.setText(getString(R.string.categoria_producto_disponible_error));
         }
     }
 
@@ -120,7 +121,7 @@ public class CategoriaProductoEditarActivity extends AppCompatActivity {
 
         mapCategorias = new HashMap<>();
         List<String> items = new ArrayList<>();
-        items.add("Seleccione");
+        items.add(getString(R.string.categoria_producto_editar_spinner_default));
 
         for (CategoriaProducto c : listaCategorias) {
             String label = c.getIdCategoriaProducto() + " - " + c.getNombreCategoria();
@@ -152,11 +153,11 @@ public class CategoriaProductoEditarActivity extends AppCompatActivity {
 
         boolean ok = dao.actualizar(seleccionada);
         if (ok) {
-            Toast.makeText(this, "Categoría actualizada correctamente", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.categoria_producto_toast_actualizar_ok), Toast.LENGTH_SHORT).show();
             cargarSpinner();
             spinnerCategoria.setSelection(0);
         } else {
-            Toast.makeText(this, "Error al actualizar categoría", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.categoria_producto_toast_actualizar_error), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -186,14 +187,13 @@ public class CategoriaProductoEditarActivity extends AppCompatActivity {
         }
     }
 
-
     private void limpiarCampos() {
         editTextNombre.setText("");
         editTextDescripcion.setText("");
         editTextHoraDesde.setText("");
         editTextHoraHasta.setText("");
         switchActivo.setChecked(false);
-        textViewDisponible.setText("Disponible ahora: -");
+        textViewDisponible.setText(getString(R.string.categoria_producto_disponible_default));
     }
 
     @Override

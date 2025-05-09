@@ -13,7 +13,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Crear Repartidor"
+            android:text="@string/repartidor_crear_titulo"
             android:textSize="20sp"
             android:textStyle="bold"
             android:gravity="center"
@@ -25,7 +25,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:hint="Nombre"
+            android:hint="@string/repartidor_crear_hint_nombre"
             android:inputType="textPersonName"
             android:minHeight="48dp" />
 
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:hint="Apellido"
+            android:hint="@string/repartidor_crear_hint_apellido"
             android:inputType="textPersonName"
             android:minHeight="48dp" />
 
@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:hint="Teléfono"
+            android:hint="@string/repartidor_crear_hint_telefono"
             android:inputType="phone"
             android:minHeight="48dp" />
 
@@ -53,7 +53,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tipo de Vehículo"
+            android:text="@string/repartidor_crear_label_tipo_vehiculo"
             android:textStyle="bold"
             android:layout_marginTop="8dp" />
 
@@ -72,13 +72,13 @@
             android:layout_marginBottom="16dp"
             android:checked="true"
             android:minHeight="48dp"
-            android:text="Disponible" />
+            android:text="@string/repartidor_crear_switch_disponible" />
 
         <!-- Departamento -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Departamento"
+            android:text="@string/repartidor_crear_label_departamento"
             android:textStyle="bold"
             android:layout_marginTop="8dp" />
 
@@ -93,7 +93,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Municipio"
+            android:text="@string/repartidor_crear_label_municipio"
             android:textStyle="bold"
             android:layout_marginTop="8dp" />
 
@@ -109,7 +109,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Distrito"
+            android:text="@string/repartidor_crear_label_distrito"
             android:textStyle="bold"
             android:layout_marginTop="8dp" />
 
@@ -126,14 +126,14 @@
             android:id="@+id/btnGuardarRepartidor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar"
+            android:text="@string/repartidor_crear_btn_guardar"
             android:layout_marginBottom="8dp" />
 
         <Button
             android:id="@+id/btnLimpiarCampos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Limpiar" />
+            android:text="@string/repartidor_crear_btn_limpiar" />
 
     </LinearLayout>
 </ScrollView>
