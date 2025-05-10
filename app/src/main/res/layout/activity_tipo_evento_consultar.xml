@@ -1,59 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="#FFFFFF">
 
-    <LinearLayout
-        android:orientation="vertical"
+    <TextView
+        android:id="@+id/tvTituloTipoEvento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Consultar Tipo de Evento"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#444"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvSubtituloTipoEvento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selecciona el Tipo de Evento"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#888"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/spinnerIdTipoEventoBuscar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp" />
 
-        <EditText
-            android:id="@+id/editTextIdTipoEventoBuscar"
-            android:hint="ID Tipo Evento"
-            android:inputType="number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btnBuscarTipoEvento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MOSTRAR DETALLES"
+        android:backgroundTint="#6200EE"
+        android:textColor="#FFF"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginBottom="24dp" />
 
-        <EditText
-            android:id="@+id/editTextNombreTipoEventoConsultado"
-            android:hint="Nombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/editTextDescripcionTipoEventoConsultado"
-            android:hint="Descripción"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/editTextMontoMinimoConsultado"
-            android:hint="Monto Mínimo"
-            android:inputType="numberDecimal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <EditText
-            android:id="@+id/editTextMontoMaximoConsultado"
-            android:hint="Monto Máximo"
-            android:inputType="numberDecimal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <Button
-            android:id="@+id/btnBuscarTipoEvento"
-            android:text="Buscar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="8dp"/>
-
-        <TextView
-            android:id="@+id/textViewResultado"
-            android:text="Resultado aparecerá aquí"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="8dp"/>
-    </LinearLayout>
-</ScrollView>
+    <TextView
+        android:id="@+id/tvResultadoTipoEvento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EEEEEE"
+        android:padding="16dp"
+        android:textSize="14sp"
+        android:textColor="#000"
+        android:text="Detalles del tipo de evento aparecerán aquí"
+        android:visibility="visible" />
+</LinearLayout>

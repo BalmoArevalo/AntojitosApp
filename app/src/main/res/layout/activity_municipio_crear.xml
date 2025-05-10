@@ -10,25 +10,18 @@
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/editTextIdMunicipio"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="ID Municipio"
-            android:inputType="number" />
-
-        <EditText
             android:id="@+id/editTextNombreMunicipio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre del Municipio"
             android:inputType="textPersonName" />
 
-        <EditText
-            android:id="@+id/editTextIdDepartamento"
+        <Spinner
+            android:id="@+id/spinnerDepartamento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="ID Departamento"
-            android:inputType="number" />
+            android:prompt="@string/select_departamento" />
+
 
         <Button
             android:id="@+id/btnGuardarMunicipio"

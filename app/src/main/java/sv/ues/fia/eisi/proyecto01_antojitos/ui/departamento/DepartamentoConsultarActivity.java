@@ -24,7 +24,6 @@ public class DepartamentoConsultarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_departamento_consultar);
 
         editTextId = findViewById(R.id.editTextIdDepartamentoBuscar);
-        editTextNombre = findViewById(R.id.editTextNombreDepartamentoConsultado);
         btnBuscar = findViewById(R.id.btnBuscarDepartamento);
 
         SQLiteDatabase db = new DBHelper(this).getReadableDatabase();

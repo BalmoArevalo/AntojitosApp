@@ -3,34 +3,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="#FFFFFF">
 
     <TextView
+        android:id="@+id/tvTituloDepartamento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ID del Departamento a buscar" />
+        android:text="Consultar Departamento"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#444"
+        android:layout_marginBottom="16dp" />
 
-    <EditText
+    <TextView
+        android:id="@+id/tvSubtituloDepartamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ingresa el ID del departamento"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#888"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
         android:id="@+id/editTextIdDepartamentoBuscar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number" />
+        android:layout_marginBottom="16dp"
+        android:minHeight="48dp"/>
 
     <Button
         android:id="@+id/btnBuscarDepartamento"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Buscar" />
-
-    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Nombre del Departamento encontrado" />
+        android:text="MOSTRAR DETALLES"
+        android:backgroundTint="#6200EE"
+        android:textColor="#FFF"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginBottom="24dp" />
 
-    <EditText
-        android:id="@+id/editTextNombreDepartamentoConsultado"
+    <TextView
+        android:id="@+id/tvResultadoDepartamento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:enabled="false" />
+        android:background="#EEEEEE"
+        android:padding="16dp"
+        android:textSize="14sp"
+        android:textColor="#000"
+        android:text="Nombre del Departamento encontrado aparecerá aquí"
+        android:visibility="visible" />
 </LinearLayout>
-

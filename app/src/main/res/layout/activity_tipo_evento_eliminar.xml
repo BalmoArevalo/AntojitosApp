@@ -5,12 +5,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editTextIdTipoEvento"
-        android:hint="ID Tipo Evento a eliminar"
-        android:inputType="number"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Seleccione el Tipo de Evento a eliminar"
+        android:textSize="16sp"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/spinnerIdTipoEventoEliminar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:minHeight="48dp"/>
 
     <Button
         android:id="@+id/buttonEliminar"

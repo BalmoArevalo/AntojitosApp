@@ -8,13 +8,14 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ID del Departamento a editar" />
+        android:text="Departamento a editar" />
 
-    <EditText
-        android:id="@+id/editTextIdDepartamentoEditar"
+    <Spinner
+        android:id="@+id/spinnerIdDepartamentoEditar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number" />
+        android:layout_marginBottom="12dp"
+        android:minHeight="48dp" />
 
     <Button
         android:id="@+id/btnBuscarDepartamentoEditar"
@@ -38,4 +39,3 @@
         android:layout_height="wrap_content"
         android:text="Actualizar" />
 </LinearLayout>
-
