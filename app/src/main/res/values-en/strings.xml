@@ -845,5 +845,48 @@
     <string name="reparto_pedido_btn_editar">Edit Delivery</string>
     <string name="reparto_pedido_btn_eliminar">Delete Delivery Record</string>
 
+    <!-- RepartoPedido Create -->
+    <string name="repartopedido_titulo_crear">New Order Delivery</string>
+    <string name="repartopedido_label_pedido">Order</string>
+    <string name="repartopedido_label_repartidor">Delivery Person</string>
+    <string name="repartopedido_label_hora_asignacion">Assignment Time</string>
+    <string name="repartopedido_label_ubicacion">Delivery Location</string>
+    <string name="repartopedido_label_fecha_entrega">Estimated Delivery Date and Time</string>
+    <string name="repartopedido_btn_guardar">Save</string>
+    <string name="repartopedido_toast_incompleto">Please complete all required fields.</string>
+    <string name="repartopedido_toast_insertado_ok">Delivery saved successfully.</string>
+    <string name="repartopedido_toast_insertado_error">An error occurred while saving the delivery.</string>
+
+    <!-- RepartoPedido View -->
+    <string name="repartopedido_titulo_consultar">View Order Delivery</string>
+    <string name="repartopedido_hint_busqueda">Select an Order Delivery</string>
+    <string name="repartopedido_btn_mostrar">Show Details</string>
+    <string name="repartopedido_msj_seleccione_valido">Please select a valid delivery</string>
+    <string name="repartopedido_datos_titulo">Order Delivery Details</string>
+    <string name="repartopedido_texto_no_entrega">Not assigned</string>
+
+    <!-- RepartoPedido Edit -->
+    <string name="repartopedido_titulo_editar">Edit Order Delivery</string>
+    <string name="repartopedido_hint_busqueda_editar">Search Order Delivery</string>
+    <string name="repartopedido_btn_buscar">Load Data</string>
+    <string name="repartopedido_btn_actualizar">Update</string>
+    <string name="repartopedido_toast_seleccione_valido">Please select a valid delivery</string>
+    <string name="repartopedido_toast_campos_incompletos">Complete all required fields</string>
+    <string name="repartopedido_toast_actualizado_ok">Delivery updated successfully</string>
+    <string name="repartopedido_toast_actualizado_error">Error updating delivery</string>
+    <string name="repartopedido_item_label">Order %1$d - Delivery %2$d</string>
+
+    <!-- RepartoPedido Delete -->
+    <string name="repartopedido_titulo_eliminar">Delete Order Delivery</string>
+    <string name="repartopedido_hint_eliminar">Select Order Delivery to delete</string>
+    <string name="repartopedido_btn_cargar">Load Data</string>
+    <string name="repartopedido_btn_eliminar">Delete</string>
+    <string name="repartopedido_confirm_titulo">Confirm Deletion?</string>
+    <string name="repartopedido_confirm_mensaje">Are you sure you want to delete this delivery?</string>
+    <string name="repartopedido_confirm_si">Yes</string>
+    <string name="repartopedido_confirm_no">Cancel</string>
+    <string name="repartopedido_toast_eliminado_ok">Delivery deleted successfully</string>
+    <string name="repartopedido_toast_eliminado_error">Failed to delete</string>
+
 
 </resources>

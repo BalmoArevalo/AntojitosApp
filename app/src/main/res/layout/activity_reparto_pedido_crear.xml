@@ -1,10 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.repartoPedido.RepartoPedidoCrearActivity">
+    android:padding="24dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Título -->
+        <TextView
+            android:id="@+id/tvTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/repartopedido_titulo_crear"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Pedido Dropdown -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutPedido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/repartopedido_label_pedido"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_marginBottom="12dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompletePedido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:inputType="none"
+                android:hint="@string/repartopedido_label_pedido"
+                android:contentDescription="@string/repartopedido_label_pedido"
+                android:importantForAccessibility="yes"
+                android:autofillHints="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Repartidor Dropdown -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutRepartidor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/repartopedido_label_repartidor"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            android:layout_marginBottom="12dp">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteRepartidor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:inputType="none"
+                android:hint="@string/repartopedido_label_repartidor"
+                android:contentDescription="@string/repartopedido_label_repartidor"
+                android:importantForAccessibility="yes"
+                android:autofillHints="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Hora Asignación -->
+        <EditText
+            android:id="@+id/editTextHoraAsignacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:focusable="false"
+            android:hint="@string/repartopedido_label_hora_asignacion"
+            android:inputType="time"
+            android:minHeight="48dp" />
+
+        <!-- Ubicación Entrega -->
+        <EditText
+            android:id="@+id/editTextUbicacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:hint="@string/repartopedido_label_ubicacion"
+            android:inputType="textPostalAddress"
+            android:minHeight="48dp" />
+
+        <!-- Fecha y Hora Entrega -->
+        <EditText
+            android:id="@+id/editTextFechaEntrega"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:focusable="false"
+            android:hint="@string/repartopedido_label_fecha_entrega"
+            android:inputType="datetime"
+            android:minHeight="48dp" />
+
+        <!-- Botón Guardar -->
+        <Button
+            android:id="@+id/btnGuardarReparto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/repartopedido_btn_guardar"
+            android:minHeight="48dp" />
+    </LinearLayout>
+</ScrollView>

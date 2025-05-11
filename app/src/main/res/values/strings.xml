@@ -847,6 +847,49 @@
     <string name="datos_producto_eliminar_toast_error">Error al eliminar registro</string>
     <string name="datos_producto_eliminar_toast_invalid">Registro no válido o ya inactivo.</string>
 
-
     <!-- PANTALLAS EMERSON - FIN -->
+
+    <!-- RepartoPedido Crear -->
+    <string name="repartopedido_titulo_crear">Nuevo Reparto de Pedido</string>
+    <string name="repartopedido_label_pedido">Pedido</string>
+    <string name="repartopedido_label_repartidor">Repartidor</string>
+    <string name="repartopedido_label_hora_asignacion">Hora de asignación</string>
+    <string name="repartopedido_label_ubicacion">Ubicación de entrega</string>
+    <string name="repartopedido_label_fecha_entrega">Fecha y hora estimada de entrega</string>
+    <string name="repartopedido_btn_guardar">Guardar</string>
+    <string name="repartopedido_toast_incompleto">Por favor, completa todos los campos obligatorios.</string>
+    <string name="repartopedido_toast_insertado_ok">Reparto guardado correctamente.</string>
+    <string name="repartopedido_toast_insertado_error">Ocurrió un error al guardar el reparto.</string>
+
+    <!-- RepartoPedido Consultar -->
+    <string name="repartopedido_titulo_consultar">Consultar RepartoPedido</string>
+    <string name="repartopedido_hint_busqueda">Seleccionar RepartoPedido</string>
+    <string name="repartopedido_btn_mostrar">Mostrar Detalles</string>
+    <string name="repartopedido_msj_seleccione_valido">Seleccione un RepartoPedido válido</string>
+    <string name="repartopedido_datos_titulo">Datos del RepartoPedido</string>
+    <string name="repartopedido_texto_no_entrega">No asignada</string>
+
+    <!-- Editar RepartoPedido -->
+    <string name="repartopedido_titulo_editar">Editar RepartoPedido</string>
+    <string name="repartopedido_hint_busqueda_editar">Buscar RepartoPedido</string>
+    <string name="repartopedido_btn_buscar">Cargar Datos</string>
+    <string name="repartopedido_btn_actualizar">Actualizar</string>
+    <string name="repartopedido_toast_seleccione_valido">Seleccione un reparto válido</string>
+    <string name="repartopedido_toast_campos_incompletos">Complete todos los campos requeridos</string>
+    <string name="repartopedido_toast_actualizado_ok">Reparto actualizado correctamente</string>
+    <string name="repartopedido_toast_actualizado_error">Error al actualizar el reparto</string>
+    <string name="repartopedido_item_label">Pedido %1$d - Reparto %2$d</string>
+
+    <!-- Eliminar RepartoPedido -->
+    <string name="repartopedido_titulo_eliminar">Eliminar RepartoPedido</string>
+    <string name="repartopedido_hint_eliminar">Seleccionar RepartoPedido a eliminar</string>
+    <string name="repartopedido_btn_cargar">Cargar Datos</string>
+    <string name="repartopedido_btn_eliminar">Eliminar</string>
+    <string name="repartopedido_confirm_titulo">¿Confirmar eliminación?</string>
+    <string name="repartopedido_confirm_mensaje">¿Está seguro de que desea eliminar este RepartoPedido?</string>
+    <string name="repartopedido_confirm_si">Sí</string>
+    <string name="repartopedido_confirm_no">Cancelar</string>
+    <string name="repartopedido_toast_eliminado_ok">Reparto eliminado correctamente</string>
+    <string name="repartopedido_toast_eliminado_error">No se pudo eliminar</string>
+
 </resources>
