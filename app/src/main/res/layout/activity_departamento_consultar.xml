@@ -1,10 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.departamento.DepartamentoConsultarActivity">
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="#FFFFFF">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/tvTituloDepartamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Consultar Departamento"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#444"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvSubtituloDepartamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ingresa el ID del departamento"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#888"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/editTextIdDepartamentoBuscar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:minHeight="48dp"/>
+
+    <Button
+        android:id="@+id/btnBuscarDepartamento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MOSTRAR DETALLES"
+        android:backgroundTint="#6200EE"
+        android:textColor="#FFF"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:id="@+id/tvResultadoDepartamento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EEEEEE"
+        android:padding="16dp"
+        android:textSize="14sp"
+        android:textColor="#000"
+        android:text="Nombre del Departamento encontrado aparecerá aquí"
+        android:visibility="visible" />
+</LinearLayout>

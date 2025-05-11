@@ -1,10 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.tipoEvento.TipoEventoConsultarActivity">
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="#FFFFFF">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/tvTituloTipoEvento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Consultar Tipo de Evento"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#444"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/tvSubtituloTipoEvento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Selecciona el Tipo de Evento"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#888"
+        android:layout_marginBottom="8dp" />
+
+    <Spinner
+        android:id="@+id/spinnerIdTipoEventoBuscar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp" />
+
+    <Button
+        android:id="@+id/btnBuscarTipoEvento"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MOSTRAR DETALLES"
+        android:backgroundTint="#6200EE"
+        android:textColor="#FFF"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:id="@+id/tvResultadoTipoEvento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EEEEEE"
+        android:padding="16dp"
+        android:textSize="14sp"
+        android:textColor="#000"
+        android:text="Detalles del tipo de evento aparecerán aquí"
+        android:visibility="visible" />
+</LinearLayout>
