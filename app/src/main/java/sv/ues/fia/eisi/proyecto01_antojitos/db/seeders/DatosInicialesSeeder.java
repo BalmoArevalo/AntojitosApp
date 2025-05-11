@@ -94,7 +94,9 @@ public final class DatosInicialesSeeder {
             db.execSQL("INSERT OR REPLACE INTO SUCURSAL(ID_SUCURSAL,ID_DEPARTAMENTO,ID_MUNICIPIO,ID_DISTRITO,NOMBRE_SUCURSAL,DIRECCION_SUCURSAL,TELEFONO_SUCURSAL,HORARIO_APERTURA_SUCURSAL,HORARIO_CIERRE_SUCURSAL,ACTIVO_SUCURSAL) " +
                     "VALUES (5,5,5,5,'Sucursal Usulután','Centro Usulután','2200-5555','08:00','18:00',1);");
 
-            // 7 - Datos para CLIENTE
+            // --- 7 - Datos para CLIENTE ---
+// (Los primeros 5 inserts que ya tenías se mantienen)
+// ... tus inserts para cliente 1 al 5 ...
             db.execSQL("INSERT OR REPLACE INTO CLIENTE(ID_CLIENTE,TELEFONO_CLIENTE,NOMBRE_CLIENTE,APELLIDO_CLIENTE,ACTIVO_CLIENTE) "
                     + "VALUES (1,'7010-1111','Carlos','Ramírez',1);");
             db.execSQL("INSERT OR REPLACE INTO CLIENTE(ID_CLIENTE,TELEFONO_CLIENTE,NOMBRE_CLIENTE,APELLIDO_CLIENTE,ACTIVO_CLIENTE) "
@@ -105,6 +107,14 @@ public final class DatosInicialesSeeder {
                     + "VALUES (4,'7010-4444','Diana','López',1);");
             db.execSQL("INSERT OR REPLACE INTO CLIENTE(ID_CLIENTE,TELEFONO_CLIENTE,NOMBRE_CLIENTE,APELLIDO_CLIENTE,ACTIVO_CLIENTE) "
                     + "VALUES (5,'7010-5555','José','Hernández',1);");
+
+// --- NUEVOS CLIENTES AÑADIDOS ---
+            db.execSQL("INSERT OR REPLACE INTO CLIENTE(ID_CLIENTE,TELEFONO_CLIENTE,NOMBRE_CLIENTE,APELLIDO_CLIENTE,ACTIVO_CLIENTE) "
+                    + "VALUES (6,'7010-6666','Elena','Fuentes',1);");
+            db.execSQL("INSERT OR REPLACE INTO CLIENTE(ID_CLIENTE,TELEFONO_CLIENTE,NOMBRE_CLIENTE,APELLIDO_CLIENTE,ACTIVO_CLIENTE) "
+                    + "VALUES (7,'7010-7777','Mario','Paz',1);");
+            db.execSQL("INSERT OR REPLACE INTO CLIENTE(ID_CLIENTE,TELEFONO_CLIENTE,NOMBRE_CLIENTE,APELLIDO_CLIENTE,ACTIVO_CLIENTE) "
+                    + "VALUES (8,'7010-8888','Sofia','Vargas',1);");
 
             // 8 - Datos para REPARTIDOR ---
             db.execSQL("INSERT OR REPLACE INTO REPARTIDOR("
@@ -145,61 +155,75 @@ public final class DatosInicialesSeeder {
                     + "ID_TIPO_EVENTO,NOMBRE_TIPO_EVENTO,DESCRIPCION_TIPO_EVENTO,"
                     + "MONTO_MINIMO,MONTO_MAXIMO,ACTIVO_TIPOEVENTO) VALUES (5,'Cena de Fin de Año','Convivio navideño',60.00,600.00,1);");
 
-            // 10 - Datos para PEDIDO ---
+            // --- 10 - Datos para PEDIDO (Expandidos a 8 para cubrir facturas) ---
             db.execSQL("INSERT OR REPLACE INTO PEDIDO("
                     + "ID_PEDIDO,ID_CLIENTE,ID_TIPO_EVENTO,ID_SUCURSAL,ID_REPARTIDOR,"
-                    + "FECHA_HORA_PEDIDO,ESTADO_PEDIDO,ACTIVO_PEDIDO) VALUES (1,1,1,1,1,'2025-05-01 10:00','pendiente',1);");
+                    + "FECHA_HORA_PEDIDO,ESTADO_PEDIDO,ACTIVO_PEDIDO) VALUES (1,1,1,1,1,'2025-05-01 10:00','Entregado',1);"); // Para F1
             db.execSQL("INSERT OR REPLACE INTO PEDIDO("
                     + "ID_PEDIDO,ID_CLIENTE,ID_TIPO_EVENTO,ID_SUCURSAL,ID_REPARTIDOR,"
-                    + "FECHA_HORA_PEDIDO,ESTADO_PEDIDO,ACTIVO_PEDIDO) VALUES (2,2,2,2,2,'2025-05-01 11:00','enviado',1);");
+                    + "FECHA_HORA_PEDIDO,ESTADO_PEDIDO,ACTIVO_PEDIDO) VALUES (2,2,2,2,2,'2025-05-02 11:00','Enviado',1);"); // Para F2
             db.execSQL("INSERT OR REPLACE INTO PEDIDO("
                     + "ID_PEDIDO,ID_CLIENTE,ID_TIPO_EVENTO,ID_SUCURSAL,ID_REPARTIDOR,"
-                    + "FECHA_HORA_PEDIDO,ESTADO_PEDIDO,ACTIVO_PEDIDO) VALUES (3,3,3,3,3,'2025-05-01 12:00','entregado',1);");
+                    + "FECHA_HORA_PEDIDO,ESTADO_PEDIDO,ACTIVO_PEDIDO) VALUES (3,3,3,3,3,'2025-05-03 12:00','Entregado',1);"); // Para F3
             db.execSQL("INSERT OR REPLACE INTO PEDIDO("
                     + "ID_PEDIDO,ID_CLIENTE,ID_TIPO_EVENTO,ID_SUCURSAL,ID_REPARTIDOR,"
-                    + "FECHA_HORA_PEDIDO,ESTADO_PEDIDO,ACTIVO_PEDIDO) VALUES (4,4,4,4,4,'2025-05-01 13:00','cancelado',1);");
+                    + "FECHA_HORA_PEDIDO,ESTADO_PEDIDO,ACTIVO_PEDIDO) VALUES (4,4,4,4,4,'2025-05-04 13:00','Entregado',1);"); // Para F4
             db.execSQL("INSERT OR REPLACE INTO PEDIDO("
                     + "ID_PEDIDO,ID_CLIENTE,ID_TIPO_EVENTO,ID_SUCURSAL,ID_REPARTIDOR,"
-                    + "FECHA_HORA_PEDIDO,ESTADO_PEDIDO,ACTIVO_PEDIDO) VALUES (5,5,5,5,5,'2025-05-01 14:00','pendiente',1);");
+                    + "FECHA_HORA_PEDIDO,ESTADO_PEDIDO,ACTIVO_PEDIDO) VALUES (5,5,5,5,5,'2025-05-05 14:00','Enviado',1);"); // Para F5
+            db.execSQL("INSERT OR REPLACE INTO PEDIDO("
+                    + "ID_PEDIDO,ID_CLIENTE,ID_TIPO_EVENTO,ID_SUCURSAL,ID_REPARTIDOR,"
+                    + "FECHA_HORA_PEDIDO,ESTADO_PEDIDO,ACTIVO_PEDIDO) VALUES (6,6,1,1,1,'2025-05-06 09:00','Cancelado',1);"); // Para F6
+            db.execSQL("INSERT OR REPLACE INTO PEDIDO("
+                    + "ID_PEDIDO,ID_CLIENTE,ID_TIPO_EVENTO,ID_SUCURSAL,ID_REPARTIDOR,"
+                    + "FECHA_HORA_PEDIDO,ESTADO_PEDIDO,ACTIVO_PEDIDO) VALUES (7,7,2,2,2,'2025-05-07 15:00','Pendiente',1);"); // Para F7
+            db.execSQL("INSERT OR REPLACE INTO PEDIDO("
+                    + "ID_PEDIDO,ID_CLIENTE,ID_TIPO_EVENTO,ID_SUCURSAL,ID_REPARTIDOR,"
+                    + "FECHA_HORA_PEDIDO,ESTADO_PEDIDO,ACTIVO_PEDIDO) VALUES (8,8,3,3,3,'2025-05-08 16:00','Enviado',1);"); // Para F8
 
-            // 11 – Datos para FACTURA ---
+            // --- 11 – Datos para FACTURA (Modificados y Expandidos) ---
             db.execSQL("INSERT OR REPLACE INTO FACTURA("
                     + "ID_FACTURA,ID_PEDIDO,FECHA_EMISION,MONTO_TOTAL,TIPO_PAGO,"
-                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (1,1,'2025-05-01',50.00,'efectivo','Pagada',0);");
+                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (1,1,'2025-05-01',35.50,'Efectivo','Pagada',0);");
             db.execSQL("INSERT OR REPLACE INTO FACTURA("
                     + "ID_FACTURA,ID_PEDIDO,FECHA_EMISION,MONTO_TOTAL,TIPO_PAGO,"
-                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (2,2,'2025-05-01',60.00,'tarjeta','Pagada',0);");
+                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (2,2,'2025-05-02',70.00,'Tarjeta','Pendiente',0);");
             db.execSQL("INSERT OR REPLACE INTO FACTURA("
                     + "ID_FACTURA,ID_PEDIDO,FECHA_EMISION,MONTO_TOTAL,TIPO_PAGO,"
-                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (3,3,'2025-05-01',70.00,'bitcoin','Pagada',0);");
+                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (3,3,'2025-05-03',120.00,'Crédito','En Crédito',1);");
             db.execSQL("INSERT OR REPLACE INTO FACTURA("
                     + "ID_FACTURA,ID_PEDIDO,FECHA_EMISION,MONTO_TOTAL,TIPO_PAGO,"
-                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (4,4,'2025-05-01',40.00,'efectivo','Pendiente',0);");
+                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (4,4,'2025-05-04',65.75,'Crédito','Pagada',1);");
             db.execSQL("INSERT OR REPLACE INTO FACTURA("
                     + "ID_FACTURA,ID_PEDIDO,FECHA_EMISION,MONTO_TOTAL,TIPO_PAGO,"
-                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (5,5,'2025-05-01',90.00,'tarjeta','Pagada',0);");
+                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (5,5,'2025-05-05',40.00,'Crédito','En Crédito',1);");
+            db.execSQL("INSERT OR REPLACE INTO FACTURA("
+                    + "ID_FACTURA,ID_PEDIDO,FECHA_EMISION,MONTO_TOTAL,TIPO_PAGO,"
+                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (6,6,'2025-05-06',25.00,'Efectivo','Anulada',0);");
+            db.execSQL("INSERT OR REPLACE INTO FACTURA("
+                    + "ID_FACTURA,ID_PEDIDO,FECHA_EMISION,MONTO_TOTAL,TIPO_PAGO,"
+                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (7,7,'2025-05-07',88.20,'Transferencia','Pendiente',0);");
+            db.execSQL("INSERT OR REPLACE INTO FACTURA("
+                    + "ID_FACTURA,ID_PEDIDO,FECHA_EMISION,MONTO_TOTAL,TIPO_PAGO,"
+                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (8,8,'2025-05-08',150.00,'Crédito','En Crédito',1);");
 
-            // 12 – Datos para CREDITO ---
+            // --- 12 – Datos para CREDITO (Modificados y Congruentes) ---
             db.execSQL("INSERT OR REPLACE INTO CREDITO("
                     + "ID_CREDITO,ID_FACTURA,MONTO_AUTORIZADO_CREDITO,MONTO_PAGADO,"
                     + "SALDO_PENDIENTE,FECHA_LIMITE_PAGO,ESTADO_CREDITO) "
-                    + "VALUES (1,1,50.00,25.00,25.00,'2025-06-01','Activo');");
+                    + "VALUES (1,3,120.00,50.00,70.00,'2025-06-15','Activo');"); // Para F3
             db.execSQL("INSERT OR REPLACE INTO CREDITO("
                     + "ID_CREDITO,ID_FACTURA,MONTO_AUTORIZADO_CREDITO,MONTO_PAGADO,"
                     + "SALDO_PENDIENTE,FECHA_LIMITE_PAGO,ESTADO_CREDITO) "
-                    + "VALUES (2,2,60.00,30.00,30.00,'2025-06-10','Activo');");
+                    + "VALUES (2,4,65.75,65.75,0.00,'2025-05-20','Pagado');"); // Para F4
             db.execSQL("INSERT OR REPLACE INTO CREDITO("
                     + "ID_CREDITO,ID_FACTURA,MONTO_AUTORIZADO_CREDITO,MONTO_PAGADO,"
                     + "SALDO_PENDIENTE,FECHA_LIMITE_PAGO,ESTADO_CREDITO) "
-                    + "VALUES (3,3,70.00,35.00,35.00,'2025-06-15','Activo');");
+                    + "VALUES (3,5,40.00,0.00,40.00,'2025-06-25','Activo');"); // Para F5
             db.execSQL("INSERT OR REPLACE INTO CREDITO("
                     + "ID_CREDITO,ID_FACTURA,MONTO_AUTORIZADO_CREDITO,MONTO_PAGADO,"
                     + "SALDO_PENDIENTE,FECHA_LIMITE_PAGO,ESTADO_CREDITO) "
-                    + "VALUES (4,4,40.00,40.00,0.00,'2025-05-30','Pagado');");
-            db.execSQL("INSERT OR REPLACE INTO CREDITO("
-                    + "ID_CREDITO,ID_FACTURA,MONTO_AUTORIZADO_CREDITO,MONTO_PAGADO,"
-                    + "SALDO_PENDIENTE,FECHA_LIMITE_PAGO,ESTADO_CREDITO) "
-                    + "VALUES (5,5,90.00,45.00,45.00,'2025-06-05','Activo');");
+                    + "VALUES (4,8,150.00,15.00,135.00,'2025-07-01','Activo');"); // Para F8
 
             // 13 - Datos para DATOSPRODUCTO ---
             db.execSQL("INSERT OR REPLACE INTO DATOSPRODUCTO("
@@ -218,7 +242,8 @@ public final class DatosInicialesSeeder {
                     + "ID_SUCURSAL,ID_PRODUCTO,PRECIO_SUCURSAL_PRODUCTO,STOCK,"
                     + "ACTIVO_DATOSPRODUCTO) VALUES (5,5,1.75,12,1);");
 
-            // 14 Datos para DIRECCION (incluyendo ACTIVO_DIRECCION)
+            // --- 14 – Datos para DIRECCION ---
+
             db.execSQL("INSERT OR REPLACE INTO DIRECCION("
                     + "ID_CLIENTE,ID_DIRECCION,ID_DEPARTAMENTO,ID_MUNICIPIO,ID_DISTRITO,"
                     + "DIRECCION_ESPECIFICA,DESCRIPCION_DIRECCION,ACTIVO_DIRECCION) "
@@ -226,19 +251,21 @@ public final class DatosInicialesSeeder {
             db.execSQL("INSERT OR REPLACE INTO DIRECCION("
                     + "ID_CLIENTE,ID_DIRECCION,ID_DEPARTAMENTO,ID_MUNICIPIO,ID_DISTRITO,"
                     + "DIRECCION_ESPECIFICA,DESCRIPCION_DIRECCION,ACTIVO_DIRECCION) "
-                    + "VALUES (2,2,2,2,2,'Santa Tecla Norte','Casa blanca dos niveles',1);");
-            db.execSQL("INSERT OR REPLACE INTO DIRECCION("
-                    + "ID_CLIENTE,ID_DIRECCION,ID_DEPARTAMENTO,ID_MUNICIPIO,ID_DISTRITO,"
-                    + "DIRECCION_ESPECIFICA,DESCRIPCION_DIRECCION,ACTIVO_DIRECCION) "
-                    + "VALUES (3,3,3,3,3,'Col. Santa Lucía','Apartamento 2-B',1);");
-            db.execSQL("INSERT OR REPLACE INTO DIRECCION("
-                    + "ID_CLIENTE,ID_DIRECCION,ID_DEPARTAMENTO,ID_MUNICIPIO,ID_DISTRITO,"
-                    + "DIRECCION_ESPECIFICA,DESCRIPCION_DIRECCION,ACTIVO_DIRECCION) "
-                    + "VALUES (4,4,4,4,4,'Ciudad Pacífica','Pasaje 4',1);");
-            db.execSQL("INSERT OR REPLACE INTO DIRECCION("
-                    + "ID_CLIENTE,ID_DIRECCION,ID_DEPARTAMENTO,ID_MUNICIPIO,ID_DISTRITO,"
-                    + "DIRECCION_ESPECIFICA,DESCRIPCION_DIRECCION,ACTIVO_DIRECCION) "
                     + "VALUES (5,5,5,5,5,'Usulután centro','Casa colonial',1);");
+
+// --- NUEVAS DIRECCIONES AÑADIDAS ---
+            db.execSQL("INSERT OR REPLACE INTO DIRECCION("
+                    + "ID_CLIENTE,ID_DIRECCION,ID_DEPARTAMENTO,ID_MUNICIPIO,ID_DISTRITO,"
+                    + "DIRECCION_ESPECIFICA,DESCRIPCION_DIRECCION,ACTIVO_DIRECCION) "
+                    + "VALUES (6,6,1,1,1,'Avenida Olímpica','Edificio gris, Apt 5',1);");
+            db.execSQL("INSERT OR REPLACE INTO DIRECCION("
+                    + "ID_CLIENTE,ID_DIRECCION,ID_DEPARTAMENTO,ID_MUNICIPIO,ID_DISTRITO,"
+                    + "DIRECCION_ESPECIFICA,DESCRIPCION_DIRECCION,ACTIVO_DIRECCION) "
+                    + "VALUES (7,7,2,2,2,'Residencial Las Palmas','Calle Los Almendros #7D',1);");
+            db.execSQL("INSERT OR REPLACE INTO DIRECCION("
+                    + "ID_CLIENTE,ID_DIRECCION,ID_DEPARTAMENTO,ID_MUNICIPIO,ID_DISTRITO,"
+                    + "DIRECCION_ESPECIFICA,DESCRIPCION_DIRECCION,ACTIVO_DIRECCION) "
+                    + "VALUES (8,8,3,3,3,'Barrio El Calvario','Frente a parque',1);");
 
             // 15 Datos para REPARTOPEDIDO
             db.execSQL("INSERT OR REPLACE INTO REPARTOPEDIDO("
@@ -261,26 +288,38 @@ public final class DatosInicialesSeeder {
                     + "ID_PEDIDO,ID_REPARTO_PEDIDO,HORA_ASIGNACION,UBICACION_ENTREGA,FECHA_HORA_ENTREGA) "
                     + "VALUES (5,1,'2025-05-01 14:30','Usulután','2025-05-01 15:00');");
 
-            // 16 Datos para DETALLEPEDIDO
+            // --- 16 – Datos para DETALLEPEDIDO ---
             db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
                     "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
                     "VALUES (1, 1, 2, 2.00);");
 
             db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
                     "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
-                    "VALUES (2, 2, 4, 5.00);");
-
-            db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
-                    "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
-                    "VALUES (3, 3, 1, 0.75);");
-
-            db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
-                    "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
-                    "VALUES (4, 4, 2, 7.00);");
-
-            db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
-                    "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
                     "VALUES (5, 5, 3, 5.25);");
+
+            db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
+                    "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
+                    "VALUES (1, 6, 5, 5.00);");
+            db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
+                    "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
+                    "VALUES (3, 6, 5, 3.75);");
+
+            db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
+                    "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
+                    "VALUES (2, 7, 10, 12.50);");
+            db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
+                    "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
+                    "VALUES (3, 7, 4, 3.00);");
+
+            db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
+                    "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
+                    "VALUES (4, 8, 3, 10.50);");
+            db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
+                    "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
+                    "VALUES (5, 8, 2, 3.50);");
+            db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
+                    "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
+                    "VALUES (1, 8, 2, 2.00);");
 
             db.setTransactionSuccessful();
         } finally {
