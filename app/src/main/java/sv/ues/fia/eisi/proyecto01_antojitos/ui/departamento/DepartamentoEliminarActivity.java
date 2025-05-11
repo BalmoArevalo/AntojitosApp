@@ -1,51 +1,85 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.departamento;
 
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-import android.database.sqlite.SQLiteDatabase;
 import android.widget.*;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
+import java.util.ArrayList;
+import java.util.List;
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
-import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
 
 public class DepartamentoEliminarActivity extends AppCompatActivity {
 
-    private EditText editTextId;
+    private Spinner spinnerDepartamentos;
     private Button btnEliminar;
-    private DepartamentoDAO dao;
+
+    private DepartamentoViewModel viewModel;
+    private List<Departamento> listaDepartamentos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_departamento_eliminar);
 
-        editTextId = findViewById(R.id.editTextIdDepartamentoEliminar);
+        spinnerDepartamentos = findViewById(R.id.spinnerIdDepartamentoEliminar);
+
         btnEliminar = findViewById(R.id.btnEliminarDepartamento);
 
-        SQLiteDatabase db = new DBHelper(this).getWritableDatabase();
-        dao = new DepartamentoDAO(db);
+        viewModel = new ViewModelProvider(this).get(DepartamentoViewModel.class);
+
+        viewModel.getListaDepartamentos().observe(this, departamentos -> {
+            // Solo mostrar los activos
+            listaDepartamentos = filtrarActivos(departamentos);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    this,
+                    android.R.layout.simple_spinner_item,
+                    obtenerIdsYNombreDesdeDepartamentos(listaDepartamentos)
+            );
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerDepartamentos.setAdapter(adapter);
+
+            btnEliminar.setEnabled(!listaDepartamentos.isEmpty());
+        });
+
+        viewModel.cargarDepartamentos();
 
         btnEliminar.setOnClickListener(v -> eliminarDepartamento());
     }
 
-    private void eliminarDepartamento() {
-        try {
-            int id = Integer.parseInt(editTextId.getText().toString().trim());
-
-            int filas = dao.eliminar(id);
-            if (filas > 0) {
-                Toast.makeText(this, "Departamento eliminado", Toast.LENGTH_SHORT).show();
-                editTextId.setText("");
-            } else {
-                Toast.makeText(this, "No se encontró el departamento", Toast.LENGTH_SHORT).show();
+    private List<Departamento> filtrarActivos(List<Departamento> departamentos) {
+        List<Departamento> activos = new ArrayList<>();
+        for (Departamento d : departamentos) {
+            if (d.getActivoDepartamento() == 1) {
+                activos.add(d);
             }
+        }
+        return activos;
+    }
 
-        } catch (NumberFormatException e) {
-            Toast.makeText(this, "ID inválido", Toast.LENGTH_SHORT).show();
+    private List<String> obtenerIdsYNombreDesdeDepartamentos(List<Departamento> departamentos) {
+        List<String> ids = new ArrayList<>();
+        for (Departamento d : departamentos) {
+            ids.add(d.getIdDepartamento() + " - " + d.getNombreDepartamento());
+        }
+        return ids;
+    }
+
+    private void eliminarDepartamento() {
+        int position = spinnerDepartamentos.getSelectedItemPosition();
+        if (position >= 0 && position < listaDepartamentos.size()) {
+            Departamento seleccionado = listaDepartamentos.get(position);
+
+            // Marcar como inactivo
+            seleccionado.setActivoDepartamento(0);
+            int filas = viewModel.actualizarDepartamento(seleccionado);
+
+            if (filas > 0) {
+                Toast.makeText(this, "Departamento desactivado", Toast.LENGTH_SHORT).show();
+                viewModel.cargarDepartamentos(); // Refrescar
+            } else {
+                Toast.makeText(this, "Error al desactivar", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }

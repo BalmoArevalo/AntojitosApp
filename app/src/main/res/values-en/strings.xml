@@ -15,7 +15,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
-
+    <string name="action_entrar">Log in</string>
     <string name="menu_cliente">Client</string>
     <string name="menu_sucursal">Branch</string>
     <string name="menu_repartidor">Delivery person</string>
@@ -844,6 +844,9 @@
     <string name="reparto_pedido_btn_consultar">Consult Deliveries</string>
     <string name="reparto_pedido_btn_editar">Edit Delivery</string>
     <string name="reparto_pedido_btn_eliminar">Delete Delivery Record</string>
+    <string name="cerrar_sesion">Log out</string>
+    <string name="hint_usuario">User</string>
+    <string name="hint_contrasena">Password</string>
 
 
 </resources>

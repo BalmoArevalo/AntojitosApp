@@ -31,7 +31,17 @@
     <EditText
         android:id="@+id/editTextNombreDepartamentoEditar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:minHeight="48dp" />
+
+    <Switch
+        android:id="@+id/switchEstadoDepartamento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:checked="true"
+        android:minHeight="48dp"
+        android:text="Departamento activo" />
 
     <Button
         android:id="@+id/btnActualizarDepartamento"

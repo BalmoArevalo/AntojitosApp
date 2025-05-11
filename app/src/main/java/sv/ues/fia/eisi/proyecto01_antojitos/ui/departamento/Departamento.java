@@ -5,7 +5,13 @@ public class Departamento {
         private int idDepartamento;
         private String nombreDepartamento;
 
-        // Constructor vacío
+        private int activoDepartamento;
+
+        public int getActivoDepartamento() { return activoDepartamento; }
+        public void setActivoDepartamento(int activo) { this.activoDepartamento = activo; }
+
+
+    // Constructor vacío
         public Departamento() {}
 
         // Constructor con parámetros

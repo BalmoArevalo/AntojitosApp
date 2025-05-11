@@ -846,6 +846,7 @@
     <string name="datos_producto_eliminar_toast_eliminado">Registro eliminado</string>
     <string name="datos_producto_eliminar_toast_error">Error al eliminar registro</string>
     <string name="datos_producto_eliminar_toast_invalid">Registro no válido o ya inactivo.</string>
+    <string name="select_departamento">Seleccionar municipio</string>
 
 
     <!-- PANTALLAS EMERSON - FIN -->
