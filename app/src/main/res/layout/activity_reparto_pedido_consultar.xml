@@ -1,10 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.repartoPedido.RepartoPedidoConsultarActivity">
+    android:padding="20dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/repartopedido_titulo_consultar"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_marginBottom="20dp" />
+
+        <!-- Campo de búsqueda -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/inputLayoutReparto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/repartopedido_hint_busqueda"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+            <AutoCompleteTextView
+                android:id="@+id/autoCompleteReparto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:inputType="none"
+                android:hint="@string/repartopedido_hint_busqueda"
+                android:contentDescription="@string/repartopedido_hint_busqueda"
+                android:importantForAccessibility="yes"
+                android:autofillHints="none" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btnBuscarReparto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:text="@string/repartopedido_btn_mostrar"
+            android:layout_marginTop="16dp" />
+
+        <!-- Detalles mostrados -->
+        <LinearLayout
+            android:id="@+id/layoutResultado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="24dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textResultadoTitulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/repartopedido_datos_titulo"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginBottom="16dp" />
+
+            <TextView
+                android:id="@+id/textIdPedido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/repartopedido_label_pedido" />
+
+            <TextView
+                android:id="@+id/textIdReparto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/repartopedido_label_repartidor" />
+
+            <TextView
+                android:id="@+id/textHoraAsignacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/repartopedido_label_hora_asignacion" />
+
+            <TextView
+                android:id="@+id/textUbicacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/repartopedido_label_ubicacion" />
+
+            <TextView
+                android:id="@+id/textFechaEntrega"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/repartopedido_label_fecha_entrega" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

@@ -848,5 +848,48 @@
     <string name="hint_usuario">Usuário</string>
     <string name="hint_contrasena">Senha</string>
 
+    <!-- RepartoPedido Criar -->
+    <string name="repartopedido_titulo_crear">Novo Reparto de Pedido</string>
+    <string name="repartopedido_label_pedido">Pedido</string>
+    <string name="repartopedido_label_repartidor">Entregador</string>
+    <string name="repartopedido_label_hora_asignacion">Hora de Atribuição</string>
+    <string name="repartopedido_label_ubicacion">Local de Entrega</string>
+    <string name="repartopedido_label_fecha_entrega">Data e hora estimada da entrega</string>
+    <string name="repartopedido_btn_guardar">Salvar</string>
+    <string name="repartopedido_toast_incompleto">Por favor, preencha todos os campos obrigatórios.</string>
+    <string name="repartopedido_toast_insertado_ok">Reparto salvo com sucesso.</string>
+    <string name="repartopedido_toast_insertado_error">Ocorreu um erro ao salvar o reparto.</string>
+
+    <!-- RepartoPedido Consultar -->
+    <string name="repartopedido_titulo_consultar">Consultar Reparto de Pedido</string>
+    <string name="repartopedido_hint_busqueda">Selecionar Reparto de Pedido</string>
+    <string name="repartopedido_btn_mostrar">Mostrar Detalhes</string>
+    <string name="repartopedido_msj_seleccione_valido">Selecione um reparto válido</string>
+    <string name="repartopedido_datos_titulo">Dados do Reparto</string>
+    <string name="repartopedido_texto_no_entrega">Não atribuída</string>
+
+    <!-- RepartoPedido Editar -->
+    <string name="repartopedido_titulo_editar">Editar Reparto de Pedido</string>
+    <string name="repartopedido_hint_busqueda_editar">Buscar Reparto de Pedido</string>
+    <string name="repartopedido_btn_buscar">Carregar Dados</string>
+    <string name="repartopedido_btn_actualizar">Atualizar</string>
+    <string name="repartopedido_toast_seleccione_valido">Selecione um reparto válido</string>
+    <string name="repartopedido_toast_campos_incompletos">Preencha todos os campos obrigatórios</string>
+    <string name="repartopedido_toast_actualizado_ok">Reparto atualizado com sucesso</string>
+    <string name="repartopedido_toast_actualizado_error">Erro ao atualizar o reparto</string>
+    <string name="repartopedido_item_label">Pedido %1$d - Reparto %2$d</string>
+
+    <!-- RepartoPedido Excluir -->
+    <string name="repartopedido_titulo_eliminar">Excluir Reparto de Pedido</string>
+    <string name="repartopedido_hint_eliminar">Selecionar Reparto para excluir</string>
+    <string name="repartopedido_btn_cargar">Carregar Dados</string>
+    <string name="repartopedido_btn_eliminar">Excluir</string>
+    <string name="repartopedido_confirm_titulo">Confirmar exclusão?</string>
+    <string name="repartopedido_confirm_mensaje">Tem certeza de que deseja excluir este reparto?</string>
+    <string name="repartopedido_confirm_si">Sim</string>
+    <string name="repartopedido_confirm_no">Cancelar</string>
+    <string name="repartopedido_toast_eliminado_ok">Reparto excluído com sucesso</string>
+    <string name="repartopedido_toast_eliminado_error">Não foi possível excluir</string>
+
 
 </resources>
