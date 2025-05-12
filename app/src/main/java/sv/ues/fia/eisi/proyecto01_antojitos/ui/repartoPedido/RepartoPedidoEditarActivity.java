@@ -41,8 +41,8 @@ public class RepartoPedidoEditarActivity extends AppCompatActivity {
 
         cargarRepartos();
 
-        editTextHoraAsignacion.setOnClickListener(v -> mostrarTimePicker(editTextHoraAsignacion));
-        editTextFechaEntrega.setOnClickListener(v -> mostrarDateTimePicker());
+        editTextHoraAsignacion.setOnClickListener(v -> mostrarDateTimePickerAsignacion());
+        editTextFechaEntrega.setOnClickListener(v -> mostrarDateTimePickerEntrega());
 
         btnBuscar.setOnClickListener(v -> buscarReparto());
         btnActualizar.setOnClickListener(v -> actualizar());
@@ -64,32 +64,40 @@ public class RepartoPedidoEditarActivity extends AppCompatActivity {
     }
 
     private void buscarReparto() {
-        String seleccion = autoCompleteBuscar.getText().toString();
-        repartoSeleccionado = mapRepartos.get(seleccion);
+        String seleccion = autoCompleteBuscar.getText().toString().trim();
+        repartoSeleccionado = null;
+
+        for (Map.Entry<String, RepartoPedido> entry : mapRepartos.entrySet()) {
+            if (entry.getKey().equals(seleccion)) {
+                repartoSeleccionado = entry.getValue();
+                break;
+            }
+        }
 
         if (repartoSeleccionado == null) {
             Toast.makeText(this, getString(R.string.repartopedido_toast_seleccione_valido), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        editTextHoraAsignacion.setText(repartoSeleccionado.getHoraAsignacion());
+        editTextHoraAsignacion.setText(repartoSeleccionado.getFechaHoraAsignacion());
         editTextUbicacion.setText(repartoSeleccionado.getUbicacionEntrega());
         editTextFechaEntrega.setText(repartoSeleccionado.getFechaHoraEntrega());
     }
 
+
     private void actualizar() {
         if (repartoSeleccionado == null) return;
 
-        String hora = editTextHoraAsignacion.getText().toString().trim();
+        String fechaHora = editTextHoraAsignacion.getText().toString().trim();
         String ubicacion = editTextUbicacion.getText().toString().trim();
         String fecha = editTextFechaEntrega.getText().toString().trim();
 
-        if (hora.isEmpty() || ubicacion.isEmpty()) {
+        if (fechaHora.isEmpty() || ubicacion.isEmpty()) {
             Toast.makeText(this, getString(R.string.repartopedido_toast_campos_incompletos), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        repartoSeleccionado.setHoraAsignacion(hora);
+        repartoSeleccionado.setFechaHoraAsignacion(fechaHora);
         repartoSeleccionado.setUbicacionEntrega(ubicacion);
         repartoSeleccionado.setFechaHoraEntrega(fecha.isEmpty() ? null : fecha);
 
@@ -101,15 +109,19 @@ public class RepartoPedidoEditarActivity extends AppCompatActivity {
         }
     }
 
-    private void mostrarTimePicker(EditText target) {
-        int h = calendar.get(Calendar.HOUR_OF_DAY);
-        int m = calendar.get(Calendar.MINUTE);
-        new TimePickerDialog(this, (view, hour, min) ->
-                target.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, min))
-                , h, m, true).show();
+    private void mostrarDateTimePickerAsignacion() {
+        new DatePickerDialog(this, (view, y, m, d) -> {
+            calendar.set(y, m, d);
+            new TimePickerDialog(this, (view1, h, min) -> {
+                calendar.set(Calendar.HOUR_OF_DAY, h);
+                calendar.set(Calendar.MINUTE, min);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                editTextHoraAsignacion.setText(sdf.format(calendar.getTime()));
+            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    private void mostrarDateTimePicker() {
+    private void mostrarDateTimePickerEntrega() {
         new DatePickerDialog(this, (view, y, m, d) -> {
             calendar.set(y, m, d);
             new TimePickerDialog(this, (view1, h, min) -> {

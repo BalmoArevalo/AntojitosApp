@@ -51,7 +51,7 @@
             android:id="@+id/editTextHoraAsignacion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/repartopedido_label_hora_asignacion"
+            android:hint="@string/repartopedido_label_fecha_asignacion"
             android:minHeight="48dp"
             android:focusable="false"
             android:inputType="time"

@@ -82,7 +82,7 @@
                 android:id="@+id/textHoraAsignacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/repartopedido_label_hora_asignacion" />
+                android:text="@string/repartopedido_label_fecha_asignacion" />
 
             <TextView
                 android:id="@+id/textUbicacion"
