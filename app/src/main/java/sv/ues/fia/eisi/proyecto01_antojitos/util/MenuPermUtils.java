@@ -16,6 +16,7 @@ public final class MenuPermUtils {
             entry(R.id.nav_cliente,          "cliente_consultar"),
             entry(R.id.nav_sucursal,         "sucursal_consultar"),
             entry(R.id.nav_repartidor,       "reparto_consultar"),
+            entry(R.id.nav_reparto_pedido,   "repartopedido_consultar"),
             entry(R.id.nav_producto,         "producto_consultar"),
             entry(R.id.nav_categoria_producto,"categoriaproducto_consultar"),
             entry(R.id.nav_pedido,           "pedido_consultar"),

@@ -71,7 +71,7 @@ public final class SeguridadSeeder {
                             "('repartopedido_consultar', 'Consultar RepartoPedido', 2)," +
                             "('repartopedido_editar',    'Editar RepartoPedido',    3)," +
                             "('repartopedido_eliminar',  'Eliminar RepartoPedido',  4)," +
-                            "('reparto_consultar',       'Consultar Repartos',      2)," +  // alias antiguo
+                            "('reparto_consultar',       'Consultar Repartos',      2)," +
 
                             /* ───────────  FACTURA  ─────────── */
                             "('factura_crear',      'Crear Factura',           1)," +
