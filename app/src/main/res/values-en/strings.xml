@@ -910,5 +910,24 @@
     <string name="menu_eliminar_fisico_te">Delete Permanently</string>
 
     <string name="fab_crear_tipo_evento_desc">Create new event type</string>
-
+    <string name="tipo_evento_crear_title">Create New Event Type</string>
+    <string name="tipo_evento_crear_label_nombre">Event Type Name:</string>
+    <string name="tipo_evento_crear_hint_nombre">E.g: Annual Conference</string>
+    <string name="tipo_evento_crear_label_descripcion">Description (Optional):</string>
+    <string name="tipo_evento_crear_hint_descripcion">E.g: Main industry event</string>
+    <string name="tipo_evento_crear_label_monto_minimo">Minimum Amount ($):</string>
+    <string name="tipo_evento_crear_hint_monto_minimo">E.g: 50.00</string>
+    <string name="tipo_evento_crear_label_monto_maximo">Maximum Amount ($):</string>
+    <string name="tipo_evento_crear_hint_monto_maximo">E.g: 500.00</string>
+    <string name="tipo_evento_crear_label_activo">Initial Status:</string>
+    <string name="tipo_evento_crear_checkbox_activo">Active</string>
+    <string name="tipo_evento_crear_btn_guardar">Save Event Type</string>
+    <string name="tipo_evento_crear_toast_exito">Event Type \"%1$s\" saved with ID %2$d</string>
+    <string name="tipo_evento_crear_toast_error_guardar">Error saving Event Type.</string>
+    <string name="tipo_evento_crear_toast_nombre_requerido">Event type name is required.</string>
+    <string name="tipo_evento_crear_toast_monto_min_requerido">Minimum amount is required.</string>
+    <string name="tipo_evento_crear_toast_monto_max_requerido">Maximum amount is required.</string>
+    <string name="tipo_evento_crear_toast_monto_invalido">Invalid amount. Must be a number greater than zero.</string>
+    <string name="tipo_evento_crear_toast_monto_max_menor_min">Maximum amount cannot be less than minimum amount.</string>
+    <!-- Tipo de Evento FIN -->
 </resources>

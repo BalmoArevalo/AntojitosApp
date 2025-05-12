@@ -912,4 +912,25 @@
     <string name="menu_eliminar_fisico_te">Eliminar Físicamente</string>
 
     <string name="fab_crear_tipo_evento_desc">Crear nuevo tipo de evento</string>
+
+    <string name="tipo_evento_crear_title">Crear Nuevo Tipo de Evento</string>
+    <string name="tipo_evento_crear_label_nombre">Nombre del Tipo de Evento:</string>
+    <string name="tipo_evento_crear_hint_nombre">Ej: Conferencia Anual</string>
+    <string name="tipo_evento_crear_label_descripcion">Descripción (Opcional):</string>
+    <string name="tipo_evento_crear_hint_descripcion">Ej: Evento principal de la industria</string>
+    <string name="tipo_evento_crear_label_monto_minimo">Monto Mínimo ($):</string>
+    <string name="tipo_evento_crear_hint_monto_minimo">Ej: 50.00</string>
+    <string name="tipo_evento_crear_label_monto_maximo">Monto Máximo ($):</string>
+    <string name="tipo_evento_crear_hint_monto_maximo">Ej: 500.00</string>
+    <string name="tipo_evento_crear_label_activo">Estado Inicial:</string>
+    <string name="tipo_evento_crear_checkbox_activo">Activo</string>
+    <string name="tipo_evento_crear_btn_guardar">Guardar Tipo de Evento</string>
+    <string name="tipo_evento_crear_toast_exito">Tipo de Evento \"%1$s\" guardado con ID %2$d</string>
+    <string name="tipo_evento_crear_toast_error_guardar">Error al guardar el Tipo de Evento.</string>
+    <string name="tipo_evento_crear_toast_nombre_requerido">El nombre del tipo de evento es obligatorio.</string>
+    <string name="tipo_evento_crear_toast_monto_min_requerido">El monto mínimo es obligatorio.</string>
+    <string name="tipo_evento_crear_toast_monto_max_requerido">El monto máximo es obligatorio.</string>
+    <string name="tipo_evento_crear_toast_monto_invalido">Monto inválido. Debe ser un número mayor que cero.</string>
+    <string name="tipo_evento_crear_toast_monto_max_menor_min">El monto máximo no puede ser menor que el monto mínimo.</string>
+    <!-- Tipo de Evento FIN -->
 </resources>
