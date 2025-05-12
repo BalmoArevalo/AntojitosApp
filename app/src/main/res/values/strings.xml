@@ -854,7 +854,7 @@
     <string name="repartopedido_titulo_crear">Nuevo Reparto de Pedido</string>
     <string name="repartopedido_label_pedido">Pedido</string>
     <string name="repartopedido_label_repartidor">Repartidor</string>
-    <string name="repartopedido_label_hora_asignacion">Hora de asignación</string>
+    <string name="repartopedido_label_fecha_asignacion">Fecha y hora de asignación</string>
     <string name="repartopedido_label_ubicacion">Ubicación de entrega</string>
     <string name="repartopedido_label_fecha_entrega">Fecha y hora estimada de entrega</string>
     <string name="repartopedido_btn_guardar">Guardar</string>

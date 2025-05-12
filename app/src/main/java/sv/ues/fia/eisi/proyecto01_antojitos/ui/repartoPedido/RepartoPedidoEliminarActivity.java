@@ -57,8 +57,15 @@ public class RepartoPedidoEliminarActivity extends AppCompatActivity {
     }
 
     private void mostrarDatos() {
-        String seleccion = autoCompleteEliminar.getText().toString();
-        seleccionado = mapRepartos.get(seleccion);
+        String seleccion = autoCompleteEliminar.getText().toString().trim();
+        seleccionado = null;
+
+        for (Map.Entry<String, RepartoPedido> entry : mapRepartos.entrySet()) {
+            if (entry.getKey().equals(seleccion)) {
+                seleccionado = entry.getValue();
+                break;
+            }
+        }
 
         if (seleccionado == null) {
             Toast.makeText(this, getString(R.string.repartopedido_toast_seleccione_valido), Toast.LENGTH_SHORT).show();
@@ -68,13 +75,16 @@ public class RepartoPedidoEliminarActivity extends AppCompatActivity {
 
         String datos = getString(R.string.repartopedido_label_pedido) + ": " + seleccionado.getIdPedido() + "\n"
                 + getString(R.string.repartopedido_label_repartidor) + ": " + seleccionado.getIdRepartoPedido() + "\n"
-                + getString(R.string.repartopedido_label_hora_asignacion) + ": " + seleccionado.getHoraAsignacion() + "\n"
+                + getString(R.string.repartopedido_label_fecha_asignacion) + ": " + seleccionado.getFechaHoraAsignacion() + "\n"
                 + getString(R.string.repartopedido_label_ubicacion) + ": " + seleccionado.getUbicacionEntrega() + "\n"
                 + getString(R.string.repartopedido_label_fecha_entrega) + ": "
-                + (seleccionado.getFechaHoraEntrega() == null ? getString(R.string.repartopedido_texto_no_entrega) : seleccionado.getFechaHoraEntrega());
+                + (seleccionado.getFechaHoraEntrega() == null || seleccionado.getFechaHoraEntrega().isEmpty()
+                ? getString(R.string.repartopedido_texto_no_entrega)
+                : seleccionado.getFechaHoraEntrega());
 
         tvPreview.setText(datos);
     }
+
 
     private void confirmarEliminar() {
         if (seleccionado == null) {

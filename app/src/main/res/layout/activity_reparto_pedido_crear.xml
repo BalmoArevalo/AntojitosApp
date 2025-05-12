@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:focusable="false"
-            android:hint="@string/repartopedido_label_hora_asignacion"
+            android:hint="@string/repartopedido_label_fecha_asignacion"
             android:inputType="time"
             android:minHeight="48dp" />
 
