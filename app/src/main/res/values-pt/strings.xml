@@ -940,5 +940,26 @@
     <string name="tipo_evento_editar_toast_no_encontrado">Tipo de Evento selecionado não encontrado.</string>
     <string name="tipo_evento_editar_toast_seleccione_primero">Por favor, selecione um tipo de evento da lista.</string>
     <string name="tipo_evento_editar_info_cargada">Dados carregados para: %1$s</string>
+
+    <string name="tipo_evento_desactivar_title">Desativar Tipo de Evento</string>
+    <string name="tipo_evento_desactivar_label_seleccionar">Selecione o Tipo de Evento para Desativar:</string>
+    <string name="tipo_evento_desactivar_placeholder_seleccione">Selecione um tipo de evento...</string>
+    <string name="tipo_evento_desactivar_label_detalles">Detalhes do Tipo de Evento:</string>
+    <string name="tipo_evento_desactivar_label_nombre">Nome:</string>
+    <string name="tipo_evento_desactivar_label_descripcion">Descrição:</string>
+    <string name="tipo_evento_desactivar_label_montos">Valores (Mín - Máx):</string>
+    <string name="tipo_evento_desactivar_label_estado_actual">Status Atual:</string>
+    <string name="tipo_evento_desactivar_btn_desactivar">Confirmar Desativação</string>
+    <string name="tipo_evento_desactivar_toast_exito">Tipo de Evento \"%1$s\" desativado com sucesso.</string>
+    <string name="tipo_evento_desactivar_toast_error">Erro ao desativar o Tipo de Evento.</string>
+    <string name="tipo_evento_desactivar_toast_seleccione_primero">Por favor, selecione um tipo de evento da lista.</string>
+    <string name="tipo_evento_desactivar_toast_ya_inactivo">Este tipo de evento já está inativo.</string>
+    <string name="tipo_evento_desactivar_toast_no_encontrado">Tipo de Evento não encontrado.</string>
+    <string name="tipo_evento_estado_actual_activo_val">Ativo</string>
+    <string name="tipo_evento_estado_actual_inactivo_val">Inativo</string>
+    <string name="tipo_evento_confirm_desactivar_dialog_title">Confirmar Desativação</string>
+    <string name="tipo_evento_confirm_desactivar_dialog_message">Tem certeza que deseja desativar o tipo de evento \"%1$s\"? Ele não estará mais disponível para novos pedidos.</string>
+    <string name="dialog_btn_confirmar">Confirmar</string>
+    <string name="dialog_btn_cancelar">Cancelar</string>
     <!-- Tipo de Evento FIN -->
 </resources>

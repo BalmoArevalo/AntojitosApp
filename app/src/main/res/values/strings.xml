@@ -943,5 +943,26 @@
     <string name="tipo_evento_editar_toast_no_encontrado">No se encontró el Tipo de Evento seleccionado.</string>
     <string name="tipo_evento_editar_toast_seleccione_primero">Por favor, seleccione un tipo de evento de la lista.</string>
     <string name="tipo_evento_editar_info_cargada">Datos cargados para: %1$s</string>
+
+    <string name="tipo_evento_desactivar_title">Desactivar Tipo de Evento</string>
+    <string name="tipo_evento_desactivar_label_seleccionar">Seleccione Tipo de Evento a Desactivar:</string>
+    <string name="tipo_evento_desactivar_placeholder_seleccione">Seleccione un tipo de evento...</string>
+    <string name="tipo_evento_desactivar_label_detalles">Detalles del Tipo de Evento:</string>
+    <string name="tipo_evento_desactivar_label_nombre">Nombre:</string>
+    <string name="tipo_evento_desactivar_label_descripcion">Descripción:</string>
+    <string name="tipo_evento_desactivar_label_montos">Montos (Mín - Máx):</string>
+    <string name="tipo_evento_desactivar_label_estado_actual">Estado Actual:</string>
+    <string name="tipo_evento_desactivar_btn_desactivar">Confirmar Desactivación</string>
+    <string name="tipo_evento_desactivar_toast_exito">Tipo de Evento \"%1$s\" desactivado correctamente.</string>
+    <string name="tipo_evento_desactivar_toast_error">Error al desactivar el Tipo de Evento.</string>
+    <string name="tipo_evento_desactivar_toast_seleccione_primero">Por favor, seleccione un tipo de evento de la lista.</string>
+    <string name="tipo_evento_desactivar_toast_ya_inactivo">Este tipo de evento ya está inactivo.</string>
+    <string name="tipo_evento_desactivar_toast_no_encontrado">Tipo de Evento no encontrado.</string>
+    <string name="tipo_evento_estado_actual_activo_val">Activo</string>
+    <string name="tipo_evento_estado_actual_inactivo_val">Inactivo</string>
+    <string name="tipo_evento_confirm_desactivar_dialog_title">Confirmar Desactivación</string>
+    <string name="tipo_evento_confirm_desactivar_dialog_message">¿Está seguro de que desea desactivar el tipo de evento \"%1$s\"? Ya no estará disponible para nuevos pedidos.</string>
+    <string name="dialog_btn_confirmar">Confirmar</string>
+    <string name="dialog_btn_cancelar">Cancelar</string>
     <!-- Tipo de Evento FIN -->
 </resources>

@@ -940,5 +940,26 @@
     <string name="tipo_evento_editar_toast_no_encontrado">Selected Event Type not found.</string>
     <string name="tipo_evento_editar_toast_seleccione_primero">Please select an event type from the list.</string>
     <string name="tipo_evento_editar_info_cargada">Data loaded for: %1$s</string>
+
+    <string name="tipo_evento_desactivar_title">Deactivate Event Type</string>
+    <string name="tipo_evento_desactivar_label_seleccionar">Select Event Type to Deactivate:</string>
+    <string name="tipo_evento_desactivar_placeholder_seleccione">Select an event type...</string>
+    <string name="tipo_evento_desactivar_label_detalles">Event Type Details:</string>
+    <string name="tipo_evento_desactivar_label_nombre">Name:</string>
+    <string name="tipo_evento_desactivar_label_descripcion">Description:</string>
+    <string name="tipo_evento_desactivar_label_montos">Amounts (Min - Max):</string>
+    <string name="tipo_evento_desactivar_label_estado_actual">Current Status:</string>
+    <string name="tipo_evento_desactivar_btn_desactivar">Confirm Deactivation</string>
+    <string name="tipo_evento_desactivar_toast_exito">Event Type \"%1$s\" deactivated successfully.</string>
+    <string name="tipo_evento_desactivar_toast_error">Error deactivating Event Type.</string>
+    <string name="tipo_evento_desactivar_toast_seleccione_primero">Please select an event type from the list.</string>
+    <string name="tipo_evento_desactivar_toast_ya_inactivo">This event type is already inactive.</string>
+    <string name="tipo_evento_desactivar_toast_no_encontrado">Event Type not found.</string>
+    <string name="tipo_evento_estado_actual_activo_val">Active</string>
+    <string name="tipo_evento_estado_actual_inactivo_val">Inactive</string>
+    <string name="tipo_evento_confirm_desactivar_dialog_title">Confirm Deactivation</string>
+    <string name="tipo_evento_confirm_desactivar_dialog_message">Are you sure you want to deactivate event type \"%1$s\"? It will no longer be available for new orders.</string>
+    <string name="dialog_btn_confirmar">Confirm</string>
+    <string name="dialog_btn_cancelar">Cancel</string>
     <!-- Tipo de Evento FIN -->
 </resources>
