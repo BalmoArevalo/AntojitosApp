@@ -13,7 +13,7 @@ import java.util.List;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
 import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
-import sv.ues.fia.eisi.proyecto01_antojitos.db.MunicipioDAO;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.municipio.MunicipioDAO;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.departamento.Departamento;
 import sv.ues.fia.eisi.proyecto01_antojitos.ui.departamento.DepartamentoViewModel;
 

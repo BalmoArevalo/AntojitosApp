@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData;
 import java.util.ArrayList;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
-import sv.ues.fia.eisi.proyecto01_antojitos.db.MunicipioDAO;
+import sv.ues.fia.eisi.proyecto01_antojitos.ui.municipio.MunicipioDAO;
 
 public class MunicipioViewModel extends AndroidViewModel {
     private final MutableLiveData<ArrayList<Municipio>> listaMunicipios = new MutableLiveData<>();

@@ -1,4 +1,4 @@
-package sv.ues.fia.eisi.proyecto01_antojitos.db;
+package sv.ues.fia.eisi.proyecto01_antojitos.ui.municipio;
 
 import android.content.ContentValues;
 import android.database.Cursor;
