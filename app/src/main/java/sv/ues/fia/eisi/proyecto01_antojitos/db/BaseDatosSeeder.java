@@ -315,5 +315,60 @@ public class BaseDatosSeeder {
                 "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
                 "VALUES (5, 5, 3, 5.25);");
 
+        //Trrigers de actualizacion
+
+        db.execSQL("CREATE TRIGGER trg_credito_totalmente_pagado_actualiza_factura " +
+                "AFTER UPDATE ON CREDITO " +
+                "FOR EACH ROW " +
+                "WHEN NEW.ESTADO_CREDITO = 'Pagado' AND OLD.ESTADO_CREDITO != 'Pagado' AND NEW.SALDO_PENDIENTE <= 0.009 " +
+                "BEGIN " +
+                "    UPDATE FACTURA " +
+                "    SET ESTADO_FACTURA = 'Pagada' " +
+                "    WHERE ID_FACTURA = NEW.ID_FACTURA; " +
+                "END;");
+
+        db.execSQL("CREATE TRIGGER trg_actualizar_estado_pedido_tras_factura " +
+                "AFTER INSERT ON FACTURA " +
+                "FOR EACH ROW " +
+                "BEGIN " +
+                "    UPDATE PEDIDO " +
+                "    SET ESTADO_PEDIDO = 'despachado' " +
+                "    WHERE ID_PEDIDO = NEW.ID_PEDIDO; " +
+                "END;");
+
+        db.execSQL("CREATE TRIGGER trg_actualizar_fecha_entrega_al_cambiar_estado " +
+                "AFTER UPDATE ON PEDIDO " +
+                "FOR EACH ROW " +
+                "WHEN NEW.ESTADO_PEDIDO = 'entregado' AND OLD.ESTADO_PEDIDO != 'entregado' " +
+                "BEGIN " +
+                "    UPDATE REPARTOPEDIDO " +
+                "    SET FECHA_HORA_ENTREGA = datetime('now') " +  // Formato ISO estándar
+                "    WHERE ID_PEDIDO = NEW.ID_PEDIDO; " +
+                "END;");
+
+
+        //Triggers de semenantica
+
+        db.execSQL("CREATE TRIGGER trg_validar_factura_para_nuevo_credito " +
+                "BEFORE INSERT ON CREDITO " +
+                "FOR EACH ROW " +
+                "BEGIN " +
+                "    SELECT RAISE(ABORT, 'La factura seleccionada no es elegible para un nuevo crédito o ya tiene uno activo.') " +
+                "    FROM FACTURA " +
+                "    WHERE FACTURA.ID_FACTURA = NEW.ID_FACTURA " +
+                "      AND (FACTURA.ES_CREDITO = 1 ); " +
+                "END;");
+
+        db.execSQL("CREATE TRIGGER trg_prevenir_eliminar_factura_con_credito_activo_o_pagado " +
+                "BEFORE DELETE ON FACTURA " +
+                "FOR EACH ROW " +
+                "BEGIN " +
+                "    SELECT RAISE(ABORT, 'No se puede eliminar la factura. Tiene un crédito Activo o Pagado asociado.') " +
+                "    WHERE EXISTS ( " +
+                "        SELECT 1 FROM CREDITO " +
+                "        WHERE CREDITO.ID_FACTURA = OLD.ID_FACTURA " +
+                "          AND (CREDITO.ESTADO_CREDITO = 'Activo' OR CREDITO.ESTADO_CREDITO = 'Pagado') " +
+                "    ); " +
+                "END;");
     }
 }
