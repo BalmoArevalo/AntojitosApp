@@ -1,21 +1,14 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.municipio;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
-import sv.ues.fia.eisi.proyecto01_antojitos.db.DBHelper;
-import sv.ues.fia.eisi.proyecto01_antojitos.db.MunicipioDAO;
 
 public class MunicipioEliminarActivity extends AppCompatActivity {
 
@@ -23,11 +16,11 @@ public class MunicipioEliminarActivity extends AppCompatActivity {
     private TextView tvResultado;
     private Button btnBuscar, btnEliminar, btnLimpiar;
 
-    private DBHelper dbHelper;
-    private MunicipioDAO dao;
+    private MunicipioViewModel municipioViewModel;
     private List<Municipio> municipios = new ArrayList<>();
-    private int idDepartamentoSeleccionado = -1;
-    private int idMunicipioSeleccionado = -1;
+    private Municipio municipioSeleccionado = null;
+
+    private ArrayAdapter<String> adapterSpinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,32 +33,34 @@ public class MunicipioEliminarActivity extends AppCompatActivity {
         btnEliminar = findViewById(R.id.btnEliminarMunicipio);
         btnLimpiar = findViewById(R.id.btnLimpiarCampos);
 
-        dbHelper = new DBHelper(this);
-        dao = new MunicipioDAO(dbHelper.getWritableDatabase());
+        municipioViewModel = new ViewModelProvider(this).get(MunicipioViewModel.class);
 
-        cargarSpinnerMunicipios();
+        municipioViewModel.getListaMunicipios().observe(this, lista -> actualizarSpinner(lista));
+        municipioViewModel.cargarMunicipios();
 
         btnBuscar.setOnClickListener(v -> mostrarDetalles());
         btnEliminar.setOnClickListener(v -> eliminarMunicipio());
         btnLimpiar.setOnClickListener(v -> limpiarCampos());
     }
 
-    private void cargarSpinnerMunicipios() {
+    private void actualizarSpinner(List<Municipio> lista) {
         municipios.clear();
         List<String> items = new ArrayList<>();
         items.add("Seleccione...");
         municipios.add(null);
 
-        List<Municipio> listaActivos = dao.obtenerTodos();
-        for (Municipio m : listaActivos) {
-            municipios.add(m);
-            items.add(m.getIdMunicipio() + " - " + m.getNombreMunicipio());
+        for (Municipio m : lista) {
+            if (m.getActivoMunicipio() == 1) {
+                municipios.add(m);
+                items.add(m.getIdMunicipio() + " - " + m.getNombreMunicipio());
+            }
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, items);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerMunicipio.setAdapter(adapter);
+        adapterSpinner = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, items
+        );
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerMunicipio.setAdapter(adapterSpinner);
     }
 
     private void mostrarDetalles() {
@@ -75,30 +70,30 @@ public class MunicipioEliminarActivity extends AppCompatActivity {
             return;
         }
 
-        Municipio m = municipios.get(pos);
-        idDepartamentoSeleccionado = m.getIdDepartamento();
-        idMunicipioSeleccionado = m.getIdMunicipio();
+        municipioSeleccionado = municipios.get(pos);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("ID Departamento: ").append(m.getIdDepartamento()).append("\n");
-        sb.append("ID Municipio: ").append(m.getIdMunicipio()).append("\n");
-        sb.append("Nombre: ").append(m.getNombreMunicipio()).append("\n");
-        sb.append("Activo: ").append(m.getActivoMunicipio() == 1 ? "Sí" : "No");
+        sb.append("ID Departamento: ").append(municipioSeleccionado.getIdDepartamento()).append("\n");
+        sb.append("ID Municipio: ").append(municipioSeleccionado.getIdMunicipio()).append("\n");
+        sb.append("Nombre: ").append(municipioSeleccionado.getNombreMunicipio()).append("\n");
+        sb.append("Activo: ").append(municipioSeleccionado.getActivoMunicipio() == 1 ? "Sí" : "No");
 
         tvResultado.setText(sb.toString());
     }
 
     private void eliminarMunicipio() {
-        if (idDepartamentoSeleccionado == -1 || idMunicipioSeleccionado == -1) {
+        if (municipioSeleccionado == null) {
             Toast.makeText(this, "Busca primero un municipio", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        int filas = dao.eliminar(idDepartamentoSeleccionado, idMunicipioSeleccionado);
+        municipioSeleccionado.setActivoMunicipio(0); // Desactivación lógica
+        int filas = municipioViewModel.actualizar(municipioSeleccionado);
+
         if (filas > 0) {
             Toast.makeText(this, "Municipio desactivado correctamente", Toast.LENGTH_LONG).show();
-            cargarSpinnerMunicipios();
             limpiarCampos();
+            municipioViewModel.cargarMunicipios(); // Recarga lista desde DB
         } else {
             Toast.makeText(this, "Error al desactivar municipio", Toast.LENGTH_LONG).show();
         }
@@ -107,13 +102,6 @@ public class MunicipioEliminarActivity extends AppCompatActivity {
     private void limpiarCampos() {
         spinnerMunicipio.setSelection(0);
         tvResultado.setText("Aquí se mostrará la información del municipio seleccionado.");
-        idDepartamentoSeleccionado = -1;
-        idMunicipioSeleccionado = -1;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        dbHelper.close();
+        municipioSeleccionado = null;
     }
 }

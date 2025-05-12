@@ -25,29 +25,40 @@ public class MunicipioViewModel extends AndroidViewModel {
         municipioDAO = new MunicipioDAO(db);
     }
 
+    // Cargar todos los municipios
     public void cargarMunicipios() {
         ArrayList<Municipio> municipios = municipioDAO.obtenerTodos();
         listaMunicipios.setValue(municipios);
     }
 
+    // Obtener lista reactiva
     public LiveData<ArrayList<Municipio>> getListaMunicipios() {
         return listaMunicipios;
     }
 
+    // Insertar nuevo municipio
     public long insertar(Municipio municipio) {
         return municipioDAO.insertar(municipio);
     }
 
+    // Actualizar municipio (usando solo ID global)
     public int actualizar(Municipio municipio) {
         return municipioDAO.actualizar(municipio);
     }
 
-    public int eliminar(int idDepartamento, int idMunicipio) {
-        return municipioDAO.eliminar(idDepartamento, idMunicipio);
+    // ✅ NUEVO: Actualizar con clave primaria compuesta
+    public int actualizarConClaveCompuesta(Municipio municipio, int idOriginalDep, int idOriginalMun) {
+        return municipioDAO.actualizarConClaveCompuesta(municipio, idOriginalDep, idOriginalMun);
     }
 
-    public Municipio consultar(int idDepartamento, int idMunicipio) {
-        return municipioDAO.consultar(idDepartamento, idMunicipio);
+    // Eliminar municipio (desactivación lógica)
+    public int eliminar(int idMunicipio) {
+        return municipioDAO.eliminar(idMunicipio);
+    }
+
+    // Consultar municipio por ID
+    public Municipio consultar(int idMunicipio) {
+        return municipioDAO.consultar(idMunicipio);
     }
 
     @Override

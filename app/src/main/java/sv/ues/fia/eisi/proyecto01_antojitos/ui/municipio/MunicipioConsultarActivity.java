@@ -105,6 +105,13 @@ public class MunicipioConsultarActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        cargarSpinnerMunicipios();
+    }
+
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         dbHelper.close();

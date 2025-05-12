@@ -1,10 +1,11 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.municipio;
 
+
 public class Municipio {
     private int idDepartamento;
     private int idMunicipio;
     private String nombreMunicipio;
-    private int activoMunicipio;
+    private int activoMunicipio = 1;
 
     public Municipio() {}
 

@@ -33,15 +33,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Nombre del Municipio"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
 
         <!-- ID del Departamento -->
-        <EditText
-            android:id="@+id/editTextIdDepartamentoEditar"
+        <!-- Spinner para seleccionar Departamento -->
+        <Spinner
+            android:id="@+id/spinnerDepartamentoEditar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="ID Departamento"
-            android:inputType="number" />
+            android:layout_marginTop="12dp"
+            android:minHeight="48dp" />
+
+
+        <!-- Switch para estado activo -->
+        <Switch
+            android:id="@+id/switchActivoMunicipio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:checked="true"
+            android:minHeight="48dp"
+            android:text="¿Activo?" />
+
 
         <!-- Botón Actualizar -->
         <Button
