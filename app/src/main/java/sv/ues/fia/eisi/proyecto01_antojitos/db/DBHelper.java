@@ -81,14 +81,6 @@ public class DBHelper extends SQLiteOpenHelper {
                 + "ACTIVO_DEPARTAMENTO INTEGER DEFAULT 1"
                 + ");");
 
-        // 2 - tabla de MUNICIPIO
-        /*db.execSQL("CREATE TABLE MUNICIPIO ("
-                + "ID_MUNICIPIO INTEGER PRIMARY KEY AUTOINCREMENT,"
-                + "ID_DEPARTAMENTO INTEGER NOT NULL,"
-                + "NOMBRE_MUNICIPIO TEXT NOT NULL,"
-                + "ACTIVO_MUNICIPIO INTEGER DEFAULT 1,"
-                + "FOREIGN KEY (ID_DEPARTAMENTO) REFERENCES DEPARTAMENTO(ID_DEPARTAMENTO)"
-                + ");");*/
         db.execSQL("CREATE TABLE MUNICIPIO ("
                 + "ID_DEPARTAMENTO INTEGER NOT NULL,"
                 + "ID_MUNICIPIO INTEGER NOT NULL,"
