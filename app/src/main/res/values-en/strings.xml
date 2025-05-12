@@ -852,7 +852,7 @@
     <string name="repartopedido_titulo_crear">New Order Delivery</string>
     <string name="repartopedido_label_pedido">Order</string>
     <string name="repartopedido_label_repartidor">Delivery Person</string>
-    <string name="repartopedido_label_hora_asignacion">Assignment Time</string>
+    <string name="repartopedido_label_fecha_asignacion">Assignment date and time</string>
     <string name="repartopedido_label_ubicacion">Delivery Location</string>
     <string name="repartopedido_label_fecha_entrega">Estimated Delivery Date and Time</string>
     <string name="repartopedido_btn_guardar">Save</string>

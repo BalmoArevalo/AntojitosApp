@@ -72,7 +72,7 @@ public class RepartoPedidoConsultarActivity extends AppCompatActivity {
         layoutResultado.setVisibility(View.VISIBLE);
         textIdPedido.setText(getString(R.string.repartopedido_label_pedido) + ": " + r.getIdPedido());
         textIdReparto.setText(getString(R.string.repartopedido_label_repartidor) + ": " + r.getIdRepartoPedido());
-        textHoraAsignacion.setText(getString(R.string.repartopedido_label_hora_asignacion) + ": " + r.getHoraAsignacion());
+        textHoraAsignacion.setText(getString(R.string.repartopedido_label_fecha_asignacion) + ": " + r.getFechaHoraAsignacion());
         textUbicacion.setText(getString(R.string.repartopedido_label_ubicacion) + ": " + r.getUbicacionEntrega());
         textFechaEntrega.setText(getString(R.string.repartopedido_label_fecha_entrega) + ": " +
                 (r.getFechaHoraEntrega() == null || r.getFechaHoraEntrega().isEmpty()

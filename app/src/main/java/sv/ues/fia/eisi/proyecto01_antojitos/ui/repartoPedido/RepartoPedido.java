@@ -4,7 +4,7 @@ public class RepartoPedido {
 
     private int idPedido;
     private int idRepartoPedido;
-    private String horaAsignacion;
+    private String fechaHoraAsignacion;
     private String ubicacionEntrega;
     private String fechaHoraEntrega; // Puede ser null
 
@@ -25,12 +25,12 @@ public class RepartoPedido {
         this.idRepartoPedido = idRepartoPedido;
     }
 
-    public String getHoraAsignacion() {
-        return horaAsignacion;
+    public String getFechaHoraAsignacion() {
+        return fechaHoraAsignacion;
     }
 
-    public void setHoraAsignacion(String horaAsignacion) {
-        this.horaAsignacion = horaAsignacion;
+    public void setFechaHoraAsignacion(String fechaHoraAsignacion) {
+        this.fechaHoraAsignacion = fechaHoraAsignacion;
     }
 
     public String getUbicacionEntrega() {

@@ -18,7 +18,7 @@ public class RepartoPedidoDAO {
         ContentValues values = new ContentValues();
         values.put("ID_PEDIDO", reparto.getIdPedido());
         values.put("ID_REPARTO_PEDIDO", reparto.getIdRepartoPedido());
-        values.put("HORA_ASIGNACION", reparto.getHoraAsignacion());
+        values.put("HORA_ASIGNACION", reparto.getFechaHoraAsignacion());
         values.put("UBICACION_ENTREGA", reparto.getUbicacionEntrega());
         values.put("FECHA_HORA_ENTREGA", reparto.getFechaHoraEntrega());
         return db.insert("REPARTOPEDIDO", null, values);
@@ -26,7 +26,7 @@ public class RepartoPedidoDAO {
 
     public int actualizar(RepartoPedido reparto) {
         ContentValues values = new ContentValues();
-        values.put("HORA_ASIGNACION", reparto.getHoraAsignacion());
+        values.put("HORA_ASIGNACION", reparto.getFechaHoraAsignacion());
         values.put("UBICACION_ENTREGA", reparto.getUbicacionEntrega());
         values.put("FECHA_HORA_ENTREGA", reparto.getFechaHoraEntrega());
         return db.update("REPARTOPEDIDO", values,
@@ -71,7 +71,7 @@ public class RepartoPedidoDAO {
         RepartoPedido r = new RepartoPedido();
         r.setIdPedido(c.getInt(c.getColumnIndexOrThrow("ID_PEDIDO")));
         r.setIdRepartoPedido(c.getInt(c.getColumnIndexOrThrow("ID_REPARTO_PEDIDO")));
-        r.setHoraAsignacion(c.getString(c.getColumnIndexOrThrow("HORA_ASIGNACION")));
+        r.setFechaHoraAsignacion(c.getString(c.getColumnIndexOrThrow("HORA_ASIGNACION")));
         r.setUbicacionEntrega(c.getString(c.getColumnIndexOrThrow("UBICACION_ENTREGA")));
         r.setFechaHoraEntrega(c.getString(c.getColumnIndexOrThrow("FECHA_HORA_ENTREGA")));
         return r;

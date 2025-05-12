@@ -1,5 +1,6 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.repartoPedido;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -20,7 +21,7 @@ import java.util.*;
 public class RepartoPedidoCrearActivity extends AppCompatActivity {
 
     private AutoCompleteTextView autoCompletePedido, autoCompleteRepartidor;
-    private EditText editTextHoraAsignacion, editTextUbicacion, editTextFechaEntrega;
+    private EditText editTextFechaHoraAsignacion, editTextUbicacion, editTextFechaEntrega;
     private Button btnGuardar;
     private SQLiteDatabase db;
     private RepartoPedidoDAO dao;
@@ -35,7 +36,7 @@ public class RepartoPedidoCrearActivity extends AppCompatActivity {
 
         autoCompletePedido = findViewById(R.id.autoCompletePedido);
         autoCompleteRepartidor = findViewById(R.id.autoCompleteRepartidor);
-        editTextHoraAsignacion = findViewById(R.id.editTextHoraAsignacion);
+        editTextFechaHoraAsignacion = findViewById(R.id.editTextHoraAsignacion);
         editTextUbicacion = findViewById(R.id.editTextUbicacion);
         editTextFechaEntrega = findViewById(R.id.editTextFechaEntrega);
         btnGuardar = findViewById(R.id.btnGuardarReparto);
@@ -63,34 +64,53 @@ public class RepartoPedidoCrearActivity extends AppCompatActivity {
         );
         autoCompleteRepartidor.setAdapter(adapterRepartidores);
 
-        editTextHoraAsignacion.setOnClickListener(v -> mostrarTimePicker(editTextHoraAsignacion));
-        editTextFechaEntrega.setOnClickListener(v -> mostrarDateTimePicker());
+        editTextFechaHoraAsignacion.setOnClickListener(v -> mostrarDateTimePickerAsignacion());
+        editTextFechaEntrega.setOnClickListener(v -> mostrarDateTimePickerEntrega());
 
         btnGuardar.setOnClickListener(v -> guardar());
     }
 
     private void guardar() {
-        String horaAsignacion = editTextHoraAsignacion.getText().toString().trim();
+        String fechaHoraAsignacion = editTextFechaHoraAsignacion.getText().toString().trim();
         String ubicacion = editTextUbicacion.getText().toString().trim();
         String fechaEntrega = editTextFechaEntrega.getText().toString().trim();
+        String pedidoSeleccionado = autoCompletePedido.getText().toString().trim();
+        String repartidorSeleccionado = autoCompleteRepartidor.getText().toString().trim();
 
-        int indexPedido = autoCompletePedido.getListSelection();
-        int indexRepartidor = autoCompleteRepartidor.getListSelection();
-
-        if (indexPedido < 0 || indexPedido >= listaPedidos.size()
-                || indexRepartidor < 0 || indexRepartidor >= listaRepartidores.size()
-                || horaAsignacion.isEmpty() || ubicacion.isEmpty()) {
+        if (pedidoSeleccionado.isEmpty() || repartidorSeleccionado.isEmpty()
+                || fechaHoraAsignacion.isEmpty() || ubicacion.isEmpty()) {
             Toast.makeText(this, getString(R.string.repartopedido_toast_incompleto), Toast.LENGTH_SHORT).show();
             return;
         }
 
-        int idPedido = listaPedidos.get(indexPedido).getIdPedido();
-        int idRepartidor = listaRepartidores.get(indexRepartidor).getIdRepartidor();
+        Pedido pedido = null;
+        Repartidor repartidor = null;
+
+        for (Pedido p : listaPedidos) {
+            String label = "Pedido " + p.getIdPedido();
+            if (pedidoSeleccionado.equals(label)) {
+                pedido = p;
+                break;
+            }
+        }
+
+        for (Repartidor r : listaRepartidores) {
+            String label = "Repartidor " + r.getIdRepartidor() + ": " + r.getNombreRepartidor() + " " + r.getApellidoRepartidor();
+            if (repartidorSeleccionado.equals(label)) {
+                repartidor = r;
+                break;
+            }
+        }
+
+        if (pedido == null || repartidor == null) {
+            Toast.makeText(this, getString(R.string.repartopedido_toast_incompleto), Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         RepartoPedido r = new RepartoPedido();
-        r.setIdPedido(idPedido);
-        r.setIdRepartoPedido(idRepartidor);
-        r.setHoraAsignacion(horaAsignacion);
+        r.setIdPedido(pedido.getIdPedido());
+        r.setIdRepartoPedido(repartidor.getIdRepartidor());
+        r.setFechaHoraAsignacion(fechaHoraAsignacion);
         r.setUbicacionEntrega(ubicacion);
         r.setFechaHoraEntrega(fechaEntrega.isEmpty() ? null : fechaEntrega);
 
@@ -103,25 +123,30 @@ public class RepartoPedidoCrearActivity extends AppCompatActivity {
         }
     }
 
+
     private void limpiar() {
         autoCompletePedido.setText("");
         autoCompleteRepartidor.setText("");
-        editTextHoraAsignacion.setText("");
+        editTextFechaHoraAsignacion.setText("");
         editTextUbicacion.setText("");
         editTextFechaEntrega.setText("");
         autoCompletePedido.requestFocus();
     }
 
-    private void mostrarTimePicker(EditText target) {
-        int h = calendar.get(Calendar.HOUR_OF_DAY);
-        int m = calendar.get(Calendar.MINUTE);
-        new TimePickerDialog(this, (view, hour, min) -> {
-            target.setText(String.format(Locale.getDefault(), "%02d:%02d", hour, min));
-        }, h, m, true).show();
+    private void mostrarDateTimePickerAsignacion() {
+        new DatePickerDialog(this, (view, year, month, day) -> {
+            calendar.set(year, month, day);
+            new TimePickerDialog(this, (view1, hour, minute) -> {
+                calendar.set(Calendar.HOUR_OF_DAY, hour);
+                calendar.set(Calendar.MINUTE, minute);
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+                editTextFechaHoraAsignacion.setText(sdf.format(calendar.getTime()));
+            }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show();
+        }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
-    private void mostrarDateTimePicker() {
-        new android.app.DatePickerDialog(this, (view, year, month, day) -> {
+    private void mostrarDateTimePickerEntrega() {
+        new DatePickerDialog(this, (view, year, month, day) -> {
             calendar.set(year, month, day);
             new TimePickerDialog(this, (view1, hour, minute) -> {
                 calendar.set(Calendar.HOUR_OF_DAY, hour);
