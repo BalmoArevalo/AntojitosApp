@@ -929,5 +929,16 @@
     <string name="tipo_evento_crear_toast_monto_max_requerido">O valor máximo é obrigatório.</string>
     <string name="tipo_evento_crear_toast_monto_invalido">Valor inválido. Deve ser um número maior que zero.</string>
     <string name="tipo_evento_crear_toast_monto_max_menor_min">O valor máximo não pode ser menor que o valor mínimo.</string>
+
+    <string name="tipo_evento_editar_title">Editar Tipo de Evento</string>
+    <string name="tipo_evento_editar_label_seleccionar_para_editar">Selecione o Tipo de Evento para Editar:</string>
+    <string name="tipo_evento_editar_placeholder_seleccione">Selecione um tipo de evento...</string>
+    <string name="tipo_evento_editar_btn_cargar_datos">Carregar Dados para Editar</string> <string name="tipo_evento_editar_btn_actualizar">Atualizar Tipo de Evento</string>
+    <string name="tipo_evento_editar_toast_exito">Tipo de Evento atualizado com sucesso.</string>
+    <string name="tipo_evento_editar_toast_error_actualizar">Erro ao atualizar o Tipo de Evento.</string>
+    <string name="tipo_evento_editar_toast_error_carga">Erro ao carregar dados do Tipo de Evento.</string>
+    <string name="tipo_evento_editar_toast_no_encontrado">Tipo de Evento selecionado não encontrado.</string>
+    <string name="tipo_evento_editar_toast_seleccione_primero">Por favor, selecione um tipo de evento da lista.</string>
+    <string name="tipo_evento_editar_info_cargada">Dados carregados para: %1$s</string>
     <!-- Tipo de Evento FIN -->
 </resources>

@@ -929,5 +929,16 @@
     <string name="tipo_evento_crear_toast_monto_max_requerido">Maximum amount is required.</string>
     <string name="tipo_evento_crear_toast_monto_invalido">Invalid amount. Must be a number greater than zero.</string>
     <string name="tipo_evento_crear_toast_monto_max_menor_min">Maximum amount cannot be less than minimum amount.</string>
+
+    <string name="tipo_evento_editar_title">Edit Event Type</string>
+    <string name="tipo_evento_editar_label_seleccionar_para_editar">Select Event Type to Edit:</string>
+    <string name="tipo_evento_editar_placeholder_seleccione">Select an event type...</string>
+    <string name="tipo_evento_editar_btn_cargar_datos">Load Data for Editing</string> <string name="tipo_evento_editar_btn_actualizar">Update Event Type</string>
+    <string name="tipo_evento_editar_toast_exito">Event Type updated successfully.</string>
+    <string name="tipo_evento_editar_toast_error_actualizar">Error updating Event Type.</string>
+    <string name="tipo_evento_editar_toast_error_carga">Error loading Event Type data.</string>
+    <string name="tipo_evento_editar_toast_no_encontrado">Selected Event Type not found.</string>
+    <string name="tipo_evento_editar_toast_seleccione_primero">Please select an event type from the list.</string>
+    <string name="tipo_evento_editar_info_cargada">Data loaded for: %1$s</string>
     <!-- Tipo de Evento FIN -->
 </resources>

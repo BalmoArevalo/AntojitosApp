@@ -1,77 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:background="#FFFFFF">
+    android:fillViewport="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".ui.tipoEvento.TipoEventoEditarActivity">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_editar_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Editar Tipo de Evento"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#444"
-            android:layout_marginBottom="16dp" />
+            android:text="@string/tipo_evento_editar_label_seleccionar_para_editar"
+            android:textAppearance="?attr/textAppearanceBody1"/>
 
         <Spinner
-            android:id="@+id/spinnerIdTipoEvento"
+            android:id="@+id/spinnerTipoEventoParaEditar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:minHeight="48dp"/>
+            android:minHeight="48dp"
+            android:layout_marginBottom="16dp"/>
 
-        <Button
-            android:id="@+id/btnBuscarTipoEvento"
+        <TextView
+            android:id="@+id/textViewIdTipoEventoEditarHidden"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Buscar"
-            android:backgroundTint="#6200EE"
-            android:textColor="#FFF"
-            android:layout_marginBottom="24dp" />
+            android:visibility="gone"/> <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilNombreTipoEventoEditar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <EditText
-            android:id="@+id/editTextNombre"
-            android:hint="Nombre"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextNombreTipoEventoEditar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp" />
+            android:hint="@string/tipo_evento_crear_label_nombre"
+            android:inputType="textCapWords"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/editTextDescripcion"
-            android:hint="Descripción"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilDescripcionTipoEventoEditar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <EditText
-            android:id="@+id/editTextMontoMinimo"
-            android:hint="Monto Mínimo"
-            android:inputType="numberDecimal"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextDescripcionTipoEventoEditar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tipo_evento_crear_label_descripcion"
+                android:inputType="textMultiLine|textCapSentences"
+                android:minLines="2"
+                android:gravity="top"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilMontoMinimoEditar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <EditText
-            android:id="@+id/editTextMontoMaximo"
-            android:hint="Monto Máximo"
-            android:inputType="numberDecimal"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextMontoMinimoEditar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tipo_evento_crear_label_monto_minimo"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilMontoMaximoEditar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <Button
-            android:id="@+id/buttonActualizar"
-            android:text="Actualizar"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextMontoMaximoEditar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tipo_evento_crear_label_monto_maximo"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="#03DAC5"
-            android:textColor="#000" />
-    </LinearLayout>
+            android:text="@string/tipo_evento_crear_label_activo"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkboxActivoTipoEventoEditar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_crear_checkbox_activo"
+            android:layout_marginBottom="24dp"/>
+
+        <Button
+            android:id="@+id/btnActualizarTipoEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_editar_btn_actualizar"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:enabled="false"/> </LinearLayout>
 </ScrollView>
