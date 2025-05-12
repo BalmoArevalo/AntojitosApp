@@ -893,4 +893,23 @@
     <string name="repartopedido_toast_eliminado_ok">Reparto eliminado correctamente</string>
     <string name="repartopedido_toast_eliminado_error">No se pudo eliminar</string>
 
+    <!-- Tipo de Evento INICIO -->
+    <string name="tipo_evento_consultar_title">Consultar Tipos de Evento</string>
+    <string name="tipo_evento_consultar_label_seleccionar">Seleccione Tipo de Evento (Opcional):</string>
+    <string name="tipo_evento_consultar_btn_cargar_todos">Cargar Todos</string>
+    <string name="tipo_evento_consultar_btn_cargar_activos">Cargar Activos</string>
+    <string name="tipo_evento_consultar_resultados_titulo">Resultados:</string>
+    <string name="tipo_evento_consultar_placeholder_seleccione">Todos los Tipos de Evento</string>
+    <string name="tipo_evento_consultar_vacio">No se encontraron tipos de evento.</string>
+    <string name="tipo_evento_consultar_error_carga">Error al cargar tipos de evento.</string>
+    <string name="tipo_evento_item_formato">ID: %1$d (%2$s)\nNombre: %3$s\nDescripción: %4$s\nMín: $%.2f - Máx: $%.2f\n</string>
+    <string name="tipo_evento_estado_activo">Activo</string>
+    <string name="tipo_evento_estado_inactivo">Inactivo</string>
+
+    <string name="menu_editar_te">Editar Tipo Evento</string>
+    <string name="menu_desactivar_te">Desactivar Tipo Evento</string>
+    <string name="menu_activar_te">Activar Tipo Evento</string>
+    <string name="menu_eliminar_fisico_te">Eliminar Físicamente</string>
+
+    <string name="fab_crear_tipo_evento_desc">Crear nuevo tipo de evento</string>
 </resources>

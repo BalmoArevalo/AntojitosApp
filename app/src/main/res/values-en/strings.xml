@@ -891,5 +891,24 @@
     <string name="repartopedido_toast_eliminado_ok">Delivery deleted successfully</string>
     <string name="repartopedido_toast_eliminado_error">Failed to delete</string>
 
+    <!-- Tipo de Evento INICIO -->
+    <string name="tipo_evento_consultar_title">Consult Event Types</string>
+    <string name="tipo_evento_consultar_label_seleccionar">Select Event Type (Optional):</string>
+    <string name="tipo_evento_consultar_btn_cargar_todos">Load All</string>
+    <string name="tipo_evento_consultar_btn_cargar_activos">Load Active</string>
+    <string name="tipo_evento_consultar_resultados_titulo">Results:</string>
+    <string name="tipo_evento_consultar_placeholder_seleccione">All Event Types</string>
+    <string name="tipo_evento_consultar_vacio">No event types found.</string>
+    <string name="tipo_evento_consultar_error_carga">Error loading event types.</string>
+    <string name="tipo_evento_item_formato">ID: %1$d (%2$s)\nName: %3$s\nDescription: %4$s\nMin: $%.2f - Max: $%.2f\n</string>
+    <string name="tipo_evento_estado_activo">Active</string>
+    <string name="tipo_evento_estado_inactivo">Inactive</string>
+
+    <string name="menu_editar_te">Edit Event Type</string>
+    <string name="menu_desactivar_te">Deactivate Event Type</string>
+    <string name="menu_activar_te">Activate Event Type</string>
+    <string name="menu_eliminar_fisico_te">Delete Permanently</string>
+
+    <string name="fab_crear_tipo_evento_desc">Create new event type</string>
 
 </resources>
