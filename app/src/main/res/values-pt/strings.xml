@@ -891,5 +891,75 @@
     <string name="repartopedido_toast_eliminado_ok">Reparto excluído com sucesso</string>
     <string name="repartopedido_toast_eliminado_error">Não foi possível excluir</string>
 
+    <!-- Tipo de Evento INICIO -->
+    <string name="tipo_evento_consultar_title">Consultar Tipos de Evento</string>
+    <string name="tipo_evento_consultar_label_seleccionar">Selecione o Tipo de Evento (Opcional):</string>
+    <string name="tipo_evento_consultar_btn_cargar_todos">Carregar Todos</string>
+    <string name="tipo_evento_consultar_btn_cargar_activos">Carregar Ativos</string>
+    <string name="tipo_evento_consultar_resultados_titulo">Resultados:</string>
+    <string name="tipo_evento_consultar_placeholder_seleccione">Todos os Tipos de Evento</string>
+    <string name="tipo_evento_consultar_vacio">Nenhum tipo de evento encontrado.</string>
+    <string name="tipo_evento_consultar_error_carga">Erro ao carregar tipos de evento.</string>
+    <string name="tipo_evento_item_formato">ID: %1$d (%2$s)\nNome: %3$s\nDescrição: %4$s\nMín: $%.2f - Máx: $%.2f\n</string>
+    <string name="tipo_evento_estado_activo">Ativo</string>
+    <string name="tipo_evento_estado_inactivo">Inativo</string>
 
+    <string name="menu_editar_te">Editar Tipo de Evento</string>
+    <string name="menu_desactivar_te">Desativar Tipo de Evento</string>
+    <string name="menu_activar_te">Ativar Tipo de Evento</string>
+    <string name="menu_eliminar_fisico_te">Eliminar Permanentemente</string>
+
+    <string name="fab_crear_tipo_evento_desc">Criar novo tipo de evento</string>
+    <string name="tipo_evento_crear_title">Criar Novo Tipo de Evento</string>
+    <string name="tipo_evento_crear_label_nombre">Nome do Tipo de Evento:</string>
+    <string name="tipo_evento_crear_hint_nombre">Ex: Conferência Anual</string>
+    <string name="tipo_evento_crear_label_descripcion">Descrição (Opcional):</string>
+    <string name="tipo_evento_crear_hint_descripcion">Ex: Evento principal da indústria</string>
+    <string name="tipo_evento_crear_label_monto_minimo">Valor Mínimo ($):</string>
+    <string name="tipo_evento_crear_hint_monto_minimo">Ex: 50.00</string>
+    <string name="tipo_evento_crear_label_monto_maximo">Valor Máximo ($):</string>
+    <string name="tipo_evento_crear_hint_monto_maximo">Ex: 500.00</string>
+    <string name="tipo_evento_crear_label_activo">Status Inicial:</string>
+    <string name="tipo_evento_crear_checkbox_activo">Ativo</string>
+    <string name="tipo_evento_crear_btn_guardar">Salvar Tipo de Evento</string>
+    <string name="tipo_evento_crear_toast_exito">Tipo de Evento \"%1$s\" salvo com ID %2$d</string>
+    <string name="tipo_evento_crear_toast_error_guardar">Erro ao salvar o Tipo de Evento.</string>
+    <string name="tipo_evento_crear_toast_nombre_requerido">O nome do tipo de evento é obrigatório.</string>
+    <string name="tipo_evento_crear_toast_monto_min_requerido">O valor mínimo é obrigatório.</string>
+    <string name="tipo_evento_crear_toast_monto_max_requerido">O valor máximo é obrigatório.</string>
+    <string name="tipo_evento_crear_toast_monto_invalido">Valor inválido. Deve ser um número maior que zero.</string>
+    <string name="tipo_evento_crear_toast_monto_max_menor_min">O valor máximo não pode ser menor que o valor mínimo.</string>
+
+    <string name="tipo_evento_editar_title">Editar Tipo de Evento</string>
+    <string name="tipo_evento_editar_label_seleccionar_para_editar">Selecione o Tipo de Evento para Editar:</string>
+    <string name="tipo_evento_editar_placeholder_seleccione">Selecione um tipo de evento...</string>
+    <string name="tipo_evento_editar_btn_cargar_datos">Carregar Dados para Editar</string> <string name="tipo_evento_editar_btn_actualizar">Atualizar Tipo de Evento</string>
+    <string name="tipo_evento_editar_toast_exito">Tipo de Evento atualizado com sucesso.</string>
+    <string name="tipo_evento_editar_toast_error_actualizar">Erro ao atualizar o Tipo de Evento.</string>
+    <string name="tipo_evento_editar_toast_error_carga">Erro ao carregar dados do Tipo de Evento.</string>
+    <string name="tipo_evento_editar_toast_no_encontrado">Tipo de Evento selecionado não encontrado.</string>
+    <string name="tipo_evento_editar_toast_seleccione_primero">Por favor, selecione um tipo de evento da lista.</string>
+    <string name="tipo_evento_editar_info_cargada">Dados carregados para: %1$s</string>
+
+    <string name="tipo_evento_desactivar_title">Desativar Tipo de Evento</string>
+    <string name="tipo_evento_desactivar_label_seleccionar">Selecione o Tipo de Evento para Desativar:</string>
+    <string name="tipo_evento_desactivar_placeholder_seleccione">Selecione um tipo de evento...</string>
+    <string name="tipo_evento_desactivar_label_detalles">Detalhes do Tipo de Evento:</string>
+    <string name="tipo_evento_desactivar_label_nombre">Nome:</string>
+    <string name="tipo_evento_desactivar_label_descripcion">Descrição:</string>
+    <string name="tipo_evento_desactivar_label_montos">Valores (Mín - Máx):</string>
+    <string name="tipo_evento_desactivar_label_estado_actual">Status Atual:</string>
+    <string name="tipo_evento_desactivar_btn_desactivar">Confirmar Desativação</string>
+    <string name="tipo_evento_desactivar_toast_exito">Tipo de Evento \"%1$s\" desativado com sucesso.</string>
+    <string name="tipo_evento_desactivar_toast_error">Erro ao desativar o Tipo de Evento.</string>
+    <string name="tipo_evento_desactivar_toast_seleccione_primero">Por favor, selecione um tipo de evento da lista.</string>
+    <string name="tipo_evento_desactivar_toast_ya_inactivo">Este tipo de evento já está inativo.</string>
+    <string name="tipo_evento_desactivar_toast_no_encontrado">Tipo de Evento não encontrado.</string>
+    <string name="tipo_evento_estado_actual_activo_val">Ativo</string>
+    <string name="tipo_evento_estado_actual_inactivo_val">Inativo</string>
+    <string name="tipo_evento_confirm_desactivar_dialog_title">Confirmar Desativação</string>
+    <string name="tipo_evento_confirm_desactivar_dialog_message">Tem certeza que deseja desativar o tipo de evento \"%1$s\"? Ele não estará mais disponível para novos pedidos.</string>
+    <string name="dialog_btn_confirmar">Confirmar</string>
+    <string name="dialog_btn_cancelar">Cancelar</string>
+    <!-- Tipo de Evento FIN -->
 </resources>

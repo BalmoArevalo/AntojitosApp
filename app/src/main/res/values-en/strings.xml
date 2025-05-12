@@ -891,5 +891,75 @@
     <string name="repartopedido_toast_eliminado_ok">Delivery deleted successfully</string>
     <string name="repartopedido_toast_eliminado_error">Failed to delete</string>
 
+    <!-- Tipo de Evento INICIO -->
+    <string name="tipo_evento_consultar_title">Consult Event Types</string>
+    <string name="tipo_evento_consultar_label_seleccionar">Select Event Type (Optional):</string>
+    <string name="tipo_evento_consultar_btn_cargar_todos">Load All</string>
+    <string name="tipo_evento_consultar_btn_cargar_activos">Load Active</string>
+    <string name="tipo_evento_consultar_resultados_titulo">Results:</string>
+    <string name="tipo_evento_consultar_placeholder_seleccione">All Event Types</string>
+    <string name="tipo_evento_consultar_vacio">No event types found.</string>
+    <string name="tipo_evento_consultar_error_carga">Error loading event types.</string>
+    <string name="tipo_evento_item_formato">ID: %1$d (%2$s)\nName: %3$s\nDescription: %4$s\nMin: $%.2f - Max: $%.2f\n</string>
+    <string name="tipo_evento_estado_activo">Active</string>
+    <string name="tipo_evento_estado_inactivo">Inactive</string>
 
+    <string name="menu_editar_te">Edit Event Type</string>
+    <string name="menu_desactivar_te">Deactivate Event Type</string>
+    <string name="menu_activar_te">Activate Event Type</string>
+    <string name="menu_eliminar_fisico_te">Delete Permanently</string>
+
+    <string name="fab_crear_tipo_evento_desc">Create new event type</string>
+    <string name="tipo_evento_crear_title">Create New Event Type</string>
+    <string name="tipo_evento_crear_label_nombre">Event Type Name:</string>
+    <string name="tipo_evento_crear_hint_nombre">E.g: Annual Conference</string>
+    <string name="tipo_evento_crear_label_descripcion">Description (Optional):</string>
+    <string name="tipo_evento_crear_hint_descripcion">E.g: Main industry event</string>
+    <string name="tipo_evento_crear_label_monto_minimo">Minimum Amount ($):</string>
+    <string name="tipo_evento_crear_hint_monto_minimo">E.g: 50.00</string>
+    <string name="tipo_evento_crear_label_monto_maximo">Maximum Amount ($):</string>
+    <string name="tipo_evento_crear_hint_monto_maximo">E.g: 500.00</string>
+    <string name="tipo_evento_crear_label_activo">Initial Status:</string>
+    <string name="tipo_evento_crear_checkbox_activo">Active</string>
+    <string name="tipo_evento_crear_btn_guardar">Save Event Type</string>
+    <string name="tipo_evento_crear_toast_exito">Event Type \"%1$s\" saved with ID %2$d</string>
+    <string name="tipo_evento_crear_toast_error_guardar">Error saving Event Type.</string>
+    <string name="tipo_evento_crear_toast_nombre_requerido">Event type name is required.</string>
+    <string name="tipo_evento_crear_toast_monto_min_requerido">Minimum amount is required.</string>
+    <string name="tipo_evento_crear_toast_monto_max_requerido">Maximum amount is required.</string>
+    <string name="tipo_evento_crear_toast_monto_invalido">Invalid amount. Must be a number greater than zero.</string>
+    <string name="tipo_evento_crear_toast_monto_max_menor_min">Maximum amount cannot be less than minimum amount.</string>
+
+    <string name="tipo_evento_editar_title">Edit Event Type</string>
+    <string name="tipo_evento_editar_label_seleccionar_para_editar">Select Event Type to Edit:</string>
+    <string name="tipo_evento_editar_placeholder_seleccione">Select an event type...</string>
+    <string name="tipo_evento_editar_btn_cargar_datos">Load Data for Editing</string> <string name="tipo_evento_editar_btn_actualizar">Update Event Type</string>
+    <string name="tipo_evento_editar_toast_exito">Event Type updated successfully.</string>
+    <string name="tipo_evento_editar_toast_error_actualizar">Error updating Event Type.</string>
+    <string name="tipo_evento_editar_toast_error_carga">Error loading Event Type data.</string>
+    <string name="tipo_evento_editar_toast_no_encontrado">Selected Event Type not found.</string>
+    <string name="tipo_evento_editar_toast_seleccione_primero">Please select an event type from the list.</string>
+    <string name="tipo_evento_editar_info_cargada">Data loaded for: %1$s</string>
+
+    <string name="tipo_evento_desactivar_title">Deactivate Event Type</string>
+    <string name="tipo_evento_desactivar_label_seleccionar">Select Event Type to Deactivate:</string>
+    <string name="tipo_evento_desactivar_placeholder_seleccione">Select an event type...</string>
+    <string name="tipo_evento_desactivar_label_detalles">Event Type Details:</string>
+    <string name="tipo_evento_desactivar_label_nombre">Name:</string>
+    <string name="tipo_evento_desactivar_label_descripcion">Description:</string>
+    <string name="tipo_evento_desactivar_label_montos">Amounts (Min - Max):</string>
+    <string name="tipo_evento_desactivar_label_estado_actual">Current Status:</string>
+    <string name="tipo_evento_desactivar_btn_desactivar">Confirm Deactivation</string>
+    <string name="tipo_evento_desactivar_toast_exito">Event Type \"%1$s\" deactivated successfully.</string>
+    <string name="tipo_evento_desactivar_toast_error">Error deactivating Event Type.</string>
+    <string name="tipo_evento_desactivar_toast_seleccione_primero">Please select an event type from the list.</string>
+    <string name="tipo_evento_desactivar_toast_ya_inactivo">This event type is already inactive.</string>
+    <string name="tipo_evento_desactivar_toast_no_encontrado">Event Type not found.</string>
+    <string name="tipo_evento_estado_actual_activo_val">Active</string>
+    <string name="tipo_evento_estado_actual_inactivo_val">Inactive</string>
+    <string name="tipo_evento_confirm_desactivar_dialog_title">Confirm Deactivation</string>
+    <string name="tipo_evento_confirm_desactivar_dialog_message">Are you sure you want to deactivate event type \"%1$s\"? It will no longer be available for new orders.</string>
+    <string name="dialog_btn_confirmar">Confirm</string>
+    <string name="dialog_btn_cancelar">Cancel</string>
+    <!-- Tipo de Evento FIN -->
 </resources>

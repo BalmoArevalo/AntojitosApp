@@ -1,28 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    tools:context=".ui.tipoEvento.TipoEventoEliminarActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tipo_evento_desactivar_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Seleccione el Tipo de Evento a eliminar"
-        android:textSize="16sp"
-        android:layout_marginBottom="8dp" />
+        android:text="@string/tipo_evento_desactivar_label_seleccionar"
+        android:textAppearance="?attr/textAppearanceBody1"/>
 
     <Spinner
-        android:id="@+id/spinnerIdTipoEventoEliminar"
+        android:id="@+id/spinnerTipoEventoParaDesactivar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        android:minHeight="48dp"/>
+        android:minHeight="48dp"
+        android:layout_marginBottom="24dp"/>
+
+    <LinearLayout
+        android:id="@+id/layoutDetallesTipoEventoDesactivar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_desactivar_label_detalles"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_desactivar_label_nombre"/>
+        <TextView
+            android:id="@+id/tvNombreTipoEventoDesactivar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:layout_marginBottom="8dp"
+            tools:text="Fiesta Infantil"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_desactivar_label_descripcion"/>
+        <TextView
+            android:id="@+id/tvDescripcionTipoEventoDesactivar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:layout_marginBottom="8dp"
+            tools:text="Evento privado para niños"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_desactivar_label_montos"/>
+        <TextView
+            android:id="@+id/tvMontosTipoEventoDesactivar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:layout_marginBottom="8dp"
+            tools:text="$50.00 - $500.00"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_desactivar_label_estado_actual"/>
+        <TextView
+            android:id="@+id/tvEstadoActualTipoEventoDesactivar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"
+            tools:text="Activo"/>
+    </LinearLayout>
 
     <Button
-        android:id="@+id/buttonEliminar"
-        android:text="Eliminar"
-        android:layout_width="wrap_content"
+        android:id="@+id/btnConfirmarDesactivacion"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"/>
+        android:text="@string/tipo_evento_desactivar_btn_desactivar"
+        android:enabled="false"
+        app:backgroundTint="@color/design_default_color_error" />
 </LinearLayout>

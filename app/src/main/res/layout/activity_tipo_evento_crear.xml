@@ -1,52 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:fillViewport="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context=".ui.tipoEvento.TipoEventoCrearActivity">
 
-        <EditText
-            android:id="@+id/editTextIdTipoEvento"
-            android:hint="ID Tipo Evento"
-            android:inputType="number"
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_crear_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:gravity="center"
+            android:layout_marginBottom="24dp"/>
 
-        <EditText
-            android:id="@+id/editTextNombreTipoEvento"
-            android:hint="Nombre"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <EditText
-            android:id="@+id/editTextDescripcionTipoEvento"
-            android:hint="Descripción"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextNombreTipoEvento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tipo_evento_crear_label_nombre"
+                android:inputType="textCapWords"
+                android:autofillHints="name"/>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/editTextMontoMinimo"
-            android:hint="Monto Mínimo"
-            android:inputType="numberDecimal"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-        <EditText
-            android:id="@+id/editTextMontoMaximo"
-            android:hint="Monto Máximo"
-            android:inputType="numberDecimal"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextDescripcionTipoEvento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tipo_evento_crear_label_descripcion"
+                android:inputType="textMultiLine|textCapSentences"
+                android:minLines="2"
+                android:gravity="top"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextMontoMinimo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tipo_evento_crear_label_monto_minimo"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextMontoMaximo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/tipo_evento_crear_label_monto_maximo"
+                android:inputType="numberDecimal"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_crear_label_activo"
+            android:textAppearance="?attr/textAppearanceBody1"
+            android:layout_marginBottom="8dp"/>
+
+        <com.google.android.material.checkbox.MaterialCheckBox
+            android:id="@+id/checkboxActivoTipoEvento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_crear_checkbox_activo"
+            android:checked="true"
+            android:layout_marginBottom="24dp"/>
 
         <Button
             android:id="@+id/btnGuardarTipoEvento"
-            android:text="Guardar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
+            android:text="@string/tipo_evento_crear_btn_guardar"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"/>
+
     </LinearLayout>
 </ScrollView>

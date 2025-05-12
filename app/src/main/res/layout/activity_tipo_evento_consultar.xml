@@ -1,57 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center_horizontal"
-    android:background="#FFFFFF">
+    tools:context=".ui.tipoEvento.TipoEventoConsultarActivity">
 
-    <TextView
-        android:id="@+id/tvTituloTipoEvento"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Consultar Tipo de Evento"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#444"
-        android:layout_marginBottom="16dp" />
-
-    <TextView
-        android:id="@+id/tvSubtituloTipoEvento"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Selecciona el Tipo de Evento"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:textColor="#888"
-        android:layout_marginBottom="8dp" />
-
-    <Spinner
-        android:id="@+id/spinnerIdTipoEventoBuscar"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="16dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <Button
-        android:id="@+id/btnBuscarTipoEvento"
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_consultar_title"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_consultar_label_seleccionar"
+            android:labelFor="@+id/spinnerConsultaTipoEvento"/>
+        <Spinner
+            android:id="@+id/spinnerConsultaTipoEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:minHeight="48dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/btnCargarTodosTiposEvento"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="4dp"
+                android:text="@string/tipo_evento_consultar_btn_cargar_todos"/>
+
+            <Button
+                android:id="@+id/btnCargarTiposEventoActivos"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="4dp"
+                android:text="@string/tipo_evento_consultar_btn_cargar_activos"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tipo_evento_consultar_resultados_titulo"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:layout_marginBottom="8dp"/>
+
+        <ProgressBar
+            android:id="@+id/progressBarTipoEventoConsultar"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <TextView
+                android:id="@+id/tvConsultaTipoEventoResultado"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                tools:text="ID: 1 (Activo)\nNombre: Fiesta Infantil\nDescripción: Evento privado\nMín: $30.00 - Máx: $300.00\n\nID: 2 (Inactivo)\nNombre: Reunión Empresarial\nDescripción: Coffee break\nMín: $50.00 - Máx: $400.00\n\n" />
+        </ScrollView>
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAgregarTipoEventoConsultar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="MOSTRAR DETALLES"
-        android:backgroundTint="#6200EE"
-        android:textColor="#FFF"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:layout_marginBottom="24dp" />
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="16dp"
+        app:tint="@android:color/white"
+        android:contentDescription="@string/fab_crear_tipo_evento_desc" />
 
-    <TextView
-        android:id="@+id/tvResultadoTipoEvento"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#EEEEEE"
-        android:padding="16dp"
-        android:textSize="14sp"
-        android:textColor="#000"
-        android:text="Detalles del tipo de evento aparecerán aquí"
-        android:visibility="visible" />
-</LinearLayout>
+</RelativeLayout>
