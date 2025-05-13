@@ -206,9 +206,6 @@ public final class DatosInicialesSeeder {
             db.execSQL("INSERT OR REPLACE INTO FACTURA("
                     + "ID_FACTURA,ID_PEDIDO,FECHA_EMISION,MONTO_TOTAL,TIPO_PAGO,"
                     + "ESTADO_FACTURA,ES_CREDITO) VALUES (7,7,'2025-05-07',88.20,'Transferencia','Pendiente',0);");
-            db.execSQL("INSERT OR REPLACE INTO FACTURA("
-                    + "ID_FACTURA,ID_PEDIDO,FECHA_EMISION,MONTO_TOTAL,TIPO_PAGO,"
-                    + "ESTADO_FACTURA,ES_CREDITO) VALUES (8,8,'2025-05-08',150.00,'Crédito','En Crédito',1);");
 
             // --- 12 – Datos para CREDITO (Modificados y Congruentes) ---
             db.execSQL("INSERT OR REPLACE INTO CREDITO("
@@ -223,10 +220,7 @@ public final class DatosInicialesSeeder {
                     + "ID_CREDITO,ID_FACTURA,MONTO_AUTORIZADO_CREDITO,MONTO_PAGADO,"
                     + "SALDO_PENDIENTE,FECHA_LIMITE_PAGO,ESTADO_CREDITO) "
                     + "VALUES (3,5,40.00,0.00,40.00,'2025-06-25','Activo');"); // Para F5
-            db.execSQL("INSERT OR REPLACE INTO CREDITO("
-                    + "ID_CREDITO,ID_FACTURA,MONTO_AUTORIZADO_CREDITO,MONTO_PAGADO,"
-                    + "SALDO_PENDIENTE,FECHA_LIMITE_PAGO,ESTADO_CREDITO) "
-                    + "VALUES (4,8,150.00,15.00,135.00,'2025-07-01','Activo');"); // Para F8
+
 
             // 13 - Datos para DATOSPRODUCTO ---
             db.execSQL("INSERT OR REPLACE INTO DATOSPRODUCTO("
@@ -316,6 +310,53 @@ public final class DatosInicialesSeeder {
             db.execSQL("INSERT OR REPLACE INTO DETALLEPEDIDO(" +
                     "ID_PRODUCTO, ID_PEDIDO, CANTIDAD, SUBTOTAL) " +
                     "VALUES (1, 8, 2, 2.00);");
+
+
+            //Trrigers de actualizacion
+
+            db.execSQL("CREATE TRIGGER trg_credito_totalmente_pagado_actualiza_factura " +
+                    "AFTER UPDATE ON CREDITO " +
+                    "FOR EACH ROW " +
+                    "WHEN NEW.ESTADO_CREDITO = 'Pagado' AND OLD.ESTADO_CREDITO != 'Pagado' AND NEW.SALDO_PENDIENTE <= 0.009 " +
+                    "BEGIN " +
+                    "    UPDATE FACTURA " +
+                    "    SET ESTADO_FACTURA = 'Pagada' " +
+                    "    WHERE ID_FACTURA = NEW.ID_FACTURA; " +
+                    "END;");
+
+            db.execSQL("CREATE TRIGGER trg_actualizar_estado_pedido_tras_factura " +
+                    "AFTER INSERT ON FACTURA " +
+                    "FOR EACH ROW " +
+                    "BEGIN " +
+                    "    UPDATE PEDIDO " +
+                    "    SET ESTADO_PEDIDO = 'despachado' " +
+                    "    WHERE ID_PEDIDO = NEW.ID_PEDIDO; " +
+                    "END;");
+
+            db.execSQL("CREATE TRIGGER trg_actualizar_fecha_entrega_al_cambiar_estado " +
+                    "AFTER UPDATE ON PEDIDO " +
+                    "FOR EACH ROW " +
+                    "WHEN NEW.ESTADO_PEDIDO = 'entregado' AND OLD.ESTADO_PEDIDO != 'entregado' " +
+                    "BEGIN " +
+                    "    UPDATE REPARTOPEDIDO " +
+                    "    SET FECHA_HORA_ENTREGA = datetime('now') " +  // Formato ISO estándar
+                    "    WHERE ID_PEDIDO = NEW.ID_PEDIDO; " +
+                    "END;");
+
+
+            //Triggers de semenantica
+
+            db.execSQL("CREATE TRIGGER trg_prevenir_eliminar_factura_con_credito_activo_o_pagado " +
+                    "BEFORE DELETE ON FACTURA " +
+                    "FOR EACH ROW " +
+                    "BEGIN " +
+                    "    SELECT RAISE(ABORT, 'No se puede eliminar la factura. Tiene un crédito Activo o Pagado asociado.') " +
+                    "    WHERE EXISTS ( " +
+                    "        SELECT 1 FROM CREDITO " +
+                    "        WHERE CREDITO.ID_FACTURA = OLD.ID_FACTURA " +
+                    "          AND (CREDITO.ESTADO_CREDITO = 'Activo' OR CREDITO.ESTADO_CREDITO = 'Pagado') " +
+                    "    ); " +
+                    "END;");
 
             db.setTransactionSuccessful();
         } finally {
