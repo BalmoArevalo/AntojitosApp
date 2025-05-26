@@ -1,26 +1,60 @@
 package sv.ues.fia.eisi.proyecto01_antojitos.ui.webServices;
 
 import android.os.Bundle;
+import android.widget.CheckBox;
+import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import sv.ues.fia.eisi.proyecto01_antojitos.R;
+import sv.ues.fia.eisi.proyecto01_antojitos.network.helpers.ClienteHelper;
 
 public class WebService3Activity extends AppCompatActivity {
+
+    TextInputEditText etNombreCliente, etApellidoCliente, etTelefonoCliente;
+    CheckBox cbActivoCliente;
+    MaterialButton btnCrearCliente;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_web_service3);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        etNombreCliente = findViewById(R.id.etNombreCliente);
+        etApellidoCliente = findViewById(R.id.etApellidoCliente);
+        etTelefonoCliente = findViewById(R.id.etTelefonoCliente);
+        cbActivoCliente = findViewById(R.id.cbActivoCliente);
+        btnCrearCliente = findViewById(R.id.btnCrearCliente);
+
+        btnCrearCliente.setOnClickListener(v -> {
+            String nombre = etNombreCliente.getText().toString().trim();
+            String apellido = etApellidoCliente.getText().toString().trim();
+            String telefono = etTelefonoCliente.getText().toString().trim();
+            int activo = cbActivoCliente.isChecked() ? 1 : 0;
+
+            if (nombre.isEmpty() || apellido.isEmpty() || telefono.isEmpty()) {
+                Toast.makeText(this, "⚠️ Todos los campos son obligatorios", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            ClienteHelper.crearCliente(
+                    this,
+                    telefono,
+                    nombre,
+                    apellido,
+                    activo,
+                    () -> {
+                        etNombreCliente.setText("");
+                        etApellidoCliente.setText("");
+                        etTelefonoCliente.setText("");
+                        cbActivoCliente.setChecked(true);
+                        etNombreCliente.requestFocus();
+                    },
+                    btnCrearCliente // 👈 Esto es el anchorView
+            );
         });
     }
 }
