@@ -31,6 +31,6 @@ public class ClienteHelper {
             }
         };
 
-        VolleySingleton.getInstancia(context).agregarPeticion(request);
+        VolleySingleton.getInstance(context).addToRequestQueue(request);
     }
 }
