@@ -101,5 +101,11 @@
             android:icon="@drawable/ic_datos_producto"
             android:title="@string/menu_datos_producto"
             android:visible="false"/>
+
+        <item
+            android:id="@+id/nav_web_services"
+            android:icon="@drawable/ic_web"
+            android:title="Web Services"
+            android:visible="false"/>
     </group>
 </menu>

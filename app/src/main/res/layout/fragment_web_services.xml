@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_tipo_evento"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/text_ws"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Web Services"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:padding="8dp"
+        android:gravity="center" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btnWS1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Web Service 1"
+                android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/btnWS2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Web Service 2"
+                android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/btnWS3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Web Service 3"
+                android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/btnWS4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Web Service 4"
+                android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/btnWS5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Web Service 5"
+                android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/btnWS6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Web Service 6"
+                android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/btnWS7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Web Service 7"
+                android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/btnWS8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Web Service 8"
+                android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/btnWS9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Web Service 9"
+                android:layout_marginTop="12dp" />
+
+            <Button
+                android:id="@+id/btnWS10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Web Service 10"
+                android:layout_marginTop="12dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
