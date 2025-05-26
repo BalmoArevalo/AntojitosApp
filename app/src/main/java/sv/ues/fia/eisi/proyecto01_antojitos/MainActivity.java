@@ -74,7 +74,8 @@ public class MainActivity extends AppCompatActivity {
                 R.id.nav_departamento,
                 R.id.nav_municipio,
                 R.id.nav_distrito,
-                R.id.nav_datos_producto
+                R.id.nav_datos_producto,
+                R.id.nav_web_services
         ).setOpenableLayout(drawer).build();
 
         NavController navController = Navigation.findNavController(

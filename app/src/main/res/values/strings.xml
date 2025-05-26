@@ -67,7 +67,6 @@
     <string name="btn_cancelar">Cancelar</string>
 
 
-
     <!--    Titulos de Repartidor-->
     <string name="repartidor_title">Gestión de Repartidores</string>
     <string name="repartidor_btn_crear">Crear Repartidor</string>
@@ -202,7 +201,9 @@
     <string name="direccion_crear_label_descripcion">Descripción Adicional (Opcional):</string>
     <string name="direccion_crear_hint_descripcion">Ej: Casa de esquina, portón negro</string>
     <string name="direccion_crear_btn_guardar">Guardar Dirección</string>
-    <string name="placeholder_seleccione">Seleccione...</string> <string name="direccion_crear_toast_exito">Dirección guardada con ID %1$d</string> <string name="direccion_crear_toast_error_guardar">Error al guardar en la base de datos</string>
+    <string name="placeholder_seleccione">Seleccione...</string>
+    <string name="direccion_crear_toast_exito">Dirección guardada con ID %1$d</string>
+    <string name="direccion_crear_toast_error_guardar">Error al guardar en la base de datos</string>
     <string name="direccion_crear_toast_error_especifica">La dirección específica es obligatoria</string>
     <string name="direccion_crear_toast_error_cliente">Seleccione un cliente</string>
     <string name="direccion_crear_toast_error_departamento">Seleccione un departamento</string>
@@ -243,14 +244,16 @@
     <string name="direccion_editar_toast_no_seleccion">Error: No hay dirección seleccionada para actualizar.</string>
 
     <!-- Eliminar Dirección-->
-    <string name="direccion_eliminar_title">Desactivar Dirección</string> <string name="direccion_eliminar_label_cliente">Cliente:</string>
+    <string name="direccion_eliminar_title">Desactivar Dirección</string>
+    <string name="direccion_eliminar_label_cliente">Cliente:</string>
     <string name="direccion_eliminar_label_direccion">Seleccione Dirección a Desactivar:</string>
     <string name="direccion_eliminar_label_detalles">Detalles de la Dirección Seleccionada:</string>
     <string name="direccion_eliminar_label_dir_especifica">Dirección:</string>
     <string name="direccion_eliminar_label_descripcion">Descripción:</string>
     <string name="direccion_eliminar_label_ubicacion">Ubicación:</string>
     <string name="direccion_eliminar_label_estado">Estado Actual:</string>
-    <string name="direccion_eliminar_btn_desactivar">Desactivar Dirección</string> <string name="direccion_eliminar_toast_exito">Dirección desactivada correctamente</string>
+    <string name="direccion_eliminar_btn_desactivar">Desactivar Dirección</string>
+    <string name="direccion_eliminar_toast_exito">Dirección desactivada correctamente</string>
     <string name="direccion_eliminar_toast_error">Error al desactivar la dirección</string>
     <string name="direccion_eliminar_toast_no_seleccion">Seleccione cliente y dirección válidos</string>
     <string name="direccion_eliminar_estado_actual_activa">Activa</string>
@@ -268,7 +271,8 @@
     <string name="factura_crear_estado_default">Pendiente</string>
     <string name="factura_crear_btn_guardar">Guardar Factura</string>
     <string name="factura_crear_monto_placeholder">--.--</string>
-    <string name="factura_crear_toast_exito">Factura ID %1$d creada para Pedido %2$d</string> <string name="factura_crear_toast_error_guardar">Error al crear la factura</string>
+    <string name="factura_crear_toast_exito">Factura ID %1$d creada para Pedido %2$d</string>
+    <string name="factura_crear_toast_error_guardar">Error al crear la factura</string>
     <string name="factura_crear_toast_error_pedido_existente">Error: El pedido seleccionado ya tiene una factura.</string>
     <string name="factura_crear_toast_seleccione_pedido">Seleccione un pedido</string>
     <string name="factura_crear_toast_ingrese_fecha">Ingrese la fecha de emisión</string>
@@ -315,9 +319,12 @@
     <string name="factura_editar_label_estado">Estado Actual:</string>
     <string name="factura_editar_label_es_credito">Es Crédito:</string>
     <string name="factura_editar_btn_actualizar">Actualizar Factura</string>
-    <string name="factura_editar_btn_reactivar">Reactivar Factura</string> <string name="factura_editar_toast_exito">Factura ID %1$d actualizada</string>
-    <string name="factura_editar_toast_reactivada">Factura ID %1$d Reactivada (Estado: Pendiente)</string> <string name="factura_editar_toast_error">Error al actualizar factura</string>
-    <string name="factura_editar_toast_error_reactivar">Error al reactivar la factura</string> <string name="factura_editar_toast_no_seleccion">Seleccione una factura para editar</string>
+    <string name="factura_editar_btn_reactivar">Reactivar Factura</string>
+    <string name="factura_editar_toast_exito">Factura ID %1$d actualizada</string>
+    <string name="factura_editar_toast_reactivada">Factura ID %1$d Reactivada (Estado: Pendiente)</string>
+    <string name="factura_editar_toast_error">Error al actualizar factura</string>
+    <string name="factura_editar_toast_error_reactivar">Error al reactivar la factura</string>
+    <string name="factura_editar_toast_no_seleccion">Seleccione una factura para editar</string>
     <string name="factura_editar_toast_error_carga">Error cargando datos de factura</string>
     <string name="factura_editar_toast_fecha_requerida">Ingrese la fecha de emisión</string>
     <string name="factura_editar_toast_tipo_pago_requerido">Seleccione un tipo de pago</string>
@@ -332,7 +339,8 @@
     <string name="respuesta_no">No</string>
 
     <!-- Eliminar Factura-->
-    <string name="factura_eliminar_title">Anular Factura</string> <string name="factura_eliminar_label_seleccionar">Seleccione Factura a Anular:</string>
+    <string name="factura_eliminar_title">Anular Factura</string>
+    <string name="factura_eliminar_label_seleccionar">Seleccione Factura a Anular:</string>
     <string name="factura_eliminar_label_detalles">--- Detalles de la Factura ---</string>
     <string name="factura_eliminar_label_id_factura">ID Factura:</string>
     <string name="factura_eliminar_label_id_pedido">ID Pedido Asociado:</string>
@@ -341,7 +349,8 @@
     <string name="factura_eliminar_label_tipo_pago">Tipo Pago:</string>
     <string name="factura_eliminar_label_estado">Estado Actual:</string>
     <string name="factura_eliminar_label_es_credito">Es Crédito:</string>
-    <string name="factura_eliminar_btn_anular">Confirmar Anulación</string> <string name="factura_eliminar_toast_exito">Factura ID %1$d Anulada</string>
+    <string name="factura_eliminar_btn_anular">Confirmar Anulación</string>
+    <string name="factura_eliminar_toast_exito">Factura ID %1$d Anulada</string>
     <string name="factura_eliminar_toast_error">Error al anular la factura</string>
     <string name="factura_eliminar_toast_no_seleccion">Seleccione una factura para anular</string>
     <string name="factura_eliminar_toast_error_carga">Error cargando datos de factura</string>
@@ -366,7 +375,9 @@
     <string name="credito_crear_toast_seleccione_factura">Seleccione una factura</string>
     <string name="credito_crear_toast_ingrese_fecha_limite">Ingrese la fecha límite para el crédito</string>
     <string name="credito_crear_no_facturas_disponibles">No hay facturas elegibles para activar crédito.</string>
-    <string name="credito_crear_estado_credito_inicial">Activo</string> <string name="factura_estado_en_credito">En Crédito</string> <string name="factura_tipo_pago_credito">Crédito</string>
+    <string name="credito_crear_estado_credito_inicial">Activo</string>
+    <string name="factura_estado_en_credito">En Crédito</string>
+    <string name="factura_tipo_pago_credito">Crédito</string>
 
     <!-- Consultar Credito-->
     <string name="credito_consultar_title">Consultar Detalles de Crédito</string>
@@ -936,7 +947,8 @@
     <string name="tipo_evento_editar_title">Editar Tipo de Evento</string>
     <string name="tipo_evento_editar_label_seleccionar_para_editar">Seleccione Tipo de Evento a Editar:</string>
     <string name="tipo_evento_editar_placeholder_seleccione">Seleccione un tipo de evento...</string>
-    <string name="tipo_evento_editar_btn_cargar_datos">Cargar Datos para Editar</string> <string name="tipo_evento_editar_btn_actualizar">Actualizar Tipo de Evento</string>
+    <string name="tipo_evento_editar_btn_cargar_datos">Cargar Datos para Editar</string>
+    <string name="tipo_evento_editar_btn_actualizar">Actualizar Tipo de Evento</string>
     <string name="tipo_evento_editar_toast_exito">Tipo de Evento actualizado correctamente.</string>
     <string name="tipo_evento_editar_toast_error_actualizar">Error al actualizar el Tipo de Evento.</string>
     <string name="tipo_evento_editar_toast_error_carga">Error al cargar datos del Tipo de Evento.</string>

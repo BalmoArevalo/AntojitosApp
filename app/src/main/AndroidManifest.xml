@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
-<!--    Permiso de internet-->
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- Permiso de internet -->
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -15,24 +14,51 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Proyecto01_Antojitos"
         tools:targetApi="31">
-
-        <!-- 1) LoginActivity es LAUNCHER y usa tema NoActionBar -->
+        <activity
+            android:name=".ui.webServices.WebService10Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.webServices.WebService9Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.webServices.WebService8Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.webServices.WebService7Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.webServices.WebService5Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.webServices.WebService6Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.webServices.WebService4Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.webServices.WebService3Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.webServices.WebService2Activity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.webServices.WebService1Activity"
+            android:exported="false" /> <!-- 1) LoginActivity es LAUNCHER y usa tema NoActionBar -->
         <activity
             android:name=".ui.login.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.Proyecto01_Antojitos.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:exported="false"
             android:label="@string/app_name"
             android:theme="@style/Theme.Proyecto01_Antojitos.NoActionBar" />
-
         <activity
             android:name=".ui.repartoPedido.RepartoPedidoEliminarActivity"
             android:exported="false" />

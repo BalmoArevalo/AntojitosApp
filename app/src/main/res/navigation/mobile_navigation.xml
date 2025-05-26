@@ -106,4 +106,10 @@
         android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.repartoPedido.RepartoPedidoFragment"
         android:label="@string/menu_reparto_pedido"
         tools:layout="@layout/fragment_reparto_pedido" />
+
+    <fragment
+        android:id="@+id/nav_web_services"
+        android:name="sv.ues.fia.eisi.proyecto01_antojitos.ui.webServices.WebServicesFragment"
+        android:label="Web Services"
+        tools:layout="@layout/fragment_web_services" />
 </navigation>
