@@ -60,7 +60,7 @@ public class RepartidorHelper {
     }
 
     public static void eliminarRepartidor(Context context, int idRepartidor) {
-        String url = "http://tu_ip/antojitos_app/EliminarRepartidor.php"; // Cambia 'tu_ip' por tu IP real
+        String url = ApiConfig.getBaseUrl() + "/eliminar_repartidor.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 response -> Toast.makeText(context, "Repartidor eliminado correctamente", Toast.LENGTH_SHORT).show(),
