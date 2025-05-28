@@ -31,70 +31,70 @@
                 android:id="@+id/btnWS1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Web Service 1"
+                android:text="WS1 -  Crear Producto"
                 android:layout_marginTop="12dp" />
 
             <Button
                 android:id="@+id/btnWS2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Web Service 2"
+                android:text="WS2 - Consultar Producto"
                 android:layout_marginTop="12dp" />
 
             <Button
                 android:id="@+id/btnWS3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Web Service 3"
+                android:text="WS3 - Crear cliente"
                 android:layout_marginTop="12dp" />
 
             <Button
                 android:id="@+id/btnWS4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Web Service 4"
+                android:text="WS4 - Consultar cliente"
                 android:layout_marginTop="12dp" />
 
             <Button
                 android:id="@+id/btnWS5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Web Service 5"
+                android:text="WS5 - Crear sucursal"
                 android:layout_marginTop="12dp" />
 
             <Button
                 android:id="@+id/btnWS6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Web Service 6"
+                android:text="WS6 - Consultar sucursal"
                 android:layout_marginTop="12dp" />
 
             <Button
                 android:id="@+id/btnWS7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Web Service 7"
+                android:text="WS7 - Crear producto"
                 android:layout_marginTop="12dp" />
 
             <Button
                 android:id="@+id/btnWS8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Web Service 8"
+                android:text="WS8 - Consultar producto"
                 android:layout_marginTop="12dp" />
 
             <Button
                 android:id="@+id/btnWS9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Web Service 9"
+                android:text="WS9 - Crear repartidor"
                 android:layout_marginTop="12dp" />
 
             <Button
                 android:id="@+id/btnWS10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Web Service 10"
+                android:text="WS10 - Eliminar repartidor"
                 android:layout_marginTop="12dp" />
 
         </LinearLayout>
