@@ -3,56 +3,98 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
-        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+        <!-- Spinner Departamento -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Departamento" />
+
+        <Spinner
             android:id="@+id/spinnerDepartamento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Departamento" />
+            android:minHeight="48dp" />
 
-        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+        <!-- Spinner Municipio -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Municipio" />
+
+        <Spinner
             android:id="@+id/spinnerMunicipio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Municipio" />
+            android:minHeight="48dp" />
 
-        <com.google.android.material.textfield.MaterialAutoCompleteTextView
+        <!-- Spinner Distrito -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Distrito" />
+
+        <Spinner
             android:id="@+id/spinnerDistrito"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Distrito" />
+            android:minHeight="48dp" />
 
-        <EditText
-            android:id="@+id/txtNombre"
+        <!-- Nombre -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Nombre" />
+            android:hint="Nombre">
 
-        <EditText
-            android:id="@+id/txtApellido"
+            <EditText
+                android:id="@+id/txtNombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Apellido -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Apellido" />
+            android:hint="Apellido">
 
-        <EditText
-            android:id="@+id/txtTelefono"
+            <EditText
+                android:id="@+id/txtApellido"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Teléfono -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Teléfono" />
+            android:hint="Teléfono">
 
-        <EditText
-            android:id="@+id/txtTipoVehiculo"
+            <EditText
+                android:id="@+id/txtTelefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="phone"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Tipo de vehículo -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tipo de Vehículo" />
+            android:hint="Tipo de Vehículo">
 
+            <EditText
+                android:id="@+id/txtTipoVehiculo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Disponible -->
         <CheckBox
             android:id="@+id/chkDisponible"
             android:layout_width="wrap_content"
@@ -60,6 +102,7 @@
             android:text="Disponible"
             android:checked="true" />
 
+        <!-- Activo -->
         <CheckBox
             android:id="@+id/chkActivo"
             android:layout_width="wrap_content"
@@ -67,6 +110,7 @@
             android:text="Activo"
             android:checked="true" />
 
+        <!-- Botón Guardar -->
         <Button
             android:id="@+id/btnGuardar"
             android:layout_width="match_parent"
